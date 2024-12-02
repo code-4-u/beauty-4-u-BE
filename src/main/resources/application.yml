@@ -1,10 +1,24 @@
 server:
   port: 8080
 
-# db 세팅 전이므로 false 설정
 spring:
+  application:
+    name: beauty4u
+  config:
+    import: optional:file:.env[.properties]
   datasource:
-    initialize: false
+    url: jdbc:mariadb://${MARIADB_HOST}:${MARIADB_PORT}/${MARIADB_DATABASE}
+    username: ${MARIADB_USER}
+    password: ${MARIADB_PASSWORD}
+    driver-class-name: ${DRIVER_CLASS_NAME}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 springdoc:
   swagger-ui:
