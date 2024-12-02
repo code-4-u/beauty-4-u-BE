@@ -6,6 +6,12 @@ spring:
   datasource:
     initialize: false
 
+# 엘라스틱서치 최초 설치 시 기본 계정
+  elasticsearch:
+    uris: https://localhost:9200
+    username: elastic
+    password: elastic
+
 springdoc:
   swagger-ui:
     path: /

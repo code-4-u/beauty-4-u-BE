@@ -45,6 +45,9 @@ dependencies {
 	// WebSocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+	// elasticsearch
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -58,6 +61,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
 
 }
 
