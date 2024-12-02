@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.Instant;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "user_info")
 public class UserInfo {
@@ -50,7 +48,7 @@ public class UserInfo {
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "user_password", nullable = false, length = 100)
+    @Column(name = "user_password", nullable = false)
     private String userPassword;
 
     @NotNull
@@ -64,4 +62,19 @@ public class UserInfo {
     @Column(name = "user_expired_yn", nullable = false)
     private Character userExpiredYn;
 
+    public void encryptPassword(String encodedPwd) {
+        this.userPassword = encodedPwd;
+    }
+
+    public void modifyJob(Job job) {
+        this.jobCode = job;
+    }
+
+    public void modifyDept(Dept dept) {
+        this.deptCode = dept;
+    }
+
+    public void modifyRole(UserRole role) {
+        this.userRole = role;
+    }
 }
