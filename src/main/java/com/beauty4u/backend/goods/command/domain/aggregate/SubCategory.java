@@ -17,9 +17,8 @@ public class SubCategory {
     private String subCategoryCode;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "top_category_code", nullable = false)
-    private TopCategory topCategoryCode;
+    private String topCategoryCode;
 
     @Size(max = 50)
     @NotNull

@@ -19,14 +19,12 @@ public class Goods {
     private String goodsCode;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "brand_code", nullable = false)
-    private Brand brandCode;
+    private String brandCode;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sub_category_code", nullable = false)
-    private SubCategory subCategoryCode;
+    private String subCategoryCode;
 
     @Size(max = 50)
     @NotNull
