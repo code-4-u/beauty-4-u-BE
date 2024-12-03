@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindGoodsDTO {
+public class GoodsQueryDTO {
     private String goodsCode;
     private String goodsName;
     private String brandName;
