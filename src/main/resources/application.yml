@@ -26,6 +26,11 @@ spring:
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
 
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mappers/**/*.xml
+
 
 token:
   expiration_time: 7200000
