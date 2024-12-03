@@ -26,9 +26,9 @@ token:
 
 # 엘라스틱서치 최초 설치 시 기본 계정
   elasticsearch:
-    uris: https://localhost:9200
-    username: elastic
-    password: elastic
+    uris: ${ELASTIC_URIS}
+    username: ${ELASTIC_USER}
+    password: ${ELASTIC_PASSWORD}
 
 springdoc:
   swagger-ui:
