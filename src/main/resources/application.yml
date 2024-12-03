@@ -20,15 +20,16 @@ spring:
       hibernate:
         format_sql: true
 
-token:
-  expiration_time: 7200000
-  secret: ${SECRET_KEY}
-
-# 엘라스틱서치 최초 설치 시 기본 계정
+  # 엘라스틱서치 최초 설치 시 기본 계정
   elasticsearch:
     uris: ${ELASTIC_URIS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
+
+
+token:
+  expiration_time: 7200000
+  secret: ${SECRET_KEY}
 
 springdoc:
   swagger-ui:

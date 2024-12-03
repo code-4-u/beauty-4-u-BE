@@ -19,8 +19,8 @@ public class ElasticsearchConfig extends ElasticsearchConfiguration {
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
-                .connectedTo("localhost:9200")
-                .withBasicAuth("elastic", "elastic")
+                .connectedTo(elasticsearchUris.replace("http://",""))
+                .withBasicAuth(elasticsearchUsername, elasticsearchPassword)
                 .build();
     }
 }
