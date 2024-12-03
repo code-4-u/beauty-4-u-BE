@@ -13,14 +13,21 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().components(new Components()
+        return new OpenAPI()
+                .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
                                 .in(SecurityScheme.In.HEADER)
-                                .name("Authorization")))
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                                .name("Authorization"))
+                        .addSecuritySchemes("refreshToken", new SecurityScheme()
+                                .type(SecurityScheme.Type.APIKEY)
+                                .in(SecurityScheme.In.HEADER)
+                                .name("Refresh-Token")))
+                .addSecurityItem(new SecurityRequirement()
+                        .addList("bearerAuth")
+                        .addList("refreshToken"))
                 .info(apiInfo());
     }
 

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Date;
 
 @Slf4j
 @Component
@@ -18,6 +19,12 @@ public class JwtUtil {
 
     private final Key key;
     private final CustomUserDetailsService customUserDetailsService;
+
+    @Value("${token.access-token-expiration-time}")
+    private long accessTokenValidityTime;
+
+    @Value("${token.refresh-token-expiration-time}")
+    private long refreshTokenValidityTime;
 
     public JwtUtil(
             @Value("${token.secret}") String secretKey,
@@ -31,7 +38,10 @@ public class JwtUtil {
     public boolean validateToken(String token) {
 
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token {}", e);
@@ -59,5 +69,47 @@ public class JwtUtil {
 
     public String getUserId(String token) {
         return parseClaims(token).getSubject();
+    }
+
+    // Access Token 생성
+    public String generateAccessToken(Authentication authentication) {
+
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim("auth", authentication.getAuthorities())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidityTime))
+                .signWith(key)
+                .compact();
+    }
+
+    // Refresh Token 생성
+    public String generateRefreshToken(String userId) {
+
+        return Jwts.builder()
+                .setSubject(userId)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidityTime))
+                .signWith(key)
+                .compact();
+    }
+
+    // Refresh Token으로 새로운 Access Token 생성
+    public String regenerateAccessToken(String refreshToken) {
+        try {
+            // Refresh Token 검증
+            if (!validateToken(refreshToken)) {
+                throw new JwtException("Invalid refresh token");
+            }
+
+            Authentication authentication = getAuthentication(refreshToken);
+
+            // 새로운 Access Token 생성
+            return generateAccessToken(authentication);
+
+        } catch (Exception e) {
+            log.error("Failed to regenerate access token", e);
+            throw e;
+        }
     }
 }

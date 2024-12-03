@@ -18,21 +18,45 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private static final String ACCESS_TOKEN_HEADER = "Authorization";
+    private static final String REFRESH_TOKEN_HEADER = "Refresh-Token";
+    private static final String BEARER_PREFIX = "Bearer ";
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-        String authorizationHeader = request.getHeader("Authorization");
-        log.info("Authorization header: {}", authorizationHeader);
+        String bearerToken = request.getHeader(ACCESS_TOKEN_HEADER);
+        String accessToken = null;
+        String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
-            log.info("Token: {}", token);
+        if (bearerToken != null && bearerToken.startsWith(BEARER_PREFIX)) {
+            accessToken = bearerToken.substring(7);  // "Bearer " 제거
+        }
 
-            if(jwtUtil.validateToken(token)) {
-                Authentication authentication = jwtUtil.getAuthentication(token);
+        log.info("Access token: {}", accessToken);
+        log.info("Refresh token: {}", refreshToken);
 
+        if (accessToken != null) {
+            if (jwtUtil.validateToken(accessToken)) {
+                Authentication authentication = jwtUtil.getAuthentication(accessToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else if (refreshToken != null && jwtUtil.validateToken(refreshToken)) {
+                try {
+                    String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
+                    Authentication authentication = jwtUtil.getAuthentication(newAccessToken);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    response.setHeader(ACCESS_TOKEN_HEADER, BEARER_PREFIX + newAccessToken);
+                } catch (Exception e) {
+                    log.error("Failed to regenerate access token", e);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired tokens");
+                    return;
+                }
+            } else {
+                log.error("Both tokens are invalid");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please login again");
+                return;
             }
         }
 
