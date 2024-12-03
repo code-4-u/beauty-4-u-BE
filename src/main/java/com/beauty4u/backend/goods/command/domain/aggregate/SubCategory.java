@@ -16,8 +16,9 @@ public class SubCategory {
     @Column(name = "sub_category_code", nullable = false, length = 20)
     private String subCategoryCode;
 
+    @Size(max = 20)
     @NotNull
-    @JoinColumn(name = "top_category_code", nullable = false)
+    @Column(name = "top_category_code", nullable = false)
     private String topCategoryCode;
 
     @Size(max = 50)

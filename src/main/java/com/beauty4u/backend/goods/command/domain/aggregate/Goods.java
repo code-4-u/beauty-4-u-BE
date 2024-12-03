@@ -18,12 +18,14 @@ public class Goods {
     @Column(name = "goods_code", nullable = false, length = 20)
     private String goodsCode;
 
+    @Size(max = 20)
     @NotNull
-    @JoinColumn(name = "brand_code", nullable = false)
+    @Column(name = "brand_code", nullable = false)
     private String brandCode;
 
+    @Size(max = 20)
     @NotNull
-    @JoinColumn(name = "sub_category_code", nullable = false)
+    @Column(name = "sub_category_code", nullable = false)
     private String subCategoryCode;
 
     @Size(max = 50)
