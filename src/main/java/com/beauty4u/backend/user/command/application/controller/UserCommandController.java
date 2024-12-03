@@ -1,5 +1,6 @@
 package com.beauty4u.backend.user.command.application.controller;
 
+import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.success.CustomSuccessHandler;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
@@ -21,7 +22,7 @@ public class UserCommandController {
     private final CustomSuccessHandler customSuccessHandler;
 
     @PostMapping
-    public ResponseEntity<?> saveUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
+    public ResponseEntity<ApiResponse<Void>> saveUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
 
         userCommandService.saveUser(createUserRequest);
 

@@ -1,5 +1,7 @@
 package com.beauty4u.backend.common.exception;
 
+import com.beauty4u.backend.common.response.ApiResponse;
+import com.beauty4u.backend.common.response.ResponseUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -8,10 +10,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CustomExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
-    protected ResponseEntity<String> handleCustomException(CustomException e) {
+    protected ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException e) {
         ErrorCode errorCode = e.getErrorCode();
-        return ResponseEntity
-                .status(errorCode.getHttpStatus())
-                .body(errorCode.getMessage());
+        return ResponseUtil.failureResponse(
+                errorCode.getMessage(),
+                errorCode.name(),
+                errorCode.getHttpStatus()
+        );
     }
 }

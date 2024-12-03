@@ -29,8 +29,8 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-  mapper-locations: mappers/**/*.xml
-
+  mapper-locations: mapper/**/*.xml
+  type-aliases-package: com.beauty4u.backend.**
 
 token:
   expiration_time: 7200000
