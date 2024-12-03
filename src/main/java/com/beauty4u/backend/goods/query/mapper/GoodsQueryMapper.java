@@ -1,19 +1,11 @@
-package com.beauty4u.backend.goods.query.repository;
+package com.beauty4u.backend.goods.query.mapper;
 
-import com.beauty4u.backend.goods.query.dto.FindGoodsDTO;
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Repository
-@RequiredArgsConstructor
-public class GoodsQueryRepository {
-    private final JPAQueryFactory jpaQueryFactory;
-
-    public List<FindGoodsDTO> findAllGoods(){
-
-    }
+@Mapper
+public interface GoodsQueryMapper {
+    List<GoodsQueryDTO> findAllGoods();
 }
