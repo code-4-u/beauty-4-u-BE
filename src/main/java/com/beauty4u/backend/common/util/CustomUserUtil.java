@@ -25,4 +25,10 @@ public class CustomUserUtil {
                 .map(UserDetails::getAuthorities)
                 .orElse(null);
     }
+
+    public static String getCurrentUserCode() {
+        return getCurrentUserDetails()
+                .map(UserDetails::getUsername)
+                .orElse(null);
+    }
 }
