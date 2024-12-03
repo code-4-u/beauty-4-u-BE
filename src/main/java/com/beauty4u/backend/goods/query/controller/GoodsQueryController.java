@@ -1,7 +1,7 @@
 package com.beauty4u.backend.goods.query.controller;
 
-import com.beauty4u.backend.goods.query.dto.FindGoodsDTO;
-import com.beauty4u.backend.goods.query.service.GoodsService;
+import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
+import com.beauty4u.backend.goods.query.service.GoodsQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +16,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/goods")
 @Tag(name="Goods", description = "상품 조회 API")
-public class GoodsController {
+public class GoodsQueryController {
 
-    private final GoodsService goodsService;
+    private final GoodsQueryService goodsQueryService;
 
     @GetMapping("/list")
     @Operation(summary = "상품 목록 조회", description = "상품 목록을 조회한다.")
-    public ResponseEntity<List<FindGoodsDTO>> findAllGoods(){
-        return ResponseEntity.ok(goodsService.findAllGoods());
+    public ResponseEntity<List<GoodsQueryDTO>> findAllGoods(){
+        List<GoodsQueryDTO> goodsDTOList = goodsQueryService.findAllGoods();
+
+        return ResponseEntity.ok(goodsDTOList);
     }
 }
