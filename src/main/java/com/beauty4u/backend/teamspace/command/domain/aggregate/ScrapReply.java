@@ -14,6 +14,7 @@ import java.time.Instant;
 @Table(name = "scrap_reply")
 public class ScrapReply {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scrap_reply_id", nullable = false)
     private Long id;
 

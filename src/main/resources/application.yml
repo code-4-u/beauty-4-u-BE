@@ -11,6 +11,11 @@ spring:
     username: ${MARIADB_USER}
     password: ${MARIADB_PASSWORD}
     driver-class-name: ${DRIVER_CLASS_NAME}
+  data:
+    mongodb:
+      uri: mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@cluster0.avtro.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority
+
+
 
   jpa:
     hibernate:
@@ -20,6 +25,12 @@ spring:
       hibernate:
         format_sql: true
 
+  # 엘라스틱서치 최초 설치 시 기본 계정
+  elasticsearch:
+    uris: ${ELASTIC_URIS}
+    username: ${ELASTIC_USER}
+    password: ${ELASTIC_PASSWORD}
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -27,9 +38,14 @@ mybatis:
   type-aliases-package: com.beauty4u.backend.**
 
 token:
-  expiration_time: 7200000
+  access-token-expiration-time: ${ACCESS_TOKEN_EXPIRATION_TIME}
+  refresh-token-expiration-time: ${REFRESH_TOKEN_EXPIRATION_TIME}
   secret: ${SECRET_KEY}
 
 springdoc:
   swagger-ui:
     path: /
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}

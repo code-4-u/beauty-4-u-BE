@@ -15,6 +15,7 @@ import java.time.Instant;
 @Table(name = "scrap")
 public class Scrap {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scrap_id", nullable = false)
     private Long id;
 

@@ -34,7 +34,6 @@ public class SecurityConfig {
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final CustomUserDetailsService customUserDetailsService;
-    private final Environment env;
     private final JwtUtil jwtUtil;
 
     @Bean
@@ -53,7 +52,8 @@ public class SecurityConfig {
                                         "/swagger-ui/index.html",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
-                                        "/v3/api-docs"
+                                        "/v3/api-docs",
+                                        "/api/chatting/teamspace/**"
                                 ).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/user/**", "GET")).hasAuthority("관리자")
                                 .anyRequest().authenticated()
@@ -80,7 +80,7 @@ public class SecurityConfig {
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
         customAuthenticationFilter.setAuthenticationManager(getAuthenticationManager());
-        customAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(env));
+        customAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(jwtUtil));
         customAuthenticationFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
 
         return customAuthenticationFilter;
