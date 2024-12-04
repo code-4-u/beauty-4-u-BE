@@ -6,17 +6,17 @@
         SELECT
             g.goods_code,
             g.goods_name,
-            b.brand_code,
+            b.brand_name,
             g.goods_skintype,
             g.goods_price
         FROM goods g
         JOIN brand b ON (g.brand_code = b.brand_code)
         <where>
-            <if test="brand_code != null and brand_code != ''">
-                AND b.brand_code = #{brand_code}
+            <if test="brandCode != null and brandCode != ''">
+                AND b.brand_code = #{brandCode}
             </if>
-            <if test="goods_name != null and goods_name != ''">
-                AND g.goods_name LIKE CONCAT('%', #{goods_name}, '%')
+            <if test="goodsName != null and goodsName != ''">
+                AND g.goods_name LIKE CONCAT('%', #{goodsName}, '%')
             </if>
         </where>
         ORDER BY g.goods_created_date
@@ -25,7 +25,9 @@
 <!--    브랜드 목록 조회 -->
     <select id="findAllBrand" resultType="com.beauty4u.backend.goods.query.dto.BrandQueryDTO">
         SELECT
+            brand_code,
             brand_name
         FROM brand
+        ORDER BY brand_name
     </select>
 </mapper>
