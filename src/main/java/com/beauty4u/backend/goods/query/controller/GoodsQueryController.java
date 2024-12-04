@@ -55,4 +55,10 @@ public class GoodsQueryController {
     public ResponseEntity<CategoryDTO> findsTopCategoryGoods(@PathVariable String topCategoryCode){
         return ResponseEntity.ok(goodsQueryService.findTopCategoryGoods(topCategoryCode));
     }
+
+    @GetMapping("/category/sub/{SubCategoryCode}")
+    @Operation(summary = "하위 카테고리 상품 조회", description = "하위 카테고리에 해당하는 상품을 조회한다.")
+    public ResponseEntity<List<GoodsQueryDTO>> findSubCategoryGoods(@PathVariable String SubCategoryCode){
+        return ResponseEntity.ok(goodsQueryService.findSubCategoryGoods(SubCategoryCode));
+    }
 }
