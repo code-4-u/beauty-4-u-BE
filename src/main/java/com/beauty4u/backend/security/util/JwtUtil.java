@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,7 @@ public class JwtUtil {
     @Value("${token.refresh-token-expiration-time}")
     private long refreshTokenValidityTime;
 
-    private static final String REFRESH_TOKEN_PREFIX = "Refresh_";
+    private static final String JWT_PREFIX = "JWT_";
 
     public JwtUtil(
             @Value("${token.secret}") String secretKey,
@@ -42,12 +43,14 @@ public class JwtUtil {
         this.redisService = redisService;
     }
 
+    /* Access Token 검증 */
     public boolean validateAccessToken(String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
+
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token {}", e);
@@ -61,16 +64,11 @@ public class JwtUtil {
         return false;
     }
 
+    /* Refresh Token 검증 */
     public boolean validateRefreshToken(String token) {
         try {
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-
-            String userId = claims.getSubject();
-            String storedToken = redisService.getValues(REFRESH_TOKEN_PREFIX + userId)
+            String userId = getUserId(token);
+            String storedToken = redisService.getValues(JWT_PREFIX + userId)
                     .orElse(null);
 
             return storedToken != null && storedToken.equals(token);
@@ -94,14 +92,23 @@ public class JwtUtil {
     }
 
     public Claims parseClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String getUserId(String token) {
         return parseClaims(token).getSubject();
     }
 
-    // Access Token 생성
+    public void setAuthenticationToContext(String token) {
+        Authentication authentication = getAuthentication(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    /* Access Token 생성 */
     public String generateAccessToken(Authentication authentication) {
 
         return Jwts.builder()
@@ -113,7 +120,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Refresh Token 생성 및 Redis 저장
+    /* Refresh Token 생성 및 Redis 저장 */
     public String generateRefreshToken(String userId) {
 
         String refreshToken = Jwts.builder()
@@ -126,23 +133,24 @@ public class JwtUtil {
         Date expirationDate = parseClaims(refreshToken).getExpiration();
         long remainingTime = expirationDate.getTime() - System.currentTimeMillis();
 
-        redisService.setValues(REFRESH_TOKEN_PREFIX + userId,
+        redisService.setValues(JWT_PREFIX + userId,
                 refreshToken, Duration.ofMillis(remainingTime));
 
         return refreshToken;
     }
 
-    // Refresh Token으로 새로운 Access Token 생성
+    /* Refresh Token으로 새로운 Access Token 생성 */
     public String regenerateAccessToken(String refreshToken) {
         try {
-            // Refresh Token 검증
+
+            /* Refresh Token 검증 */
             if (!validateRefreshToken(refreshToken)) {
                 throw new JwtException("Invalid refresh token");
             }
 
             Authentication authentication = getAuthentication(refreshToken);
 
-            // 새로운 Access Token 생성
+            /* 새로운 Access Token 생성 */
             return generateAccessToken(authentication);
 
         } catch (Exception e) {
