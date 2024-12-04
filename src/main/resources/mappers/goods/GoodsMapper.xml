@@ -12,4 +12,17 @@
         JOIN brand b (g.brandCode = b.brandCode)
         ORDER BY g.goodsCreatedDate
     </select>
+
+    <select id="findAllBrand" resultType="com.beauty4u.backend.goods.query.dto.GoodsQueryDTO">
+        SELECT
+            g.goodsCode,
+            g.goodsName,
+            b.brandCode,
+            g.goodsSkintype,
+            g.goodsPrice
+        FROM goods g
+        JOIN brand b (g.brandCode = b.brandCode)
+        WHERE b.brandCode = #{brandCode}
+        ORDER BY g.goodsCreatedDate
+    </select>
 </mapper>
