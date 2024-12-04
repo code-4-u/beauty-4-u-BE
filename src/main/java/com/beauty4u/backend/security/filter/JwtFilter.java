@@ -31,17 +31,17 @@ public class JwtFilter extends OncePerRequestFilter {
         String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
 
         if (bearerToken != null && bearerToken.startsWith(BEARER_PREFIX)) {
-            accessToken = bearerToken.substring(7);  // "Bearer " 제거
+            accessToken = bearerToken.substring(7);
         }
 
         log.info("Access token: {}", accessToken);
         log.info("Refresh token: {}", refreshToken);
 
         if (accessToken != null) {
-            if (jwtUtil.validateToken(accessToken)) {
+            if (jwtUtil.validateAccessToken(accessToken)) {
                 Authentication authentication = jwtUtil.getAuthentication(accessToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else if (refreshToken != null && jwtUtil.validateToken(refreshToken)) {
+            } else if (refreshToken != null && jwtUtil.validateRefreshToken(refreshToken)) {
                 try {
                     String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
                     Authentication authentication = jwtUtil.getAuthentication(newAccessToken);

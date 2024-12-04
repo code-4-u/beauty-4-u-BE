@@ -12,7 +12,6 @@ import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -54,7 +53,7 @@ public class SecurityConfig {
                                         "/v3/api-docs",
                                         "/api/chatting/teamspace/**"
                                 ).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/user/**", "GET")).hasAuthority("관리자")
+                                .requestMatchers(new AntPathRequestMatcher("/user/**", "GET")).hasRole("관리자")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(
