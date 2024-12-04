@@ -1,5 +1,6 @@
 package com.beauty4u.backend.customer.command.domain.aggregate;
 
+import com.beauty4u.backend.customer.query.dto.CustomerGrade;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -49,13 +50,14 @@ public class Customer {
 
     @NotNull
     @Lob
-    @Column(name = "customer_grade", nullable = false)
-    private String customerGrade;
+    @Enumerated(EnumType.STRING)
+    private CustomerGrade customerGrade;
 
     @NotNull
     @Column(name = "customer_created_date", nullable = false)
     private Instant customerCreatedDate;
 
+    @NotNull
     @Column(name = "customer_updated_date")
     private Instant customerUpdatedDate;
 
