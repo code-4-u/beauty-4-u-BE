@@ -25,4 +25,6 @@ public interface GoodsQueryMapper {
     // 상위 카테고리에 해당하는 상품 메인화면에 전체 조회
     List<GoodsQueryDTO> findTopCategoryGoods(@Param("topCategoryCode") String topCategoryCode);
 
+    // 하위 카테고리에 해당하는 상품 조회
+    List<GoodsQueryDTO> findSubCategoryGoods(String subCategoryCode);
 }
