@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.beauty4u.backend.customer.query.mapper.CustomerQueryMapper">
+
+    <select id="findCustomerList" resultType="CustomerListResDTO">
+        SELECT
+            c.customer_code,
+            c.customer_grade,
+            c.customer_name,
+            c.customer_gender,
+            c.customer_age,
+            c.customer_created_date,
+            (
+                SELECT MAX(o.order_created_date)
+                FROM order_info o
+                WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+            ) AS customer_last_order_date
+        FROM customer c
+        LIMIT #{offset}, #{count}
+    </select>
+</mapper>
