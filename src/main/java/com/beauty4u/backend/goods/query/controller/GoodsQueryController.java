@@ -2,6 +2,7 @@ package com.beauty4u.backend.goods.query.controller;
 
 import com.beauty4u.backend.common.success.CustomSuccessHandler;
 import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
+import com.beauty4u.backend.goods.query.dto.CategoryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
 import com.beauty4u.backend.goods.query.dto.SubCategoryDTO;
 import com.beauty4u.backend.goods.query.service.GoodsQueryService;
@@ -11,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @RestController
@@ -40,15 +44,15 @@ public class GoodsQueryController {
     }
 
     @GetMapping("category/top")
-    @Operation(summary = "상위 카테고리 내 하위 카테고리 목록 조회", description = "상위 카테고리에 해당하는 하위 카테고리를 조회한다.")
+    @Operation(summary = "상위 카테고리 내 하위 카테고리 목록 조회", description = "상위 카테고리에 해당하는 하위 카테고리를 드롭다운으로 조회한다.")
     public ResponseEntity<List<SubCategoryDTO>> findSubCategory(
             @RequestParam String topCategoryCode){
         return ResponseEntity.ok(goodsQueryService.findSubCategory(topCategoryCode));
     }
 
-    @GetMapping("/category/top/{topCategoryCode}")
-    @Operation(summary = "메인화면 상위 카테고리 상품 조회", description = "상위 카테고리에 해당하는 상품을 메인화면에서 조회한다.")
-    public ResponseEntity<List<GoodsQueryDTO>> findsTopCategoryGoods(@PathVariable String topCategoryCode){
+    @GetMapping("/category/{topCategoryCode}")
+    @Operation(summary = "상위 카테고리 상품과 해당 하위 카테고리 조회", description = "상위 카테고리에 해당하는 상품을 메인화면에서 조회한다.")
+    public ResponseEntity<CategoryDTO> findsTopCategoryGoods(@PathVariable String topCategoryCode){
         return ResponseEntity.ok(goodsQueryService.findTopCategoryGoods(topCategoryCode));
     }
 }
