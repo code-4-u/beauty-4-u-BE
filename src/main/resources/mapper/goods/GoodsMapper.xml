@@ -54,4 +54,18 @@
         WHERE sc.top_category_code = #{topCategoryCode}
         ORDER BY g.goods_created_date
     </select>
+
+<!--    하위 카테고리에 해당하는 상품 전체 조회 -->
+    <select id="findSubCategoryGoods" resultType="com.beauty4u.backend.goods.query.dto.GoodsQueryDTO">
+        SELECT
+        g.goods_code,
+        g.goods_name,
+        b.brand_name,
+        g.goods_skintype,
+        g.goods_price
+        FROM goods g
+        JOIN brand b ON (g.brand_code = b.brand_code)
+        WHERE sub_category_code = #{subCategoryCode}
+        ORDER BY goods_created_date
+    </select>
 </mapper>
