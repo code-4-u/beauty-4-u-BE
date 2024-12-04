@@ -27,7 +27,8 @@ mybatis:
   type-aliases-package: com.beauty4u.backend.**
 
 token:
-  expiration_time: 7200000
+  access-token-expiration-time: ${ACCESS_TOKEN_EXPIRATION_TIME}
+  refresh-token-expiration-time: ${REFRESH_TOKEN_EXPIRATION_TIME}
   secret: ${SECRET_KEY}
 
 springdoc:

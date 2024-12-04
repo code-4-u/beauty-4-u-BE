@@ -34,7 +34,6 @@ public class SecurityConfig {
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final CustomUserDetailsService customUserDetailsService;
-    private final Environment env;
     private final JwtUtil jwtUtil;
 
     @Bean
@@ -79,7 +78,7 @@ public class SecurityConfig {
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
         customAuthenticationFilter.setAuthenticationManager(getAuthenticationManager());
-        customAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(env));
+        customAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(jwtUtil));
         customAuthenticationFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
 
         return customAuthenticationFilter;
