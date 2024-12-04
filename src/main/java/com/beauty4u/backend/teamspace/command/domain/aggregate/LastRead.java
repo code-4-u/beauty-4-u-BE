@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+// mongodb를 사용할 예정임.
 
 @Getter
 @Setter
@@ -14,6 +15,7 @@ import java.time.Instant;
 @Table(name = "last_read")
 public class LastRead {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "last_read_id", nullable = false)
     private Long id;
 

@@ -12,6 +12,7 @@ import lombok.Setter;
 @Table(name = "teamspace")
 public class Teamspace {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "teamspace_id", nullable = false)
     private Long id;
 

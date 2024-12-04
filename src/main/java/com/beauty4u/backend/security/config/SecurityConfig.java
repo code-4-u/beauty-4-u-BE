@@ -51,7 +51,8 @@ public class SecurityConfig {
                                         "/swagger-ui/index.html",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
-                                        "/v3/api-docs"
+                                        "/v3/api-docs",
+                                        "/api/chatting/teamspace/**"
                                 ).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/user/**", "GET")).hasAuthority("관리자")
                                 .anyRequest().authenticated()
