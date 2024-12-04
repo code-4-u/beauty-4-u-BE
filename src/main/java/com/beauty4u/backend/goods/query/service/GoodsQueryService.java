@@ -1,5 +1,6 @@
 package com.beauty4u.backend.goods.query.service;
 
+import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
 import com.beauty4u.backend.goods.query.mapper.GoodsQueryMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +17,13 @@ public class GoodsQueryService {
     private GoodsQueryMapper goodsQueryMapper;
     private final SqlSession sqlSession;
 
-    // 전체 상품 조회
-    public List<GoodsQueryDTO> findAllGoods() {
-        List<GoodsQueryDTO> goodsDTOList = sqlSession.getMapper(GoodsQueryMapper.class).findAllGoods();
-        return goodsDTOList;
+    // 전체 브랜드 조회
+    public List<BrandQueryDTO> findAllBrand() {
+        return sqlSession.getMapper(GoodsQueryMapper.class).findAllBrand();
     }
 
-    // 브랜드 별 상품 조회
-    public List<GoodsQueryDTO> findAllBrand(String brandCode) {
-        return sqlSession.getMapper(GoodsQueryMapper.class).findAllBrand(brandCode);
+    // 전체 상품 조회
+    public List<GoodsQueryDTO> findGoods(String brandcode, String goodsName) {
+        return sqlSession.getMapper(GoodsQueryMapper.class).findGoods();
     }
 }

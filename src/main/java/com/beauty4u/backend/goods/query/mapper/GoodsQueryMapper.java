@@ -1,5 +1,6 @@
 package com.beauty4u.backend.goods.query.mapper;
 
+import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -7,7 +8,9 @@ import java.util.List;
 
 @Mapper
 public interface GoodsQueryMapper {
-    List<GoodsQueryDTO> findAllGoods();
+    // 전체 브랜드 조회
+    List<BrandQueryDTO> findAllBrand();
 
-    List<GoodsQueryDTO> findAllBrand(String brandCode);
+    // 전체 상품 목록 조회
+    List<GoodsQueryDTO> findGoods();
 }
