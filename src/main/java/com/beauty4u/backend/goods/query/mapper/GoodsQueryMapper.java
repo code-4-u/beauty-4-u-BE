@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface GoodsQueryMapper {
     List<GoodsQueryDTO> findAllGoods();
+
+    List<GoodsQueryDTO> findAllBrand(String brandCode);
 }
