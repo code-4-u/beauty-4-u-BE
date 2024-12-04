@@ -1,5 +1,6 @@
 package com.beauty4u.backend.security.util;
 
+import com.beauty4u.backend.config.redis.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -7,10 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 
 @Slf4j
@@ -19,6 +22,7 @@ public class JwtUtil {
 
     private final Key key;
     private final CustomUserDetailsService customUserDetailsService;
+    private final RedisService redisService;
 
     @Value("${token.access-token-expiration-time}")
     private long accessTokenValidityTime;
@@ -26,22 +30,27 @@ public class JwtUtil {
     @Value("${token.refresh-token-expiration-time}")
     private long refreshTokenValidityTime;
 
+    private static final String JWT_PREFIX = "JWT_";
+
     public JwtUtil(
             @Value("${token.secret}") String secretKey,
-            CustomUserDetailsService customUserDetailsService
+            CustomUserDetailsService customUserDetailsService,
+            RedisService redisService
     ) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.customUserDetailsService = customUserDetailsService;
+        this.redisService = redisService;
     }
 
-    public boolean validateToken(String token) {
-
+    /* Access Token 검증 */
+    public boolean validateAccessToken(String token) {
         try {
             Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token);
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token {}", e);
@@ -52,7 +61,26 @@ public class JwtUtil {
         } catch (IllegalArgumentException e) {
             log.info("JWT Token claims empty {}", e);
         }
+        return false;
+    }
 
+    /* Refresh Token 검증 */
+    public boolean validateRefreshToken(String token) {
+        try {
+            String userId = getUserId(token);
+            String storedToken = redisService.getValues(JWT_PREFIX + userId)
+                    .orElse(null);
+
+            return storedToken != null && storedToken.equals(token);
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("Invalid JWT Token {}", e);
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT Token {}", e);
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT Token {}", e);
+        } catch (IllegalArgumentException e) {
+            log.info("JWT Token claims empty {}", e);
+        }
         return false;
     }
 
@@ -64,14 +92,23 @@ public class JwtUtil {
     }
 
     public Claims parseClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String getUserId(String token) {
         return parseClaims(token).getSubject();
     }
 
-    // Access Token 생성
+    public void setAuthenticationToContext(String token) {
+        Authentication authentication = getAuthentication(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    /* Access Token 생성 */
     public String generateAccessToken(Authentication authentication) {
 
         return Jwts.builder()
@@ -83,28 +120,37 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Refresh Token 생성
+    /* Refresh Token 생성 및 Redis 저장 */
     public String generateRefreshToken(String userId) {
 
-        return Jwts.builder()
-                .setSubject(userId)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidityTime))
-                .signWith(key)
-                .compact();
+        String refreshToken = Jwts.builder()
+                                .setSubject(userId)
+                                .setIssuedAt(new Date())
+                                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidityTime))
+                                .signWith(key)
+                                .compact();
+
+        Date expirationDate = parseClaims(refreshToken).getExpiration();
+        long remainingTime = expirationDate.getTime() - System.currentTimeMillis();
+
+        redisService.setValues(JWT_PREFIX + userId,
+                refreshToken, Duration.ofMillis(remainingTime));
+
+        return refreshToken;
     }
 
-    // Refresh Token으로 새로운 Access Token 생성
+    /* Refresh Token으로 새로운 Access Token 생성 */
     public String regenerateAccessToken(String refreshToken) {
         try {
-            // Refresh Token 검증
-            if (!validateToken(refreshToken)) {
+
+            /* Refresh Token 검증 */
+            if (!validateRefreshToken(refreshToken)) {
                 throw new JwtException("Invalid refresh token");
             }
 
             Authentication authentication = getAuthentication(refreshToken);
 
-            // 새로운 Access Token 생성
+            /* 새로운 Access Token 생성 */
             return generateAccessToken(authentication);
 
         } catch (Exception e) {
