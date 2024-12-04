@@ -22,8 +22,8 @@ public class GoodsQueryService {
         return sqlSession.getMapper(GoodsQueryMapper.class).findAllBrand();
     }
 
-    // 전체 상품 조회
-    public List<GoodsQueryDTO> findGoods(String brandcode, String goodsName) {
-        return sqlSession.getMapper(GoodsQueryMapper.class).findGoods();
+    // 조건별 상품 조회
+    public List<GoodsQueryDTO> findGoods(String brandCode, String goodsName) {
+        return sqlSession.getMapper(GoodsQueryMapper.class).findGoods(brandCode, goodsName);
     }
 }
