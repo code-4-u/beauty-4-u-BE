@@ -45,3 +45,7 @@ token:
 springdoc:
   swagger-ui:
     path: /
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
