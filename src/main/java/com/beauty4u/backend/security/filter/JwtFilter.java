@@ -39,15 +39,18 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (accessToken != null) {
             if (jwtUtil.validateAccessToken(accessToken)) {
-                Authentication authentication = jwtUtil.getAuthentication(accessToken);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                jwtUtil.setAuthenticationToContext(accessToken);
             } else if (refreshToken != null && jwtUtil.validateRefreshToken(refreshToken)) {
                 try {
                     String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
-                    Authentication authentication = jwtUtil.getAuthentication(newAccessToken);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    jwtUtil.setAuthenticationToContext(newAccessToken);
+                    String newRefreshToken = jwtUtil.generateRefreshToken(jwtUtil.getUserId(newAccessToken));
 
-                    response.setHeader(ACCESS_TOKEN_HEADER, BEARER_PREFIX + newAccessToken);
+                    response.setHeader(ACCESS_TOKEN_HEADER, newAccessToken);
+                    response.setHeader(REFRESH_TOKEN_HEADER, newRefreshToken);
+
+                    log.info("New Access token: {}", newAccessToken);
+                    log.info("New Refresh token: {}", newRefreshToken);
                 } catch (Exception e) {
                     log.error("Failed to regenerate access token", e);
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired tokens");
