@@ -14,6 +14,7 @@ import java.time.Instant;
 @Table(name = "folder")
 public class Folder {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "folder_id", nullable = false)
     private Long id;
 
