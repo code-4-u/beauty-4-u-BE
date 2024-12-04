@@ -43,4 +43,9 @@ public class GoodsQueryService {
 
         return new CategoryDTO(goods, subCategory);
     }
+
+    // 하위 카테고리 내에 있는 전체 상품 조회
+    public List<GoodsQueryDTO> findSubCategoryGoods(String subCategoryCode) {
+        return sqlSession.getMapper(GoodsQueryMapper.class).findSubCategoryGoods(subCategoryCode);
+    }
 }
