@@ -16,10 +16,14 @@ public class GoodsQueryService {
     private GoodsQueryMapper goodsQueryMapper;
     private final SqlSession sqlSession;
 
+    // 전체 상품 조회
     public List<GoodsQueryDTO> findAllGoods() {
-
         List<GoodsQueryDTO> goodsDTOList = sqlSession.getMapper(GoodsQueryMapper.class).findAllGoods();
-
         return goodsDTOList;
+    }
+
+    // 브랜드 별 상품 조회
+    public List<GoodsQueryDTO> findAllBrand(String brandCode) {
+        return sqlSession.getMapper(GoodsQueryMapper.class).findAllBrand(brandCode);
     }
 }
