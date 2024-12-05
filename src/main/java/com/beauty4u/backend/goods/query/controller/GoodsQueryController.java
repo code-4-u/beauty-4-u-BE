@@ -1,6 +1,5 @@
 package com.beauty4u.backend.goods.query.controller;
 
-import com.beauty4u.backend.common.success.CustomSuccessHandler;
 import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
 import com.beauty4u.backend.goods.query.dto.CategoryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
@@ -12,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +20,6 @@ import java.util.Objects;
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;
-    private final CustomSuccessHandler customSuccessHandler;
 
     @GetMapping("/brands")
     @Operation(summary = "브랜드 목록 조회", description = "드롭다운용 브랜드 전체 목록을 조회한다.")

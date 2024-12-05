@@ -13,11 +13,6 @@ public class ApiResponse<T> {
     private T data;
     private String errorCode;
 
-    // 성공 응답 생성 (데이터만 있는 경우)
-    public static <T> ApiResponse<T> ofSuccess(T data) {
-        return new ApiResponse<>(true, "Request successful", data, null);
-    }
-
     // 성공 응답 생성 (메시지만 있는 경우)
     public static <T> ApiResponse<T> ofSuccess(String message) {
         return new ApiResponse<>(true, message, null, null);
