@@ -4,6 +4,7 @@ import com.beauty4u.backend.config.redis.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,10 +47,16 @@ public class JwtUtil {
     /* Access Token 검증 */
     public boolean validateAccessToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
+            /* Redis에서 블랙리스트 토큰 확인 */
+            String userId = getUserId(token);
+            String blacklistKey = JWT_PREFIX + userId;
+            String blacklistToken = redisService.getValues(blacklistKey)
+                    .orElse(null);
+
+            if (blacklistToken != null && blacklistToken.equals(token)) {
+                log.info("블랙리스트에 있는 액세스 토큰입니다.");
+                return false;
+            }
 
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
@@ -66,9 +73,15 @@ public class JwtUtil {
 
     /* Refresh Token 검증 */
     public boolean validateRefreshToken(String token) {
+
+        String userId = null;
+        String redisKey = null;
+
         try {
-            String userId = getUserId(token);
-            String storedToken = redisService.getValues(JWT_PREFIX + userId)
+            userId = getUserId(token);
+            redisKey = JWT_PREFIX + userId;
+
+            String storedToken = redisService.getValues(redisKey)
                     .orElse(null);
 
             return storedToken != null && storedToken.equals(token);
@@ -80,7 +93,14 @@ public class JwtUtil {
             log.info("Unsupported JWT Token {}", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT Token claims empty {}", e);
+        } finally {
+            /* 검증 시도한 유저의 (Redis에 저장된) 리프레시 토큰 삭제 */
+            if (userId != null) {
+                redisKey = JWT_PREFIX + userId;
+                redisService.deleteValues(redisKey);
+            }
         }
+
         return false;
     }
 

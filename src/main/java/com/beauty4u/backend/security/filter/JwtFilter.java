@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -37,10 +35,10 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("Access token: {}", accessToken);
         log.info("Refresh token: {}", refreshToken);
 
-        if (accessToken != null) {
-            if (jwtUtil.validateAccessToken(accessToken)) {
+        if (accessToken != null || refreshToken != null) {
+            if (accessToken != null && jwtUtil.validateAccessToken(accessToken)) {
                 jwtUtil.setAuthenticationToContext(accessToken);
-            } else if (refreshToken != null && jwtUtil.validateRefreshToken(refreshToken)) {
+            } else if (refreshToken != null) {
                 try {
                     String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
                     jwtUtil.setAuthenticationToContext(newAccessToken);

@@ -1,14 +1,10 @@
 package com.beauty4u.backend.security.config;
 
-import com.beauty4u.backend.security.filter.CustomAuthenticationFilter;
 import com.beauty4u.backend.security.filter.JwtFilter;
 import com.beauty4u.backend.security.handler.JwtAccessDeniedHandler;
 import com.beauty4u.backend.security.handler.JwtAuthenticationEntryPoint;
-import com.beauty4u.backend.security.handler.LoginFailureHandler;
-import com.beauty4u.backend.security.handler.LoginSuccessHandler;
 import com.beauty4u.backend.security.util.CustomUserDetailsService;
 import com.beauty4u.backend.security.util.JwtUtil;
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,8 +41,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz ->
                         authz.requestMatchers(
                                         "/",
-                                        "/**",
                                         "/login",
+                                        "/api/v1/user/login",
                                         "/user",
                                         "/swagger-ui/index.html",
                                         "/swagger-ui/**",
@@ -63,8 +59,6 @@ public class SecurityConfig {
 
         http.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
-        http.addFilterBefore(getAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
         http.exceptionHandling(
                 exceptionHandling -> {
                     exceptionHandling.accessDeniedHandler(new JwtAccessDeniedHandler());
@@ -73,16 +67,6 @@ public class SecurityConfig {
         );
 
         return http.build();
-    }
-
-    private Filter getAuthenticationFilter() {
-
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
-        customAuthenticationFilter.setAuthenticationManager(getAuthenticationManager());
-        customAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(jwtUtil));
-        customAuthenticationFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
-
-        return customAuthenticationFilter;
     }
 
     private AuthenticationManager getAuthenticationManager() {
