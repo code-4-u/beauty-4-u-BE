@@ -10,6 +10,14 @@ import java.util.List;
 public interface CustomerQueryMapper {
 
     List<CustomerListResDTO> findCustomerList(
+            @Param("customerCode") String customerCode,
+            @Param("customerName") String customerName,
+            @Param("customerGrade") String customerGrade,
+            @Param("customerGender") String customerGender,
+            @Param("startAge") Integer startAge,
+            @Param("endAge") Integer endAge,
+            @Param("sort") String sort,
+            @Param("order") String order,
             @Param("offset") Long offset,
             @Param("count") Long count);
 }
