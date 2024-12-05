@@ -25,6 +25,8 @@ spring:
     uris: ${ELASTIC_URIS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
+    index:
+      name: goods
 
 mybatis:
   configuration:
