@@ -73,4 +73,33 @@
          LIMIT #{offset}, #{count}
     </select>
 
+    <select id="findCustomerDetail" resultType="CustomerDetailResDTO">
+        SELECT
+            c.customer_code,
+            c.customer_name,
+            c.customer_phone,
+            c.customer_email,
+            c.customer_age,
+            c.customer_gender,
+            c.customer_skintype,
+            ori.all_order_price AS all_order_price,
+            ori.customer_last_order_date AS customer_last_order_date,
+            (
+                SELECT COUNT(*)
+                FROM order_info o
+                WHERE o.customer_code = c.customer_code AND o.order_status != 'PURCHASED'
+            ) AS cancel_refund_count
+        FROM customer c
+                 LEFT JOIN (
+            SELECT
+                o.customer_code,
+                SUM(o.order_price) AS all_order_price,
+                MAX(o.order_created_date) AS customer_last_order_date
+            FROM order_info o
+            WHERE o.order_status = 'PURCHASED'
+            GROUP BY o.customer_code
+        ) AS ori ON c.customer_code = ori.customer_code
+        WHERE c.customer_code = #{customerCode}
+    </select>
+
 </mapper>
