@@ -36,11 +36,11 @@
             </if>
 
             <if test="startAge != null">
-                AND <![CDATA[.customer_age >= #{startAge}]]>
+                AND c.customer_age <![CDATA[>=]]> #{startAge}
             </if>
 
             <if test="endAge != null">
-                AND <![CDATA[ c.customer_age <= #{endAge} ]]>
+                AND c.customer_age <![CDATA[<=]]> #{endAge}
             </if>
 
             <if test="sort != null and sort != ''">
