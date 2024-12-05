@@ -35,30 +35,28 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("Access token: {}", accessToken);
         log.info("Refresh token: {}", refreshToken);
 
-        if (accessToken != null) {
-            if (jwtUtil.validateAccessToken(accessToken)) {
-                jwtUtil.setAuthenticationToContext(accessToken);
-            } else if (refreshToken != null) {
-                try {
-                    String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
-                    jwtUtil.setAuthenticationToContext(newAccessToken);
-                    String newRefreshToken = jwtUtil.generateRefreshToken(jwtUtil.getUserId(newAccessToken));
+        if (jwtUtil.validateAccessToken(accessToken)) {
+            jwtUtil.setAuthenticationToContext(accessToken);
+        } else if (refreshToken != null) {
+            try {
+                String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
+                jwtUtil.setAuthenticationToContext(newAccessToken);
+                String newRefreshToken = jwtUtil.generateRefreshToken(jwtUtil.getUserId(newAccessToken));
 
-                    response.setHeader(ACCESS_TOKEN_HEADER, newAccessToken);
-                    response.setHeader(REFRESH_TOKEN_HEADER, newRefreshToken);
+                response.setHeader(ACCESS_TOKEN_HEADER, newAccessToken);
+                response.setHeader(REFRESH_TOKEN_HEADER, newRefreshToken);
 
-                    log.info("New Access token: {}", newAccessToken);
-                    log.info("New Refresh token: {}", newRefreshToken);
-                } catch (Exception e) {
-                    log.error("Failed to regenerate access token", e);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired tokens");
-                    return;
-                }
-            } else {
-                log.error("Both tokens are invalid");
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please login again");
+                log.info("New Access token: {}", newAccessToken);
+                log.info("New Refresh token: {}", newRefreshToken);
+            } catch (Exception e) {
+                log.error("Failed to regenerate access token", e);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired tokens");
                 return;
             }
+        } else {
+            log.error("Both tokens are invalid");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please login again");
+            return;
         }
 
         filterChain.doFilter(request, response);
