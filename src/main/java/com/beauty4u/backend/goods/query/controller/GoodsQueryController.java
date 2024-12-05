@@ -4,6 +4,7 @@ import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
 import com.beauty4u.backend.goods.query.dto.CategoryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
 import com.beauty4u.backend.goods.query.dto.SubCategoryDTO;
+import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.service.GoodsQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -55,5 +56,18 @@ public class GoodsQueryController {
     @Operation(summary = "하위 카테고리 상품 조회", description = "하위 카테고리에 해당하는 상품을 조회한다.")
     public ResponseEntity<List<GoodsQueryDTO>> findSubCategoryGoods(@PathVariable String SubCategoryCode){
         return ResponseEntity.ok(goodsQueryService.findSubCategoryGoods(SubCategoryCode));
+    }
+
+    @GetMapping("/search/{searchGoodsName}")
+    @Operation(summary = "상품명 검색", description = "엘라스틱 서치로 상품명을 검색한다.")
+    public ResponseEntity<List<GoodsDocument>> searchGoods(@PathVariable String searchGoodsName){
+        return ResponseEntity.ok(goodsQueryService.searchGoods(searchGoodsName));
+    }
+
+    @PostMapping("/index")
+    @Operation(summary = "엘라스틱 서치 인덱스 생성", description = "DB 데이터를 엘라스틱 서치에 동기화한다.")
+    public ResponseEntity<Void> indexGoods(){
+        goodsQueryService.indexGoods();
+        return ResponseEntity.ok().build();
     }
 }

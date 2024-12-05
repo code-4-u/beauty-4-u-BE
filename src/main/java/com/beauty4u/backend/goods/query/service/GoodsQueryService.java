@@ -4,20 +4,24 @@ import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
 import com.beauty4u.backend.goods.query.dto.CategoryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
 import com.beauty4u.backend.goods.query.dto.SubCategoryDTO;
+import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
+import com.beauty4u.backend.goods.query.elasticsearch.repository.GoodsSearchRepository;
 import com.beauty4u.backend.goods.query.mapper.GoodsQueryMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class GoodsQueryService {
-    private GoodsQueryMapper goodsQueryMapper;
     private final SqlSession sqlSession;
+    private final GoodsSearchRepository goodsSearchRepository;
 
     // 전체 브랜드 조회
     public List<BrandQueryDTO> findAllBrand() {
@@ -47,5 +51,20 @@ public class GoodsQueryService {
     // 하위 카테고리 내에 있는 전체 상품 조회
     public List<GoodsQueryDTO> findSubCategoryGoods(String subCategoryCode) {
         return sqlSession.getMapper(GoodsQueryMapper.class).findSubCategoryGoods(subCategoryCode);
+    }
+
+    // 엘라스틱서치로 상품명 검색
+    public List<GoodsDocument> searchGoods(String searchGoodsName){
+        return goodsSearchRepository.findByGoodsName(searchGoodsName);
+    }
+
+    // DB 데이터를 엘라스틱서치 동기화
+    @Transactional
+    public void indexGoods(){
+        List<GoodsQueryDTO> goods = sqlSession.getMapper(GoodsQueryMapper.class).findGoods(null, null);
+        List<GoodsDocument> documents = goods.stream()
+                .map(GoodsDocument::from)
+                .collect(Collectors.toList());
+        goodsSearchRepository.saveAll(documents);
     }
 }
