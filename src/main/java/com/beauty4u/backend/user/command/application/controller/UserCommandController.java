@@ -11,6 +11,7 @@ import com.beauty4u.backend.user.command.application.service.UserCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "User", description = "회원 관련 API")
 public class UserCommandController {
 
+    private static final String ACCESS_TOKEN_HEADER = "Authorization";
+    private static final String REFRESH_TOKEN_HEADER = "Refresh-Token";
+
     private final UserCommandService userCommandService;
 
     @Operation(summary = "회원 등록", description = "관리자가 신규 회원을 등록한다.")
@@ -40,17 +44,19 @@ public class UserCommandController {
 
     @Operation(summary = "로그아웃", description = "현재 로그인 된 회원이 로그아웃 한다.")
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logoutUser(HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<Void>> logoutUser(HttpServletRequest request, HttpServletResponse response) {
 
-        String userCode = CustomUserUtil.getCurrentUserCode();
-        String accessToken = request.getHeader("Authorization")
-                                    .substring(7);
+        try {
+            String userCode = CustomUserUtil.getCurrentUserCode();
+            String accessToken = request.getHeader("Authorization")
+                    .substring(7);
 
-        if (!userCode.isEmpty()) {
             userCommandService.logoutUser(userCode, accessToken);
             SecurityContextHolder.clearContext();
+            response.setHeader(ACCESS_TOKEN_HEADER, null);
+            response.setHeader(REFRESH_TOKEN_HEADER, null);
             return ResponseUtil.successResponse(SuccessCode.USER_LOGOUT_SUCCESS);
-        } else {
+        } catch (Exception e) {
             throw new CustomException(ErrorCode.LOGOUT_FAIL);
         }
     }
