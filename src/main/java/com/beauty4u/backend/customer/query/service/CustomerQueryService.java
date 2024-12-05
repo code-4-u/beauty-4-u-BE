@@ -1,5 +1,6 @@
 package com.beauty4u.backend.customer.query.service;
 
+import com.beauty4u.backend.customer.query.dto.CustomerDetailResDTO;
 import com.beauty4u.backend.customer.query.dto.CustomerFilterRequest;
 import com.beauty4u.backend.customer.query.dto.CustomerListResDTO;
 import com.beauty4u.backend.customer.query.mapper.CustomerQueryMapper;
@@ -39,5 +40,10 @@ public class CustomerQueryService {
                 customerFilterRequest.getOrder(),
                 offset,
                 customerFilterRequest.getCount());
+    }
+
+    public CustomerDetailResDTO findCustomerDetail(String customerCode) {
+
+        return customerQueryMapper.findCustomerDetail(customerCode);
     }
 }
