@@ -1,5 +1,8 @@
 package com.beauty4u.backend.customer.query.controller;
 
+import com.beauty4u.backend.common.response.ApiResponse;
+import com.beauty4u.backend.common.response.ResponseUtil;
+import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.customer.query.dto.CustomerFilterRequest;
 import com.beauty4u.backend.customer.query.dto.CustomerListResDTO;
 import com.beauty4u.backend.customer.query.service.CustomerQueryService;
@@ -23,10 +26,14 @@ public class CustomerQueryController {
 
     @Operation(summary = "고객 목록 조회", description = "고객 목록을 조회한다.")
     @GetMapping("/list")
-    public ResponseEntity<List<CustomerListResDTO>> findCustomerList(CustomerFilterRequest customerFilterRequest) {
+    public ResponseEntity<ApiResponse<List<CustomerListResDTO>>> findCustomerList(CustomerFilterRequest customerFilterRequest) {
 
         List<CustomerListResDTO> customerListResDTOS = customerQueryService.findCustomerList(customerFilterRequest);
 
-        return ResponseEntity.ok(customerListResDTOS);
+        return ResponseUtil.successResponse(SuccessCode.CUSTOMER_FIND_LIST_SUCCESS, customerListResDTOS);
     }
+
+//    @Operation(summary = "고객 상세 조회", description = "고객의 정보를 상세 조회한다.")
+//    @GetMapping("/customer/{customerCode}")
+//    public
 }

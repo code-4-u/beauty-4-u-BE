@@ -1,7 +1,7 @@
 package com.beauty4u.backend.user.query.controller;
 
 import com.beauty4u.backend.common.response.ApiResponse;
-import com.beauty4u.backend.common.success.CustomSuccessHandler;
+import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.user.query.dto.UserListResDTO;
 import com.beauty4u.backend.user.query.service.UserQueryService;
@@ -23,7 +23,6 @@ import java.util.List;
 public class UserQueryController {
 
     private final UserQueryService userQueryService;
-    private final CustomSuccessHandler customSuccessHandler;
 
     @Operation(summary = "회원 목록 조회")
     @GetMapping("/list")
@@ -33,6 +32,6 @@ public class UserQueryController {
 
         List<UserListResDTO> userListResDTOS = userQueryService.findUserList(page, count);
 
-        return customSuccessHandler.createSuccessResponse(SuccessCode.USER_READ_SUCCESS, userListResDTOS);
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, userListResDTOS);
     }
 }

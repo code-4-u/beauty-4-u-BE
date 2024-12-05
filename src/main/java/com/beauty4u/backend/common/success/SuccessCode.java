@@ -12,7 +12,10 @@ public enum SuccessCode {
     USER_REGISTER_SUCCESS(HttpStatus.CREATED, "회원등록 성공"),
     USER_LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
     USER_LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
-    USER_READ_SUCCESS(HttpStatus.OK, "회원 조회 성공");
+    USER_READ_SUCCESS(HttpStatus.OK, "회원 조회 성공"),
+
+    // 고객 (customer)
+    CUSTOMER_FIND_LIST_SUCCESS(HttpStatus.OK, "고객 목록 조회 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
