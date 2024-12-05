@@ -1,7 +1,7 @@
 package com.beauty4u.backend.user.command.application.controller;
 
 import com.beauty4u.backend.common.response.ApiResponse;
-import com.beauty4u.backend.common.success.CustomSuccessHandler;
+import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
 import com.beauty4u.backend.user.command.application.service.UserCommandService;
@@ -19,13 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserCommandController {
 
     private final UserCommandService userCommandService;
-    private final CustomSuccessHandler customSuccessHandler;
 
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> saveUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
 
         userCommandService.saveUser(createUserRequest);
 
-        return customSuccessHandler.createSuccessResponse(SuccessCode.USER_REGISTER_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.USER_REGISTER_SUCCESS);
     }
 }
