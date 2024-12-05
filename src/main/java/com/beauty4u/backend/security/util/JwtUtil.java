@@ -47,11 +47,6 @@ public class JwtUtil {
     /* Access Token 검증 */
     public boolean validateAccessToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
-
             /* Redis에서 블랙리스트 토큰 확인 */
             String userId = getUserId(token);
             String blacklistKey = JWT_PREFIX + userId;
