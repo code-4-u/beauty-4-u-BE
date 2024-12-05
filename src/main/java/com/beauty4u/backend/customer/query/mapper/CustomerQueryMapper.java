@@ -1,5 +1,6 @@
 package com.beauty4u.backend.customer.query.mapper;
 
+import com.beauty4u.backend.customer.query.dto.CustomerDetailResDTO;
 import com.beauty4u.backend.customer.query.dto.CustomerListResDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,4 +21,6 @@ public interface CustomerQueryMapper {
             @Param("order") String order,
             @Param("offset") Long offset,
             @Param("count") Long count);
+
+    CustomerDetailResDTO findCustomerDetail(@Param("customerCode") String customerCode);
 }
