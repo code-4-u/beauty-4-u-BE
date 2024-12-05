@@ -47,6 +47,7 @@ public class SecurityConfig {
                                         "/",
                                         "/**",
                                         "/login",
+                                        "/api/v1/login",
                                         "/user",
                                         "/swagger-ui/index.html",
                                         "/swagger-ui/**",
@@ -63,8 +64,6 @@ public class SecurityConfig {
 
         http.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
-        http.addFilterBefore(getAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
         http.exceptionHandling(
                 exceptionHandling -> {
                     exceptionHandling.accessDeniedHandler(new JwtAccessDeniedHandler());
@@ -73,16 +72,6 @@ public class SecurityConfig {
         );
 
         return http.build();
-    }
-
-    private Filter getAuthenticationFilter() {
-
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
-        customAuthenticationFilter.setAuthenticationManager(getAuthenticationManager());
-        customAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(jwtUtil));
-        customAuthenticationFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
-
-        return customAuthenticationFilter;
     }
 
     private AuthenticationManager getAuthenticationManager() {

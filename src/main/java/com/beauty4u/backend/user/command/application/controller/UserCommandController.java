@@ -6,7 +6,9 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.security.util.JwtUtil;
 import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
+import com.beauty4u.backend.user.command.application.dto.LoginUserReqDTO;
 import com.beauty4u.backend.user.command.application.service.UserCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +34,7 @@ public class UserCommandController {
     private static final String REFRESH_TOKEN_HEADER = "Refresh-Token";
 
     private final UserCommandService userCommandService;
+    private final JwtUtil jwtUtil;
 
     @Operation(summary = "회원 등록", description = "관리자가 신규 회원을 등록한다.")
     @PostMapping
@@ -42,9 +46,28 @@ public class UserCommandController {
         return ResponseUtil.successResponse(SuccessCode.USER_REGISTER_SUCCESS);
     }
 
-    @Operation(summary = "로그아웃", description = "현재 로그인 된 회원이 로그아웃 한다.")
+    @Operation(summary = "로그인", description = "등록된 회원이 로그인을 한다.")
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<Void>> loginUser(
+            @RequestBody @Valid LoginUserReqDTO loginUserReqDTO,
+            HttpServletResponse response) {
+
+        Authentication authentication = userCommandService.loginUser(loginUserReqDTO);
+
+        String accessToken = jwtUtil.generateAccessToken(authentication);
+        String refreshToken = jwtUtil.generateRefreshToken(authentication.getName());
+
+        response.setHeader("Authorization", accessToken);
+        response.setHeader("Refresh-Token", refreshToken);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_LOGIN_SUCCESS);
+    }
+
+    @Operation(summary = "로그아웃", description = "현재 로그인 된 회원이 로그아웃을 한다.")
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<ApiResponse<Void>> logoutUser(
+            HttpServletRequest request,
+            HttpServletResponse response) {
 
         try {
             String userCode = CustomUserUtil.getCurrentUserCode();
@@ -52,9 +75,7 @@ public class UserCommandController {
                     .substring(7);
 
             userCommandService.logoutUser(userCode, accessToken);
-            SecurityContextHolder.clearContext();
-            response.setHeader(ACCESS_TOKEN_HEADER, null);
-            response.setHeader(REFRESH_TOKEN_HEADER, null);
+            jwtUtil.clearAuthentication(response);
             return ResponseUtil.successResponse(SuccessCode.USER_LOGOUT_SUCCESS);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.LOGOUT_FAIL);
