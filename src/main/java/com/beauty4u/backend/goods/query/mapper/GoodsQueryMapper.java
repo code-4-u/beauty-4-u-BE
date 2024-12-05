@@ -2,6 +2,7 @@ package com.beauty4u.backend.goods.query.mapper;
 
 import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
+import com.beauty4u.backend.goods.query.dto.SubCategoryDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +18,13 @@ public interface GoodsQueryMapper {
             @Param("brandCode") String brandCode,
             @Param("goodsName") String goodsName
     );
+
+    // 상위 카테고리에 내에 있는 하위 카테고리 조회
+    List<SubCategoryDTO> findSubCategory(String topCategoryCode);
+
+    // 상위 카테고리에 해당하는 상품 메인화면에 전체 조회
+    List<GoodsQueryDTO> findTopCategoryGoods(@Param("topCategoryCode") String topCategoryCode);
+
+    // 하위 카테고리에 해당하는 상품 조회
+    List<GoodsQueryDTO> findSubCategoryGoods(String subCategoryCode);
 }

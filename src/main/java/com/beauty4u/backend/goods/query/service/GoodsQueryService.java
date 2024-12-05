@@ -1,7 +1,9 @@
 package com.beauty4u.backend.goods.query.service;
 
 import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
+import com.beauty4u.backend.goods.query.dto.CategoryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
+import com.beauty4u.backend.goods.query.dto.SubCategoryDTO;
 import com.beauty4u.backend.goods.query.mapper.GoodsQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
@@ -25,5 +27,25 @@ public class GoodsQueryService {
     // 조건별 상품 조회
     public List<GoodsQueryDTO> findGoods(String brandCode, String goodsName) {
         return sqlSession.getMapper(GoodsQueryMapper.class).findGoods(brandCode, goodsName);
+    }
+
+    // 상위 카테고리 내에 있는 하위 카테고리 조회
+    public List<SubCategoryDTO> findSubCategory(String topCategoryCode) {
+        return sqlSession.getMapper(GoodsQueryMapper.class).findSubCategory(topCategoryCode);
+    }
+
+    // 상위 카테고리 내에 있는 전체 상품 조회
+    public CategoryDTO findTopCategoryGoods(String topCategoryCode) {
+        GoodsQueryMapper mapper = sqlSession.getMapper(GoodsQueryMapper.class);
+
+        List<GoodsQueryDTO> goods = mapper.findTopCategoryGoods(topCategoryCode);
+        List<SubCategoryDTO> subCategory = mapper.findSubCategory(topCategoryCode);
+
+        return new CategoryDTO(goods, subCategory);
+    }
+
+    // 하위 카테고리 내에 있는 전체 상품 조회
+    public List<GoodsQueryDTO> findSubCategoryGoods(String subCategoryCode) {
+        return sqlSession.getMapper(GoodsQueryMapper.class).findSubCategoryGoods(subCategoryCode);
     }
 }
