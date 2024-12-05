@@ -31,8 +31,6 @@ public class JwtUtil {
     @Value("${token.refresh-token-expiration-time}")
     private long refreshTokenValidityTime;
 
-    private static final String ACCESS_TOKEN_HEADER = "Authorization";
-    private static final String REFRESH_TOKEN_HEADER = "Refresh-Token";
     private static final String JWT_PREFIX = "JWT_";
 
     public JwtUtil(
@@ -133,13 +131,6 @@ public class JwtUtil {
     public void setAuthenticationToContext(String token) {
         Authentication authentication = getAuthentication(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-    /* 현재 인증 정보 초기화 */
-    public void clearAuthentication(HttpServletResponse response) {
-        SecurityContextHolder.clearContext();
-        response.setHeader(ACCESS_TOKEN_HEADER, null);
-        response.setHeader(REFRESH_TOKEN_HEADER, null);
     }
 
     /* Access Token 생성 */

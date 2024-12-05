@@ -57,8 +57,8 @@ public class UserCommandController {
         String accessToken = jwtUtil.generateAccessToken(authentication);
         String refreshToken = jwtUtil.generateRefreshToken(authentication.getName());
 
-        response.setHeader("Authorization", accessToken);
-        response.setHeader("Refresh-Token", refreshToken);
+        response.setHeader(ACCESS_TOKEN_HEADER, accessToken);
+        response.setHeader(REFRESH_TOKEN_HEADER, refreshToken);
 
         return ResponseUtil.successResponse(SuccessCode.USER_LOGIN_SUCCESS);
     }
@@ -75,7 +75,6 @@ public class UserCommandController {
                     .substring(7);
 
             userCommandService.logoutUser(userCode, accessToken);
-            jwtUtil.clearAuthentication(response);
             return ResponseUtil.successResponse(SuccessCode.USER_LOGOUT_SUCCESS);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.LOGOUT_FAIL);
