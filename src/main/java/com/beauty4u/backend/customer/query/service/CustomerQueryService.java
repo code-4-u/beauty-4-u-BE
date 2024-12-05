@@ -1,5 +1,6 @@
 package com.beauty4u.backend.customer.query.service;
 
+import com.beauty4u.backend.customer.query.dto.CustomerFilterRequest;
 import com.beauty4u.backend.customer.query.dto.CustomerListResDTO;
 import com.beauty4u.backend.customer.query.mapper.CustomerQueryMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +14,30 @@ public class CustomerQueryService {
 
     private final CustomerQueryMapper customerQueryMapper;
 
-    public List<CustomerListResDTO> findCustomerList(Long page, Long count) {
+    public List<CustomerListResDTO> findCustomerList(CustomerFilterRequest customerFilterRequest) {
 
-        long offset = (page - 1) * count;
+        Long offset = (customerFilterRequest.getPage() - 1) * customerFilterRequest.getCount();
+        Integer startAge = null;
+        Integer endAge = null;
 
-        return customerQueryMapper.findCustomerList(offset, count);
+        if (customerFilterRequest.getAgeGroup() != null) {
+             startAge = customerFilterRequest.getAgeGroup();
+             endAge = customerFilterRequest.getAgeGroup() + 9;
+            if (startAge == 60) {
+                endAge = 100;
+            }
+        }
+
+        return customerQueryMapper.findCustomerList(
+                customerFilterRequest.getCode(),
+                customerFilterRequest.getName(),
+                customerFilterRequest.getGrade(),
+                customerFilterRequest.getGender(),
+                startAge,
+                endAge,
+                customerFilterRequest.getSort(),
+                customerFilterRequest.getOrder(),
+                offset,
+                customerFilterRequest.getCount());
     }
 }
