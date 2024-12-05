@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (accessToken != null) {
             if (jwtUtil.validateAccessToken(accessToken)) {
                 jwtUtil.setAuthenticationToContext(accessToken);
-            } else if (refreshToken != null && jwtUtil.validateRefreshToken(refreshToken)) {
+            } else if (refreshToken != null) {
                 try {
                     String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
                     jwtUtil.setAuthenticationToContext(newAccessToken);
@@ -51,11 +51,13 @@ public class JwtFilter extends OncePerRequestFilter {
                     log.info("New Refresh token: {}", newRefreshToken);
                 } catch (Exception e) {
                     log.error("Failed to regenerate access token", e);
+                    jwtUtil.clearAuthentication(response);
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired tokens");
                     return;
                 }
             } else {
                 log.error("Both tokens are invalid");
+                jwtUtil.clearAuthentication(response);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please login again");
                 return;
             }
