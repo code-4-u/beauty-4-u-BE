@@ -1,5 +1,6 @@
 package com.beauty4u.backend.customer.query.controller;
 
+import com.beauty4u.backend.customer.query.dto.CustomerFilterRequest;
 import com.beauty4u.backend.customer.query.dto.CustomerListResDTO;
 import com.beauty4u.backend.customer.query.service.CustomerQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
@@ -22,11 +23,9 @@ public class CustomerQueryController {
 
     @Operation(summary = "고객 목록 조회", description = "고객 목록을 조회한다.")
     @GetMapping("/list")
-    public ResponseEntity<List<CustomerListResDTO>> findCustomerList(
-            @RequestParam(defaultValue = "1") Long page,
-            @RequestParam(defaultValue = "10") Long count) {
+    public ResponseEntity<List<CustomerListResDTO>> findCustomerList(CustomerFilterRequest customerFilterRequest) {
 
-        List<CustomerListResDTO> customerListResDTOS = customerQueryService.findCustomerList(page, count);
+        List<CustomerListResDTO> customerListResDTOS = customerQueryService.findCustomerList(customerFilterRequest);
 
         return ResponseEntity.ok(customerListResDTOS);
     }
