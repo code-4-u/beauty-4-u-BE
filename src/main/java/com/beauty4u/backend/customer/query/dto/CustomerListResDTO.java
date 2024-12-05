@@ -16,6 +16,7 @@ public class CustomerListResDTO {
     private String customerCode;
     private String customerName;
     private CustomerGrade customerGrade;
+    private String customerGender;
     private Long customerAge;
     private LocalDateTime customerLastOrderDate;
     private LocalDateTime customerCreatedDate;
