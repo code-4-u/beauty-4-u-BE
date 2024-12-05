@@ -1,14 +1,10 @@
 package com.beauty4u.backend.security.config;
 
-import com.beauty4u.backend.security.filter.CustomAuthenticationFilter;
 import com.beauty4u.backend.security.filter.JwtFilter;
 import com.beauty4u.backend.security.handler.JwtAccessDeniedHandler;
 import com.beauty4u.backend.security.handler.JwtAuthenticationEntryPoint;
-import com.beauty4u.backend.security.handler.LoginFailureHandler;
-import com.beauty4u.backend.security.handler.LoginSuccessHandler;
 import com.beauty4u.backend.security.util.CustomUserDetailsService;
 import com.beauty4u.backend.security.util.JwtUtil;
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
