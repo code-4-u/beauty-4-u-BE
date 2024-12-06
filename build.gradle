@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.0'
-	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.springframework.boot' version '3.3.6'
+	id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.beauty4u'
@@ -34,6 +34,15 @@ dependencies {
 	// MongoDB
 	implementation ('org.springframework.boot:spring-boot-starter-data-mongodb')
 
+	// Websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	// STOMP
+	implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+
+	// Json
+	implementation 'org.json:json:20240303'
+
 	// Spring Boot Starter Dependencies
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,8 +54,8 @@ dependencies {
 	// ModelMapper
 	implementation 'org.modelmapper:modelmapper:3.2.0'
 
-	// WebSocket
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	// elasticsearch
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
