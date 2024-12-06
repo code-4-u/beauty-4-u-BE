@@ -53,7 +53,11 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
                                         "/v3/api-docs",
-                                        "/api/chatting/teamspace/**"
+                                        "/api/chatting/teamspace/**",
+                                        "/api/**",
+                                        // STOMP 관련 추가 경로
+                                        "/ws/**",
+                                        "/connection/**"
                                 ).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/user/**", "GET")).hasAuthority("관리자")
                                 .anyRequest().authenticated()
@@ -102,8 +106,9 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:5173");
+//        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader("token");
