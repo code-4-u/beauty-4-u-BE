@@ -46,4 +46,11 @@ public class UserDomainService {
 
         userRepository.save(user);
     }
+
+    public String findUserCode(String name, String phone, String email) {
+
+        return userRepository.findByUserNameAndPhoneAndEmail(name, phone, email)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER))
+                .getUserCode();
+    }
 }

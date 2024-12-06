@@ -1,9 +1,13 @@
 package com.beauty4u.backend.user.command.application.service;
 
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
+import com.beauty4u.backend.common.util.MailUtil;
 import com.beauty4u.backend.config.redis.RedisService;
 import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
 import com.beauty4u.backend.user.command.application.dto.LoginUserReqDTO;
 import com.beauty4u.backend.user.command.domain.service.UserDomainService;
+import com.beauty4u.backend.user.query.dto.FindUserCodeReqDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,7 @@ public class UserCommandService {
 
     private final UserDomainService userDomainService;
     private final RedisService redisService;
+    private final MailUtil mailUtil;
 
     public void saveUser(CreateUserRequest newUser) {
 
@@ -54,5 +59,30 @@ public class UserCommandService {
 
         redisService.setValues(JWT_PREFIX + userCode,
                 accessToken, Duration.ofMillis(remainingTime));
+    }
+
+    public void findUserCode(FindUserCodeReqDTO findUserCodeReqDTO) {
+
+        String name = findUserCodeReqDTO.getUserName();
+        String phone = findUserCodeReqDTO.getPhone();
+        String email = findUserCodeReqDTO.getEmail();
+
+        String userCode = userDomainService.findUserCode(name, phone, email);
+
+        String title = "[beauty4u] 요청하신 사원번호(아이디) 안내";
+        String body = String.format(
+                "%s님, 안녕하세요.\n" +
+                        "요청하신 사원번호(아이디)를 안내해 드립니다.\n\n" +
+                        "사원번호: %s\n\n" +
+                        "감사합니다.\n" +
+                        "beauty4u 드림",
+                name, userCode
+        );
+
+        try {
+            mailUtil.sendEmail(email, title, body);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.EMAIL_SEND_FAIL);
+        }
     }
 }
