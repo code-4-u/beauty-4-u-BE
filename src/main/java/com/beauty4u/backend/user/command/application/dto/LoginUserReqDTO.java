@@ -12,7 +12,7 @@ public class LoginUserReqDTO {
     @NotNull(message = "아이디는 필수 입력값입니다.")
     private String userCode;
 
-    @NotNull(message = "아이디는 필수 입력값입니다.")
+    @NotNull(message = "비밀번호는 필수 입력값입니다.")
     private String userPassword;
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
