@@ -1,5 +1,7 @@
 package com.beauty4u.backend.user.query.service;
 
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.common.util.MailUtil;
 import com.beauty4u.backend.user.query.dto.FindUserCodeReqDTO;
 import com.beauty4u.backend.user.query.dto.UserListResDTO;
@@ -31,6 +33,10 @@ public class UserQueryService {
 
         String userCode = userQueryMapper.findUserCode(name, phone, email);
 
+        if (userCode == null) {
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
+        }
+
         String title = "[beauty4u] 요청하신 사원번호(아이디) 안내";
         String body = String.format(
                 "%s님, 안녕하세요.\n" +
@@ -41,6 +47,10 @@ public class UserQueryService {
                 name, userCode
         );
 
-        mailUtil.sendEmail(email, title, body);
+        try {
+            mailUtil.sendEmail(email, title, body);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.EMAIL_SEND_FAIL);
+        }
     }
 }
