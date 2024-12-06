@@ -1,4 +1,4 @@
-package com.beauty4u.backend.user.query.dto;
+package com.beauty4u.backend.user.command.application.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
