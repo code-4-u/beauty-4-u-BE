@@ -3,13 +3,26 @@
 <mapper namespace="com.beauty4u.backend.goods.query.mapper.ReviewQueryMapper">
     <select id="findAllReview" resultType="com.beauty4u.backend.goods.query.dto.ReviewQueryDTO">
         SELECT
-            r.review_created_date,
-            r.review_id,
-            g.goods_name AS goodsName,
-            r.review_score,
-            r.review_content
+        r.review_created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
         FROM review r
         JOIN goods g ON (r.goods_code = g.goods_code)
-        ORDER BY r.review_created_date DESC;
+        ORDER BY
+        <foreach collection="orders" item="order" separator=",">
+            <choose>
+                <when test="order.property == 'review_score'">
+                    r.review_score ${order.direction}
+                </when>
+                <when test="order.property == 'review_created_date'">
+                    r.review_created_date ${order.direction}
+                </when>
+                <otherwise>
+                    r.review_created_date DESC
+                </otherwise>
+            </choose>
+        </foreach>
     </select>
 </mapper>
