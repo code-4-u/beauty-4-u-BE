@@ -14,13 +14,4 @@
         JOIN dept d USING (dept_code)
         LIMIT #{offset}, #{count}
     </select>
-
-    <select id="findUserCode" resultType="string">
-        SELECT
-            user_code
-        FROM user_info
-        WHERE user_name = #{name}
-        AND phone = #{phone}
-        AND email = #{email}
-    </select>
 </mapper>

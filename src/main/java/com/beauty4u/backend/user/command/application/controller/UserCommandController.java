@@ -10,6 +10,7 @@ import com.beauty4u.backend.security.util.JwtUtil;
 import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
 import com.beauty4u.backend.user.command.application.dto.LoginUserReqDTO;
 import com.beauty4u.backend.user.command.application.service.UserCommandService;
+import com.beauty4u.backend.user.query.dto.FindUserCodeReqDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -78,5 +79,15 @@ public class UserCommandController {
         } catch (Exception e) {
             throw new CustomException(ErrorCode.LOGOUT_FAIL);
         }
+    }
+
+    @Operation(summary = "사원번호(아이디) 찾기", description = "이름, 전화번호, 이메일을 입력하여 사번을 조회할 수 있다.")
+    @PostMapping("/id/search")
+    public ResponseEntity<ApiResponse<Void>> findUserCode(
+            @RequestBody FindUserCodeReqDTO findUserCodeReqDTO) {
+
+        userCommandService.findUserCode(findUserCodeReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
 }
