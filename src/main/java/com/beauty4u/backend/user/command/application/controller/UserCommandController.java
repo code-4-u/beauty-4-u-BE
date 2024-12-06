@@ -9,8 +9,9 @@ import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.security.util.JwtUtil;
 import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
 import com.beauty4u.backend.user.command.application.dto.LoginUserReqDTO;
+import com.beauty4u.backend.user.command.application.dto.ResetUserPasswordReqDTO;
 import com.beauty4u.backend.user.command.application.service.UserCommandService;
-import com.beauty4u.backend.user.query.dto.FindUserCodeReqDTO;
+import com.beauty4u.backend.user.command.application.dto.FindUserCodeReqDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -87,6 +88,16 @@ public class UserCommandController {
             @RequestBody FindUserCodeReqDTO findUserCodeReqDTO) {
 
         userCommandService.findUserCode(findUserCodeReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+    }
+
+    @Operation(summary = "비밀번호 재발급", description = "사번, 이름, 이메일을 입력하여 비밀번호를 재발급 할 수 있다.")
+    @PostMapping("/password/reset")
+    public ResponseEntity<ApiResponse<Void>> resetUserPassword(
+            @RequestBody ResetUserPasswordReqDTO resetUserPasswordReqDTO) {
+
+        userCommandService.resetUserPassword(resetUserPasswordReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
