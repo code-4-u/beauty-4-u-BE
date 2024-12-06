@@ -12,6 +12,10 @@ public enum ErrorCode {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증 실패"),
     LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "로그인 실패"),
     LOGOUT_FAIL(HttpStatus.UNAUTHORIZED, "로그아웃 실패"),
+
+    EMAIL_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 전송 실패"),
+
+    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "회원 조회 실패"),
     NOT_FOUND_JOB(HttpStatus.NOT_FOUND, "직급 조회 실패"),
     NOT_FOUND_DEPT(HttpStatus.NOT_FOUND, "부서 조회 실패"),
     NOT_FOUND_ROLE(HttpStatus.NOT_FOUND, "권한 조회 실패");
