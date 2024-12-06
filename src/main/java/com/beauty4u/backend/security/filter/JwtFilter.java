@@ -36,9 +36,21 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("Refresh token: {}", refreshToken);
 
         if (accessToken != null || refreshToken != null) {
-            if (accessToken != null && jwtUtil.validateAccessToken(accessToken)) {
-                jwtUtil.setAuthenticationToContext(accessToken);
-            } else if (refreshToken != null) {
+            if (accessToken != null) {
+                try {
+                    if (jwtUtil.validateAccessToken(accessToken)) {
+                        jwtUtil.setAuthenticationToContext(accessToken);
+                    } else {
+                        log.error("Invalid access token");
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid access token");
+                        return;
+                    }
+                } catch (Exception e) {
+                    log.error("Access token validation failed", e);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid access token");
+                    return;
+                }
+            } else {
                 try {
                     String newAccessToken = jwtUtil.regenerateAccessToken(refreshToken);
                     jwtUtil.setAuthenticationToContext(newAccessToken);
@@ -49,15 +61,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
                     log.info("New Access token: {}", newAccessToken);
                     log.info("New Refresh token: {}", newRefreshToken);
+                    return;
                 } catch (Exception e) {
                     log.error("Failed to regenerate access token", e);
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired tokens");
                     return;
                 }
-            } else {
-                log.error("Both tokens are invalid");
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please login again");
-                return;
             }
         }
 
