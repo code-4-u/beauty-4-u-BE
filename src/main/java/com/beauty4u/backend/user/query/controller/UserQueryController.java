@@ -3,6 +3,8 @@ package com.beauty4u.backend.user.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
+import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.user.query.dto.FindUserDetailResDTO;
 import com.beauty4u.backend.user.query.dto.UserListResDTO;
 import com.beauty4u.backend.user.query.service.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,5 +35,15 @@ public class UserQueryController {
         List<UserListResDTO> userListResDTOS = userQueryService.findUserList(page, count);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, userListResDTOS);
+    }
+
+    @Operation(summary = "내 정보 조회", description = "회원을 상세 조회한다.")
+    @GetMapping("/profile")
+    public ResponseEntity<ApiResponse<FindUserDetailResDTO>> findUserDetail() {
+
+        String loginUserCode = CustomUserUtil.getCurrentUserCode();
+        FindUserDetailResDTO findUserDetailResDTO = userQueryService.findUserDetail(loginUserCode);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, findUserDetailResDTO);
     }
 }
