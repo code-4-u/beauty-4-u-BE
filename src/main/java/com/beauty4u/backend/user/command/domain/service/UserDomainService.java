@@ -53,4 +53,19 @@ public class UserDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER))
                 .getUserCode();
     }
+
+    public void verifyUserExists(String userCode, String name, String email) {
+
+        if (!userRepository.existsByUserCodeAndUserNameAndEmail(userCode, name, email)) {
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
+        }
+    }
+
+    public void updatePassword(String userCode, String newPassword) {
+
+        UserInfo user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        user.encryptPassword(passwordEncoder.encode(newPassword));
+    }
 }
