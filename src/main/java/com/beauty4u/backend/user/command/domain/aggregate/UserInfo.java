@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -53,10 +53,10 @@ public class UserInfo {
 
     @NotNull
     @Column(name = "user_created_date", nullable = false)
-    private Instant userCreatedDate;
+    private LocalDateTime userCreatedDate;
 
     @Column(name = "user_expired_date")
-    private Instant userExpiredDate;
+    private LocalDateTime userExpiredDate;
 
     @NotNull
     @Column(name = "user_expired_yn", nullable = false)
@@ -76,5 +76,10 @@ public class UserInfo {
 
     public void modifyRole(UserRole role) {
         this.userRole = role;
+    }
+
+    public void expireUser() {
+        this.userExpiredDate = LocalDateTime.now();
+        this.userExpiredYn = 'Y';
     }
 }
