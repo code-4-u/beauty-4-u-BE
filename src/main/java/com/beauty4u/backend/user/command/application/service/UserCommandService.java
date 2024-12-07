@@ -176,4 +176,12 @@ public class UserCommandService {
 
         userDomainService.expireUser(userCode);
     }
+
+    @Transactional
+    public void unexpireUser(UserCodeReqDTO userCodeReqDTO) {
+
+        String userCode = userCodeReqDTO.getUserCode();
+
+        userDomainService.unexpireUser(userCode);
+    }
 }
