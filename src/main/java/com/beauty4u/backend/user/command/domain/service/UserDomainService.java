@@ -76,4 +76,12 @@ public class UserDomainService {
 
         user.expireUser();
     }
+
+    public void unexpireUser(String userCode) {
+
+        UserInfo user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        user.unexpireUser();
+    }
 }
