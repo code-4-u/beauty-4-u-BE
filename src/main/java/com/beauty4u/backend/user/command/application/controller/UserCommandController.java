@@ -118,7 +118,7 @@ public class UserCommandController {
     }
 
     @Operation(summary = "회원 비활성화", description = "관리자가 회원을 비활성화(계정 만료)한다.")
-    @PutMapping("/password/expire")
+    @PutMapping("/expire")
     public ResponseEntity<ApiResponse<Void>> expireUser(
             @RequestBody UserCodeReqDTO userCodeReqDTO ) {
 
@@ -128,7 +128,7 @@ public class UserCommandController {
     }
 
     @Operation(summary = "회원 활성화", description = "관리자가 비활성화 된 회원을 다시 활성화한다.")
-    @PutMapping("/password/unexpire")
+    @PutMapping("/unexpire")
     public ResponseEntity<ApiResponse<Void>> unexpireUser(
             @RequestBody UserCodeReqDTO userCodeReqDTO ) {
 
