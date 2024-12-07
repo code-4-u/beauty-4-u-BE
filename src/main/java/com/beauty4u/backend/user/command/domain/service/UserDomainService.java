@@ -2,7 +2,7 @@ package com.beauty4u.backend.user.command.domain.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
-import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
+import com.beauty4u.backend.user.command.application.dto.CreateUserReqDTO;
 import com.beauty4u.backend.user.command.domain.aggregate.Dept;
 import com.beauty4u.backend.user.command.domain.aggregate.Job;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
@@ -27,7 +27,7 @@ public class UserDomainService {
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public void saveUser(CreateUserRequest newUser) {
+    public void saveUser(CreateUserReqDTO newUser) {
 
         UserInfo user = modelMapper.map(newUser, UserInfo.class);
 
@@ -67,5 +67,21 @@ public class UserDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         user.encryptPassword(passwordEncoder.encode(newPassword));
+    }
+
+    public void expireUser(String userCode) {
+
+        UserInfo user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        user.expireUser();
+    }
+
+    public void unexpireUser(String userCode) {
+
+        UserInfo user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        user.unexpireUser();
     }
 }

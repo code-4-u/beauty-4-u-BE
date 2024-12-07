@@ -4,11 +4,8 @@ import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.common.util.MailUtil;
 import com.beauty4u.backend.config.redis.RedisService;
-import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
-import com.beauty4u.backend.user.command.application.dto.LoginUserReqDTO;
-import com.beauty4u.backend.user.command.application.dto.ResetUserPasswordReqDTO;
+import com.beauty4u.backend.user.command.application.dto.*;
 import com.beauty4u.backend.user.command.domain.service.UserDomainService;
-import com.beauty4u.backend.user.command.application.dto.FindUserCodeReqDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +35,7 @@ public class UserCommandService {
     private final MailUtil mailUtil;
 
     @Transactional
-    public void saveUser(CreateUserRequest newUser) {
+    public void saveUser(CreateUserReqDTO newUser) {
 
         userDomainService.saveUser(newUser);
     }
@@ -153,5 +150,38 @@ public class UserCommandService {
         }
 
         return new String(passwordArray);
+    }
+
+    @Transactional
+    public void updateUserPassword(String loginUserCode, UpdateUserPasswordReqDTO updateUserPasswordReqDTO) {
+
+        String newPassword = updateUserPasswordReqDTO.getUserPassword();
+
+        userDomainService.updatePassword(loginUserCode, newPassword);
+    }
+
+    @Transactional
+    public void adminResetUserPassword(UserCodeReqDTO userCodeReqDTO) {
+
+        String userCode = userCodeReqDTO.getUserCode();
+
+        /* 초기 비밀번호인 사원번호로 초기화 */
+        userDomainService.updatePassword(userCode, userCode);
+    }
+
+    @Transactional
+    public void expireUser(UserCodeReqDTO userCodeReqDTO) {
+
+        String userCode = userCodeReqDTO.getUserCode();
+
+        userDomainService.expireUser(userCode);
+    }
+
+    @Transactional
+    public void unexpireUser(UserCodeReqDTO userCodeReqDTO) {
+
+        String userCode = userCodeReqDTO.getUserCode();
+
+        userDomainService.unexpireUser(userCode);
     }
 }
