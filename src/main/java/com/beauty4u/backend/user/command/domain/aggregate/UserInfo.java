@@ -82,4 +82,9 @@ public class UserInfo {
         this.userExpiredDate = LocalDateTime.now();
         this.userExpiredYn = 'Y';
     }
+
+    public void unexpireUser() {
+        this.userExpiredDate = null;
+        this.userExpiredYn = 'N';
+    }
 }
