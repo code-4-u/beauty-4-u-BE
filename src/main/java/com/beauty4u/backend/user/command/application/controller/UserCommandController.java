@@ -126,4 +126,14 @@ public class UserCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
+
+    @Operation(summary = "회원 활성화", description = "관리자가 비활성화 된 회원을 다시 활성화한다.")
+    @PutMapping("/password/unexpire")
+    public ResponseEntity<ApiResponse<Void>> unexpireUser(
+            @RequestBody UserCodeReqDTO userCodeReqDTO ) {
+
+        userCommandService.unexpireUser(userCodeReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+    }
 }
