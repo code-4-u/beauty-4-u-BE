@@ -106,4 +106,14 @@ public class UserCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
+
+    @Operation(summary = "비밀번호 초기화", description = "관리자가 회원의 비밀번호를 초기화한다.")
+    @PutMapping("/password/admin/reset")
+    public ResponseEntity<ApiResponse<Void>> adminResetUserPassword(
+            @RequestBody AdminResetUserPasswordReqDTO adminResetUserPasswordReqDTO ) {
+
+        userCommandService.adminResetUserPassword(adminResetUserPasswordReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+    }
 }
