@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateInformReqDTO {
+public class InformReqDTO {
 
     @NotNull(message = "제목은 필수 입력값입니다.")
     private String informTitle;
