@@ -22,7 +22,7 @@ public class InquiryReplyCommandController {
     private final InquiryReplyCommandService inquiryReplyCommandService;
 
     @Operation(summary = "QnA 답변(A) 등록", description = "회원(관리자)이 답변을 등록한다.")
-    @PostMapping("/{inquiryId}")
+    @PostMapping("/{inquiryId}/reply")
     public ResponseEntity<ApiResponse<Void>> saveQnaReply(
             @PathVariable Long inquiryId,
             @RequestBody @Valid QnaReplyReqDTO qnaReplyReqDTO) {
