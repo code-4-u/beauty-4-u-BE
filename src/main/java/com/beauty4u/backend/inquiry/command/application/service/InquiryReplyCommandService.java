@@ -23,4 +23,10 @@ public class InquiryReplyCommandService {
 
         inquiryReplyDomainService.updateQnaReply(inquiryId, qnaReplyReqDTO);
     }
+
+    @Transactional
+    public void deleteQnaReply(Long inquiryId) {
+
+        inquiryReplyDomainService.deleteQnaReply(inquiryId);
+    }
 }
