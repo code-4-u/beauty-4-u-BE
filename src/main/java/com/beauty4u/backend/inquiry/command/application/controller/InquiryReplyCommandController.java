@@ -33,4 +33,15 @@ public class InquiryReplyCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_REPLY_SAVE_SUCCESS);
     }
+
+    @Operation(summary = "QnA 답변(A) 수정", description = "회원(관리자)이 답변을 수정한다.")
+    @PutMapping("/{inquiryId}/reply")
+    public ResponseEntity<ApiResponse<Void>> updateQnaReply(
+            @PathVariable Long inquiryId,
+            @RequestBody @Valid QnaReplyReqDTO qnaReplyReqDTO) {
+
+        inquiryReplyCommandService.updateQnaReply(inquiryId, qnaReplyReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.INQUIRY_REPLY_UPDATE_SUCCESS);
+    }
 }
