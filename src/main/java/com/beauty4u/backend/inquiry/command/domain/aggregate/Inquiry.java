@@ -65,4 +65,11 @@ public class Inquiry {
     public void modifyUser(UserInfo user) {
         this.userCode = user;
     }
+
+    public void modifyInquiry(String title, String content, Character secretYn) {
+        this.inquiryTitle = title;
+        this.inquiryContent = content;
+        this.inquirySecretYn = secretYn;
+        this.inquiryUpdatedDate = LocalDateTime.now();
+    }
 }
