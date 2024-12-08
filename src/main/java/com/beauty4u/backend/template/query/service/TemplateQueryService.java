@@ -13,9 +13,9 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class TemplateQueryService {
-    private final SqlSession sqlSession;
+    private final TemplateQueryMapper templateQueryMapper;
 
     public List<TemplateQueryDTO> findAllTemplate() {
-        return sqlSession.getMapper(TemplateQueryMapper.class).findAllTemplate();
+        return templateQueryMapper.findAllTemplate();
     }
 }
