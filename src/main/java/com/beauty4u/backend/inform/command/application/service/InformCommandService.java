@@ -1,6 +1,6 @@
 package com.beauty4u.backend.inform.command.application.service;
 
-import com.beauty4u.backend.inform.command.application.dto.CreateInformReqDTO;
+import com.beauty4u.backend.inform.command.application.dto.InformReqDTO;
 import com.beauty4u.backend.inform.command.domain.service.InformDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,14 @@ public class InformCommandService {
     private final InformDomainService informDomainService;
 
     @Transactional
-    public void saveInform(String loginUserCode, CreateInformReqDTO createInformReqDTO) {
+    public void saveInform(String loginUserCode, InformReqDTO informReqDTO) {
 
-        informDomainService.saveInform(loginUserCode, createInformReqDTO);
+        informDomainService.saveInform(loginUserCode, informReqDTO);
+    }
+
+    @Transactional
+    public void updateInform(Long informId, InformReqDTO informReqDTO) {
+
+        informDomainService.updateInform(informId, informReqDTO);
     }
 }

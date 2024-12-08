@@ -19,7 +19,8 @@ public enum SuccessCode {
     CUSTOMER_FIND_DETAIL_SUCCESS(HttpStatus.OK, "고객 상세 조회 성공"),
 
     // 공지사항 (inform)
-    INFORM_SAVE_SUCCESS(HttpStatus.CREATED, "공지사항 등록 성공");
+    INFORM_SAVE_SUCCESS(HttpStatus.CREATED, "공지사항 등록 성공"),
+    INFORM_UPDATE_SUCCESS(HttpStatus.OK, "공지사항 수정 성공");
 
     private final HttpStatus httpStatus;
     private final String message;

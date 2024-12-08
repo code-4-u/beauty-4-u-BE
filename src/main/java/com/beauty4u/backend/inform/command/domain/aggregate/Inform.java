@@ -6,12 +6,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "inform")
 public class Inform {
@@ -58,5 +56,11 @@ public class Inform {
 
     public void modifyUser(UserInfo user) {
         this.userCode = user;
+    }
+
+    public void modifyInform(String title, String content) {
+        this.informTitle = title;
+        this.informContent = content;
+        this.informUpdatedDate = LocalDateTime.now();
     }
 }

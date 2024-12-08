@@ -22,7 +22,9 @@ public enum ErrorCode {
     NOT_FOUND_ROLE(HttpStatus.NOT_FOUND, "권한 조회 실패"),
 
     // 공지사항 (inform)
-    NOT_SAVED_INFORM(HttpStatus.CONFLICT, "공지사항 등록 실패");
+    NOT_SAVED_INFORM(HttpStatus.CONFLICT, "공지사항 등록 실패"),
+
+    NOT_FOUND_INFORM(HttpStatus.NOT_FOUND, "공지사항 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
