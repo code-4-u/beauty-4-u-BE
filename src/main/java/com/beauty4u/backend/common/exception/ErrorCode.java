@@ -18,7 +18,10 @@ public enum ErrorCode {
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "회원 조회 실패"),
     NOT_FOUND_JOB(HttpStatus.NOT_FOUND, "직급 조회 실패"),
     NOT_FOUND_DEPT(HttpStatus.NOT_FOUND, "부서 조회 실패"),
-    NOT_FOUND_ROLE(HttpStatus.NOT_FOUND, "권한 조회 실패");
+    NOT_FOUND_ROLE(HttpStatus.NOT_FOUND, "권한 조회 실패"),
+
+    // 템플릿
+    NOT_FOUND_TEMPLATE(HttpStatus.NOT_FOUND, "템플릿 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
