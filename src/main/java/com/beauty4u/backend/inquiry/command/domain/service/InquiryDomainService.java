@@ -46,4 +46,12 @@ public class InquiryDomainService {
 
         inquiry.modifyInquiry(title, content, secretYn);
     }
+
+    public void deleteQna(Long inquiryId) {
+
+        Inquiry inquiry = inquiryRepository.findById(inquiryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY));
+
+        inquiryRepository.delete(inquiry);
+    }
 }
