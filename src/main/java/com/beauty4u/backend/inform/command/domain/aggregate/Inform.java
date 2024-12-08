@@ -59,4 +59,10 @@ public class Inform {
     public void modifyUser(UserInfo user) {
         this.userCode = user;
     }
+
+    public void modifyInform(String title, String content) {
+        this.informTitle = title;
+        this.informContent = content;
+        this.informUpdatedDate = LocalDateTime.now();
+    }
 }
