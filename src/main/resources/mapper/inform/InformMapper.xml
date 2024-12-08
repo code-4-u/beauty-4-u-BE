@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.inform.query.mapper.InformQueryMapper">
+
+    <select id="findInformList" resultType="InformListResDTO">
+        SELECT
+            inform_id,
+            user_code,
+            inform_title,
+            inform_status,
+            inform_viewcount,
+            inform_created_date
+        FROM inform
+        LIMIT #{offset}, #{count}
+    </select>
+</mapper>
