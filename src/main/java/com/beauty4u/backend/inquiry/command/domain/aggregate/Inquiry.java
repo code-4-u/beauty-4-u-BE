@@ -75,7 +75,11 @@ public class Inquiry {
         this.inquiryUpdatedDate = LocalDateTime.now();
     }
 
-    public void saveReply() {
-        this.inquiryReplyYn = 'Y';
+    public void modifyReply(boolean isProcessed) {
+        if (isProcessed) {
+            this.inquiryReplyYn = 'Y';
+        } else {
+            this.inquiryReplyYn = 'N';
+        }
     }
 }
