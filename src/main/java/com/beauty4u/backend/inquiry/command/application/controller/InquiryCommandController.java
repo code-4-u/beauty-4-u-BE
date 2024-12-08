@@ -43,4 +43,14 @@ public class InquiryCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "QnA 질문(Q) 삭제", description = "회원이 질문을 삭제한다.")
+    @DeleteMapping("/{inquiryId}")
+    public ResponseEntity<ApiResponse<Void>> deleteQna(
+            @PathVariable Long inquiryId) {
+
+        inquiryCommandService.deleteQna(inquiryId);
+
+        return ResponseUtil.successResponse(SuccessCode.INQUIRY_DELETE_SUCCESS);
+    }
 }
