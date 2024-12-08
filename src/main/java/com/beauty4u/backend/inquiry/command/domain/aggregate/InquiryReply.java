@@ -46,4 +46,9 @@ public class InquiryReply {
         this.inquiry = inquiry;
         this.userCode = user;
     }
+
+    public void modifyContent(String content) {
+        this.inquiryReplyContent = content;
+        this.inquiryReplyUpdatedDate = LocalDateTime.now();
+    }
 }

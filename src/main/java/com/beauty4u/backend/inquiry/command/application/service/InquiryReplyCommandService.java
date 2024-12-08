@@ -17,4 +17,10 @@ public class InquiryReplyCommandService {
 
         inquiryReplyDomainService.saveQnaReply(loginUserCode, inquiryId, qnaReplyReqDTO);
     }
+
+    @Transactional
+    public void updateQnaReply(Long inquiryId, QnaReplyReqDTO qnaReplyReqDTO) {
+
+        inquiryReplyDomainService.updateQnaReply(inquiryId, qnaReplyReqDTO);
+    }
 }

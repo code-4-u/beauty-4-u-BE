@@ -42,4 +42,14 @@ public class InquiryReplyDomainService {
             throw new CustomException(ErrorCode.NOT_SAVED_INQUIRY_REPLY);
         }
     }
+
+    public void updateQnaReply(Long inquiryId, QnaReplyReqDTO qnaReplyReqDTO) {
+
+        String content = qnaReplyReqDTO.getInquiryReplyContent();
+
+        InquiryReply inquiryReply = inquiryReplyRepository.findByInquiryId(inquiryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
+
+        inquiryReply.modifyContent(content);
+    }
 }
