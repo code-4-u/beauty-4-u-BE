@@ -24,7 +24,10 @@ public enum ErrorCode {
     // 공지사항 (inform)
     NOT_SAVED_INFORM(HttpStatus.CONFLICT, "공지사항 등록 실패"),
 
-    NOT_FOUND_INFORM(HttpStatus.NOT_FOUND, "공지사항 조회 실패");
+    NOT_FOUND_INFORM(HttpStatus.NOT_FOUND, "공지사항 조회 실패"),
+
+    // 문의 (inquiry)
+    NOT_SAVED_INQUIRY(HttpStatus.CONFLICT, "QnA 등록 실패");
 
     private final HttpStatus httpStatus;
     private final String message;

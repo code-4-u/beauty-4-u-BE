@@ -1,25 +1,26 @@
-package com.beauty4u.backend.basesystem.command.domain.aggregate;
+package com.beauty4u.backend.inquiry.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.StatusType;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "inquiry")
 public class Inquiry {
+
     @Id
     @Column(name = "inquiry_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_code", nullable = false)
     private UserInfo userCode;
 
@@ -36,21 +37,22 @@ public class Inquiry {
     @NotNull
     @Lob
     @Column(name = "inquiry_status", nullable = false)
-    private String inquiryStatus;
+    @Enumerated(EnumType.STRING)
+    private StatusType inquiryStatus = StatusType.PUBLISHED;
 
     @NotNull
     @Column(name = "inquiry_viewcount", nullable = false)
-    private Long inquiryViewcount;
+    private Long inquiryViewcount = 0L;
 
     @NotNull
     @Column(name = "inquiry_created_date", nullable = false)
-    private Instant inquiryCreatedDate;
+    private LocalDateTime inquiryCreatedDate = LocalDateTime.now();
 
     @Column(name = "inquiry_updated_date")
-    private Instant inquiryUpdatedDate;
+    private LocalDateTime inquiryUpdatedDate;
 
     @Column(name = "inquiry_deleted_date")
-    private Instant inquiryDeletedDate;
+    private LocalDateTime inquiryDeletedDate;
 
     @NotNull
     @Column(name = "inquiry_secret_yn", nullable = false)
@@ -58,6 +60,9 @@ public class Inquiry {
 
     @NotNull
     @Column(name = "inquiry_reply_yn", nullable = false)
-    private Character inquiryReplyYn;
+    private Character inquiryReplyYn = 'N';
 
+    public void modifyUser(UserInfo user) {
+        this.userCode = user;
+    }
 }
