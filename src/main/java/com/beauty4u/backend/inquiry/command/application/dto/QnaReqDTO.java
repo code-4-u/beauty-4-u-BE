@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateQnaReqDTO {
+public class QnaReqDTO {
 
     private String inquiryTitle;
     private String inquiryContent;
-    private String inquirySecretYn;
+    private Character inquirySecretYn;
 }
