@@ -74,4 +74,8 @@ public class Inquiry {
         this.inquirySecretYn = secretYn;
         this.inquiryUpdatedDate = LocalDateTime.now();
     }
+
+    public void saveReply() {
+        this.inquiryReplyYn = 'Y';
+    }
 }
