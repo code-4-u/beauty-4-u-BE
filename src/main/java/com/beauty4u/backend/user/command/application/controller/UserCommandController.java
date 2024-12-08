@@ -7,11 +7,8 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.security.util.JwtUtil;
-import com.beauty4u.backend.user.command.application.dto.CreateUserRequest;
-import com.beauty4u.backend.user.command.application.dto.LoginUserReqDTO;
-import com.beauty4u.backend.user.command.application.dto.ResetUserPasswordReqDTO;
+import com.beauty4u.backend.user.command.application.dto.*;
 import com.beauty4u.backend.user.command.application.service.UserCommandService;
-import com.beauty4u.backend.user.command.application.dto.FindUserCodeReqDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -98,6 +92,17 @@ public class UserCommandController {
             @RequestBody ResetUserPasswordReqDTO resetUserPasswordReqDTO) {
 
         userCommandService.resetUserPassword(resetUserPasswordReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+    }
+
+    @Operation(summary = "비밀번호 수정", description = "현재 로그인 된 회원이 비밀번호를 수정한다.")
+    @PutMapping("/password")
+    public ResponseEntity<ApiResponse<Void>> updateUserPassword(
+            @RequestBody UpdateUserPasswordReqDTO updateUserPasswordReqDTO ) {
+
+        String loginUserCode = CustomUserUtil.getCurrentUserCode();
+        userCommandService.updateUserPassword(loginUserCode, updateUserPasswordReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
