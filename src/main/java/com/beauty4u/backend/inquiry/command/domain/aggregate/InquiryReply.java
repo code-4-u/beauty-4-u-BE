@@ -4,12 +4,14 @@ import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "inquiry_reply")
+@SQLDelete(sql = "UPDATE inquiry_reply SET inquiry_reply_deleted_date = NOW() WHERE inquiry_reply_id = ?")
 public class InquiryReply {
 
     @Id
@@ -45,5 +47,10 @@ public class InquiryReply {
     public void saveReply(Inquiry inquiry, UserInfo user) {
         this.inquiry = inquiry;
         this.userCode = user;
+    }
+
+    public void modifyContent(String content) {
+        this.inquiryReplyContent = content;
+        this.inquiryReplyUpdatedDate = LocalDateTime.now();
     }
 }

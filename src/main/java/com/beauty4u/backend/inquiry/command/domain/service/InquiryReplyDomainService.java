@@ -34,12 +34,33 @@ public class InquiryReplyDomainService {
 
         inquiryReply.saveReply(inquiry, user);
 
-        inquiry.saveReply();
+        inquiry.modifyReply(true);
 
         try {
             inquiryReplyRepository.save(inquiryReply);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.NOT_SAVED_INQUIRY_REPLY);
         }
+    }
+
+    public void updateQnaReply(Long inquiryId, QnaReplyReqDTO qnaReplyReqDTO) {
+
+        String content = qnaReplyReqDTO.getInquiryReplyContent();
+
+        InquiryReply inquiryReply = inquiryReplyRepository.findByInquiryId(inquiryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
+
+        inquiryReply.modifyContent(content);
+    }
+
+    public void deleteQnaReply(Long inquiryId) {
+
+        InquiryReply inquiryReply = inquiryReplyRepository.findByInquiryId(inquiryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
+
+        inquiryReplyRepository.delete(inquiryReply);
+
+        Inquiry inquiry = inquiryReply.getInquiry();
+        inquiry.modifyReply(false);
     }
 }
