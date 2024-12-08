@@ -19,7 +19,8 @@ public enum SuccessCode {
     CUSTOMER_FIND_DETAIL_SUCCESS(HttpStatus.OK, "고객 상세 조회 성공"),
 
     // 템플릿(template)
-    TEMPLATE_FIND_LIST_SUCCESS(HttpStatus.OK, "템플릿 목록 조회 성공");
+    TEMPLATE_FIND_LIST_SUCCESS(HttpStatus.OK, "템플릿 목록 조회 성공"),
+    TEMPLATE_SAVE_SUCCESS(HttpStatus.OK, "템플릿 등록 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
