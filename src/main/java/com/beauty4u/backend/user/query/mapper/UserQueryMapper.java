@@ -1,5 +1,6 @@
 package com.beauty4u.backend.user.query.mapper;
 
+import com.beauty4u.backend.user.query.dto.FindUserDetailResDTO;
 import com.beauty4u.backend.user.query.dto.UserListResDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,8 +14,5 @@ public interface UserQueryMapper {
             @Param("offset") Long offset,
             @Param("count") Long count);
 
-    String findUserCode(
-            @Param("name") String name,
-            @Param("phone") String phone,
-            @Param("email") String email);
+    FindUserDetailResDTO findUserDetail(@Param("userCode") String userCode);
 }

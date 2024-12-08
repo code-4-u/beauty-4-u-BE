@@ -15,12 +15,19 @@
         LIMIT #{offset}, #{count}
     </select>
 
-    <select id="findUserCode" resultType="string">
+    <select id="findUserDetail" resultType="FindUserDetailResDTO">
         SELECT
-            user_code
-        FROM user_info
-        WHERE user_name = #{name}
-        AND phone = #{phone}
-        AND email = #{email}
+            u.user_code,
+            j.job_name,
+            d.dept_name,
+            r.user_role_name,
+            u.user_name,
+            u.email,
+            u.phone
+        FROM user_info u
+        JOIN job j USING (job_code)
+        JOIN dept d USING (dept_code)
+        JOIN user_role r USING (user_role_id)
+        WHERE u.user_code = #{userCode}
     </select>
 </mapper>
