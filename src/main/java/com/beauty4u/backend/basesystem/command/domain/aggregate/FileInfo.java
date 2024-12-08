@@ -1,5 +1,6 @@
 package com.beauty4u.backend.basesystem.command.domain.aggregate;
 
+import com.beauty4u.backend.inform.command.domain.aggregate.Inform;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

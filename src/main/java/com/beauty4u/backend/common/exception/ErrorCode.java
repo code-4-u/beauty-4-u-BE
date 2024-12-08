@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    // 회원 (user)
     FORBIDDEN(HttpStatus.FORBIDDEN, "인가 실패"),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증 실패"),
     LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "로그인 실패"),
@@ -18,7 +19,10 @@ public enum ErrorCode {
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "회원 조회 실패"),
     NOT_FOUND_JOB(HttpStatus.NOT_FOUND, "직급 조회 실패"),
     NOT_FOUND_DEPT(HttpStatus.NOT_FOUND, "부서 조회 실패"),
-    NOT_FOUND_ROLE(HttpStatus.NOT_FOUND, "권한 조회 실패");
+    NOT_FOUND_ROLE(HttpStatus.NOT_FOUND, "권한 조회 실패"),
+
+    // 공지사항 (inform)
+    NOT_SAVED_INFORM(HttpStatus.CONFLICT, "공지사항 등록 실패");
 
     private final HttpStatus httpStatus;
     private final String message;

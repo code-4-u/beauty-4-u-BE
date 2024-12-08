@@ -38,7 +38,7 @@ public class UserCommandController {
 
         userCommandService.saveUser(createUserReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_REGISTER_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.USER_SAVE_SUCCESS);
     }
 
     @Operation(summary = "로그인", description = "등록된 회원이 로그인을 한다.")
