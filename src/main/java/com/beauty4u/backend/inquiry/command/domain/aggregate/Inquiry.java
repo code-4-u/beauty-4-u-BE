@@ -6,12 +6,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "inquiry")
+@SQLDelete(sql = "UPDATE inquiry SET inquiry_status = 'DELETED', inquiry_deleted_date = NOW() WHERE inquiry_id = ?")
 public class Inquiry {
 
     @Id
