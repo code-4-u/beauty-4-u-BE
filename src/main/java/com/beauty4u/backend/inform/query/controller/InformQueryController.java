@@ -33,7 +33,7 @@ public class InformQueryController {
         return ResponseUtil.successResponse(SuccessCode.INFORM_FIND_LIST_SUCCESS, informListResDTOS);
     }
 
-    @Operation(summary = "공지사항 목록 조회", description = "등록된 공지사항을 상세 조회한다.")
+    @Operation(summary = "공지사항 상세 조회", description = "등록된 공지사항을 상세 조회한다.")
     @GetMapping("/{informId}")
     public ResponseEntity<ApiResponse<InformDetailResDTO>> findInformDetail(
             @PathVariable Long informId) {
