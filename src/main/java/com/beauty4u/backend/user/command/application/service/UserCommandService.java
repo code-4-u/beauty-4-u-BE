@@ -159,4 +159,13 @@ public class UserCommandService {
 
         userDomainService.updatePassword(loginUserCode, newPassword);
     }
+
+    @Transactional
+    public void adminResetUserPassword(AdminResetUserPasswordReqDTO adminResetUserPasswordReqDTO) {
+
+        String userCode = adminResetUserPasswordReqDTO.getUserCode();
+
+        /* 초기 비밀번호인 사원번호로 초기화 */
+        userDomainService.updatePassword(userCode, userCode);
+    }
 }
