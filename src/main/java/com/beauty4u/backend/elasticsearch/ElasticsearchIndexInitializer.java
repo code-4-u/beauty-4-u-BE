@@ -32,7 +32,7 @@ public class ElasticsearchIndexInitializer {
     @PostConstruct
     public void createIndex() throws IOException {
         try {
-            // 해당 인덱스 존재하지 않을 때마나 생성
+            // 해당 인덱스 존재하지 않을 때마다 생성
             if (!elasticsearchOperations.indexOps(IndexCoordinates.of(indexName)).exists()) {
                 IndexSettings.Builder settingsBuilder = new IndexSettings.Builder()
                         .numberOfShards("1")
