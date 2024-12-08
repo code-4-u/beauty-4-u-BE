@@ -43,4 +43,14 @@ public class InformCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.INFORM_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "공지사항 삭제", description = "관리자가 공지사항을 삭제한다.")
+    @DeleteMapping("/{informId}")
+    public ResponseEntity<ApiResponse<Void>> deleteInform(
+            @PathVariable Long informId) {
+
+        informCommandService.deleteInform(informId);
+
+        return ResponseUtil.successResponse(SuccessCode.INFORM_DELETE_SUCCESS);
+    }
 }
