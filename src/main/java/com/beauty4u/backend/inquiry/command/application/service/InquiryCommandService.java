@@ -1,6 +1,6 @@
 package com.beauty4u.backend.inquiry.command.application.service;
 
-import com.beauty4u.backend.inquiry.command.application.dto.CreateQnaReqDTO;
+import com.beauty4u.backend.inquiry.command.application.dto.QnaReqDTO;
 import com.beauty4u.backend.inquiry.command.domain.service.InquiryDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,14 @@ public class InquiryCommandService {
     private final InquiryDomainService inquiryDomainService;
 
     @Transactional
-    public void saveQna(String loginUserCode, CreateQnaReqDTO createQnaReqDTO) {
+    public void saveQna(String loginUserCode, QnaReqDTO qnaReqDTO) {
 
-        inquiryDomainService.saveQna(loginUserCode, createQnaReqDTO);
+        inquiryDomainService.saveQna(loginUserCode, qnaReqDTO);
+    }
+
+    @Transactional
+    public void updateQna(Long inquiryId, QnaReqDTO qnaReqDTO) {
+
+        inquiryDomainService.updateQna(inquiryId, qnaReqDTO);
     }
 }
