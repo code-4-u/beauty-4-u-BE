@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "template")
 public class Template {
@@ -33,4 +35,9 @@ public class Template {
     @Column(name = "template_updated_date")
     private LocalDateTime templateUpdatedDate;
 
+    public void updateTemplate(String templateTitle, String templateContent, LocalDateTime templateUpdatedDate) {
+        this.templateName = templateTitle;
+        this.templateContent = templateContent;
+        this.templateUpdatedDate = LocalDateTime.now();
+    }
 }
