@@ -1,7 +1,9 @@
 package com.beauty4u.backend.teamspace.query.controller;
 
-import com.beauty4u.backend.teamspace.command.domain.aggregate.ChattingMessage;
-import com.beauty4u.backend.teamspace.query.service.ChattingMessageService;
+import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
+import com.beauty4u.backend.teamspace.query.service.ChatQueryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,17 +12,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/chatting")
 @RequiredArgsConstructor
-public class ChattingMessageController {
+@Tag(name = "채팅 기록 조회", description = "채팅 API")
+public class ChatQueryController {
 
-    private final ChattingMessageService chattingMessageService;
+    private final ChatQueryService chatQueryService;
 
     @GetMapping("/teamspace/{teamspaceId}")
+    @Operation(summary = "채팅 내역 조회", description = "팀스페이스 채팅 내역을 조회한다.")
     public ResponseEntity<?> getChattingMessageByTeamspaceId(@PathVariable Long teamspaceId) {
         try {
-            ChattingMessage chattingMessage = chattingMessageService.getChattingMessageInfoByTeamspaceId(teamspaceId);
+            ChatMessage chatMessage = chatQueryService.getChattingMessageInfoByTeamspaceId(teamspaceId);
 
-            if (chattingMessage != null) {
-                return ResponseEntity.ok(chattingMessage);
+            if (chatMessage != null) {
+                return ResponseEntity.ok(chatMessage);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("해당 Teamspace ID에 해당하는 메시지가 없습니다.");
