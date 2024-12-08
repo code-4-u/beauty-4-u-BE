@@ -35,7 +35,7 @@ public class UserCommandService {
     private final MailUtil mailUtil;
 
     @Transactional
-    public void saveUser(CreateUserRequest newUser) {
+    public void saveUser(CreateUserReqDTO newUser) {
 
         userDomainService.saveUser(newUser);
     }
@@ -161,11 +161,27 @@ public class UserCommandService {
     }
 
     @Transactional
-    public void adminResetUserPassword(AdminResetUserPasswordReqDTO adminResetUserPasswordReqDTO) {
+    public void adminResetUserPassword(UserCodeReqDTO userCodeReqDTO) {
 
-        String userCode = adminResetUserPasswordReqDTO.getUserCode();
+        String userCode = userCodeReqDTO.getUserCode();
 
         /* 초기 비밀번호인 사원번호로 초기화 */
         userDomainService.updatePassword(userCode, userCode);
+    }
+
+    @Transactional
+    public void expireUser(UserCodeReqDTO userCodeReqDTO) {
+
+        String userCode = userCodeReqDTO.getUserCode();
+
+        userDomainService.expireUser(userCode);
+    }
+
+    @Transactional
+    public void unexpireUser(UserCodeReqDTO userCodeReqDTO) {
+
+        String userCode = userCodeReqDTO.getUserCode();
+
+        userDomainService.unexpireUser(userCode);
     }
 }

@@ -34,9 +34,9 @@ public class UserCommandController {
     @Operation(summary = "회원 등록", description = "관리자가 신규 회원을 등록한다.")
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> saveUser(
-            @RequestBody @Valid CreateUserRequest createUserRequest) {
+            @RequestBody @Valid CreateUserReqDTO createUserReqDTO) {
 
-        userCommandService.saveUser(createUserRequest);
+        userCommandService.saveUser(createUserReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_REGISTER_SUCCESS);
     }
@@ -110,9 +110,29 @@ public class UserCommandController {
     @Operation(summary = "비밀번호 초기화", description = "관리자가 회원의 비밀번호를 초기화한다.")
     @PutMapping("/password/admin/reset")
     public ResponseEntity<ApiResponse<Void>> adminResetUserPassword(
-            @RequestBody AdminResetUserPasswordReqDTO adminResetUserPasswordReqDTO ) {
+            @RequestBody UserCodeReqDTO userCodeReqDTO ) {
 
-        userCommandService.adminResetUserPassword(adminResetUserPasswordReqDTO);
+        userCommandService.adminResetUserPassword(userCodeReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+    }
+
+    @Operation(summary = "회원 비활성화", description = "관리자가 회원을 비활성화(계정 만료)한다.")
+    @PutMapping("/expire")
+    public ResponseEntity<ApiResponse<Void>> expireUser(
+            @RequestBody UserCodeReqDTO userCodeReqDTO ) {
+
+        userCommandService.expireUser(userCodeReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+    }
+
+    @Operation(summary = "회원 활성화", description = "관리자가 비활성화 된 회원을 다시 활성화한다.")
+    @PutMapping("/unexpire")
+    public ResponseEntity<ApiResponse<Void>> unexpireUser(
+            @RequestBody UserCodeReqDTO userCodeReqDTO ) {
+
+        userCommandService.unexpireUser(userCodeReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AdminResetUserPasswordReqDTO {
+public class UserCodeReqDTO {
 
     @NotNull(message = "사원번호는 필수 입력값입니다.")
     private String userCode;
