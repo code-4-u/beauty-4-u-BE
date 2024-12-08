@@ -23,4 +23,10 @@ public class InformCommandService {
 
         informDomainService.updateInform(informId, informReqDTO);
     }
+
+    @Transactional
+    public void deleteInform(Long informId) {
+
+        informDomainService.deleteInform(informId);
+    }
 }

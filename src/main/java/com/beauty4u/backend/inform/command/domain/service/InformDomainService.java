@@ -45,4 +45,12 @@ public class InformDomainService {
 
         inform.modifyInform(title, content);
     }
+
+    public void deleteInform(Long informId) {
+
+        Inform inform = informRepository.findById(informId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INFORM));
+
+        informRepository.delete(inform);
+    }
 }
