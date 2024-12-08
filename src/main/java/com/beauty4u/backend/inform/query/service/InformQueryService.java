@@ -1,5 +1,6 @@
 package com.beauty4u.backend.inform.query.service;
 
+import com.beauty4u.backend.inform.query.dto.InformDetailResDTO;
 import com.beauty4u.backend.inform.query.dto.InformListResDTO;
 import com.beauty4u.backend.inform.query.mapper.InformQueryMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,11 @@ public class InformQueryService {
         long offset = (page - 1) * count;
 
         return informQueryMapper.findInformList(offset, count);
+    }
+
+    @Transactional(readOnly = true)
+    public InformDetailResDTO findInformDetail(Long informId) {
+
+        return informQueryMapper.findInformDetail(informId);
     }
 }
