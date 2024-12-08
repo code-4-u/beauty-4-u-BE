@@ -21,7 +21,10 @@ public enum SuccessCode {
     // 공지사항 (inform)
     INFORM_SAVE_SUCCESS(HttpStatus.CREATED, "공지사항 등록 성공"),
     INFORM_UPDATE_SUCCESS(HttpStatus.OK, "공지사항 수정 성공"),
-    INFORM_DELETE_SUCCESS(HttpStatus.OK, "공지사항 삭제 성공");
+    INFORM_DELETE_SUCCESS(HttpStatus.OK, "공지사항 삭제 성공"),
+
+    // 문의 (inquiry)
+    INQUIRY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 등록 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
