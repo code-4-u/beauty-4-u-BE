@@ -8,6 +8,7 @@
         SELECT
               c.customer_code,
               c.customer_grade,
+              c.customer_phone,
               c.customer_name,
               c.customer_gender,
               c.customer_age,
@@ -16,7 +17,17 @@
                 SELECT MAX(o.order_created_date)
                 FROM order_info o
                 WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
-              ) AS customer_last_order_date
+              ) AS customer_last_order_date,
+              (
+                SELECT SUM(o.order_price) -- 총 구매액
+                FROM order_info o
+                WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+             ) AS total_purchase_amount,
+             (
+                SELECT COUNT(o.order_id) -- 총 구매 횟수
+                FROM order_info o
+                WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+             ) AS total_purchase_count
           FROM customer c
          WHERE 1 = 1
             <if test="customerCode != null and customerCode != ''">
