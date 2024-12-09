@@ -43,4 +43,14 @@ public class FaqCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.FAQ_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "FAQ 삭제", description = "회원(관리자)이 FAQ를 삭제한다.")
+    @DeleteMapping("/faq/{faqId}")
+    public ResponseEntity<ApiResponse<Void>> deleteFaq(
+            @PathVariable Long faqId) {
+
+        faqService.deleteFaq(faqId);
+
+        return ResponseUtil.successResponse(SuccessCode.FAQ_DELETE_SUCCESS);
+    }
 }

@@ -23,4 +23,10 @@ public class FaqService {
 
         faqDomainService.updateFaq(faqId, faqReqDTO);
     }
+
+    @Transactional
+    public void deleteFaq(Long faqId) {
+
+        faqDomainService.deleteFaq(faqId);
+    }
 }

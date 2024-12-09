@@ -45,4 +45,12 @@ public class FaqDomainService {
 
         faq.modifyFaq(title, content);
     }
+
+    public void deleteFaq(Long faqId) {
+
+        Faq faq = faqRepository.findById(faqId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_FAQ));
+
+        faqRepository.delete(faq);
+    }
 }
