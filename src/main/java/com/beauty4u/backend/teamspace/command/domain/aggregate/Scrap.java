@@ -1,17 +1,17 @@
 package com.beauty4u.backend.teamspace.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-import java.time.Instant;
-
 @Getter
 @Entity
 @Table(name = "scrap")
-public class Scrap {
+public class Scrap extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scrap_id", nullable = false)
@@ -40,20 +40,4 @@ public class Scrap {
     @NotNull
     @Column(name = "file_url", nullable = false, length = 50)
     private String fileUrl;
-
-    @NotNull
-    @Lob
-    @Column(name = "scrap_status", nullable = false)
-    private String scrapStatus;
-
-    @NotNull
-    @Column(name = "scrap_created_date", nullable = false)
-    private Instant scrapCreatedDate;
-
-    @Column(name = "scrap_updated_date")
-    private Instant scrapUpdatedDate;
-
-    @Column(name = "scrap_deleted_date")
-    private Instant scrapDeletedDate;
-
 }

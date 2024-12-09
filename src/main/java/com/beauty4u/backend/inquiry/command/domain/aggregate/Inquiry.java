@@ -1,7 +1,7 @@
 package com.beauty4u.backend.inquiry.command.domain.aggregate;
 
-import com.beauty4u.backend.common.aggregate.StatusType;
 import com.beauty4u.backend.common.aggregate.YnType;
+import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,13 +9,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Entity
 @Table(name = "inquiry")
-@SQLDelete(sql = "UPDATE inquiry SET inquiry_status = 'DELETED', inquiry_deleted_date = NOW() WHERE inquiry_id = ?")
-public class Inquiry {
+@SQLDelete(sql = "UPDATE inquiry SET publish_status = 'DELETED', deleted_date = NOW() WHERE inquiry_id = ?")
+public class Inquiry extends BaseEntity {
 
     @Id
     @Column(name = "inquiry_id", nullable = false)
@@ -38,24 +36,8 @@ public class Inquiry {
     private String inquiryContent;
 
     @NotNull
-    @Lob
-    @Column(name = "inquiry_status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private StatusType inquiryStatus = StatusType.PUBLISHED;
-
-    @NotNull
     @Column(name = "inquiry_viewcount", nullable = false)
     private Long inquiryViewcount = 0L;
-
-    @NotNull
-    @Column(name = "inquiry_created_date", nullable = false)
-    private LocalDateTime inquiryCreatedDate = LocalDateTime.now();
-
-    @Column(name = "inquiry_updated_date")
-    private LocalDateTime inquiryUpdatedDate;
-
-    @Column(name = "inquiry_deleted_date")
-    private LocalDateTime inquiryDeletedDate;
 
     @NotNull
     @Column(name = "inquiry_secret_yn", nullable = false)
@@ -79,7 +61,6 @@ public class Inquiry {
         } else {
             this.inquirySecretYn = YnType.N;
         }
-        this.inquiryUpdatedDate = LocalDateTime.now();
     }
 
     public void modifyReply(boolean isProcessed) {

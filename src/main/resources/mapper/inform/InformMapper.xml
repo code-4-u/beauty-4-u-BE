@@ -7,9 +7,9 @@
             inform_id,
             user_code,
             inform_title,
-            inform_status,
+            publish_status,
             inform_viewcount,
-            inform_created_date
+            created_date
         FROM inform
         LIMIT #{offset}, #{count}
     </select>
@@ -20,10 +20,10 @@
             user_code,
             inform_title,
             inform_content,
-            inform_status,
+            publish_status,
             inform_viewcount,
-            inform_created_date,
-            inform_updated_date
+            created_date,
+            updated_date
         FROM inform
         WHERE inform_id = #{informId}
     </select>

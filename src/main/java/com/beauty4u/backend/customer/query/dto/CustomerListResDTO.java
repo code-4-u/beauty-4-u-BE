@@ -20,5 +20,5 @@ public class CustomerListResDTO {
     private String customerGender;
     private Long customerAge;
     private LocalDateTime customerLastOrderDate;
-    private LocalDateTime customerCreatedDate;
+    private LocalDateTime createdDate;
 }
