@@ -102,4 +102,84 @@
         WHERE c.customer_code = #{customerCode}
     </select>
 
+    <select id="findCustomerOrderInfoList" resultType="CustomerOrderInfoListResDTO">
+        SELECT
+               o.order_created_date,
+               o.order_id,
+               g.goods_name,
+               o.order_count,
+               o.order_price,
+               o.order_status
+          FROM order_info o
+          LEFT JOIN customer c ON o.customer_code = c.customer_code
+          LEFT JOIN goods g ON o.goods_code = g.goods_code
+         WHERE c.customer_code = #{customerCode}
+            <if test="startDate != null">
+                and o.order_created_date <![CDATA[>=]]> #{startDate}
+            </if>
+
+            <if test="endDate != null">
+                and o.order_created_date <![CDATA[<=]]> #{endDate}
+            </if>
+
+            <if test="orderId != null and orderId >= 0">
+                and o.order_id LIKE CONCAT('%', #{orderId}, '%')
+            </if>
+
+            <if test="goodsName != null and goodsName != ''">
+                and g.goods_name LIKE CONCAT('%', #{goodsName}, '%')
+            </if>
+
+            <if test="minPrice != null and minPrice >= 0">
+                and o.order_price <![CDATA[>=]]> #{minPrice}
+            </if>
+
+            <if test="maxPrice != null and maxPrice >= 0">
+                and o.order_price <![CDATA[<=]]> #{maxPrice}
+            </if>
+
+            <if test="orderStatus != null and orderStatus !=''">
+                and o.order_status =
+                <choose>
+                    <when test="orderStatus == 'PURCHASED'">
+                        'PURCHASED'
+                    </when>
+                    <when test="orderStatus == 'REFUND'">
+                        'REFUND'
+                    </when>
+                    <otherwise>
+                        'CANCELLED'
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="sort != null and sort != ''">
+                ORDER BY
+                <choose>
+                    <when test="sort == 'orderPrice'">
+                        o.order_price
+                    </when>
+                    <when test="sort == 'goodsName'">
+                        g.goods_name
+                    </when>
+                    <otherwise>
+                        o.order_created_date
+                    </otherwise>
+                </choose>
+                <if test="order != null and order != ''">
+                    <choose>
+                        <when test="order == 'asc'">
+                            ASC
+                        </when>
+                        <when test="order == 'desc'">
+                            DESC
+                        </when>
+                        <otherwise>
+                            ASC
+                        </otherwise>
+                    </choose>
+                </if>
+            </if>
+        LIMIT #{offset}, #{count}
+    </select>
 </mapper>
