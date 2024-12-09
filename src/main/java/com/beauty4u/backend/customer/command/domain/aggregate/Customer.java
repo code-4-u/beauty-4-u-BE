@@ -1,18 +1,18 @@
 package com.beauty4u.backend.customer.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.YnType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "customer")
 public class Customer {
+
     @Id
     @Size(max = 20)
     @Column(name = "customer_code", nullable = false, length = 20)
@@ -54,14 +54,14 @@ public class Customer {
 
     @NotNull
     @Column(name = "customer_created_date", nullable = false)
-    private Instant customerCreatedDate;
+    private LocalDateTime customerCreatedDate;
 
     @NotNull
     @Column(name = "customer_updated_date")
-    private Instant customerUpdatedDate;
+    private LocalDateTime customerUpdatedDate;
 
     @NotNull
     @Column(name = "privacy_consent_yn", nullable = false)
-    private Character privacyConsentYn;
-
+    @Enumerated(EnumType.STRING)
+    private YnType privacyConsentYn;
 }

@@ -1,5 +1,6 @@
-package com.beauty4u.backend.basesystem.command.domain.aggregate;
+package com.beauty4u.backend.noti.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.YnType;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
@@ -7,15 +8,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "noti")
 public class Noti {
+
     @Id
     @Column(name = "noti_id", nullable = false)
     private Long id;
@@ -40,10 +40,10 @@ public class Noti {
 
     @NotNull
     @Column(name = "noti_read_yn", nullable = false)
-    private Character notiReadYn;
+    @Enumerated(EnumType.STRING)
+    private YnType notiReadYn = YnType.N;
 
     @NotNull
     @Column(name = "noti_created_time", nullable = false)
-    private Instant notiCreatedTime;
-
+    private LocalDateTime notiCreatedTime = LocalDateTime.now();
 }
