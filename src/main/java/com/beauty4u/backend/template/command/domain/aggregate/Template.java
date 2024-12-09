@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "template")
 public class Template {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "template_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 100)
@@ -28,12 +29,12 @@ public class Template {
 
     @NotNull
     @Column(name = "template_created_date", nullable = false)
-    private LocalDateTime templateCreatedDate;
+    private LocalDateTime templateCreatedDate = LocalDateTime.now();
 
     @Column(name = "template_updated_date")
     private LocalDateTime templateUpdatedDate;
 
-    public void updateTemplate(String templateTitle, String templateContent, LocalDateTime templateUpdatedDate) {
+    public void updateTemplate(String templateTitle, String templateContent) {
         this.templateName = templateTitle;
         this.templateContent = templateContent;
         this.templateUpdatedDate = LocalDateTime.now();
