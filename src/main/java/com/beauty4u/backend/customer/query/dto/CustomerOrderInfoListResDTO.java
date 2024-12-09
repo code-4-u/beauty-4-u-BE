@@ -3,6 +3,7 @@ package com.beauty4u.backend.customer.query.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,10 +12,6 @@ import java.time.LocalDateTime;
 @ToString
 public class CustomerOrderInfoListResDTO {
 
-    private LocalDateTime createdDate;
-    private Long orderId;
-    private String goodsName;
-    private Long orderCount;
-    private Long orderPrice;
-    private String orderStatus;
+    private List<CustomerOrderInfoListDTO> customerOrderInfoList;
+    private Long totalCount;
 }
