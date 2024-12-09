@@ -4,13 +4,11 @@ import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.Instant;
 // mongodb를 사용할 예정임.
 
 @Getter
-@Setter
 @Entity
 @Table(name = "last_read")
 public class LastRead {

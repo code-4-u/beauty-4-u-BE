@@ -2,18 +2,18 @@ package com.beauty4u.backend.teamspace.command.domain.aggregate;
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import java.time.ZonedDateTime;
 
-import java.time.LocalDateTime;
-
-@Document(collection = "chatting")
+@Document(collection = "chatMessage")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChattingMessage {
+@Builder
+public class ChatMessage {
 
     @Id
     private String id; // MongoDB에서 자동 생성되는 _id 필드를 매핑 (String 또는 ObjectId 사용)
@@ -31,14 +31,15 @@ public class ChattingMessage {
     private Long scrapId; // 스크랩 번호
 
 //    @Field("message_status")
-    private String messageStatus; // 메시지 상태 (ACTIVE, DELETED 등)
+//    @Enumerated(value = EnumType.STRING) 몽고DB에서 기본적으로 문자열 처리
+    private MessageStatus messageStatus; // 메시지 상태 (ACTIVE, DELETED 등)
 
 //    @Field("message_content")
     private String messageContent; // 메시지 내용
 
 //    @Field("message_created_time")
-    private LocalDateTime messageCreatedTime; // 메시지 작성 일시
+    private ZonedDateTime messageCreatedTime; // 메시지 작성 일시
 
 //    @Field("message_deleted_time")
-    private LocalDateTime messageDeletedTime; // 메시지 삭제 일시 (삭제되지 않은 경우 null)
+    private ZonedDateTime  messageDeletedTime; // 메시지 삭제 일시 (삭제되지 않은 경우 null)
 }
