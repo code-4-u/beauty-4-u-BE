@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @ToString
 public class CustomerOrderInfoListResDTO {
 
-    private LocalDateTime orderCreatedDate;
+    private LocalDateTime createdDate;
     private Long orderId;
     private String goodsName;
     private Long orderCount;

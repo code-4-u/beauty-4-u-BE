@@ -7,7 +7,7 @@
             inform_id,
             user_code,
             inform_title,
-            inform_status,
+            publish_status,
             inform_viewcount,
             created_date
         FROM inform
@@ -20,7 +20,7 @@
             user_code,
             inform_title,
             inform_content,
-            inform_status,
+            publish_status,
             inform_viewcount,
             created_date,
             updated_date

@@ -14,5 +14,5 @@ public class TemplateQueryDTO {
     private Long templateId;
     private String templateName;
     private String templateContent;
-    private LocalDateTime templateCreatedDate;
+    private LocalDateTime createdDate;
 }

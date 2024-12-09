@@ -8,7 +8,7 @@
             r.user_role_name,
             d.dept_name,
             u.created_date,
-            u.expired_date
+            u.user_expired_date
         FROM user_info u
         JOIN user_role r USING (user_role_id)
         JOIN dept d USING (dept_code)
