@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/customer")
@@ -26,9 +24,9 @@ public class CustomerQueryController {
 
     @Operation(summary = "고객 목록 조회", description = "고객 목록을 조회한다.")
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<List<CustomerListResDTO>>> findCustomerList(CustomerFilterRequest customerFilterRequest) {
+    public ResponseEntity<ApiResponse<CustomerListResDTO>> findCustomerList(CustomerFilterRequest customerFilterRequest) {
 
-        List<CustomerListResDTO> customerListResDTOS
+        CustomerListResDTO customerListResDTOS
                 = customerQueryService.findCustomerList(customerFilterRequest);
 
         return ResponseUtil.successResponse(SuccessCode.CUSTOMER_FIND_LIST_SUCCESS, customerListResDTOS);
@@ -46,11 +44,11 @@ public class CustomerQueryController {
 
     @Operation(summary = "고객 주문 이력 조회", description = "고객의 주문 이력 목록을 조회한다.")
     @GetMapping("/{customerCode}/orderinfo/list")
-    public ResponseEntity<ApiResponse<List<CustomerOrderInfoListResDTO>>> findCustomerOrderInfoList(
+    public ResponseEntity<ApiResponse<CustomerOrderInfoListResDTO>> findCustomerOrderInfoList(
             @PathVariable String customerCode,
             OrderHistoryFilterDTO orderHistoryFilterDTO) {
 
-        List<CustomerOrderInfoListResDTO> customerOrderInfoListResDTO
+        CustomerOrderInfoListResDTO customerOrderInfoListResDTO
                 = customerQueryService.findCustomerOrderInfoList(customerCode,orderHistoryFilterDTO);
 
         return ResponseUtil.successResponse(SuccessCode.CUSTOMER_FIND_ORDERINFO_LIST_SUCCESS, customerOrderInfoListResDTO);
