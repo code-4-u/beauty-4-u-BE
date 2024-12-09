@@ -38,4 +38,13 @@ public class TemplateCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.TEMPLATE_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "템플릿 삭제", description = "템플릿을 삭제한다.")
+    @DeleteMapping("/{templateId}")
+    public ResponseEntity<ApiResponse<Void>> deleteTemplate(
+            @PathVariable Long templateId) {
+        templateCommandService.deleteTemplate(templateId);
+
+        return ResponseUtil.successResponse(SuccessCode.TEMPLATE_DELETE_SUCCESS);
+    }
 }
