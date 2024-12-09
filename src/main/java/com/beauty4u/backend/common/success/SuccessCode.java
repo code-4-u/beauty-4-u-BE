@@ -35,7 +35,8 @@ public enum SuccessCode {
     INQUIRY_UPDATE_SUCCESS(HttpStatus.OK, "QnA 질문 수정 성공"),
     INQUIRY_DELETE_SUCCESS(HttpStatus.OK, "QnA 질문 삭제 성공"),
 
-    INQUIRY_REPLY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 답변 등록 성공");
+    INQUIRY_REPLY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 답변 등록 성공"),
+    INQUIRY_REPLY_UPDATE_SUCCESS(HttpStatus.CREATED, "QnA 답변 수정 성공");
 
 
     private final HttpStatus httpStatus;
