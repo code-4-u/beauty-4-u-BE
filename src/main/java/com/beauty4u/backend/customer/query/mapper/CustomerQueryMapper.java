@@ -2,6 +2,7 @@ package com.beauty4u.backend.customer.query.mapper;
 
 import com.beauty4u.backend.customer.query.dto.CustomerDetailResDTO;
 import com.beauty4u.backend.customer.query.dto.CustomerListResDTO;
+import com.beauty4u.backend.customer.query.dto.CustomerListStatsDTO;
 import com.beauty4u.backend.customer.query.dto.CustomerOrderInfoListResDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -40,4 +41,9 @@ public interface CustomerQueryMapper {
             @Param("offset") Long offset,
             @Param("count") Long count
             );
+
+    CustomerListStatsDTO findCustomerListStats(
+            @Param("now") LocalDateTime now,
+            @Param("oneMonthAgo") LocalDateTime oneMonthAgo
+    );
 }
