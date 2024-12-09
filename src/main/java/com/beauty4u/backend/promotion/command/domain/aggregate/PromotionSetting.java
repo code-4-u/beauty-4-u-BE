@@ -1,6 +1,6 @@
 package com.beauty4u.backend.promotion.command.domain.aggregate;
 
-import com.beauty4u.backend.basesystem.command.domain.aggregate.Template;
+import com.beauty4u.backend.template.command.domain.aggregate.Template;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

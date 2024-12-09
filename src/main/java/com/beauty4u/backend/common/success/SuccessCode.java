@@ -18,6 +18,11 @@ public enum SuccessCode {
     CUSTOMER_FIND_LIST_SUCCESS(HttpStatus.OK, "고객 목록 조회 성공"),
     CUSTOMER_FIND_DETAIL_SUCCESS(HttpStatus.OK, "고객 상세 조회 성공"),
 
+    // 템플릿(template)
+    TEMPLATE_FIND_LIST_SUCCESS(HttpStatus.OK, "템플릿 목록 조회 성공"),
+    TEMPLATE_SAVE_SUCCESS(HttpStatus.OK, "템플릿 등록 성공"),
+    TEMPLATE_UPDATE_SUCCESS(HttpStatus.OK, "템플릿 수정 성공"),
+
     // 공지사항 (inform)
     INFORM_SAVE_SUCCESS(HttpStatus.CREATED, "공지사항 등록 성공"),
     INFORM_UPDATE_SUCCESS(HttpStatus.OK, "공지사항 수정 성공"),
