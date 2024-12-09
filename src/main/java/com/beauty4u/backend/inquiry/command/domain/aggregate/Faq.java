@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
 
 @Getter
 @Entity
 @Table(name = "faq")
+@SQLDelete(sql = "UPDATE faq SET publish_status = 'DELETED', deleted_date = NOW() WHERE faq_id = ?")
 public class Faq extends BaseEntity {
 
     @Id
