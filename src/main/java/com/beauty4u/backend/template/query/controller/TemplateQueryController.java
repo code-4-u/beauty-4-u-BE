@@ -18,12 +18,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/template")
-@Tag(name="Template", description = "템플릿 조회 API")
+@Tag(name="Template", description = "템플릿 API")
 public class TemplateQueryController {
 
     private final TemplateQueryService templateQueryService;
 
-    @GetMapping("/search")
+    @GetMapping("/list")
     @Operation(summary = "템플릿 목록 조회", description = "템플릿 전체 목록을 조회한다.")
     public ResponseEntity<ApiResponse<List<TemplateQueryDTO>>> findAllTemplate(){
         List<TemplateQueryDTO> templateList = templateQueryService.findAllTemplate();
