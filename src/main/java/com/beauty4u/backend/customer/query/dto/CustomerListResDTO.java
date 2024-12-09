@@ -23,5 +23,5 @@ public class CustomerListResDTO {
     private Long totalPurchaseAmount; // 누적 총 구매 금액
     private Long totalPurchaseCount;
     private LocalDateTime customerLastOrderDate;
-    private LocalDateTime customerCreatedDate;
+    private LocalDateTime createdDate;
 }

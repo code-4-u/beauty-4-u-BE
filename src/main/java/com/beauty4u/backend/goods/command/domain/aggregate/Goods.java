@@ -1,18 +1,19 @@
 package com.beauty4u.backend.goods.command.domain.aggregate;
 
-import jakarta.persistence.*;
+import com.beauty4u.backend.common.aggregate.entity.CreatedTimeEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "goods")
-public class Goods {
+public class Goods extends CreatedTimeEntity {
+
     @Id
     @Size(max = 20)
     @Column(name = "goods_code", nullable = false, length = 20)
@@ -41,9 +42,4 @@ public class Goods {
     @NotNull
     @Column(name = "goods_skintype", nullable = false, length = 20)
     private String goodsSkintype;
-
-    @NotNull
-    @Column(name = "goods_created_date", nullable = false)
-    private Instant goodsCreatedDate;
-
 }

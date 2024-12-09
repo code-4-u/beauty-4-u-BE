@@ -1,6 +1,6 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.beauty4u.backend.customer.query.mapper.CustomerQueryMapper">
 
@@ -12,9 +12,9 @@
               c.customer_name,
               c.customer_gender,
               c.customer_age,
-              c.customer_created_date,
+              c.created_date,
               (
-                SELECT MAX(o.order_created_date)
+                SELECT MAX(o.created_date)
                 FROM order_info o
                 WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
               ) AS customer_last_order_date,
@@ -61,7 +61,7 @@
                         c.customer_name
                     </when>
                     <when test="sort == 'joinDate'">
-                        c.customer_created_date
+                        c.created_date
                     </when>
                     <otherwise>
                         customer_last_order_date
@@ -105,7 +105,7 @@
             SELECT
                 o.customer_code,
                 SUM(o.order_price) AS all_order_price,
-                MAX(o.order_created_date) AS customer_last_order_date
+                MAX(o.created_date) AS customer_last_order_date
             FROM order_info o
             WHERE o.order_status = 'PURCHASED'
             GROUP BY o.customer_code
@@ -115,7 +115,7 @@
 
     <select id="findCustomerOrderInfoList" resultType="CustomerOrderInfoListResDTO">
         SELECT
-               o.order_created_date,
+               o.created_date,
                o.order_id,
                g.goods_name,
                o.order_count,
@@ -126,11 +126,11 @@
           LEFT JOIN goods g ON o.goods_code = g.goods_code
          WHERE c.customer_code = #{customerCode}
             <if test="startDate != null">
-                and o.order_created_date <![CDATA[>=]]> #{startDate}
+                and o.created_date <![CDATA[>=]]> #{startDate}
             </if>
 
             <if test="endDate != null">
-                and o.order_created_date <![CDATA[<=]]> #{endDate}
+                and o.created_date <![CDATA[<=]]> #{endDate}
             </if>
 
             <if test="orderId != null and orderId >= 0">
@@ -174,7 +174,7 @@
                         g.goods_name
                     </when>
                     <otherwise>
-                        o.order_created_date
+                        o.created_date
                     </otherwise>
                 </choose>
                 <if test="order != null and order != ''">

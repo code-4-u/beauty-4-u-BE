@@ -5,13 +5,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-import java.time.Instant;
-// mongodb를 사용할 예정임.
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "last_read")
 public class LastRead {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "last_read_id", nullable = false)
@@ -29,10 +29,9 @@ public class LastRead {
 
     @NotNull
     @Column(name = "last_entered_date", nullable = false)
-    private Instant lastEnteredDate;
+    private LocalDateTime lastEnteredDate;
 
     @NotNull
     @Column(name = "last_exited_date", nullable = false)
-    private Instant lastExitedDate;
-
+    private LocalDateTime lastExitedDate;
 }

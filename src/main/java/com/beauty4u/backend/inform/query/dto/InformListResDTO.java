@@ -12,7 +12,7 @@ public class InformListResDTO {
     private Long informId;
     private String userCode;
     private String informTitle;
-    private String informStatus;
+    private String publishStatus;
     private Long informViewcount;
-    private LocalDateTime informCreatedDate;
+    private LocalDateTime createdDate;
 }

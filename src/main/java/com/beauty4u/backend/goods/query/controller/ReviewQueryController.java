@@ -31,7 +31,7 @@ public class ReviewQueryController {
     public ResponseEntity<List<ReviewQueryDTO>> findAllReview(
             @Parameter(description = "페이징/정렬")
             @PageableDefault(size = 10)
-            @SortDefault(sort="review_created_date", direction = Sort.Direction.DESC) Pageable pageable) {
+            @SortDefault(sort="created_date", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Sort.Order> orders = pageable.getSort().stream()
                 .map(order -> new Sort.Order(order.getDirection(), order.getProperty()))
