@@ -55,4 +55,13 @@ public class CustomerQueryController {
 
         return ResponseUtil.successResponse(SuccessCode.CUSTOMER_FIND_ORDERINFO_LIST_SUCCESS, customerOrderInfoListResDTO);
     }
+
+    @Operation(summary = "고객 목록 통계 요약 조회", description = "고객 목록 통계 요약을 조회한다.")
+    @GetMapping("/list/stats")
+    public ResponseEntity<ApiResponse<CustomerListStatsDTO>> findCustomerListStats() {
+
+        CustomerListStatsDTO customerListStatsDTO = customerQueryService.findCustomerListStats();
+
+        return ResponseUtil.successResponse(SuccessCode.CUSTOMER_FIND_LIST_STATS_SUCCESS, customerListStatsDTO);
+    }
 }

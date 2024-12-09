@@ -68,4 +68,12 @@ public class CustomerQueryService {
                 orderHistoryFilterDTO.getCount()
         );
     }
+
+    public CustomerListStatsDTO findCustomerListStats() {
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
+
+        return customerQueryMapper.findCustomerListStats(now, oneMonthAgo);
+    }
 }

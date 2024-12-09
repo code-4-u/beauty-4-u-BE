@@ -193,4 +193,33 @@
             </if>
         LIMIT #{offset}, #{count}
     </select>
+
+    <select id="findCustomerListStats" resultType="CustomerListStatsDTO">
+        SELECT
+               COUNT(c.customer_code) AS customer_count,
+               (
+                   SELECT
+                          COUNT(c1.customer_code)
+                     FROM customer c1
+                    WHERE c1.customer_grade = 'GOLD'
+               ) AS customer_gold_count,
+               (
+                   SELECT
+                          COUNT(c2.customer_code)
+                     FROM customer c2
+                    WHERE c2.created_date <![CDATA[>=]]> #{oneMonthAgo}
+                      AND c2.created_date <![CDATA[<=]]> #{now}
+               ) AS customer_new_count,
+               (
+                   SELECT
+                          COUNT(DISTINCT c3.customer_code) AS no_purchase_count
+                     FROM customer c3
+                     LEFT JOIN order_info o ON c3.customer_code = o.customer_code
+                      AND o.created_date <![CDATA[>=]]> #{oneMonthAgo}
+                      AND o.created_date <![CDATA[<=]]> #{now}
+                    WHERE o.order_id IS NULL
+                       OR (o.order_status IS NOT NULL AND o.order_status != 'PURCHASED')
+               ) AS customer_dormant_count
+          FROM customer c
+    </select>
 </mapper>
