@@ -17,7 +17,7 @@ public class Faq extends BaseEntity {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_code", nullable = false)
     private UserInfo userCode;
 
@@ -34,4 +34,8 @@ public class Faq extends BaseEntity {
     @NotNull
     @Column(name = "faq_viewcount", nullable = false)
     private Long faqViewcount;
+
+    public void modifyUser(UserInfo user) {
+        this.userCode = user;
+    }
 }
