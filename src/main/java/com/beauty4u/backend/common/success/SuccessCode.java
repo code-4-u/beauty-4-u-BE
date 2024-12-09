@@ -22,6 +22,7 @@ public enum SuccessCode {
     TEMPLATE_FIND_LIST_SUCCESS(HttpStatus.OK, "템플릿 목록 조회 성공"),
     TEMPLATE_SAVE_SUCCESS(HttpStatus.OK, "템플릿 등록 성공"),
     TEMPLATE_UPDATE_SUCCESS(HttpStatus.OK, "템플릿 수정 성공"),
+    TEMPLATE_DELETE_SUCCESS(HttpStatus.OK, "템플릿 삭제 성공"),
 
     // 공지사항 (inform)
     INFORM_SAVE_SUCCESS(HttpStatus.CREATED, "공지사항 등록 성공"),
