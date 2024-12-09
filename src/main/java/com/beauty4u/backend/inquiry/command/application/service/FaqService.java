@@ -17,4 +17,10 @@ public class FaqService {
 
         faqDomainService.saveFaq(loginUserCode, faqReqDTO);
     }
+
+    @Transactional
+    public void updateFaq(Long faqId, FaqReqDTO faqReqDTO) {
+
+        faqDomainService.updateFaq(faqId, faqReqDTO);
+    }
 }

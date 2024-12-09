@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +31,16 @@ public class FaqCommandController {
         faqService.saveFaq(loginUserCode, faqReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.FAQ_SAVE_SUCCESS);
+    }
+
+    @Operation(summary = "FAQ 수정", description = "회원(관리자)이 FAQ를 수정한다.")
+    @PutMapping("/faq/{faqId}")
+    public ResponseEntity<ApiResponse<Void>> updateFaq(
+            @PathVariable Long faqId,
+            @RequestBody @Valid FaqReqDTO faqReqDTO) {
+
+        faqService.updateFaq(faqId, faqReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.FAQ_UPDATE_SUCCESS);
     }
 }

@@ -14,6 +14,7 @@ public class Faq extends BaseEntity {
 
     @Id
     @Column(name = "faq_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -33,9 +34,14 @@ public class Faq extends BaseEntity {
 
     @NotNull
     @Column(name = "faq_viewcount", nullable = false)
-    private Long faqViewcount;
+    private Long faqViewcount = 0L;
 
     public void modifyUser(UserInfo user) {
         this.userCode = user;
+    }
+
+    public void modifyFaq(String title, String content) {
+        this.faqTitle = title;
+        this.faqContent = content;
     }
 }
