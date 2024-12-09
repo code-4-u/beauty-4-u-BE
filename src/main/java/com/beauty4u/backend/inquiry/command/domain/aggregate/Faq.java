@@ -6,18 +6,21 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
 
 @Getter
 @Entity
 @Table(name = "faq")
+@SQLDelete(sql = "UPDATE faq SET publish_status = 'DELETED', deleted_date = NOW() WHERE faq_id = ?")
 public class Faq extends BaseEntity {
 
     @Id
     @Column(name = "faq_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_code", nullable = false)
     private UserInfo userCode;
 
@@ -33,5 +36,14 @@ public class Faq extends BaseEntity {
 
     @NotNull
     @Column(name = "faq_viewcount", nullable = false)
-    private Long faqViewcount;
+    private Long faqViewcount = 0L;
+
+    public void modifyUser(UserInfo user) {
+        this.userCode = user;
+    }
+
+    public void modifyFaq(String title, String content) {
+        this.faqTitle = title;
+        this.faqContent = content;
+    }
 }
