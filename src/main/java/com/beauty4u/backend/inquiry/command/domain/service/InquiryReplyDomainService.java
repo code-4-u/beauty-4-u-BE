@@ -34,7 +34,7 @@ public class InquiryReplyDomainService {
 
         inquiryReply.saveReply(inquiry, user);
 
-        inquiry.saveReply();
+        inquiry.modifyReply(true);
 
         try {
             inquiryReplyRepository.save(inquiryReply);
@@ -51,5 +51,16 @@ public class InquiryReplyDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
 
         inquiryReply.modifyContent(content);
+    }
+
+    public void deleteQnaReply(Long inquiryId) {
+
+        InquiryReply inquiryReply = inquiryReplyRepository.findByInquiryId(inquiryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
+
+        inquiryReplyRepository.delete(inquiryReply);
+
+        Inquiry inquiry = inquiryReply.getInquiry();
+        inquiry.modifyReply(false);
     }
 }
