@@ -3,14 +3,18 @@ package com.beauty4u.backend.user.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
-import com.beauty4u.backend.user.query.dto.FindUserCodeReqDTO;
+import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.user.query.dto.FindUserDetailResDTO;
 import com.beauty4u.backend.user.query.dto.UserListResDTO;
 import com.beauty4u.backend.user.query.service.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -33,13 +37,13 @@ public class UserQueryController {
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, userListResDTOS);
     }
 
-    @Operation(summary = "사원번호(아이디) 찾기", description = "이름, 전화번호, 이메일을 입력하여 사번을 조회할 수 있다.")
-    @PostMapping("/id/search")
-    public ResponseEntity<ApiResponse<Void>> findUserCode(
-            @RequestBody FindUserCodeReqDTO findUserCodeReqDTO) {
+    @Operation(summary = "내 정보 조회", description = "회원을 상세 조회한다.")
+    @GetMapping("/profile")
+    public ResponseEntity<ApiResponse<FindUserDetailResDTO>> findUserDetail() {
 
-        userQueryService.findUserCode(findUserCodeReqDTO);
+        String loginUserCode = CustomUserUtil.getCurrentUserCode();
+        FindUserDetailResDTO findUserDetailResDTO = userQueryService.findUserDetail(loginUserCode);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, findUserDetailResDTO);
     }
 }

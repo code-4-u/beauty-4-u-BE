@@ -1,4 +1,4 @@
-package com.beauty4u.backend.basesystem.command.domain.aggregate;
+package com.beauty4u.backend.inquiry.command.domain.aggregate;
 
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
