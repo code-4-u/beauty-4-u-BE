@@ -12,7 +12,7 @@ import org.hibernate.annotations.SQLDelete;
 @Getter
 @Entity
 @Table(name = "inquiry")
-@SQLDelete(sql = "UPDATE inquiry SET inquiry_status = 'DELETED', inquiry_deleted_date = NOW() WHERE inquiry_id = ?")
+@SQLDelete(sql = "UPDATE inquiry SET inquiry_status = 'DELETED', deleted_date = NOW() WHERE inquiry_id = ?")
 public class Inquiry extends BaseEntity {
 
     @Id
