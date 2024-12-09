@@ -37,6 +37,7 @@ public enum SuccessCode {
 
     INQUIRY_REPLY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 답변 등록 성공");
 
+
     private final HttpStatus httpStatus;
     private final String message;
 }
