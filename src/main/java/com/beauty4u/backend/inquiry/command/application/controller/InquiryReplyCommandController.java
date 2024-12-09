@@ -5,7 +5,7 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.inquiry.command.application.dto.QnaReplyReqDTO;
-import com.beauty4u.backend.inquiry.command.application.service.InquiryReplyCommandService;
+import com.beauty4u.backend.inquiry.command.application.service.InquiryReplyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Inquiry", description = "문의 관련 API")
 public class InquiryReplyCommandController {
 
-    private final InquiryReplyCommandService inquiryReplyCommandService;
+    private final InquiryReplyService inquiryReplyService;
 
     @Operation(summary = "QnA 답변(A) 등록", description = "회원(관리자)이 답변을 등록한다.")
     @PostMapping("/{inquiryId}/reply")
@@ -29,7 +29,7 @@ public class InquiryReplyCommandController {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
 
-        inquiryReplyCommandService.saveQnaReply(loginUserCode, inquiryId, qnaReplyReqDTO);
+        inquiryReplyService.saveQnaReply(loginUserCode, inquiryId, qnaReplyReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_REPLY_SAVE_SUCCESS);
     }
@@ -40,7 +40,7 @@ public class InquiryReplyCommandController {
             @PathVariable Long inquiryId,
             @RequestBody @Valid QnaReplyReqDTO qnaReplyReqDTO) {
 
-        inquiryReplyCommandService.updateQnaReply(inquiryId, qnaReplyReqDTO);
+        inquiryReplyService.updateQnaReply(inquiryId, qnaReplyReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_REPLY_UPDATE_SUCCESS);
     }
@@ -50,7 +50,7 @@ public class InquiryReplyCommandController {
     public ResponseEntity<ApiResponse<Void>> deleteQnaReply(
             @PathVariable Long inquiryId) {
 
-        inquiryReplyCommandService.deleteQnaReply(inquiryId);
+        inquiryReplyService.deleteQnaReply(inquiryId);
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_REPLY_DELETE_SUCCESS);
     }
