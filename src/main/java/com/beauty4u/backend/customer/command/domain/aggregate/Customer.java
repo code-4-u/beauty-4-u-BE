@@ -1,6 +1,5 @@
 package com.beauty4u.backend.customer.command.domain.aggregate;
 
-import com.beauty4u.backend.customer.query.dto.CustomerGrade;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
