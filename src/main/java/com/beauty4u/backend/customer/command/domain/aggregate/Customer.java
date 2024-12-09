@@ -1,17 +1,16 @@
 package com.beauty4u.backend.customer.command.domain.aggregate;
 
 import com.beauty4u.backend.common.aggregate.YnType;
+import com.beauty4u.backend.common.aggregate.entity.CreatedUpdatedTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer extends CreatedUpdatedTimeEntity {
 
     @Id
     @Size(max = 20)
@@ -51,14 +50,6 @@ public class Customer {
     @Lob
     @Enumerated(EnumType.STRING)
     private CustomerGrade customerGrade;
-
-    @NotNull
-    @Column(name = "customer_created_date", nullable = false)
-    private LocalDateTime customerCreatedDate;
-
-    @NotNull
-    @Column(name = "customer_updated_date")
-    private LocalDateTime customerUpdatedDate;
 
     @NotNull
     @Column(name = "privacy_consent_yn", nullable = false)

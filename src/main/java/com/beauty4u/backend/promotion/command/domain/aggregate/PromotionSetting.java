@@ -4,15 +4,14 @@ import com.beauty4u.backend.template.command.domain.aggregate.Template;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "promotion_setting")
 public class PromotionSetting {
+
     @Id
     @Column(name = "promotion_setting_id", nullable = false)
     private Long id;
@@ -33,19 +32,18 @@ public class PromotionSetting {
 
     @NotNull
     @Column(name = "last_noti_sent_date", nullable = false)
-    private Instant lastNotiSentDate;
+    private LocalDateTime lastNotiSentDate;
 
     @NotNull
     @Column(name = "promotion_setting_start_date", nullable = false)
-    private Instant promotionSettingStartDate;
+    private LocalDateTime promotionSettingStartDate;
 
     @NotNull
     @Column(name = "promotion_setting_end_date", nullable = false)
-    private Instant promotionSettingEndDate;
+    private LocalDateTime promotionSettingEndDate;
 
     @NotNull
     @Lob
     @Column(name = "promotion_setting_channel", nullable = false)
     private String promotionSettingChannel;
-
 }

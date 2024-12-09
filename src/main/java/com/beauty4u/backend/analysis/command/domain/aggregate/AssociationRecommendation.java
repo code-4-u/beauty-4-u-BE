@@ -5,15 +5,14 @@ import com.beauty4u.backend.goods.command.domain.aggregate.Goods;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "association_recommendation")
 public class AssociationRecommendation {
+
     @Id
     @Column(name = "association_recommendation_id", nullable = false)
     private Long id;
@@ -47,6 +46,5 @@ public class AssociationRecommendation {
     private Float confidence;
 
     @Column(name = "last_noti_sent_date")
-    private Instant lastNotiSentDate;
-
+    private LocalDateTime lastNotiSentDate;
 }

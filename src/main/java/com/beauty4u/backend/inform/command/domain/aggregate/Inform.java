@@ -1,6 +1,6 @@
 package com.beauty4u.backend.inform.command.domain.aggregate;
 
-import com.beauty4u.backend.common.aggregate.StatusType;
+import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -8,13 +8,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Entity
 @Table(name = "inform")
 @SQLDelete(sql = "UPDATE inform SET inform_status = 'DELETED', inform_deleted_date = NOW() WHERE inform_id = ?")
-public class Inform {
+public class Inform extends BaseEntity {
 
     @Id
     @Column(name = "inform_id", nullable = false)
@@ -37,24 +35,8 @@ public class Inform {
     private String informContent;
 
     @NotNull
-    @Lob
-    @Column(name = "inform_status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private StatusType informStatus = StatusType.PUBLISHED;
-
-    @NotNull
     @Column(name = "inform_viewcount", nullable = false)
     private Long informViewcount = 0L;
-
-    @NotNull
-    @Column(name = "inform_created_date", nullable = false)
-    private LocalDateTime informCreatedDate = LocalDateTime.now();
-
-    @Column(name = "inform_updated_date")
-    private LocalDateTime informUpdatedDate;
-
-    @Column(name = "inform_deleted_date")
-    private LocalDateTime informDeletedDate;
 
     public void modifyUser(UserInfo user) {
         this.userCode = user;
@@ -63,6 +45,5 @@ public class Inform {
     public void modifyInform(String title, String content) {
         this.informTitle = title;
         this.informContent = content;
-        this.informUpdatedDate = LocalDateTime.now();
     }
 }

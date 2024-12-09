@@ -1,6 +1,7 @@
 package com.beauty4u.backend.user.command.domain.aggregate;
 
 import com.beauty4u.backend.common.aggregate.YnType;
+import com.beauty4u.backend.common.aggregate.entity.CreatedTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "user_info")
-public class UserInfo {
+public class UserInfo extends CreatedTimeEntity {
 
     @Id
     @Size(max = 20)
@@ -52,10 +53,6 @@ public class UserInfo {
     @NotNull
     @Column(name = "user_password", nullable = false)
     private String userPassword;
-
-    @NotNull
-    @Column(name = "user_created_date", nullable = false)
-    private LocalDateTime userCreatedDate;
 
     @Column(name = "user_expired_date")
     private LocalDateTime userExpiredDate;

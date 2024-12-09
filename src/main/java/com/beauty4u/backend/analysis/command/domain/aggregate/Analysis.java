@@ -1,18 +1,16 @@
 package com.beauty4u.backend.analysis.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.entity.CreatedTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "analysis")
-public class Analysis {
+public class Analysis extends CreatedTimeEntity {
+
     @Id
     @Column(name = "analysis_id", nullable = false)
     private Long id;
@@ -31,9 +29,4 @@ public class Analysis {
     @Lob
     @Column(name = "analysis_description", nullable = false)
     private String analysisDescription;
-
-    @NotNull
-    @Column(name = "analysis_created_date", nullable = false)
-    private Instant analysisCreatedDate;
-
 }

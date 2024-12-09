@@ -4,13 +4,12 @@ import com.beauty4u.backend.template.command.domain.aggregate.Template;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "marketing_setting")
 public class MarketingSetting {
+
     @Id
     @Column(name = "marketing_setting_id", nullable = false)
     private Long id;
@@ -38,5 +37,4 @@ public class MarketingSetting {
     @Lob
     @Column(name = "marketing_setting_channel", nullable = false)
     private String marketingSettingChannel;
-
 }
