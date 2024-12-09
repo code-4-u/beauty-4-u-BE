@@ -19,4 +19,8 @@ public class TemplateCommandService {
     public void updateTemplate(Long templateId, UpdateTemplateReqDTO updateTemplateReqDTO) {
         templateDomainService.updateTemplate(templateId, updateTemplateReqDTO);
     }
+
+    public void deleteTemplate(Long templateId) {
+        templateDomainService.deleteTemplate(templateId);
+    }
 }
