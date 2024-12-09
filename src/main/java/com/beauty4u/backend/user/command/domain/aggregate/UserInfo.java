@@ -62,6 +62,7 @@ public class UserInfo {
 
     @NotNull
     @Column(name = "user_expired_yn", nullable = false)
+    @Enumerated(EnumType.STRING)
     private YnType userExpiredYn = YnType.N;
 
     public void encryptPassword(String encodedPwd) {
