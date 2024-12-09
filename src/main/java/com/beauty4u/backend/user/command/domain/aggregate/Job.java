@@ -7,13 +7,12 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "job")
 public class Job {
+
     @Id
     @Size(max = 20)
     @Column(name = "job_code", nullable = false, length = 20)
@@ -23,5 +22,4 @@ public class Job {
     @NotNull
     @Column(name = "job_name", nullable = false, length = 20)
     private String jobName;
-
 }

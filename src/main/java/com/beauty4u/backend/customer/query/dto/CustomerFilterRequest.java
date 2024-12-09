@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerFilterRequest {
+
     private String name;
     private String grade;
     private String code;

@@ -4,15 +4,14 @@ import com.beauty4u.backend.goods.command.domain.aggregate.Goods;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "order_info")
 public class OrderInfo {
+
     @Id
     @Column(name = "order_id", nullable = false)
     private Long id;
@@ -42,6 +41,5 @@ public class OrderInfo {
 
     @NotNull
     @Column(name = "order_created_date", nullable = false)
-    private Instant orderCreatedDate;
-
+    private LocalDateTime orderCreatedDate;
 }

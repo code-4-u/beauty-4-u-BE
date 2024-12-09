@@ -1,6 +1,7 @@
 package com.beauty4u.backend.inquiry.command.domain.aggregate;
 
 import com.beauty4u.backend.common.aggregate.StatusType;
+import com.beauty4u.backend.common.aggregate.YnType;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -58,28 +59,34 @@ public class Inquiry {
 
     @NotNull
     @Column(name = "inquiry_secret_yn", nullable = false)
-    private Character inquirySecretYn;
+    @Enumerated(EnumType.STRING)
+    private YnType inquirySecretYn = YnType.N;
 
     @NotNull
     @Column(name = "inquiry_reply_yn", nullable = false)
-    private Character inquiryReplyYn = 'N';
+    @Enumerated(EnumType.STRING)
+    private YnType inquiryReplyYn = YnType.N;
 
     public void modifyUser(UserInfo user) {
         this.userCode = user;
     }
 
-    public void modifyInquiry(String title, String content, Character secretYn) {
+    public void modifyInquiry(String title, String content, String secretYn) {
         this.inquiryTitle = title;
         this.inquiryContent = content;
-        this.inquirySecretYn = secretYn;
+        if (secretYn.equals("Y")) {
+            this.inquirySecretYn = YnType.Y;
+        } else {
+            this.inquirySecretYn = YnType.N;
+        }
         this.inquiryUpdatedDate = LocalDateTime.now();
     }
 
     public void modifyReply(boolean isProcessed) {
         if (isProcessed) {
-            this.inquiryReplyYn = 'Y';
+            this.inquiryReplyYn = YnType.Y;
         } else {
-            this.inquiryReplyYn = 'N';
+            this.inquiryReplyYn = YnType.N;
         }
     }
 }
