@@ -34,4 +34,15 @@ public class FaqDomainService {
             throw new CustomException(ErrorCode.NOT_SAVED_FAQ);
         }
     }
+
+    public void updateFaq(Long faqId, FaqReqDTO faqReqDTO) {
+
+        String title = faqReqDTO.getFaqTitle();
+        String content = faqReqDTO.getFaqContent();
+
+        Faq faq = faqRepository.findById(faqId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_FAQ));
+
+        faq.modifyFaq(title, content);
+    }
 }
