@@ -22,7 +22,7 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
-public class UserCommandService {
+public class UserService {
 
     private static final String JWT_PREFIX = "JWT_";
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
