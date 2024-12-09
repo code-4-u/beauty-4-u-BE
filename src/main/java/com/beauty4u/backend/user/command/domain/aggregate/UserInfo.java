@@ -1,5 +1,6 @@
 package com.beauty4u.backend.user.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.YnType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,23 +12,24 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "user_info")
 public class UserInfo {
+
     @Id
     @Size(max = 20)
     @Column(name = "user_code", nullable = false, length = 20)
     private String userCode;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "job_code", nullable = false)
     private Job jobCode;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "dept_code", nullable = false)
     private Dept deptCode;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_role_id", nullable = false)
     private UserRole userRole;
 
@@ -60,7 +62,7 @@ public class UserInfo {
 
     @NotNull
     @Column(name = "user_expired_yn", nullable = false)
-    private Character userExpiredYn;
+    private YnType userExpiredYn = YnType.N;
 
     public void encryptPassword(String encodedPwd) {
         this.userPassword = encodedPwd;
@@ -80,11 +82,11 @@ public class UserInfo {
 
     public void expireUser() {
         this.userExpiredDate = LocalDateTime.now();
-        this.userExpiredYn = 'Y';
+        this.userExpiredYn = YnType.Y;
     }
 
     public void unexpireUser() {
         this.userExpiredDate = null;
-        this.userExpiredYn = 'N';
+        this.userExpiredYn = YnType.N;
     }
 }
