@@ -38,4 +38,12 @@ public class TemplateDomainService {
         template.updateTemplate(templateTitle, templateContent, templateUpdateDate);
 
     }
+
+    @Transactional
+    public void deleteTemplate(Long templateId) {
+
+        Template template = templateRepository.findById(templateId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEMPLATE));
+
+        templateRepository.delete(template);
+    }
 }
