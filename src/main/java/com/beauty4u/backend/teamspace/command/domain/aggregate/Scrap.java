@@ -6,16 +6,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Getter
 @Entity
 @Table(name = "scrap")
 public class Scrap {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scrap_id", nullable = false)
-    private Long id;
+    private Long scrapId;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -42,18 +43,18 @@ public class Scrap {
     private String fileUrl;
 
     @NotNull
-    @Lob
-    @Column(name = "scrap_status", nullable = false)
-    private String scrapStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "publish_status", nullable = false)
+    private ScrapStatus scrapStatus = ScrapStatus.ACTIVE;
 
     @NotNull
     @Column(name = "scrap_created_date", nullable = false)
-    private Instant scrapCreatedDate;
+    private ZonedDateTime scrapCreatedDate;
 
     @Column(name = "scrap_updated_date")
-    private Instant scrapUpdatedDate;
+    private ZonedDateTime scrapUpdatedDate;
 
     @Column(name = "scrap_deleted_date")
-    private Instant scrapDeletedDate;
+    private ZonedDateTime scrapDeletedDate;
 
 }
