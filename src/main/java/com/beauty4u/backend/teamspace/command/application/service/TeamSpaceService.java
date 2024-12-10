@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TeamSpaceCommandService {
+public class TeamSpaceService {
 
     private final TeamSpaceRepository teamSpaceRepository;
     private final DeptRepository deptRepository;
