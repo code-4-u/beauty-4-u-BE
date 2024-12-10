@@ -18,8 +18,11 @@ public class ElasticsearchConfig extends ElasticsearchConfiguration {
     @Value("${spring.elasticsearch.password}")
     private String elasticsearchPassword;
 
-    @Value("${spring.elasticsearch.index.name}")
-    private String goodsName;
+    @Value("${spring.elasticsearch.goods.index.name}")
+    private String goods;
+
+    @Value("${spring.elasticsearch.reviews.index.name}")
+    private String reviews;
 
     @Override
     public ClientConfiguration clientConfiguration() {
