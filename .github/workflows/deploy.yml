@@ -85,6 +85,7 @@ jobs:
             PR_TITLE="${{ github.event.head_commit.message }}"
           fi
           
+          SAFE_PR_TITLE=$(echo "$PR_TITLE" | jq -R -s '.')
           ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           
           send_slack_notification() {
@@ -100,45 +101,51 @@ jobs:
               title="❌ 빌드 실패"
             fi
           
-            curl -X POST -H "Content-type: application/json" \
-              --data "{
-                \"attachments\": [
-                  {
-                    \"color\": \"${color}\",
-                    \"blocks\": [
-                      {
-                        \"type\": \"header\",
-                        \"text\": {
-                          \"type\": \"plain_text\",
-                          \"text\": \"${title}\",
-                          \"emoji\": true
-                        }
-                      },
-                      {
-                        \"type\": \"section\",
-                        \"fields\": [
-                          {
-                            \"type\": \"mrkdwn\",
-                            \"text\": \"*작업 제목:*\\n${PR_TITLE}\"
-                          },
-                          {
-                            \"type\": \"mrkdwn\",
-                            \"text\": \"*실행 시간:*\\n${DURATION}초\"
-                          }
-                        ]
-                      },
-                      {
-                        \"type\": \"section\",
-                        \"text\": {
-                          \"type\": \"mrkdwn\",
-                          \"text\": \"*Actions 로그:* <${ACTIONS_URL}|보기>\"
-                        }
+            payload=$(jq -n \
+              --arg color "$color" \
+              --arg title "$title" \
+              --arg pr_title "$PR_TITLE" \
+              --arg duration "$DURATION" \
+              --arg url "$ACTIONS_URL" \
+              '{
+                attachments: [{
+                  color: $color,
+                  blocks: [
+                    {
+                      type: "header",
+                      text: {
+                        type: "plain_text",
+                        text: $title,
+                        emoji: true
                       }
-                    ]
-                  }
-                ]
-              }" \
+                    },
+                    {
+                      type: "section",
+                      fields: [
+                        {
+                          type: "mrkdwn",
+                          text: "*작업 제목:*\n" + $pr_title
+                        },
+                        {
+                          type: "mrkdwn",
+                          text: "*실행 시간:*\n" + $duration + "초"
+                        }
+                      ]
+                    },
+                    {
+                      type: "section",
+                      text: {
+                        type: "mrkdwn",
+                        text: "*Actions 로그:* <" + $url + "|보기>"
+                      }
+                    }
+                  ]
+                }]
+              }')
+          
+            curl -X POST -H "Content-type: application/json" \
+              --data "$payload" \
               ${{ secrets.SLACK_WEBHOOK_URL }}
           }
           
-          send_slack_notification "${{ job.status }}
+          send_slack_notification "${{ job.status }}"
