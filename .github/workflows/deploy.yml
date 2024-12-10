@@ -1,0 +1,138 @@
+name: beauty4u-service
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    branches:
+      - "develop"
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Set start time
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Validate application.yml
+        run: |
+          if [ ! -f src/main/resources/application.yml ]; then
+            echo "Error: application.yml not found!"
+            exit 1
+          fi
+
+      - name: Build with Gradle
+        env:
+          MARIADB_HOST: ${{ secrets.RDS_MARIADB_HOST }}
+          MARIADB_PORT: ${{ secrets.RDS_MARIADB_PORT }}
+          MARIADB_DATABASE: ${{ secrets.RDS_MARIADB_DATABASE }}
+          MARIADB_USER: ${{ secrets.RDS_MARIADB_USER }}
+          MARIADB_PASSWORD: ${{ secrets.RDS_MARIADB_PASSWORD }}
+          DRIVER_CLASS_NAME: ${{ secrets.DRIVER_CLASS_NAME }}
+          MONGODB_USER: ${{ secrets.MONGODB_USER }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+          ELASTIC_URIS: ${{ secrets.ELASTIC_URIS }}
+          ELASTIC_USER: ${{ secrets.ELASTIC_USER }}
+          ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          ACCESS_TOKEN_EXPIRATION_TIME: ${{ secrets.ACCESS_TOKEN_EXPIRATION_TIME }}
+          REFRESH_TOKEN_EXPIRATION_TIME: ${{ secrets.REFRESH_TOKEN_EXPIRATION_TIME }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        run: ./gradlew clean build -x test
+
+      - name: Calculate Duration
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "DURATION=$DURATION" >> $GITHUB_ENV
+
+      - name: Notify Discord
+        if: always()
+        run: |
+          echo "Job Status: ${{ job.status }}"
+          DURATION=${DURATION:-"알 수 없음"}
+          
+          if [ -n "${{ github.event.pull_request.title }}" ]; then
+            PR_TITLE="${{ github.event.pull_request.title }}"
+          else
+            PR_TITLE="${{ github.event.head_commit.message }}"
+          fi
+          
+          SAFE_PR_TITLE=$(echo "$PR_TITLE" | jq -R .)
+          
+          ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          
+          send_discord_notification() {
+            local status="$1"
+            local title=""
+            local color=""
+            local description=""
+          
+            if [ "$status" = "success" ]; then
+              title="✅ 빌드 성공 알림"
+              color=3066993
+              description="빌드에 성공했습니다. 🎉\\n\\n"
+            else
+              title="❌ 빌드 실패 알림"
+              color=15158332
+              description="빌드에 실패했습니다. 😢\\n\\n"
+            fi
+          
+            curl -H "Content-Type: application/json" \
+              -d "{
+                    \"embeds\": [
+                      {
+                        \"title\": \"$title\",
+                        \"description\": \"$description\",
+                        \"color\": $color,
+                        \"fields\": [
+                          {
+                            \"name\": \"📝 작업 제목\",
+                            \"value\": $SAFE_PR_TITLE,
+                            \"inline\": false
+                          },
+                          {
+                            \"name\": \"⏱️ 실행 시간\",
+                            \"value\": \"${DURATION}초\\n\\n\",
+                            \"inline\": false
+                          },
+                          {
+                            \"name\": \"🔗 디버그 URL\",
+                            \"value\": \"[Actions 로그 보기](${ACTIONS_URL})\\n\\n\",
+                            \"inline\": false
+                          }
+                        ]
+                      }
+                    ]
+                  }" \
+              ${{ secrets.DISCORD_WEBHOOK_URL }}
+          }
+          
+          send_discord_notification "${{ job.status }}"
