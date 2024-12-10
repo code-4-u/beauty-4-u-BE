@@ -85,7 +85,6 @@ jobs:
             PR_TITLE="${{ github.event.head_commit.message }}"
           fi
           
-          SAFE_PR_TITLE=$(echo "$PR_TITLE" | jq -R -s '.')
           ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           
           send_slack_notification() {
@@ -124,11 +123,11 @@ jobs:
                       fields: [
                         {
                           type: "mrkdwn",
-                          text: "*작업 제목:*\n" + $pr_title
+                          text: ("*작업 제목:*\n" + $pr_title)
                         },
                         {
                           type: "mrkdwn",
-                          text: "*실행 시간:*\n" + $duration + "초"
+                          text: ("*실행 시간:*\n" + $duration + "초")
                         }
                       ]
                     },
@@ -136,7 +135,7 @@ jobs:
                       type: "section",
                       text: {
                         type: "mrkdwn",
-                        text: "*Actions 로그:* <" + $url + "|보기>"
+                        text: ("*Actions 로그:* <" + $url + "|보기>")
                       }
                     }
                   ]
