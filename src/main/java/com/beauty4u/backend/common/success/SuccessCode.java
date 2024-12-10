@@ -26,6 +26,13 @@ public enum SuccessCode {
     TEMPLATE_UPDATE_SUCCESS(HttpStatus.OK, "템플릿 수정 성공"),
     TEMPLATE_DELETE_SUCCESS(HttpStatus.OK, "템플릿 삭제 성공"),
 
+    // 마케팅 알림 설정(MarketingSetting)
+    MARKETINGSETTING_SAVE_SUCCESS(HttpStatus.OK, "마케팅 알림 설정 등록 성공"),
+    MARKETINGSETTING_DELETE_SUCCESS(HttpStatus.OK, "마케팅 알림 설정 삭제 성공"),
+    MARKETINGSETTING_UPDATE_SUCCESS(HttpStatus.OK, "마케팅 알림 설정 수정 성공"),
+    MARKETINGSETTING_FIND_LIST_SUCCESS(HttpStatus.OK, "마케팅 알림 설정 목록 조회 성공"),
+    MARKETINGSETTING_FIND_DETAIL_SUCCESS(HttpStatus.OK, "마케팅 알림 설정 상세 조회 성공"),
+
     // 공지사항 (inform)
     INFORM_SAVE_SUCCESS(HttpStatus.CREATED, "공지사항 등록 성공"),
     INFORM_UPDATE_SUCCESS(HttpStatus.OK, "공지사항 수정 성공"),

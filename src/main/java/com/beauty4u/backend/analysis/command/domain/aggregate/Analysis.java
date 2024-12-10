@@ -17,8 +17,8 @@ public class Analysis extends CreatedTimeEntity {
 
     @NotNull
     @Lob
-    @Column(name = "analysis_kind", nullable = false)
-    private String analysisKind;
+    @Enumerated(EnumType.STRING)
+    private AnalysisKind analysisKind;
 
     @Size(max = 50)
     @NotNull
