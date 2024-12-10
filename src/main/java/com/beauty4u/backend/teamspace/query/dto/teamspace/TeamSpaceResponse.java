@@ -1,4 +1,4 @@
-package com.beauty4u.backend.teamspace.command.application.dto.teamspace;
+package com.beauty4u.backend.teamspace.query.dto.teamspace;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class CreateTeamspaceDTO {
+public class TeamSpaceResponse {
 
+    private Long teamspaceId;
     private String deptCode;
-
 }

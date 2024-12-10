@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ChatMessageRepository extends MongoRepository<ChatMessage, Long> {
-    ChatMessage findByTeamspaceId(Long messageId);
+    ChatMessage findByTeamspaceId(Long teamspaceId);
 }

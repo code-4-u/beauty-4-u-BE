@@ -1,5 +1,7 @@
 package com.beauty4u.backend.teamspace.command.domain.aggregate;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +21,7 @@ public class ChatMessage {
     private String id; // MongoDB에서 자동 생성되는 _id 필드를 매핑 (String 또는 ObjectId 사용)
 
 //    @Field("message_id")
-    private Long messageId; // 메시지 번호
+//    private Long messageId; // 메시지 번호
 
 //    @Field("teamspace_id")
     private Long teamspaceId; // 팀스페이스 번호
@@ -31,8 +33,8 @@ public class ChatMessage {
     private Long scrapId; // 스크랩 번호
 
 //    @Field("message_status")
-//    @Enumerated(value = EnumType.STRING) 몽고DB에서 기본적으로 문자열 처리
-    private MessageStatus messageStatus; // 메시지 상태 (ACTIVE, DELETED 등)
+    @Enumerated(value = EnumType.STRING)  // 몽고DB에서 기본적으로 문자열 처리를 해준다.
+    private MessageStatus messageStatus; // 메시지 상태 (ACTIVE, INACTIVE)
 
 //    @Field("message_content")
     private String messageContent; // 메시지 내용
