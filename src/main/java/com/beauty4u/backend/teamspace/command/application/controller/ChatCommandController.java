@@ -1,7 +1,7 @@
 package com.beauty4u.backend.teamspace.command.application.controller;
 
 import com.beauty4u.backend.teamspace.command.application.dto.chat.ChatMessageRequest;
-import com.beauty4u.backend.teamspace.command.application.service.ChatCommandService;
+import com.beauty4u.backend.teamspace.command.application.service.ChatService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +19,11 @@ import org.springframework.stereotype.Controller;
 // Swagge-API에 나타나지 않음
 public class ChatCommandController {
 
-    private final ChatCommandService chatCommandService;
-    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final ChatService chatService;
 
     @MessageMapping("/teamspace/{teamspaceId}/message")
     public void message(@DestinationVariable final Long teamspaceId, ChatMessageRequest chatMessageRequest) {
-        chatCommandService.save(teamspaceId, chatMessageRequest);
+        chatService.save(teamspaceId, chatMessageRequest);
         log.info("Message [{}] sent by user [{}] to teamspace [{}]",
                 chatMessageRequest.getMessageContent(),
                 chatMessageRequest.getUserCode(),

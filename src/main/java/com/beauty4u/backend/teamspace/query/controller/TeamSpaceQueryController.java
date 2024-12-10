@@ -1,6 +1,6 @@
 package com.beauty4u.backend.teamspace.query.controller;
 
-import com.beauty4u.backend.teamspace.query.dto.TeamSpaceResponse;
+import com.beauty4u.backend.teamspace.query.dto.teamspace.TeamSpaceResponse;
 import com.beauty4u.backend.teamspace.query.service.TeamSpaceQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

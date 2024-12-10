@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ChatCommandService {
+public class ChatService {
 
     private final UserRepository userRepository;
     private final TeamSpaceRepository teamSpaceRepository;

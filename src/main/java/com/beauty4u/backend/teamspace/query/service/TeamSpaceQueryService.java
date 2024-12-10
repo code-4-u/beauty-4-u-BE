@@ -2,7 +2,7 @@ package com.beauty4u.backend.teamspace.query.service;
 
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
 import com.beauty4u.backend.teamspace.command.domain.repository.TeamSpaceRepository;
-import com.beauty4u.backend.teamspace.query.dto.TeamSpaceResponse;
+import com.beauty4u.backend.teamspace.query.dto.teamspace.TeamSpaceResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
