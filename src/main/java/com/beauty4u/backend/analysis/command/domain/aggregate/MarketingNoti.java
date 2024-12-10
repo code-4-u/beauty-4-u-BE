@@ -2,6 +2,7 @@ package com.beauty4u.backend.analysis.command.domain.aggregate;
 
 import com.beauty4u.backend.customer.command.domain.aggregate.Customer;
 import com.beauty4u.backend.goods.command.domain.aggregate.Goods;
+import com.beauty4u.backend.marketing.command.domain.aggregate.MarketingSetting;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
