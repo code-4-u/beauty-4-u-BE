@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.indices.IndexSettings;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
@@ -15,7 +16,7 @@ import java.io.IOException;
 // 엘라스틱서치의 인덱스를 자동 생성하고 관리하는 클래스
 @Component
 @Slf4j
-//@ConditionalOnProperty(name = "elasticsearch.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "elasticsearch.enabled", havingValue = "true", matchIfMissing = false)
 public class ElasticsearchIndexInitializer {
 
     // 엘라스틱서치 작업 위한 핵심 클래스
