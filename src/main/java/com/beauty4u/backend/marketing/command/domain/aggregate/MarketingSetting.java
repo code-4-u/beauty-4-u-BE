@@ -12,18 +12,20 @@ import lombok.Getter;
 @Entity
 @Table(name = "marketing_setting")
 public class MarketingSetting {
+
     @Id
-    @Column(name = "marketing_setting_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "marketing_setting_id", nullable = false)
     private Long marketingSettingId;
 
     @NotNull
     @OneToOne
-    @JoinColumn(name = "analysis_id", nullable = false)
+    @JoinColumn(name = "analysis_id")
     private Analysis analysisId;
 
     @NotNull
     @OneToOne
-    @JoinColumn(name = "template_id", nullable = false)
+    @JoinColumn(name = "template_id")
     private Template templateId;
 
     @NotNull
