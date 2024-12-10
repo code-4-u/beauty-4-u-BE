@@ -73,7 +73,7 @@ jobs:
           DURATION=$((END_TIME - START_TIME))
           echo "DURATION=$DURATION" >> $GITHUB_ENV
 
-      - name: Notify Discord
+      - name: Notify Slack
         if: always()
         run: |
           echo "Job Status: ${{ job.status }}"
@@ -85,54 +85,60 @@ jobs:
             PR_TITLE="${{ github.event.head_commit.message }}"
           fi
           
-          SAFE_PR_TITLE=$(echo "$PR_TITLE" | jq -R .)
-          
           ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           
-          send_discord_notification() {
+          send_slack_notification() {
             local status="$1"
-            local title=""
             local color=""
-            local description=""
+            local title=""
           
             if [ "$status" = "success" ]; then
-              title="✅ 빌드 성공 알림"
-              color=3066993
-              description="빌드에 성공했습니다. 🎉\\n\\n"
+              color="good"
+              title="✅ 빌드 성공"
             else
-              title="❌ 빌드 실패 알림"
-              color=15158332
-              description="빌드에 실패했습니다. 😢\\n\\n"
+              color="danger"
+              title="❌ 빌드 실패"
             fi
           
-            curl -H "Content-Type: application/json" \
-              -d "{
-                    \"embeds\": [
+            curl -X POST -H "Content-type: application/json" \
+              --data "{
+                \"attachments\": [
+                  {
+                    \"color\": \"${color}\",
+                    \"blocks\": [
                       {
-                        \"title\": \"$title\",
-                        \"description\": \"$description\",
-                        \"color\": $color,
+                        \"type\": \"header\",
+                        \"text\": {
+                          \"type\": \"plain_text\",
+                          \"text\": \"${title}\",
+                          \"emoji\": true
+                        }
+                      },
+                      {
+                        \"type\": \"section\",
                         \"fields\": [
                           {
-                            \"name\": \"📝 작업 제목\",
-                            \"value\": $SAFE_PR_TITLE,
-                            \"inline\": false
+                            \"type\": \"mrkdwn\",
+                            \"text\": \"*작업 제목:*\\n${PR_TITLE}\"
                           },
                           {
-                            \"name\": \"⏱️ 실행 시간\",
-                            \"value\": \"${DURATION}초\\n\\n\",
-                            \"inline\": false
-                          },
-                          {
-                            \"name\": \"🔗 디버그 URL\",
-                            \"value\": \"[Actions 로그 보기](${ACTIONS_URL})\\n\\n\",
-                            \"inline\": false
+                            \"type\": \"mrkdwn\",
+                            \"text\": \"*실행 시간:*\\n${DURATION}초\"
                           }
                         ]
+                      },
+                      {
+                        \"type\": \"section\",
+                        \"text\": {
+                          \"type\": \"mrkdwn\",
+                          \"text\": \"*Actions 로그:* <${ACTIONS_URL}|보기>\"
+                        }
                       }
                     ]
-                  }" \
-              ${{ secrets.DISCORD_WEBHOOK_URL }}
+                  }
+                ]
+              }" \
+              ${{ secrets.SLACK_WEBHOOK_URL }}
           }
           
-          send_discord_notification "${{ job.status }}"
+          send_slack_notification "${{ job.status }}
