@@ -9,5 +9,5 @@ public class QnaReqDTO {
 
     private String inquiryTitle;
     private String inquiryContent;
-    private Character inquirySecretYn;
+    private String inquirySecretYn;
 }

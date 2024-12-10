@@ -5,12 +5,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-import java.time.Instant;
-
 @Getter
 @Entity
 @Table(name = "scrap_reply")
 public class ScrapReply {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scrap_reply_id", nullable = false)
@@ -29,20 +28,4 @@ public class ScrapReply {
     @Lob
     @Column(name = "scrap_reply_content")
     private String scrapReplyContent;
-
-    @NotNull
-    @Lob
-    @Column(name = "scrap_reply_status", nullable = false)
-    private String scrapReplyStatus;
-
-    @NotNull
-    @Column(name = "scrap_reply_created_date", nullable = false)
-    private Instant scrapReplyCreatedDate;
-
-    @Column(name = "scrap_reply_updated_date")
-    private Instant scrapReplyUpdatedDate;
-
-    @Column(name = "scrap_reply_deleted_date")
-    private Instant scrapReplyDeletedDate;
-
 }

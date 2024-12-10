@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beauty4u.backend.goods.query.mapper.ReviewQueryMapper">
-    <select id="findAllReview" resultType="com.beauty4u.backend.goods.query.dto.ReviewQueryDTO">
+
+    <select id="findAllReview" resultType="ReviewQueryDTO">
         SELECT
-        r.review_created_date,
-        r.review_id,
-        g.goods_name AS goodsName,
-        r.review_score,
-        r.review_content
+            r.created_date,
+            r.review_id,
+            g.goods_name AS goodsName,
+            r.review_score,
+            r.review_content
         FROM review r
         JOIN goods g ON (r.goods_code = g.goods_code)
         ORDER BY
@@ -16,11 +17,11 @@
                 <when test="order.property == 'review_score'">
                     r.review_score ${order.direction}
                 </when>
-                <when test="order.property == 'review_created_date'">
-                    r.review_created_date ${order.direction}
+                <when test="order.property == 'created_date'">
+                    r.created_date ${order.direction}
                 </when>
                 <otherwise>
-                    r.review_created_date DESC
+                    r.created_date DESC
                 </otherwise>
             </choose>
         </foreach>

@@ -12,6 +12,6 @@ public class UserListResDTO {
     private String userCode;
     private String userRoleName;
     private String deptName;
-    private LocalDateTime userCreatedDate;
+    private LocalDateTime createdDate;
     private LocalDateTime userExpiredDate;
 }

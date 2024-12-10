@@ -4,15 +4,14 @@ import com.beauty4u.backend.customer.command.domain.aggregate.Customer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "promotion_noti")
 public class PromotionNoti {
+
     @Id
     @Column(name = "promotion_noti_id", nullable = false)
     private Long id;
@@ -34,6 +33,5 @@ public class PromotionNoti {
 
     @NotNull
     @Column(name = "promotion_noti_sent_date", nullable = false)
-    private Instant promotionNotiSentDate;
-
+    private LocalDateTime promotionNotiSentDate;
 }

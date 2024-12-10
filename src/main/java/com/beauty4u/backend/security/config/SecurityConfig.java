@@ -74,6 +74,8 @@ public class SecurityConfig {
                 }
         );
 
+
+
         return http.build();
     }
 
@@ -93,9 +95,9 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("http://localhost:5173");
-        config.addAllowedOrigin("*");
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:5173");
+//        config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader(ACCESS_TOKEN_HEADER);

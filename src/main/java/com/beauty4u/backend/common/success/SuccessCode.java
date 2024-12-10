@@ -17,6 +17,8 @@ public enum SuccessCode {
     // 고객 (customer)
     CUSTOMER_FIND_LIST_SUCCESS(HttpStatus.OK, "고객 목록 조회 성공"),
     CUSTOMER_FIND_DETAIL_SUCCESS(HttpStatus.OK, "고객 상세 조회 성공"),
+    CUSTOMER_FIND_ORDERINFO_LIST_SUCCESS(HttpStatus.OK, "고객 주문 이력 조회 성공"),
+    CUSTOMER_FIND_LIST_STATS_SUCCESS(HttpStatus.OK, "고객 목록 통계 요약 조회 성공"),
 
     // 템플릿(template)
     TEMPLATE_FIND_LIST_SUCCESS(HttpStatus.OK, "템플릿 목록 조회 성공"),
@@ -35,10 +37,13 @@ public enum SuccessCode {
     INQUIRY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 질문 등록 성공"),
     INQUIRY_UPDATE_SUCCESS(HttpStatus.OK, "QnA 질문 수정 성공"),
     INQUIRY_DELETE_SUCCESS(HttpStatus.OK, "QnA 질문 삭제 성공"),
-
     INQUIRY_REPLY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 답변 등록 성공"),
     INQUIRY_REPLY_UPDATE_SUCCESS(HttpStatus.OK, "QnA 답변 수정 성공"),
-    INQUIRY_REPLY_DELETE_SUCCESS(HttpStatus.OK, "QnA 답변 삭제 성공");
+    INQUIRY_REPLY_DELETE_SUCCESS(HttpStatus.OK, "QnA 답변 삭제 성공"),
+    INQUIRY_FIND_LIST_SUCCESS(HttpStatus.OK, "QnA 목록 조회 성공"),
+    FAQ_SAVE_SUCCESS(HttpStatus.CREATED, "FAQ 등록 성공"),
+    FAQ_UPDATE_SUCCESS(HttpStatus.OK, "FAQ 수정 성공"),
+    FAQ_DELETE_SUCCESS(HttpStatus.OK, "FAQ 삭제 성공");
 
 
     private final HttpStatus httpStatus;

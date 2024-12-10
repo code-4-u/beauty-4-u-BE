@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BrandQueryDTO {
+
     private String brandCode;
     private String brandName;
 }

@@ -8,7 +8,7 @@ import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.security.util.JwtUtil;
 import com.beauty4u.backend.user.command.application.dto.*;
-import com.beauty4u.backend.user.command.application.service.UserCommandService;
+import com.beauty4u.backend.user.command.application.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class UserCommandController {
     private static final String ACCESS_TOKEN_HEADER = "Authorization";
     private static final String REFRESH_TOKEN_HEADER = "Refresh-Token";
 
-    private final UserCommandService userCommandService;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
 
     @Operation(summary = "회원 등록", description = "관리자가 신규 회원을 등록한다.")
@@ -36,7 +36,7 @@ public class UserCommandController {
     public ResponseEntity<ApiResponse<Void>> saveUser(
             @RequestBody @Valid CreateUserReqDTO createUserReqDTO) {
 
-        userCommandService.saveUser(createUserReqDTO);
+        userService.saveUser(createUserReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_SAVE_SUCCESS);
     }
@@ -47,7 +47,7 @@ public class UserCommandController {
             @RequestBody @Valid LoginUserReqDTO loginUserReqDTO,
             HttpServletResponse response) {
 
-        Authentication authentication = userCommandService.loginUser(loginUserReqDTO);
+        Authentication authentication = userService.loginUser(loginUserReqDTO);
 
         String accessToken = jwtUtil.generateAccessToken(authentication);
         String refreshToken = jwtUtil.generateRefreshToken(authentication.getName());
@@ -69,7 +69,7 @@ public class UserCommandController {
             String accessToken = request.getHeader("Authorization")
                     .substring(7);
 
-            userCommandService.logoutUser(userCode, accessToken);
+            userService.logoutUser(userCode, accessToken);
             return ResponseUtil.successResponse(SuccessCode.USER_LOGOUT_SUCCESS);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.LOGOUT_FAIL);
@@ -81,7 +81,7 @@ public class UserCommandController {
     public ResponseEntity<ApiResponse<Void>> findUserCode(
             @RequestBody FindUserCodeReqDTO findUserCodeReqDTO) {
 
-        userCommandService.findUserCode(findUserCodeReqDTO);
+        userService.findUserCode(findUserCodeReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
@@ -91,7 +91,7 @@ public class UserCommandController {
     public ResponseEntity<ApiResponse<Void>> resetUserPassword(
             @RequestBody ResetUserPasswordReqDTO resetUserPasswordReqDTO) {
 
-        userCommandService.resetUserPassword(resetUserPasswordReqDTO);
+        userService.resetUserPassword(resetUserPasswordReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
@@ -102,7 +102,7 @@ public class UserCommandController {
             @RequestBody UpdateUserPasswordReqDTO updateUserPasswordReqDTO ) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
-        userCommandService.updateUserPassword(loginUserCode, updateUserPasswordReqDTO);
+        userService.updateUserPassword(loginUserCode, updateUserPasswordReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
@@ -112,7 +112,7 @@ public class UserCommandController {
     public ResponseEntity<ApiResponse<Void>> adminResetUserPassword(
             @RequestBody UserCodeReqDTO userCodeReqDTO ) {
 
-        userCommandService.adminResetUserPassword(userCodeReqDTO);
+        userService.adminResetUserPassword(userCodeReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
@@ -122,7 +122,7 @@ public class UserCommandController {
     public ResponseEntity<ApiResponse<Void>> expireUser(
             @RequestBody UserCodeReqDTO userCodeReqDTO ) {
 
-        userCommandService.expireUser(userCodeReqDTO);
+        userService.expireUser(userCodeReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }
@@ -132,7 +132,7 @@ public class UserCommandController {
     public ResponseEntity<ApiResponse<Void>> unexpireUser(
             @RequestBody UserCodeReqDTO userCodeReqDTO ) {
 
-        userCommandService.unexpireUser(userCodeReqDTO);
+        userService.unexpireUser(userCodeReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
     }

@@ -1,11 +1,11 @@
 package com.beauty4u.backend.teamspace.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-
 import java.time.ZonedDateTime;
 
 @Getter
@@ -56,5 +56,4 @@ public class Scrap {
 
     @Column(name = "scrap_deleted_date")
     private ZonedDateTime scrapDeletedDate;
-
 }

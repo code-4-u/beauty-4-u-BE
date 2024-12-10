@@ -1,5 +1,6 @@
 package com.beauty4u.backend.teamspace.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -7,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -52,5 +51,4 @@ public class Folder {
 
     @Column(name = "folder_deleted_date")
     private ZonedDateTime folderDeletedDate;
-
 }
