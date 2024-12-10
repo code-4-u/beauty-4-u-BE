@@ -16,7 +16,7 @@ spring:
       uri: mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@cluster0.avtro.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority
     elasticsearch:
       repositories:
-        enabled: false
+        enabled: true
 
   jpa:
     hibernate:
@@ -31,8 +31,12 @@ spring:
     uris: ${ELASTIC_URIS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
-    index:
-      name: goods
+    goods:
+      index:
+        name: goods
+    reviews:
+      index:
+        name: reviews
 
   mail:
     host: ${MAIL_HOST}
