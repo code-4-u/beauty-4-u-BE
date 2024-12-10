@@ -1,5 +1,6 @@
 package com.beauty4u.backend.inquiry.query.service;
 
+import com.beauty4u.backend.inquiry.query.dto.FaqDetailResDTO;
 import com.beauty4u.backend.inquiry.query.dto.FaqListResDTO;
 import com.beauty4u.backend.inquiry.query.mapper.FaqQueryMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,11 @@ public class FaqQueryService {
         long offset = (page - 1) * count;
 
         return faqQueryMapper.findFaqList(offset, count);
+    }
+
+    @Transactional(readOnly = true)
+    public FaqDetailResDTO findFaqDetail(Long faqId) {
+
+        return faqQueryMapper.findFaqDetail(faqId);
     }
 }

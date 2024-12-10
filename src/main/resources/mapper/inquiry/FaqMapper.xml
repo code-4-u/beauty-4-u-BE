@@ -11,4 +11,16 @@
         FROM faq
         LIMIT #{offset}, #{count}
     </select>
+
+    <select id="findFaqDetail" resultType="FaqDetailResDTO">
+        SELECT
+            faq_id,
+            user_code,
+            faq_title,
+            faq_viewcount,
+            created_date,
+            updated_date
+        FROM faq
+        WHERE faq_id = #{faqId}
+    </select>
 </mapper>
