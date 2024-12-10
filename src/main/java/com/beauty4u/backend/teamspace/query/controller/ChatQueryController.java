@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/chatting")
 @RequiredArgsConstructor
-@Tag(name = "채팅 기록 조회", description = "채팅 API")
+@Tag(name = "ChatMessage", description = "채팅 관련 API")
 public class ChatQueryController {
 
     private final ChatQueryService chatQueryService;
