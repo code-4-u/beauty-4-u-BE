@@ -39,7 +39,8 @@ public enum ErrorCode {
 
     // 알림 (noti)
     NOT_SAVED_NOTI(HttpStatus.CONFLICT, "알림 등록 실패"),
-    NOT_REQUEST_NOTI(HttpStatus.CONFLICT, "알림 전송 실패");
+    NOT_REQUEST_NOTI(HttpStatus.CONFLICT, "알림 전송 실패"),
+    NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "알림 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
