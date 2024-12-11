@@ -62,4 +62,8 @@ public class Noti extends CreatedTimeEntity {
         this.notiReadYn = notiReadYn;
         this.notiSender = notiSender;
     }
+
+    public void readNoti() {
+        this.notiReadYn = YnType.Y;
+    }
 }
