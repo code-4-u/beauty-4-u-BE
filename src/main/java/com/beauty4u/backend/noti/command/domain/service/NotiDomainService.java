@@ -101,4 +101,12 @@ public class NotiDomainService {
             throw new CustomException(ErrorCode.NOT_REQUEST_NOTI);
         }
     }
+
+    public void updateNotiRead(Long notiId) {
+
+        Noti noti = notiRepository.findById(notiId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_NOTI));
+
+        noti.readNoti();
+    }
 }

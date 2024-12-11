@@ -1,16 +1,17 @@
 package com.beauty4u.backend.noti.command.application.controller;
 
+import com.beauty4u.backend.common.response.ApiResponse;
+import com.beauty4u.backend.common.response.ResponseUtil;
+import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.noti.command.application.dto.NotiIdReqDTO;
 import com.beauty4u.backend.noti.command.application.service.NotiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
@@ -31,5 +32,15 @@ public class NotiCommandController {
         SseEmitter sseEmitter = notiService.subscribe(loginUserCode, lastEventId);
 
         return ResponseEntity.ok(sseEmitter);
+    }
+
+    @Operation(summary = "알림 읽음", description = "알림의 읽음 상태를 읽음으로 수정한다.")
+    @PutMapping("/{notiId}")
+    public ResponseEntity<ApiResponse<Void>> updateNotiRead(
+            @RequestBody NotiIdReqDTO notiIdReqDTO) {
+
+        notiService.updateNotiRead(notiIdReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.NOTI_READ_UPDATE_SUCCESS);
     }
 }
