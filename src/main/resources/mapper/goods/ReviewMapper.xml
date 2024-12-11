@@ -4,26 +4,31 @@
 
     <select id="findAllReview" resultType="ReviewQueryDTO">
         SELECT
-            r.created_date,
-            r.review_id,
-            g.goods_name AS goodsName,
-            r.review_score,
-            r.review_content
+        r.created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
         FROM review r
         JOIN goods g ON (r.goods_code = g.goods_code)
-        ORDER BY
-        <foreach collection="orders" item="order" separator=",">
-            <choose>
-                <when test="order.property == 'review_score'">
-                    r.review_score ${order.direction}
-                </when>
-                <when test="order.property == 'created_date'">
-                    r.created_date ${order.direction}
-                </when>
-                <otherwise>
-                    r.created_date DESC
-                </otherwise>
-            </choose>
-        </foreach>
+        <if test="orders != null and orders.size() > 0">
+            ORDER BY
+            <foreach collection="orders" item="order" separator=",">
+                <choose>
+                    <when test="order.property == 'review_score'">
+                        r.review_score ${order.direction}
+                    </when>
+                    <when test="order.property == 'created_date'">
+                        r.created_date ${order.direction}
+                    </when>
+                    <otherwise>
+                        r.created_date DESC
+                    </otherwise>
+                </choose>
+            </foreach>
+        </if>
+        <if test="orders == null or orders.size() == 0">
+            ORDER BY r.created_date DESC
+        </if>
     </select>
 </mapper>
