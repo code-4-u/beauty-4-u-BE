@@ -56,7 +56,8 @@ public enum SuccessCode {
 
     // 알림 (noti)
     SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결 성공"),
-    NOTI_SAVE_SUCCESS(HttpStatus.OK, "알림 등록 성공");
+    NOTI_SAVE_SUCCESS(HttpStatus.OK, "알림 등록 성공"),
+    NOTI_FIND_LIST_SUCCESS(HttpStatus.OK, "알림 조회 성공");
 
 
     private final HttpStatus httpStatus;
