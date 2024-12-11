@@ -18,6 +18,7 @@ public class CustomerDetailResDTO {
     private String customerPhone;
     private Integer customerAge;
     private String customerGender;
+    private String customerEmail;
     private String customerSkintype;
     private Long allOrderPrice; // 누적 총 구매 금액
     private Long cancelRefundCount; // 취소 환불 횟수

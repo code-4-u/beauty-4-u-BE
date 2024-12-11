@@ -50,7 +50,9 @@ public enum SuccessCode {
     INQUIRY_FIND_LIST_SUCCESS(HttpStatus.OK, "QnA 목록 조회 성공"),
     FAQ_SAVE_SUCCESS(HttpStatus.CREATED, "FAQ 등록 성공"),
     FAQ_UPDATE_SUCCESS(HttpStatus.OK, "FAQ 수정 성공"),
-    FAQ_DELETE_SUCCESS(HttpStatus.OK, "FAQ 삭제 성공");
+    FAQ_DELETE_SUCCESS(HttpStatus.OK, "FAQ 삭제 성공"),
+    FAQ_FIND_LIST_SUCCESS(HttpStatus.OK, "FAQ 목록 조회 성공"),
+    FAQ_FIND_DETAIL_SUCCESS(HttpStatus.OK, "FAQ 상세 조회 성공");
 
 
     private final HttpStatus httpStatus;
