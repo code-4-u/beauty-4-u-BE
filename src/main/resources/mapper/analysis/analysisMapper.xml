@@ -1,0 +1,105 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.analysis.query.mapper.AnalysisQueryMapper">
+
+    <!-- 고객 비율 분석 (연령별 성별 비율 분석) -->
+    <select id="selectAnalysisAgeGroupRadio" resultType="AnalysisAgeGroupRadioResDTO">
+        WITH age_group_radio AS (
+            SELECT
+                COUNT(CASE WHEN customer_age THEN 1 END) AS TOTAL_AGE,
+                COUNT(CASE WHEN customer_age BETWEEN 10 AND 19 THEN 1 END) AS TOTAL_TEN_AGE,
+                COUNT(CASE WHEN customer_age BETWEEN 10 AND 19 AND customer_gender='MALE' THEN 1 END) AS TEN_MALE,
+                COUNT(CASE WHEN customer_age BETWEEN 10 AND 19 AND customer_gender='FEMALE' THEN 1 END) AS TEN_FEMALE,
+                COUNT(CASE WHEN customer_age BETWEEN 20 AND 29 THEN 1 END) AS TOTAL_TWENTY_AGE,
+                COUNT(CASE WHEN customer_age BETWEEN 20 AND 29 AND customer_gender='MALE' THEN 1 END) AS TWENTY_MALE,
+                COUNT(CASE WHEN customer_age BETWEEN 20 AND 29 AND customer_gender='FEMALE' THEN 1 END) AS TWENTY_FEMALE,
+                COUNT(CASE WHEN customer_age BETWEEN 30 AND 39 THEN 1 END) AS TOTAL_THIRTY_AGE,
+                COUNT(CASE WHEN customer_age BETWEEN 30 AND 39 AND customer_gender='MALE' THEN 1 END) AS THIRTY_MALE,
+                COUNT(CASE WHEN customer_age BETWEEN 30 AND 39 AND customer_gender='FEMALE' THEN 1 END) AS THIRTY_FEMALE,
+                COUNT(CASE WHEN customer_age BETWEEN 40 AND 49 THEN 1 END) AS TOTAL_FORTY_AGE,
+                COUNT(CASE WHEN customer_age BETWEEN 40 AND 49 AND customer_gender='MALE' THEN 1 END) AS FORTY_MALE,
+                COUNT(CASE WHEN customer_age BETWEEN 40 AND 49 AND customer_gender='FEMALE' THEN 1 END) AS FORTY_FEMALE,
+                COUNT(CASE WHEN customer_age BETWEEN 50 AND 59 THEN 1 END) AS TOTAL_FIFTY_AGE,
+                COUNT(CASE WHEN customer_age BETWEEN 50 AND 59 AND customer_gender='MALE' THEN 1 END) AS FIFTY_MALE,
+                COUNT(CASE WHEN customer_age BETWEEN 50 AND 59 AND customer_gender='FEMALE' THEN 1 END) AS FIFTY_FEMALE,
+                COUNT(CASE WHEN customer_age >= 60 THEN 1 END) AS TOTAL_SIXTYUP_AGE,
+                COUNT(CASE WHEN customer_age >= 60 AND customer_gender='MALE' THEN 1 END) AS SIXTYUP_MALE,
+                COUNT(CASE WHEN customer_age >= 60 AND customer_gender='FEMALE' THEN 1 end) AS SIXTYUP_FEMALE
+            FROM customer
+        )
+        SELECT
+            TOTAL_AGE,
+            TOTAL_TEN_AGE,
+            TEN_MALE,
+            TEN_FEMALE,
+            TOTAL_TWENTY_AGE,
+            TWENTY_MALE,
+            TWENTY_FEMALE,
+            TOTAL_THIRTY_AGE,
+            THIRTY_MALE,
+            THIRTY_FEMALE,
+            TOTAL_FORTY_AGE,
+            FORTY_MALE,
+            FORTY_FEMALE,
+            TOTAL_FIFTY_AGE,
+            FIFTY_MALE,
+            FIFTY_FEMALE,
+            TOTAL_SIXTYUP_AGE,
+            SIXTYUP_MALE,
+            SIXTYUP_FEMALE,
+            ROUND(TEN_MALE / TOTAL_TEN_AGE, 4) * 100 AS 'CUSTOMER_TEN_MALE_RADIO',
+            ROUND(TEN_FEMALE / TOTAL_TEN_AGE, 4) * 100 AS 'CUSTOMER_TEN_FEMALE_RADIO',
+            ROUND(TWENTY_MALE / TOTAL_TWENTY_AGE, 4) * 100 AS 'CUSTOMER_TWENTY_MALE_RADIO',
+            ROUND(TWENTY_FEMALE / TOTAL_TWENTY_AGE, 4) * 100 AS 'CUSTOMER_TWENTY_FEMALE_RADIO',
+            ROUND(THIRTY_MALE / TOTAL_THIRTY_AGE, 4) * 100 AS 'CUSTOMER_THIRTY_MALE_RADIO',
+            ROUND(THIRTY_FEMALE / TOTAL_THIRTY_AGE, 4) * 100 AS 'CUSTOMER_THIRTY_FEMALE_RADIO',
+            ROUND(FORTY_MALE / TOTAL_FORTY_AGE, 4) * 100 AS 'CUSTOMER_FORTY_MALE_RADIO',
+            ROUND(FORTY_FEMALE / TOTAL_FORTY_AGE, 4) * 100 AS 'CUSTOMER_FORTY_FEMALE_RADIO',
+            ROUND(FIFTY_MALE / TOTAL_FIFTY_AGE, 4) * 100 AS 'CUSTOMER_FIFTY_MALE_RADIO',
+            ROUND(FIFTY_FEMALE / TOTAL_FIFTY_AGE, 4) * 100 AS 'CUSTOMER_FIFTY_FEMALE_RADIO',
+            ROUND(SIXTYUP_MALE / TOTAL_SIXTYUP_AGE, 4) * 100 AS 'CUSTOMER_SIXTYUP_MALE_RADIO',
+            ROUND(SIXTYUP_FEMALE / TOTAL_SIXTYUP_AGE, 4) * 100 AS 'CUSTOMER_SIXTYUP_FEMALE_RADIO'
+        FROM age_group_radio
+    </select>
+
+    <!-- 연령별 구매 비율 구하기 -->
+    <select id="selectAnalysisPurchasesByAge" resultType="AnalysisPurchasesByAgeResDTO">
+        WITH age_group_buy AS (
+            SELECT
+                   COUNT(c.customer_age) AS 'TOTAL_AGE',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 10 AND 19 THEN 1 END) AS 'TEN',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 20 AND 29 THEN 1 END) AS 'TWENTY',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 30 AND 39 THEN 1 END) AS 'THIRTY',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 40 AND 49 THEN 1 END) AS 'FORTY',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 50 AND 59 THEN 1 END) AS 'FIFTY',
+                   COUNT(CASE WHEN c.customer_age >= 60 THEN 1 END) AS 'SIXTYUP'
+              FROM order_info o
+              JOIN customer c ON o.customer_code = c.customer_code
+            <if test="startDate != null and endDate != null">
+             WHERE o.order_created_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+            <if test="startDate != null and endDate == null">
+             WHERE o.order_create_date BETWEEN #{startDate} AND now()
+            </if>
+            <if test="startDate == null and endDate != null">
+             WHERE o.order_create_date >= #{startDate}
+            </if>
+        )
+        SELECT
+               TEN,
+               TWENTY,
+               THIRTY,
+               FORTY,
+               FIFTY,
+               SIXTYUP,
+               TOTAL_AGE,
+               ROUND(TEN / TOTAL_AGE, 3) * 100 AS 'TEN_RADIO',
+               ROUND(TWENTY / TOTAL_AGE, 3) * 100 AS 'TWENTY_RADIO',
+               ROUND(THIRTY / TOTAL_AGE, 3) * 100 AS 'FORTY_RADIO',
+               ROUND(FORTY / TOTAL_AGE, 3) * 100 AS 'FIFTY_RADIO',
+               ROUND(SIXTYUP / TOTAL_AGE, 3) * 100 AS 'SIXTYUP_RADIO'
+          FROM age_group_buy
+    </select>
+
+</mapper>
