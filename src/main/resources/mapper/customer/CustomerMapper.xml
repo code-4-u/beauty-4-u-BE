@@ -1,6 +1,6 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.beauty4u.backend.customer.query.mapper.CustomerQueryMapper">
 
@@ -14,19 +14,19 @@
               c.customer_age,
               c.created_date,
               (
-                SELECT MAX(o.created_date)
-                FROM order_info o
-                WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+                SELECT MAX(o1.created_date)
+                FROM order_info o1
+                WHERE o1.customer_code = c.customer_code AND o1.order_status = 'PURCHASED'
               ) AS customer_last_order_date,
               (
-                SELECT SUM(o.order_price)
-                FROM order_info o
-                WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+                SELECT SUM(o2.order_price)
+                FROM order_info o2
+                WHERE o2.customer_code = c.customer_code AND o2.order_status = 'PURCHASED'
              ) AS total_purchase_amount,
              (
-                SELECT COUNT(o.order_id)
-                FROM order_info o
-                WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+                SELECT COUNT(o3.order_id)
+                FROM order_info o3
+                WHERE o3.customer_code = c.customer_code AND o3.order_status = 'PURCHASED'
              ) AS total_purchase_count
           FROM customer c
          WHERE 1 = 1
@@ -105,40 +105,40 @@
                 WHERE o.customer_code = c.customer_code AND o.order_status != 'PURCHASED'
             ) AS cancel_refund_count
         FROM customer c
-                 LEFT JOIN (
+        LEFT JOIN (
             SELECT
-                o.customer_code,
-                SUM(o.order_price) AS all_order_price,
-                MAX(o.created_date) AS customer_last_order_date
-            FROM order_info o
-            WHERE o.order_status = 'PURCHASED'
-            GROUP BY o.customer_code
+                o1.customer_code,
+                SUM(o1.order_price) AS all_order_price,
+                MAX(o1.created_date) AS customer_last_order_date
+            FROM order_info o1
+            WHERE o1.order_status = 'PURCHASED'
+            GROUP BY o1.customer_code
         ) AS ori ON c.customer_code = ori.customer_code
         WHERE c.customer_code = #{customerCode}
     </select>
 
     <select id="findCustomerOrderInfoList" resultType="CustomerOrderInfoListDTO">
         SELECT
-               o.created_date,
-               o.order_id,
+               o1.created_date,
+               o1.order_id,
                g.goods_name,
-               o.order_count,
-               o.order_price,
-               o.order_status
-          FROM order_info o
-          LEFT JOIN customer c ON o.customer_code = c.customer_code
-          LEFT JOIN goods g ON o.goods_code = g.goods_code
+               o1.order_count,
+               o1.order_price,
+               o1.order_status
+          FROM order_info o1
+          LEFT JOIN customer c ON o1.customer_code = c.customer_code
+          LEFT JOIN goods g ON o1.goods_code = g.goods_code
          WHERE c.customer_code = #{customerCode}
             <if test="startDate != null">
-                and o.created_date <![CDATA[>=]]> #{startDate}
+                and o1.created_date <![CDATA[>=]]> #{startDate}
             </if>
 
             <if test="endDate != null">
-                and o.created_date <![CDATA[<=]]> #{endDate}
+                and o1.created_date <![CDATA[<=]]> #{endDate}
             </if>
 
             <if test="orderId != null and orderId >= 0">
-                and o.order_id LIKE CONCAT('%', #{orderId}, '%')
+                and o1.order_id LIKE CONCAT('%', #{orderId}, '%')
             </if>
 
             <if test="goodsName != null and goodsName != ''">
@@ -146,15 +146,15 @@
             </if>
 
             <if test="minPrice != null and minPrice >= 0">
-                and o.order_price <![CDATA[>=]]> #{minPrice}
+                and o1.order_price <![CDATA[>=]]> #{minPrice}
             </if>
 
             <if test="maxPrice != null and maxPrice >= 0">
-                and o.order_price <![CDATA[<=]]> #{maxPrice}
+                and o1.order_price <![CDATA[<=]]> #{maxPrice}
             </if>
 
             <if test="orderStatus != null and orderStatus !=''">
-                and o.order_status =
+                and o1.order_status =
                 <choose>
                     <when test="orderStatus == 'PURCHASED'">
                         'PURCHASED'
@@ -172,13 +172,13 @@
                 ORDER BY
                 <choose>
                     <when test="sort == 'orderPrice'">
-                        o.order_price
+                        o1.order_price
                     </when>
                     <when test="sort == 'goodsName'">
                         g.goods_name
                     </when>
                     <otherwise>
-                        o.created_date
+                        o1.created_date
                     </otherwise>
                 </choose>
                 <if test="order != null and order != ''">
@@ -230,6 +230,10 @@
     <select id="findCustomerOrderInfoTotalCount" resultType="Long">
         SELECT
                COUNT(*)
+          FROM order_info o
+          LEFT JOIN customer c ON o.customer_code = c.customer_code
+          LEFT JOIN goods g ON o.goods_code = g.goods_code
+         WHERE c.customer_code = #{customerCode}
         <if test="startDate != null">
             and o.created_date <![CDATA[>=]]> #{startDate}
         </if>
@@ -246,11 +250,11 @@
             and g.goods_name LIKE CONCAT('%', #{goodsName}, '%')
         </if>
 
-        <if test="minPrice != null and minPrice >= 0">
+        <if test="minPrice != null and minPrice != ''">
             and o.order_price <![CDATA[>=]]> #{minPrice}
         </if>
 
-        <if test="maxPrice != null and maxPrice >= 0">
+        <if test="maxPrice != null and minPrice != ''">
             and o.order_price <![CDATA[<=]]> #{maxPrice}
         </if>
 

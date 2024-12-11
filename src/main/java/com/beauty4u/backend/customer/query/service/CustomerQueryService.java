@@ -67,9 +67,16 @@ public class CustomerQueryService {
     public CustomerOrderInfoListResDTO findCustomerOrderInfoList(String customerCode, OrderHistoryFilterDTO orderHistoryFilterDTO) {
 
         Long offset = (orderHistoryFilterDTO.getPage() - 1) * orderHistoryFilterDTO.getCount();
+        LocalDateTime startDateTime = null;
+        LocalDateTime endDateTime = null; // 종료일의 23:59:59
 
-        LocalDateTime startDateTime = orderHistoryFilterDTO.getStartDate().atStartOfDay(); // 시작일의 00:00:00
-        LocalDateTime endDateTime = orderHistoryFilterDTO.getEndDate().atTime(23, 59, 59); // 종료일의 23:59:59
+        if (orderHistoryFilterDTO.getStartDate() != null) {
+            startDateTime = orderHistoryFilterDTO.getStartDate().atStartOfDay();
+        }
+
+        if (orderHistoryFilterDTO.getEndDate() != null) {
+            endDateTime = orderHistoryFilterDTO.getEndDate().atStartOfDay();
+        }
 
         List<CustomerOrderInfoListDTO> customerOrderInfoList = customerQueryMapper.findCustomerOrderInfoList(
                 customerCode,
