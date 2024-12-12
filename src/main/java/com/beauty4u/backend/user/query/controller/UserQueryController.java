@@ -4,8 +4,7 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
-import com.beauty4u.backend.user.query.dto.FindUserDetailResDTO;
-import com.beauty4u.backend.user.query.dto.UserListResDTO;
+import com.beauty4u.backend.user.query.dto.*;
 import com.beauty4u.backend.user.query.service.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,5 +44,32 @@ public class UserQueryController {
         FindUserDetailResDTO findUserDetailResDTO = userQueryService.findUserDetail(loginUserCode);
 
         return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, findUserDetailResDTO);
+    }
+
+    @Operation(summary = "부서 목록 조회")
+    @GetMapping("/dept/list")
+    public ResponseEntity<ApiResponse<List<DeptResDTO>>> findDeptList() {
+
+        List<DeptResDTO> deptResDTOS = userQueryService.findDeptList();
+
+        return ResponseUtil.successResponse(SuccessCode.DEPT_READ_SUCCESS, deptResDTOS);
+    }
+
+    @Operation(summary = "직급 목록 조회")
+    @GetMapping("/job/list")
+    public ResponseEntity<ApiResponse<List<JobResDTO>>> findJobList() {
+
+        List<JobResDTO> jobResDTOS = userQueryService.findJobList();
+
+        return ResponseUtil.successResponse(SuccessCode.JOB_READ_SUCCESS, jobResDTOS);
+    }
+
+    @Operation(summary = "권한 목록 조회")
+    @GetMapping("/role/list")
+    public ResponseEntity<ApiResponse<List<RoleResDTO>>> findRoleList() {
+
+        List<RoleResDTO> roleResDTOS = userQueryService.findRoleList();
+
+        return ResponseUtil.successResponse(SuccessCode.ROLE_READ_SUCCESS, roleResDTOS);
     }
 }
