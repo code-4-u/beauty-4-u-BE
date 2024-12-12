@@ -8,6 +8,7 @@ services:
     ports:
       - "${REDIS_PORT}:6379"
 
+
   # Zookeeper 서비스
   zookeeper:
     image: wurstmeister/zookeeper
@@ -29,3 +30,56 @@ services:
       - /var/run/docker.sock
     depends_on:
       - zookeeper
+
+  es:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: 7.15.2
+    container_name: es
+    environment:
+      - node.name=single-node
+      - cluster.name=backtony
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elastic
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_HOSTS: http://es:9200
+    ports:
+      - 5601:5601
+    # Elasticsearch Start Dependency
+    depends_on:
+      - es
+    networks:
+      - elastic
+
+#  elasticsearch:
+#    image: elasticsearch:7.14.1
+#    container_name: elasticsearch
+#    environment:
+#      - discovery.type=single-node
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ports:
+#      - "${ELASTIC_PORT}:9200"
+#    volumes:
+#      - elasticsearch-data:/usr/share/elasticsearch/data
+#    networks:
+#      - elastic
+
+volumes:
+  elasticsearch-data:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
+

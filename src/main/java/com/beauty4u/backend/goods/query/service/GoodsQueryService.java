@@ -19,10 +19,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-@ConditionalOnProperty(name = "elasticsearch.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryService {
     private final SqlSession sqlSession;
     private final GoodsSearchRepository goodsSearchRepository;
+    private final GoodsQueryMapper goodsQueryMapper;
 
     // 전체 브랜드 조회
     public List<BrandQueryDTO> findAllBrand() {
@@ -31,12 +32,12 @@ public class GoodsQueryService {
 
     // 조건별 상품 조회
     public List<GoodsQueryDTO> findGoods(String brandCode, String goodsName) {
-        return sqlSession.getMapper(GoodsQueryMapper.class).findGoods(brandCode, goodsName);
+        return goodsQueryMapper.findGoods(brandCode, goodsName);
     }
 
     // 상위 카테고리 내에 있는 하위 카테고리 조회
     public List<SubCategoryDTO> findSubCategory(String topCategoryCode) {
-        return sqlSession.getMapper(GoodsQueryMapper.class).findSubCategory(topCategoryCode);
+        return goodsQueryMapper.findSubCategory(topCategoryCode);
     }
 
     // 상위 카테고리 내에 있는 전체 상품 조회
@@ -51,21 +52,24 @@ public class GoodsQueryService {
 
     // 하위 카테고리 내에 있는 전체 상품 조회
     public List<GoodsQueryDTO> findSubCategoryGoods(String subCategoryCode) {
-        return sqlSession.getMapper(GoodsQueryMapper.class).findSubCategoryGoods(subCategoryCode);
+        return goodsQueryMapper.findSubCategoryGoods(subCategoryCode);
     }
 
     // 엘라스틱서치로 상품명 검색
-    public List<GoodsDocument> searchGoods(String searchGoodsName){
+    public List<GoodsDocument> searchGoods(String searchGoodsName) {
         return goodsSearchRepository.findByGoodsName(searchGoodsName);
     }
 
     // DB 데이터를 엘라스틱서치 동기화
     @Transactional
-    public void indexGoods(){
+    public void indexGoods() {
+        // DB에서 모든 상품 데이터 조회
         List<GoodsQueryDTO> goods = sqlSession.getMapper(GoodsQueryMapper.class).findGoods(null, null);
+        // GoodsDocument 로 변환
         List<GoodsDocument> documents = goods.stream()
                 .map(GoodsDocument::from)
                 .collect(Collectors.toList());
+        // 엘라스틱서치에 저장
         goodsSearchRepository.saveAll(documents);
     }
 }

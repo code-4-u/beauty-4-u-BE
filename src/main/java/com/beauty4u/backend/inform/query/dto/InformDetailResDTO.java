@@ -13,8 +13,8 @@ public class InformDetailResDTO {
     private String userCode;
     private String informTitle;
     private String informContent;
-    private String informStatus;
+    private String publishStatus;
     private Long informViewcount;
-    private LocalDateTime informCreatedDate;
-    private LocalDateTime informUpdatedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 }

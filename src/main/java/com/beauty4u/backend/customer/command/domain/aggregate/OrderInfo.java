@@ -1,18 +1,16 @@
 package com.beauty4u.backend.customer.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.entity.CreatedTimeEntity;
 import com.beauty4u.backend.goods.command.domain.aggregate.Goods;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "order_info")
-public class OrderInfo {
+public class OrderInfo extends CreatedTimeEntity {
+
     @Id
     @Column(name = "order_id", nullable = false)
     private Long id;
@@ -39,9 +37,4 @@ public class OrderInfo {
     @Lob
     @Column(name = "order_status", nullable = false)
     private String orderStatus;
-
-    @NotNull
-    @Column(name = "order_created_date", nullable = false)
-    private Instant orderCreatedDate;
-
 }

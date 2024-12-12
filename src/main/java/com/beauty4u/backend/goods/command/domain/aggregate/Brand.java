@@ -1,5 +1,6 @@
 package com.beauty4u.backend.goods.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.entity.CreatedTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,15 +8,12 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "brand")
-public class Brand {
+public class Brand extends CreatedTimeEntity {
+
     @Id
     @Size(max = 20)
     @Column(name = "brand_code", nullable = false, length = 20)
@@ -25,9 +23,4 @@ public class Brand {
     @NotNull
     @Column(name = "brand_name", nullable = false, length = 50)
     private String brandName;
-
-    @NotNull
-    @Column(name = "brand_created_date", nullable = false)
-    private Instant brandCreatedDate;
-
 }

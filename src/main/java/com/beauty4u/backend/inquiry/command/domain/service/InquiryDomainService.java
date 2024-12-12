@@ -39,7 +39,7 @@ public class InquiryDomainService {
 
         String title = qnaReqDTO.getInquiryTitle();
         String content = qnaReqDTO.getInquiryContent();
-        Character secretYn = qnaReqDTO.getInquirySecretYn();
+        String secretYn = qnaReqDTO.getInquirySecretYn();
 
         Inquiry inquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY));

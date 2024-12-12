@@ -1,19 +1,17 @@
 package com.beauty4u.backend.customer.command.domain.aggregate;
 
-import com.beauty4u.backend.customer.query.dto.CustomerGrade;
+import com.beauty4u.backend.common.aggregate.YnType;
+import com.beauty4u.backend.common.aggregate.entity.CreatedUpdatedTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer extends CreatedUpdatedTimeEntity {
+
     @Id
     @Size(max = 20)
     @Column(name = "customer_code", nullable = false, length = 20)
@@ -54,15 +52,7 @@ public class Customer {
     private CustomerGrade customerGrade;
 
     @NotNull
-    @Column(name = "customer_created_date", nullable = false)
-    private Instant customerCreatedDate;
-
-    @NotNull
-    @Column(name = "customer_updated_date")
-    private Instant customerUpdatedDate;
-
-    @NotNull
     @Column(name = "privacy_consent_yn", nullable = false)
-    private Character privacyConsentYn;
-
+    @Enumerated(EnumType.STRING)
+    private YnType privacyConsentYn;
 }

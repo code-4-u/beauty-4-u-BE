@@ -1,5 +1,6 @@
 package com.beauty4u.backend.basesystem.command.domain.aggregate;
 
+import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import com.beauty4u.backend.promotion.command.domain.aggregate.Promotion;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
@@ -7,15 +8,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "schedule_info")
-public class ScheduleInfo {
+public class ScheduleInfo extends BaseEntity {
+
     @Id
     @Column(name = "schedule_id", nullable = false)
     private Long id;
@@ -44,25 +44,9 @@ public class ScheduleInfo {
 
     @NotNull
     @Column(name = "schedule_start", nullable = false)
-    private Instant scheduleStart;
+    private LocalDateTime scheduleStart;
 
     @NotNull
     @Column(name = "schedule_end", nullable = false)
-    private Instant scheduleEnd;
-
-    @NotNull
-    @Lob
-    @Column(name = "schedule_status", nullable = false)
-    private String scheduleStatus;
-
-    @NotNull
-    @Column(name = "schedule_created_date", nullable = false)
-    private Instant scheduleCreatedDate;
-
-    @Column(name = "schedule_updated_date")
-    private Instant scheduleUpdatedDate;
-
-    @Column(name = "schedule_deleted_date")
-    private Instant scheduleDeletedDate;
-
+    private LocalDateTime scheduleEnd;
 }

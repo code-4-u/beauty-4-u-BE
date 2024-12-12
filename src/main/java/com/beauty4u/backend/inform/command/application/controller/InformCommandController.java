@@ -5,7 +5,7 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.inform.command.application.dto.InformReqDTO;
-import com.beauty4u.backend.inform.command.application.service.InformCommandService;
+import com.beauty4u.backend.inform.command.application.service.InformService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Inform", description = "공지사항 관련 API")
 public class InformCommandController {
 
-    private final InformCommandService informCommandService;
+    private final InformService informService;
 
     @Operation(summary = "공지사항 등록", description = "관리자가 공지사항을 등록한다.")
     @PostMapping
@@ -28,7 +28,7 @@ public class InformCommandController {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
 
-        informCommandService.saveInform(loginUserCode, informReqDTO);
+        informService.saveInform(loginUserCode, informReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.INFORM_SAVE_SUCCESS);
     }
@@ -39,7 +39,7 @@ public class InformCommandController {
             @PathVariable Long informId,
             @RequestBody @Valid InformReqDTO informReqDTO) {
 
-        informCommandService.updateInform(informId, informReqDTO);
+        informService.updateInform(informId, informReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.INFORM_UPDATE_SUCCESS);
     }
@@ -49,7 +49,7 @@ public class InformCommandController {
     public ResponseEntity<ApiResponse<Void>> deleteInform(
             @PathVariable Long informId) {
 
-        informCommandService.deleteInform(informId);
+        informService.deleteInform(informId);
 
         return ResponseUtil.successResponse(SuccessCode.INFORM_DELETE_SUCCESS);
     }

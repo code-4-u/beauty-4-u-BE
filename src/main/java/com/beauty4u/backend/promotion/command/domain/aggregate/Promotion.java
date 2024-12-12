@@ -4,15 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "promotion")
 public class Promotion {
+
     @Id
     @Column(name = "promotion_id", nullable = false)
     private Long id;
@@ -29,15 +28,14 @@ public class Promotion {
 
     @NotNull
     @Column(name = "promotion_start_date", nullable = false)
-    private Instant promotionStartDate;
+    private LocalDateTime promotionStartDate;
 
     @NotNull
     @Column(name = "promotion_end_date", nullable = false)
-    private Instant promotionEndDate;
+    private LocalDateTime promotionEndDate;
 
     @NotNull
     @Lob
     @Column(name = "promotion_status", nullable = false)
     private String promotionStatus;
-
 }

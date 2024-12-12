@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDTO {
+
     private List<GoodsQueryDTO> goods;
     private List<SubCategoryDTO> subCategory;
 }

@@ -36,14 +36,14 @@ class UserQueryServiceTest {
         user1.setUserCode("USER_001");
         user1.setUserRoleName("ADMIN");
         user1.setDeptName("마케팅팀");
-        user1.setUserCreatedDate(LocalDateTime.of(2024, 1, 1, 9, 0));
+        user1.setCreatedDate(LocalDateTime.of(2024, 1, 1, 9, 0));
         user1.setUserExpiredDate(LocalDateTime.of(2025, 12, 31, 23, 59));
 
         user2 = new UserListResDTO();
         user2.setUserCode("USER_002");
         user2.setUserRoleName("USER");
         user2.setDeptName("영업팀");
-        user2.setUserCreatedDate(LocalDateTime.of(2024, 2, 1, 9, 0));
+        user2.setCreatedDate(LocalDateTime.of(2024, 2, 1, 9, 0));
         user2.setUserExpiredDate(LocalDateTime.of(2025, 12, 31, 23, 59));
     }
 
@@ -73,13 +73,13 @@ class UserQueryServiceTest {
         assertThat(firstUser.getUserCode()).isEqualTo("USER_001");
         assertThat(firstUser.getUserRoleName()).isEqualTo("ADMIN");
         assertThat(firstUser.getDeptName()).isEqualTo("마케팅팀");
-        assertThat(firstUser.getUserCreatedDate()).isEqualTo(LocalDateTime.of(2024, 1, 1, 9, 0));
+        assertThat(firstUser.getCreatedDate()).isEqualTo(LocalDateTime.of(2024, 1, 1, 9, 0));
 
         UserListResDTO secondUser = actualUsers.get(1);
         assertThat(secondUser.getUserCode()).isEqualTo("USER_002");
         assertThat(secondUser.getUserRoleName()).isEqualTo("USER");
         assertThat(secondUser.getDeptName()).isEqualTo("영업팀");
-        assertThat(secondUser.getUserCreatedDate()).isEqualTo(LocalDateTime.of(2024, 2, 1, 9, 0));
+        assertThat(secondUser.getCreatedDate()).isEqualTo(LocalDateTime.of(2024, 2, 1, 9, 0));
     }
 
     @Test
@@ -115,7 +115,7 @@ class UserQueryServiceTest {
         user3.setUserCode("USER_003");
         user3.setUserRoleName("USER");
         user3.setDeptName("개발팀");
-        user3.setUserCreatedDate(LocalDateTime.of(2024, 3, 1, 9, 0));
+        user3.setCreatedDate(LocalDateTime.of(2024, 3, 1, 9, 0));
         user3.setUserExpiredDate(LocalDateTime.of(2025, 12, 31, 23, 59));
 
         List<UserListResDTO> expectedUsers = List.of(user3);
