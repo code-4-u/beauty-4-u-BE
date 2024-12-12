@@ -1,6 +1,5 @@
 package com.beauty4u.backend.teamspace.command.domain.aggregate;
 
-import com.beauty4u.backend.user.command.domain.aggregate.Dept;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -10,7 +9,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Teamspace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +16,7 @@ public class Teamspace {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "dept_code", nullable = false)
-    private Dept deptCode;
+    @Column(name = "dept_code", nullable = false)
+    private String deptCode;
 
 }
