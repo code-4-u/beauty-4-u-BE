@@ -1,15 +1,19 @@
-package com.beauty4u.backend.config;
+package com.beauty4u.backend.config.mongo;
 
+import com.beauty4u.backend.config.zoneDateTime.StringToZonedDateTimeConverter;
+import com.beauty4u.backend.config.zoneDateTime.ZonedDateTimeToStringConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
 import java.util.Arrays;
 
 @Configuration
+@EnableMongoAuditing
 public class MongoConfig {
 
     @Bean

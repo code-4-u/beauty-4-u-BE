@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CreateFolderRequest {
+public class CreateFolderReqDto {
 
     @NotNull
     private Long teamspaceId; // 소속 팀스페이스 ID

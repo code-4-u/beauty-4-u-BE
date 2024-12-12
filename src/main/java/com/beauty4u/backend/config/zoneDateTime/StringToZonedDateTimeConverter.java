@@ -1,4 +1,4 @@
-package com.beauty4u.backend.config;
+package com.beauty4u.backend.config.zoneDateTime;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;

@@ -1,25 +1,22 @@
 package com.beauty4u.backend.teamspace.query.service;
 
-import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
-import com.beauty4u.backend.teamspace.command.domain.repository.TeamSpaceRepository;
-import com.beauty4u.backend.teamspace.query.dto.teamspace.TeamSpaceResponse;
-import jakarta.persistence.EntityNotFoundException;
+import com.beauty4u.backend.teamspace.query.dto.teamspace.TeamSpaceUserInfoDto;
+import com.beauty4u.backend.teamspace.query.mapper.TeamSpaceQueryMapper;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import java.util.List;
+
 @RequiredArgsConstructor
+@Service
+@Transactional(readOnly = true)
 public class TeamSpaceQueryService {
 
-    private final TeamSpaceRepository teamSpaceRepository;
-    private final ModelMapper modelMapper;
+    private final TeamSpaceQueryMapper teamSpaceQueryMapper;
 
-    // 특정 부서의 팀스페이스 조회
-    public TeamSpaceResponse getTeamSpaceByDeptCode(String deptCode) {
-        Teamspace teamspace = teamSpaceRepository.findTeamspaceByDeptCode(deptCode)
-                .orElseThrow(() -> new EntityNotFoundException("Teamspace not found for department code: " + deptCode));
-
-        return modelMapper.map(teamspace, TeamSpaceResponse.class);
+    // 부서 코드로 채팅참여자 정보 조회
+    public List<TeamSpaceUserInfoDto> findAllTeamSpaceUser(String deptCode) {
+        return teamSpaceQueryMapper.findAllTeamSpaceUser(deptCode);
     }
 }

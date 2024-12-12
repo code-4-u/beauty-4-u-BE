@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class CreateScrapRequest {
+public class CreateScrapReqDto {
 
     @NotNull(message = "Folder ID는 필수입니다.")
     private Long folderId;

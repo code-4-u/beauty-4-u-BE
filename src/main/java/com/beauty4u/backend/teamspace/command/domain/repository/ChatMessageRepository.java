@@ -4,7 +4,10 @@ import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ChatMessageRepository extends MongoRepository<ChatMessage, Long> {
-    ChatMessage findByTeamspaceId(Long teamspaceId);
+    List<ChatMessage> findByTeamspaceId(Long teamspaceId);
+
 }

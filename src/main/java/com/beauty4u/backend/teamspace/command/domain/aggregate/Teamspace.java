@@ -9,17 +9,15 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Teamspace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "teamspace_id", nullable = false)
-    private Long teamspaceId;
+    private Long id;
 
     @NotNull
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "dept_code", nullable = false)
+    @Column(name = "dept_code", nullable = false)
     private String deptCode;
 
 }
