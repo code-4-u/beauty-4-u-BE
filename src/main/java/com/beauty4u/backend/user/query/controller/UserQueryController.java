@@ -33,7 +33,7 @@ public class UserQueryController {
 
         List<UserListResDTO> userListResDTOS = userQueryService.findUserList(page, count);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, userListResDTOS);
+        return ResponseUtil.successResponse(SuccessCode.USER_FIND_LIST_SUCCESS, userListResDTOS);
     }
 
     @Operation(summary = "내 정보 조회", description = "회원을 상세 조회한다.")
@@ -43,7 +43,7 @@ public class UserQueryController {
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
         FindUserDetailResDTO findUserDetailResDTO = userQueryService.findUserDetail(loginUserCode);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS, findUserDetailResDTO);
+        return ResponseUtil.successResponse(SuccessCode.USER_FIND_DETAIL_SUCCESS, findUserDetailResDTO);
     }
 
     @Operation(summary = "부서 목록 조회")
