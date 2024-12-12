@@ -2,7 +2,10 @@ package com.beauty4u.backend.teamspace.command.application.service;
 
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
 import com.beauty4u.backend.teamspace.command.domain.repository.TeamSpaceRepository;
+import com.beauty4u.backend.user.command.domain.aggregate.Dept;
 import com.beauty4u.backend.user.command.domain.repository.DeptRepository;
+import com.beauty4u.backend.user.command.domain.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,20 +16,27 @@ public class TeamSpaceService {
 
     private final TeamSpaceRepository teamSpaceRepository;
     private final DeptRepository deptRepository;
+    private final UserRepository userRepository;
 
-    // 새로운 팀스페이스 생성
+    // 팀스페이스 생성(Admin)
     @Transactional
-    public void createTeamspace(String deptCode) {
+    public Teamspace createTeamspace(String deptCode) {
 
-//        Dept dept = deptRepository.findByDeptCode(deptCode)
-//                .orElseThrow(() -> new EntityNotFoundException("Department not found with code: " + deptCode));
+        Dept dept = deptRepository.findById(deptCode)
+                .orElseThrow(() -> new EntityNotFoundException("해당 부서 코드가 존재하지 않습니다."));
 
-        Long teamspaceId = System.currentTimeMillis();
         Teamspace teamspace = Teamspace.builder()
-//                .teamspaceId(teamspaceId) // 엔티티에서 DB에 기본키 권한설정 (@GeneratedValue을 주었음)
-                .deptCode(deptCode)  // Dept 엔티티를 설정
+                .deptCode(dept)  // Dept 엔티티를 설정
                 .build();
 
-        teamSpaceRepository.save(teamspace);
+        return teamSpaceRepository.save(teamspace);
+    }
+
+    // 팀스페이스 삭제
+    @Transactional
+    public void deleteTeamspace(Long teamSpaceId) {
+        Teamspace teamspace = teamSpaceRepository.findById(teamSpaceId)
+                .orElseThrow(() -> new EntityNotFoundException("id에 해당하는 팀스페이스가 없습니다."));
+        teamSpaceRepository.delete(teamspace);
     }
 }
