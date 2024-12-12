@@ -1,4 +1,4 @@
-package com.beauty4u.backend.config;
+package com.beauty4u.backend.config.webSocket;
 
 import org.json.JSONObject;
 import org.springframework.web.socket.CloseStatus;
