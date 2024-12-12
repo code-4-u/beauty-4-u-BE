@@ -3,45 +3,40 @@ package com.beauty4u.backend.teamspace.command.domain.aggregate;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.time.ZonedDateTime;
+
+import java.time.LocalDateTime;
 
 @Document(collection = "chatMessage")
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatMessage {
+@Getter
+public class ChatMessage{
 
     @Id
-    private String id; // MongoDB에서 자동 생성되는 _id 필드를 매핑 (String 또는 ObjectId 사용)
+    private ObjectId id; // MongoDB에서 자동 생성되는 _id 필드를 매핑 (String 또는 ObjectId 사용)
 
-//    @Field("message_id")
-//    private Long messageId; // 메시지 번호
-
-//    @Field("teamspace_id")
+    @NotNull
     private Long teamspaceId; // 팀스페이스 번호
 
-//    @Field("user_code")
-    private String userCode; // 사용자 코드
+    private String userCode; // sender 사용자 코드
 
-//    @Field("scrap_id")
     private Long scrapId; // 스크랩 번호
 
-//    @Field("message_status")
     @Enumerated(value = EnumType.STRING)  // 몽고DB에서 기본적으로 문자열 처리를 해준다.
     private MessageStatus messageStatus; // 메시지 상태 (ACTIVE, INACTIVE)
 
-//    @Field("message_content")
+    @NotNull
     private String messageContent; // 메시지 내용
 
-//    @Field("message_created_time")
-    private ZonedDateTime messageCreatedTime; // 메시지 작성 일시
+    @CreatedDate // 생성 시간 자동 설정
+    private LocalDateTime messageCreatedTime;
 
-//    @Field("message_deleted_time")
-    private ZonedDateTime  messageDeletedTime; // 메시지 삭제 일시 (삭제되지 않은 경우 null)
+    private LocalDateTime messageDeletedTime; // 삭제 시간
+
 }
