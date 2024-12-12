@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-@ConditionalOnProperty(name = "elasticsearch.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryService {
     private final SqlSession sqlSession;
     private final GoodsSearchRepository goodsSearchRepository;
