@@ -35,5 +35,32 @@ public interface AnalysisQueryMapper {
     AnalysisGradeGroupRadioResDTO selectAnalysisGradeGroupRadio(@Param("startDate") Integer startDate,
                                                                 @Param("endDate") Integer endDate);
 
+    /* 등급별 브랜드 구매 횟수 (막대 그래프) 조회 */
+    List<AnalysisGradeByBrandResDTO> selectAnalysisGradeByBrand(@Param("grade") String grade,
+                                                                @Param("startDate") Integer startDate,
+                                                                @Param("endDate") Integer endDate);
 
+    /* 등급별 브랜드 별 제품 구매 횟수 (막대 그래프) 조회 */
+    List<AnalysisGradeByBrandProductResDTO> selectAnalysisGradeByBrandProduct(@Param("brandCode") String brandCode,
+                                                                              @Param("grade") String grade,
+                                                                              @Param("startDate") LocalDateTime startDate,
+                                                                              @Param("endDate") LocalDateTime endDate);
+
+    /* 연령별 매출 비율 (원형그래프) 조회 */
+    AnalysisAgeSalesRadioResDTO selectAnalysisAgeSalesRadio(@Param("startDate") LocalDateTime startDate,
+                                                            @Param("endDate") LocalDateTime endDate);
+
+    /* 연령별 브랜드 매출 조회 (수평 막대 그래프) */
+    List<AnalysisAgeSalesByBrandResDTO> selectAnalysisAgeSalesByBrand(@Param("startDate") LocalDateTime startDate,
+                                                                      @Param("endDate") LocalDateTime endDate);
+
+    /* 연령별 브랜드 제품별 매출 조회 (막대 그래프) */
+    List<AnalysisAgeSalesByBrandProductResDTO> selectAnalysisAgeSalesByBrandProduct(@Param("brandCode") String brandCode,
+                                                                                    @Param("startAge") Integer startAge,
+                                                                                    @Param("endAge") Integer endAge,
+                                                                                    @Param("startDate") LocalDateTime startDate,
+                                                                                    @Param("endDate") LocalDateTime endDate);
+
+    /* 등급별 매출 비율 (원형그래프) 조회 */
+    AnalysisGradeSalesRadioDTO selectAnalysisGradeSalesRadio();
 }
