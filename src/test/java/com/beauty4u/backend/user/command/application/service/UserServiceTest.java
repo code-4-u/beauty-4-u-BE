@@ -37,7 +37,6 @@ class UserServiceTest {
         user.setUserName("홍길동");
         user.setEmail("test1@test.com");
         user.setPhone("010-1234-1111");
-        user.setUserPassword("pass001");
     }
 
     @Test
