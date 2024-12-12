@@ -1,8 +1,6 @@
 package com.beauty4u.backend.analysis.query.mapper;
 
-import com.beauty4u.backend.analysis.query.dto.response.AnalysisAgeGroupRadioResDTO;
-import com.beauty4u.backend.analysis.query.dto.response.AnalysisPurchasesByAgeResDTO;
-import com.beauty4u.backend.analysis.query.dto.response.AnalysisPurchasesByBrandResDTO;
+import com.beauty4u.backend.analysis.query.dto.response.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +23,17 @@ public interface AnalysisQueryMapper {
                                                                         @Param("endAge") Integer endAge,
                                                                         @Param("startDate") LocalDateTime startDate,
                                                                         @Param("endDate") LocalDateTime endDate);
+
+    /* 해당 브랜드의 제품별 구매 횟수(수평 막대 그래프) 조회 응답 */
+    List<AnalysisPurchasesByBrandProductResDTO> selectAnalysisPurchasesByBrandProduct(@Param("brandCode") String brandCode,
+                                                                                      @Param("startAge") Integer startAge,
+                                                                                      @Param("endAge") Integer endAge,
+                                                                                      @Param("startDate") LocalDateTime startDate,
+                                                                                      @Param("endDate") LocalDateTime endDate);
+
+    /* 등급별 구매 비율 (원형 그래프) 조회 */
+    AnalysisGradeGroupRadioResDTO selectAnalysisGradeGroupRadio(@Param("startDate") Integer startDate,
+                                                                @Param("endDate") Integer endDate);
+
+
 }
