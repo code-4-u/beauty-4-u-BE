@@ -61,6 +61,18 @@ public class UserDomainService {
         }
     }
 
+    public void updatePasswordWithValidation(String userCode, String currentPassword, String newPassword) {
+
+        UserInfo user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (!passwordEncoder.matches(currentPassword, user.getUserPassword())) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+        }
+
+        user.encryptPassword(passwordEncoder.encode(newPassword));
+    }
+
     public void updatePassword(String userCode, String newPassword) {
 
         UserInfo user = userRepository.findByUserCode(userCode)
