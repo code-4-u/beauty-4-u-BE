@@ -35,7 +35,7 @@ public class UserDomainService {
                         .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB));
         Dept dept = deptRepository.findById(newUser.getDeptCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_DEPT));
-        UserRole role = userRoleRepository.findById(newUser.getUserRole())
+        UserRole role = userRoleRepository.findById(newUser.getUserRoleId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ROLE));
 
         user.modifyJob(job);
@@ -59,6 +59,18 @@ public class UserDomainService {
         if (!userRepository.existsByUserCodeAndUserNameAndEmail(userCode, name, email)) {
             throw new CustomException(ErrorCode.NOT_FOUND_USER);
         }
+    }
+
+    public void updatePasswordWithValidation(String userCode, String currentPassword, String newPassword) {
+
+        UserInfo user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (!passwordEncoder.matches(currentPassword, user.getUserPassword())) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+        }
+
+        user.encryptPassword(passwordEncoder.encode(newPassword));
     }
 
     public void updatePassword(String userCode, String newPassword) {

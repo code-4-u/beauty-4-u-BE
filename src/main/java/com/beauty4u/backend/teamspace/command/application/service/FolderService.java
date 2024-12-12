@@ -1,6 +1,6 @@
 package com.beauty4u.backend.teamspace.command.application.service;
 
-import com.beauty4u.backend.teamspace.command.application.dto.folder.CreateFolderRequest;
+import com.beauty4u.backend.teamspace.command.application.dto.folder.CreateFolderReqDto;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Folder;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
 import com.beauty4u.backend.teamspace.command.domain.repository.FolderRepository;
@@ -21,7 +21,7 @@ public class FolderService {
     private final FolderRepository folderRepository;
 
 
-    public void createFolder(Long teamspaceId, CreateFolderRequest request) {
+    public void createFolder(Long teamspaceId, CreateFolderReqDto request) {
         Teamspace teamspace = teamSpaceRepository.findById(teamspaceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Teamspace not found"));
         // 부모 폴더 조회

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/review")
 @Tag(name = "Review", description = "리뷰 조회 API")
-@ConditionalOnProperty(name = "elasticsearch.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class ReviewQueryController {
 
     private final ReviewQueryService reviewQueryService;

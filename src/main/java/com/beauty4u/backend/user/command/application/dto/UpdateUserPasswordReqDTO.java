@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class UpdateUserPasswordReqDTO {
 
-    @NotNull(message = "비밀번호는 필수 입력값입니다.")
-    private String userPassword;
+    @NotNull(message = "현재 비밀번호는 필수 입력값입니다.")
+    private String currentPassword;
+    @NotNull(message = "새 비밀번호는 필수 입력값입니다.")
+    private String newPassword;
 }

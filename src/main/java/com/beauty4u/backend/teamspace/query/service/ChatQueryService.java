@@ -5,15 +5,17 @@ import com.beauty4u.backend.teamspace.command.domain.repository.ChatMessageRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ChatQueryService {
+
     private final ChatMessageRepository chatMessageRepository;
 
-    public ChatMessage getChattingMessageInfoByTeamspaceId(Long teamspaceId) {
+    public List<ChatMessage> getChatHistory(Long teamspaceId) {
 
-        ChatMessage chattingInfo = chatMessageRepository.findByTeamspaceId(teamspaceId);
-        return chattingInfo;
-
+        List<ChatMessage> chatMessages = chatMessageRepository.findByTeamspaceId(teamspaceId);
+        return chatMessages;
     }
 }

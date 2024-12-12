@@ -13,6 +13,7 @@ public enum ErrorCode {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증 실패"),
     LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "로그인 실패"),
     LOGOUT_FAIL(HttpStatus.UNAUTHORIZED, "로그아웃 실패"),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "현재 비밀번호가 일치하지 않습니다."),
 
     EMAIL_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 전송 실패"),
 
@@ -35,7 +36,12 @@ public enum ErrorCode {
     NOT_SAVED_INQUIRY_REPLY(HttpStatus.CONFLICT, "QnA 답변 등록 실패"),
     NOT_FOUND_INQUIRY_REPLY(HttpStatus.NOT_FOUND, "QnA 답변 조회 실패"),
     NOT_SAVED_FAQ(HttpStatus.CONFLICT, "FAQ 등록 실패"),
-    NOT_FOUND_FAQ(HttpStatus.NOT_FOUND, "FAQ 조회 실패");
+    NOT_FOUND_FAQ(HttpStatus.NOT_FOUND, "FAQ 조회 실패"),
+
+    // 알림 (noti)
+    NOT_SAVED_NOTI(HttpStatus.CONFLICT, "알림 등록 실패"),
+    NOT_REQUEST_NOTI(HttpStatus.CONFLICT, "알림 전송 실패"),
+    NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "알림 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
