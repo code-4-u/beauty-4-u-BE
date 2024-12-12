@@ -30,14 +30,14 @@ public class ChatService {
                 .orElseThrow(() -> new EntityNotFoundException("팀스페이스가 존재하지 않습니다."));
 
         // 보낸 사람 찾기
-        UserInfo sender = userRepository.findByUserCode(chatMessageReqDto.getUserCode())
-                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
+//        UserInfo sender = userRepository.findByUserCode(chatMessageReqDto.getUserCode())
+//                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
 
 
         // 메시지 생성 및 저장
         ChatMessage chatMessage = ChatMessage.builder()
                 .messageContent(chatMessageReqDto.getMessageContent())
-                .userCode(sender.getUserCode())
+//                .userCode(sender.getUserCode())
                 .teamspaceId(teamspace.getId())
                 .build();
 
