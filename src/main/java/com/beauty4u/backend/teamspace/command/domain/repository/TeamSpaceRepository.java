@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface TeamSpaceRepository extends JpaRepository<Teamspace, Long> {
 
     // 특정 부서코드 ID를 기준으로 팀스페이스 조회
-    Optional<Teamspace> findTeamspaceByDeptCodeDeptCode(String deptCode);
+    Optional<Teamspace> findTeamspaceByDeptCode(String deptCode);
 }
