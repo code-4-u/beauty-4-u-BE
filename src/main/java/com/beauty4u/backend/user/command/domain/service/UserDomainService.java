@@ -32,7 +32,7 @@ public class UserDomainService {
         UserInfo user = modelMapper.map(newUser, UserInfo.class);
 
         Job job = jobRepository.findById(newUser.getJobCode())
-                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB));
         Dept dept = deptRepository.findById(newUser.getDeptCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_DEPT));
         UserRole role = userRoleRepository.findById(newUser.getUserRoleId())
@@ -42,7 +42,8 @@ public class UserDomainService {
         user.modifyDept(dept);
         user.modifyRole(role);
 
-        user.encryptPassword(passwordEncoder.encode(newUser.getUserPassword()));
+        /* 초기 비밀번호는 사원번호와 동일 */
+        user.encryptPassword(passwordEncoder.encode(newUser.getUserCode()));
 
         userRepository.save(user);
     }
