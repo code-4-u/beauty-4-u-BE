@@ -185,4 +185,10 @@ public class UserService {
 
         userDomainService.unexpireUser(userCode);
     }
+
+    @Transactional
+    public void updateUser(String userCode, UpdateUserReqDTO updateUserReqDTO) {
+
+        userDomainService.updateUser(userCode, updateUserReqDTO);
+    }
 }

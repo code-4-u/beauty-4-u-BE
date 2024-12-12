@@ -61,8 +61,7 @@ public class UserCommandController {
     @Operation(summary = "로그아웃", description = "현재 로그인 된 회원이 로그아웃을 한다.")
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logoutUser(
-            HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletRequest request) {
 
         try {
             String userCode = CustomUserUtil.getCurrentUserCode();
@@ -99,7 +98,7 @@ public class UserCommandController {
     @Operation(summary = "비밀번호 수정", description = "현재 로그인 된 회원이 비밀번호를 수정한다.")
     @PutMapping("/password")
     public ResponseEntity<ApiResponse<Void>> updateUserPassword(
-            @RequestBody UpdateUserPasswordReqDTO updateUserPasswordReqDTO ) {
+            @RequestBody UpdateUserPasswordReqDTO updateUserPasswordReqDTO) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
         userService.updateUserPassword(loginUserCode, updateUserPasswordReqDTO);
@@ -110,7 +109,7 @@ public class UserCommandController {
     @Operation(summary = "비밀번호 초기화", description = "관리자가 회원의 비밀번호를 초기화한다.")
     @PutMapping("/password/admin/reset")
     public ResponseEntity<ApiResponse<Void>> adminResetUserPassword(
-            @RequestBody UserCodeReqDTO userCodeReqDTO ) {
+            @RequestBody UserCodeReqDTO userCodeReqDTO) {
 
         userService.adminResetUserPassword(userCodeReqDTO);
 
@@ -120,7 +119,7 @@ public class UserCommandController {
     @Operation(summary = "회원 비활성화", description = "관리자가 회원을 비활성화(계정 만료)한다.")
     @PutMapping("/expire")
     public ResponseEntity<ApiResponse<Void>> expireUser(
-            @RequestBody UserCodeReqDTO userCodeReqDTO ) {
+            @RequestBody UserCodeReqDTO userCodeReqDTO) {
 
         userService.expireUser(userCodeReqDTO);
 
@@ -130,10 +129,21 @@ public class UserCommandController {
     @Operation(summary = "회원 활성화", description = "관리자가 비활성화 된 회원을 다시 활성화한다.")
     @PutMapping("/unexpire")
     public ResponseEntity<ApiResponse<Void>> unexpireUser(
-            @RequestBody UserCodeReqDTO userCodeReqDTO ) {
+            @RequestBody UserCodeReqDTO userCodeReqDTO) {
 
         userService.unexpireUser(userCodeReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.EXPIRE_UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "회원 정보 수정", description = "관리자가 등록된 회원의 정보를 수정한다.")
+    @PutMapping("/{userCode}")
+    public ResponseEntity<ApiResponse<Void>> updateUser(
+            @PathVariable String userCode,
+            @RequestBody UpdateUserReqDTO updateUserReqDTO) {
+
+        userService.updateUser(userCode, updateUserReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.USER_UPDATE_SUCCESS);
     }
 }
