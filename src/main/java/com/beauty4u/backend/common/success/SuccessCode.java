@@ -13,6 +13,15 @@ public enum SuccessCode {
     USER_LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
     USER_LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
     USER_READ_SUCCESS(HttpStatus.OK, "회원 조회 성공"),
+    USERCODE_FIND_SUCCESS(HttpStatus.OK, "사원번호 조회 성공"),
+    PASSWORD_RESET_SUCCESS(HttpStatus.OK, "비밀번호 재발급 성공"),
+    PASSWORD_UPDATE_SUCCESS(HttpStatus.OK, "비밀번호 수정 성공"),
+    EXPIRE_UPDATE_SUCCESS(HttpStatus.OK, "만료 상태 수정 성공"),
+    USER_FIND_LIST_SUCCESS(HttpStatus.OK, "회원 목록 조회 성공"),
+    USER_FIND_DETAIL_SUCCESS(HttpStatus.OK, "회원 상세 조회 성공"),
+    DEPT_READ_SUCCESS(HttpStatus.OK, "부서 조회 성공"),
+    JOB_READ_SUCCESS(HttpStatus.OK, "직급 조회 성공"),
+    ROLE_READ_SUCCESS(HttpStatus.OK, "권한 조회 성공"),
 
     // 고객 (customer)
     CUSTOMER_FIND_LIST_SUCCESS(HttpStatus.OK, "고객 목록 조회 성공"),
