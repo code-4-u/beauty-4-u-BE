@@ -35,7 +35,7 @@ public class UserDomainService {
                         .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB));
         Dept dept = deptRepository.findById(newUser.getDeptCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_DEPT));
-        UserRole role = userRoleRepository.findById(newUser.getUserRole())
+        UserRole role = userRoleRepository.findById(newUser.getUserRoleId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ROLE));
 
         user.modifyJob(job);

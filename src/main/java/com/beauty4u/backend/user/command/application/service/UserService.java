@@ -73,10 +73,10 @@ public class UserService {
         String title = "[beauty4u] 요청하신 사원번호(아이디) 안내";
         String body = String.format(
                 "%s님, 안녕하세요.\n" +
-                        "요청하신 사원번호(아이디)를 안내해 드립니다.\n\n" +
-                        "사원번호: %s\n\n" +
-                        "감사합니다.\n" +
-                        "beauty4u 드림",
+                "요청하신 사원번호(아이디)를 안내해 드립니다.\n\n" +
+                "사원번호: %s\n\n" +
+                "감사합니다.\n" +
+                "beauty4u 드림",
                 name, userCode
         );
 
