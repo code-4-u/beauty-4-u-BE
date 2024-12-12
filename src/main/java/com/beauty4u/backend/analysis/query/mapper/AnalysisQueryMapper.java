@@ -62,5 +62,17 @@ public interface AnalysisQueryMapper {
                                                                                     @Param("endDate") LocalDateTime endDate);
 
     /* 등급별 매출 비율 (원형그래프) 조회 */
-    AnalysisGradeSalesRadioDTO selectAnalysisGradeSalesRadio();
+    AnalysisGradeSalesRadioDTO selectAnalysisGradeSalesRadio(@Param("startDate") LocalDateTime startDate,
+                                                             @Param("endDate") LocalDateTime endDate);
+
+    /* 등급별 브랜드 매출 조회 (수평 막대 그래프) */
+    List<AnalysisGradeSalesByBrandResDTO> selectAnalysisGradeSalesByBrand(@Param("brandCode") String brandCode,
+                                                                          @Param("startDate") LocalDateTime startDate,
+                                                                          @Param("endDate") LocalDateTime endDate);
+
+    /* 등급별 브랜드별 제품 매출 조회 (수평 막대 그래프) */
+    List<AnalysisGradeSalesByBrandProductResDTO> selectAnalysisGradeSalesByBrandProduct(@Param("brandCode") String brandCode,
+                                                                                        @Param("gradeCode") String gradeCode,
+                                                                                        @Param("startDate") Integer startDate,
+                                                                                        @Param("endDate") Integer endDate);
 }

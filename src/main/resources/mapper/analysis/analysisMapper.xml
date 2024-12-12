@@ -308,4 +308,42 @@
           FROM grade_group_sales
     </select>
 
+    <!-- 등급별 브랜드 매출 조회 (수평 막대 그래프) -->
+    <select id="selectAnalysisGradeSalesByBrand" resultType="AnalysisGradeSalesByBrandResDTO">
+       SELECT
+              g.brand_code,
+              b.brand_name,
+              SUM(oi.order_price) AS total_order_price
+         FROM order_info oi
+         JOIN customer c ON oi.customer_code = c.customer_code
+         JOIN goods g ON oi.goods_code = g.goods_code
+         JOIN brand b ON g.brand_code = b.brand_code
+        WHERE c.customer_grade = #{brandCode}
+          AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY brand_code
+        ORDER BY total_order_price DESC;
+    </select>
+
+    <!-- 등급별 브랜드 별 제품 매출 조회 (수평 막대 그래프) -->
+    <select id="">
+        SELECT IFNULL((SELECT goods_name
+                       FROM goods
+                       WHERE goods_code = T.goods_code), '합계') AS goods_name,
+               total_buy_price
+          FROM (
+                SELECT
+                       IFNULL(oi.goods_code, 'Total') AS goods_code,
+                       SUM(oi.order_price) AS total_buy_price
+                  FROM order_info oi
+                  JOIN goods g ON oi.goods_code = g.goods_code
+                  JOIN brand b ON g.brand_code = b.brand_code
+                  JOIN customer c ON oi.customer_code = c.customer_code
+                 WHERE b.brand_code = #{brandCode}
+                   AND c.customer_grade = #{gradeCode}
+                   AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+                 GROUP BY oi.goods_code WITH ROLLUP
+             ) AS T
+        ORDER BY IF(goods_code = 'Total', 1, 0),
+                 total_buy_price DESC
+    </select>
 </mapper>
