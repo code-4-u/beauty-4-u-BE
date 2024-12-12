@@ -1,6 +1,6 @@
 package com.beauty4u.backend.teamspace.command.application.controller;
 
-import com.beauty4u.backend.teamspace.command.application.dto.folder.CreateFolderRequest;
+import com.beauty4u.backend.teamspace.command.application.dto.folder.CreateFolderReqDto;
 import com.beauty4u.backend.teamspace.command.application.service.FolderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +21,7 @@ public class FolderCommandController {
     @Operation(summary = "팀스페이스 폴더 생성", description = "팀스페이스에 새 폴더를 생성한다.")
     public ResponseEntity<Void> createFolder(
             @PathVariable Long teamspaceId,
-            @RequestBody CreateFolderRequest request) {
+            @RequestBody CreateFolderReqDto request) {
 
         folderService.createFolder(teamspaceId, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
