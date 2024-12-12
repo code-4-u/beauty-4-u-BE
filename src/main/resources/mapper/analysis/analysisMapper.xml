@@ -76,15 +76,7 @@
                    COUNT(CASE WHEN c.customer_age >= 60 THEN 1 END) AS 'SIXTYUP'
               FROM order_info o
               JOIN customer c ON o.customer_code = c.customer_code
-            <if test="startDate != null and endDate != null">
              WHERE o.order_created_date BETWEEN #{startDate} AND #{endDate}
-            </if>
-            <if test="startDate != null and endDate == null">
-             WHERE o.order_create_date BETWEEN #{startDate} AND now()
-            </if>
-            <if test="startDate == null and endDate != null">
-             WHERE o.order_create_date >= #{startDate}
-            </if>
         )
         SELECT
                ten,
@@ -112,11 +104,71 @@
           JOIN customer c ON oi.customer_code = c.customer_code
           JOIN goods g ON oi.goods_code = g.goods_code
           JOIN brand b ON g.brand_code = b.brand_code
-        WHERE c.customer_age BETWEEN #{startAge} AND #{endAge}
-          AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        <if test="startAge != null and endAge != null">
+          <if test="startDate != null and endDate != null">
+         WHERE c.customer_age BETWEEN #{startAge} AND #{endAge}
+           AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+          </if>
+        </if>
+        <if test="startAge != null and startAge >= 60 and endAge == null">
+            <if test="startDate != null and endDate != null">
+         WHERE c.customer_age >= 60
+           AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+        </if>
         GROUP BY brand_code
         ORDER BY order_count DESC;
+    </select>
 
+    <!-- 연령별 브랜드 별 제품 구매 횟수(막대 그래프) 조회 -->
+    <select id="selectAnalysisPurchasesByBrandProduct" resultType="AnalysisPurchasesByBrandProductResDTO">
+        SELECT IFNULL((SELECT goods_name
+                       FROM goods
+                       WHERE goods_code = T.goods_code), '합계') AS goods_name,
+               total_buy_count
+          FROM (
+                 SELECT
+                        oi.goods_code AS goods_code,
+                        SUM(oi.order_count) AS total_buy_count
+                   FROM order_info oi
+                   JOIN goods g ON oi.goods_code = g.goods_code
+                   JOIN brand b ON g.brand_code = b.brand_code
+                   JOIN customer c ON oi.customer_code = c.customer_code
+                  WHERE b.brand_code = #{brandCode}
+                    AND c.customer_age BETWEEN #{startAge} AND #{endAge}
+                    AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+                  GROUP BY oi.goods_code WITH ROLLUP
+                ) AS T
+          ORDER BY IF(goods_code = 'Total', 1, 0),
+                   total_buy_count DESC
+    </select>
+
+    <!-- 등급별 구매 비율 (원형 그래프) -->
+    <select id="selectAnalysisGradeGroupRadio" resultType="selectAnalysisGradeGroupRadioResDTO">
+        WITH grade_group_radio AS (
+            SELECT
+                count(CASE WHEN c.customer_grade = 'GOLD' THEN 1 END) AS gold,
+                count(CASE WHEN c.customer_grade = 'BLACK' THEN 1 END) AS black,
+                count(CASE WHEN c.customer_grade = 'GREEN' THEN 1 END) AS green,
+                count(CASE WHEN c.customer_grade = 'PINK' THEN 1 END) AS pink,
+                count(CASE WHEN c.customer_grade = 'BABY' THEN 1 END) AS baby,
+                count(*) AS total_customer
+            FROM order_info oi
+            JOIN customer c ON (oi.customer_code = c.customer_code)
+           WHERE oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        )
+        SELECT
+               gold,
+               black,
+               green,
+               pink,
+               baby,
+               ROUND(gold * 100.0 / total_customer, 3) AS 'gold_radio',
+               ROUND(black * 100.0 / total_customer, 3) AS 'black_radio',
+               ROUND(green * 100.0 / total_customer, 3) AS 'green_radio',
+               ROUND(pink * 100.0 / total_customer, 3) AS 'pink_radio',
+               ROUND(baby * 100.0 / total_customer, 3) AS 'baby_radio'
+          FROM grade_group_radio;
     </select>
 
 </mapper>
