@@ -32,13 +32,13 @@ public interface AnalysisQueryMapper {
                                                                                       @Param("endDate") LocalDateTime endDate);
 
     /* 등급별 구매 비율 (원형 그래프) 조회 */
-    AnalysisGradeGroupRadioResDTO selectAnalysisGradeGroupRadio(@Param("startDate") Integer startDate,
-                                                                @Param("endDate") Integer endDate);
+    AnalysisGradeGroupRadioResDTO selectAnalysisGradeGroupRadio(@Param("startDate") LocalDateTime startDate,
+                                                                @Param("endDate") LocalDateTime endDate);
 
     /* 등급별 브랜드 구매 횟수 (막대 그래프) 조회 */
     List<AnalysisGradeByBrandResDTO> selectAnalysisGradeByBrand(@Param("grade") String grade,
-                                                                @Param("startDate") Integer startDate,
-                                                                @Param("endDate") Integer endDate);
+                                                                @Param("startDate") LocalDateTime startDate,
+                                                                @Param("endDate") LocalDateTime endDate);
 
     /* 등급별 브랜드 별 제품 구매 횟수 (막대 그래프) 조회 */
     List<AnalysisGradeByBrandProductResDTO> selectAnalysisGradeByBrandProduct(@Param("brandCode") String brandCode,
@@ -73,6 +73,6 @@ public interface AnalysisQueryMapper {
     /* 등급별 브랜드별 제품 매출 조회 (수평 막대 그래프) */
     List<AnalysisGradeSalesByBrandProductResDTO> selectAnalysisGradeSalesByBrandProduct(@Param("brandCode") String brandCode,
                                                                                         @Param("gradeCode") String gradeCode,
-                                                                                        @Param("startDate") Integer startDate,
-                                                                                        @Param("endDate") Integer endDate);
+                                                                                        @Param("startDate") LocalDateTime startDate,
+                                                                                        @Param("endDate") LocalDateTime endDate);
 }
