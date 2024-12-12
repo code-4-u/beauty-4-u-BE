@@ -155,9 +155,10 @@ public class UserService {
     @Transactional
     public void updateUserPassword(String loginUserCode, UpdateUserPasswordReqDTO updateUserPasswordReqDTO) {
 
-        String newPassword = updateUserPasswordReqDTO.getUserPassword();
+        String currentPassword = updateUserPasswordReqDTO.getCurrentPassword();
+        String newPassword = updateUserPasswordReqDTO.getNewPassword();
 
-        userDomainService.updatePassword(loginUserCode, newPassword);
+        userDomainService.updatePasswordWithValidation(loginUserCode, currentPassword, newPassword);
     }
 
     @Transactional
