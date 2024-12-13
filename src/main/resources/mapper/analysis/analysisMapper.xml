@@ -1,0 +1,350 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.analysis.query.mapper.AnalysisQueryMapper">
+
+    <!-- 고객 비율 분석 (연령별 성별 비율 분석) -->
+    <select id="selectAnalysisAgeGroupRadio" resultType="AnalysisAgeGroupRadioResDTO">
+        WITH age_group_radio AS (
+            SELECT
+                COUNT(CASE WHEN customer_age THEN 1 END) AS total_age,
+                COUNT(CASE WHEN customer_age BETWEEN 10 AND 19 THEN 1 END) AS total_ten_age,
+                COUNT(CASE WHEN customer_age BETWEEN 10 AND 19 AND customer_gender='MALE' THEN 1 END) AS ten_male,
+                COUNT(CASE WHEN customer_age BETWEEN 10 AND 19 AND customer_gender='FEMALE' THEN 1 END) AS ten_female,
+                COUNT(CASE WHEN customer_age BETWEEN 20 AND 29 THEN 1 END) AS total_twenty_age,
+                COUNT(CASE WHEN customer_age BETWEEN 20 AND 29 AND customer_gender='MALE' THEN 1 END) AS twenty_male,
+                COUNT(CASE WHEN customer_age BETWEEN 20 AND 29 AND customer_gender='FEMALE' THEN 1 END) AS twenty_female,
+                COUNT(CASE WHEN customer_age BETWEEN 30 AND 39 THEN 1 END) AS total_thirty_age,
+                COUNT(CASE WHEN customer_age BETWEEN 30 AND 39 AND customer_gender='MALE' THEN 1 END) AS thirty_male,
+                COUNT(CASE WHEN customer_age BETWEEN 30 AND 39 AND customer_gender='FEMALE' THEN 1 END) AS thirty_female,
+                COUNT(CASE WHEN customer_age BETWEEN 40 AND 49 THEN 1 END) AS total_forty_age,
+                COUNT(CASE WHEN customer_age BETWEEN 40 AND 49 AND customer_gender='MALE' THEN 1 END) AS forty_male,
+                COUNT(CASE WHEN customer_age BETWEEN 40 AND 49 AND customer_gender='FEMALE' THEN 1 END) AS forty_female,
+                COUNT(CASE WHEN customer_age BETWEEN 50 AND 59 THEN 1 END) AS total_fifty_age,
+                COUNT(CASE WHEN customer_age BETWEEN 50 AND 59 AND customer_gender='MALE' THEN 1 END) AS fifty_male,
+                COUNT(CASE WHEN customer_age BETWEEN 50 AND 59 AND customer_gender='FEMALE' THEN 1 END) AS fifty_female,
+                COUNT(CASE WHEN customer_age >= 60 THEN 1 END) AS total_sixtyup_age,
+                COUNT(CASE WHEN customer_age >= 60 AND customer_gender='MALE' THEN 1 END) AS sixtyup_male,
+                COUNT(CASE WHEN customer_age >= 60 AND customer_gender='FEMALE' THEN 1 end) AS sixtyup_female
+            FROM customer
+        )
+        SELECT
+            total_age,
+            total_ten_age,
+            ten_male,
+            ten_female,
+            total_twenty_age,
+            twenty_male,
+            twenty_female,
+            total_thirty_age,
+            thirty_male,
+            thirty_female,
+            total_forty_age,
+            forty_male,
+            forty_female,
+            total_fifty_age,
+            fifty_male,
+            fifty_female,
+            total_sixtyup_age,
+            sixtyup_male,
+            sixtyup_female,
+            ROUND(ten_male / total_ten_age, 4) * 100 AS 'customer_ten_male_radio',
+            ROUND(ten_female / total_ten_age, 4) * 100 as 'customer_ten_female_radio',
+            ROUND(twenty_male / total_twenty_age, 4) * 100 AS 'customer_twenty_male_radio',
+            ROUND(twenty_female / total_twenty_age, 4) * 100 AS 'customer_twenty_female_radio',
+            ROUND(thirty_male / total_thirty_age, 4) * 100 as 'customer_thirty_male_radio',
+            ROUND(thirty_female / total_thirty_age, 4) * 100 AS 'customer_thirty_female_radio',
+            ROUND(forty_male / total_forty_age, 4) * 100 AS 'customer_forty_male_radio',
+            ROUND(forty_female / total_forty_age, 4) * 100 AS 'customer_forty_female_radio',
+            ROUND(fifty_male / total_fifty_age, 4) * 100 AS 'customer_fifty_male_radio',
+            ROUND(fifty_female / total_fifty_age, 4) * 100 AS 'customer_fifty_female_radio',
+            ROUND(sixtyup_male / total_sixtyup_age, 4) * 100 AS 'customer_sixtyup_male_radio',
+            ROUND(sixtyup_female / total_sixtyup_age, 4) * 100 AS 'customer_sixtyup_female_radio'
+        FROM age_group_radio
+    </select>
+
+    <!-- 연령별 구매 비율 구하기 -->
+    <select id="selectAnalysisPurchasesByAge" resultType="AnalysisPurchasesByAgeResDTO">
+        WITH age_group_buy AS (
+            SELECT
+                   COUNT(c.customer_age) AS 'TOTAL_AGE',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 10 AND 19 THEN 1 END) AS 'TEN',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 20 AND 29 THEN 1 END) AS 'TWENTY',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 30 AND 39 THEN 1 END) AS 'THIRTY',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 40 AND 49 THEN 1 END) AS 'FORTY',
+                   COUNT(CASE WHEN c.customer_age BETWEEN 50 AND 59 THEN 1 END) AS 'FIFTY',
+                   COUNT(CASE WHEN c.customer_age >= 60 THEN 1 END) AS 'SIXTYUP'
+              FROM order_info o
+              JOIN customer c ON o.customer_code = c.customer_code
+             WHERE o.order_created_date BETWEEN #{startDate} AND #{endDate}
+        )
+        SELECT
+               ten,
+               twenty,
+               thirty,
+               forty,
+               fifty,
+               sixtyup,
+               total_age,
+               ROUND(ten / total_age, 3) * 100 AS 'ten_radio',
+               ROUND(twenty / total_age, 3) * 100 AS 'twenty_radio',
+               ROUND(thirty / total_age, 3) * 100 AS 'forty_radio',
+               ROUND(forty / total_age, 3) * 100 AS 'fifty_radio',
+               ROUND(sixtyup / total_age, 3) * 100 AS 'sixtyup_radio'
+          FROM age_group_buy
+    </select>
+
+    <!-- 연령대 별 브랜드 구매 횟수 (수평 막대) 조회 -->
+    <select id="selectAnalysisPurchasesByBrand" resultType="AnalysisPurchasesByBrandResDTO">
+        SELECT
+               g.brand_code,
+               b.brand_name,
+               COUNT(*) AS order_count
+          FROM order_info oi
+          JOIN customer c ON oi.customer_code = c.customer_code
+          JOIN goods g ON oi.goods_code = g.goods_code
+          JOIN brand b ON g.brand_code = b.brand_code
+        <if test="startAge != null and endAge != null">
+          <if test="startDate != null and endDate != null">
+         WHERE c.customer_age BETWEEN #{startAge} AND #{endAge}
+           AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+          </if>
+        </if>
+        <if test="startAge != null and startAge >= 60 and endAge == null">
+            <if test="startDate != null and endDate != null">
+         WHERE c.customer_age >= 60
+           AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+        </if>
+        GROUP BY brand_code
+        ORDER BY order_count DESC;
+    </select>
+
+    <!-- 연령별 브랜드 별 제품 구매 횟수(막대 그래프) 조회 -->
+    <select id="selectAnalysisPurchasesByBrandProduct" resultType="AnalysisPurchasesByBrandProductResDTO">
+        SELECT IFNULL((SELECT goods_name
+                       FROM goods
+                       WHERE goods_code = T.goods_code), '합계') AS goods_name,
+               total_buy_count
+          FROM (
+                 SELECT
+                        oi.goods_code AS goods_code,
+                        SUM(oi.order_count) AS total_buy_count
+                   FROM order_info oi
+                   JOIN goods g ON oi.goods_code = g.goods_code
+                   JOIN brand b ON g.brand_code = b.brand_code
+                   JOIN customer c ON oi.customer_code = c.customer_code
+                  WHERE b.brand_code = #{brandCode}
+                    AND c.customer_age BETWEEN #{startAge} AND #{endAge}
+                    AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+                  GROUP BY oi.goods_code WITH ROLLUP
+                ) AS T
+          ORDER BY IF(goods_code = 'Total', 1, 0),
+                   total_buy_count DESC
+    </select>
+
+    <!-- 등급별 구매 비율 (원형 그래프) -->
+    <select id="selectAnalysisGradeGroupRadio" resultType="AnalysisGradeGroupRadioResDTO">
+        WITH grade_group_radio AS (
+            SELECT
+                count(CASE WHEN c.customer_grade = 'GOLD' THEN 1 END) AS gold,
+                count(CASE WHEN c.customer_grade = 'BLACK' THEN 1 END) AS black,
+                count(CASE WHEN c.customer_grade = 'GREEN' THEN 1 END) AS green,
+                count(CASE WHEN c.customer_grade = 'PINK' THEN 1 END) AS pink,
+                count(CASE WHEN c.customer_grade = 'BABY' THEN 1 END) AS baby,
+                count(*) AS total_customer
+            FROM order_info oi
+            JOIN customer c ON (oi.customer_code = c.customer_code)
+           WHERE oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        )
+        SELECT
+               gold,
+               black,
+               green,
+               pink,
+               baby,
+               ROUND(gold * 100.0 / total_customer, 3) AS 'gold_radio',
+               ROUND(black * 100.0 / total_customer, 3) AS 'black_radio',
+               ROUND(green * 100.0 / total_customer, 3) AS 'green_radio',
+               ROUND(pink * 100.0 / total_customer, 3) AS 'pink_radio',
+               ROUND(baby * 100.0 / total_customer, 3) AS 'baby_radio'
+          FROM grade_group_radio;
+    </select>
+
+    <!-- 등급별 브랜드 구매(수평 막대 그래프) 횟수 -->
+    <select id="selectAnalysisGradeByBrand" resultType="AnalysisGradeByBrandResDTO">
+        SELECT
+               g.brand_code,
+               b.brand_name,
+               count(*) AS order_count
+          FROM order_info oi
+          JOIN customer c ON oi.customer_code = c.customer_code
+          JOIN goods g ON oi.goods_code = g.goods_code
+          JOIN brand b ON g.brand_code = b.brand_code
+        WHERE c.customer_grade = #{grade}
+          AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY brand_code
+        ORDER BY order_count DESC;
+    </select>
+
+    <!-- 등급별 브랜드 별 제품 구매 횟수 (수평 막대 그래프) 조회 -->
+    <select id ="selectAnalysisGradeByBrandProduct" resultType="AnalysisGradeByBrandProductResDTO">
+        SELECT IFNULL((SELECT goods_name
+                       FROM goods
+                       WHERE goods_code = T.goods_code), '합계') AS goods_name,
+               total_buy_count
+        FROM (
+                 SELECT
+                       oi.goods_code AS goods_code,
+                       SUM(oi.order_count) AS total_buy_count
+                  FROM order_info oi
+                  JOIN goods g ON oi.goods_code = g.goods_code
+                  JOIN brand b ON g.brand_code = b.brand_code
+                  JOIN customer c ON oi.customer_code = c.customer_code
+                 WHERE b.brand_code = #{brandCode}
+                   AND c.customer_grade = #{grade}
+                   AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+                 GROUP BY oi.goods_code WITH ROLLUP
+             ) AS T
+        ORDER BY IF(goods_code = 'Total', 1, 0),
+                 total_buy_count DESC;
+    </select>
+
+    <!-- 연령대 매출 비율 (원형그래프) 조회 -->
+    <select id="selectAnalysisAgeSalesRadio" resultType="AnalysisAgeSalesRadioResDTO">
+        WITH age_group_sales AS (
+            SELECT
+                SUM(oi.order_price) AS 'total_sales',
+                SUM(CASE WHEN c.customer_age BETWEEN 10 AND 19 THEN oi.order_price END) AS 'ten_sales',
+                SUM(CASE WHEN c.customer_age BETWEEN 20 AND 29 THEN oi.order_price END) AS 'twenty_sales',
+                SUM(CASE WHEN c.customer_age BETWEEN 30 AND 39 THEN oi.order_price END) AS 'thirty_sales',
+                SUM(CASE WHEN c.customer_age BETWEEN 40 AND 49 THEN oi.order_price END) AS 'forty_sales',
+                SUM(CASE WHEN c.customer_age BETWEEN 50 AND 59 THEN oi.order_price END) AS 'fifty_sales',
+                SUM(CASE WHEN c.customer_age >= 60 THEN oi.order_price END) AS 'sixty_sales'
+            FROM order_info oi
+            JOIN customer c ON oi.customer_code = c.customer_code
+            WHERE oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        )
+        SELECT
+            total_sales,
+            ten_sales,
+            twenty_sales,
+            thirty_sales,
+            forty_sales,
+            fifty_sales,
+            sixty_sales,
+            ROUND(ten_sales / total_sales, 3) * 100 AS 'ten_sales_radio',
+            ROUND(twenty_sales / total_sales, 3) * 100 AS 'twenty_sales_radio',
+            ROUND(thirty_sales / total_sales, 3) * 100 AS 'thirty_sales_radio',
+            ROUND(forty_sales / total_sales, 3) * 100 AS 'forty_sales_radio',
+            ROUND(fifty_sales / total_sales, 3) * 100 AS 'fifty_sales_radio',
+            ROUND(sixty_sales / total_sales, 3) * 100 AS 'sixty_sales_radio'
+        FROM age_group_sales;
+    </select>
+
+    <!-- 연령대별 브랜드별 매출 조회 (막대 그래프) -->
+    <select id="selectAnalysisAgeSalesByBrand" resultType="AnalysisAgeSalesByBrandResDTO">
+        SELECT
+              g.brand_code,
+              b.brand_name,
+              SUM(oi.order_price) AS total_order_price
+         FROM order_info oi
+         JOIN customer c ON oi.customer_code = c.customer_code
+         JOIN goods g ON oi.goods_code = g.goods_code
+         JOIN brand b ON g.brand_code = b.brand_code
+        WHERE c.customer_age BETWEEN #{startAge} AND #{endAge}
+          AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY brand_code
+        ORDER BY total_order_price DESC;
+    </select>
+
+    <!-- 연령별 브랜드 제품별 매출 조회 (막대 그래프) -->
+    <select id="selectAnalysisAgeSalesByBrandProduct" resultType="AnalysisAgeSalesByBrandProductResDTO">
+        SELECT IFNULL((SELECT goods_name
+                         FROM goods
+                        WHERE goods_code = T.goods_code), '합계') AS goods_name,
+               total_buy_price
+        FROM (
+                SELECT
+                       IFNULL(oi.goods_code, 'Total') AS goods_code,
+                       SUM(oi.order_price) AS total_buy_price
+                  FROM order_info oi
+                  JOIN goods g ON oi.goods_code = g.goods_code
+                  JOIN brand b ON g.brand_code = b.brand_code
+                  JOIN customer c ON oi.customer_code = c.customer_code
+                 WHERE b.brand_code = #{brandCode} -- 브랜드 들어보는 게 다르게 하면 됨.
+                   AND c.customer_age BETWEEN #{startAge} AND #{endAge}
+                 GROUP BY oi.goods_code WITH ROLLUP
+             ) AS T
+        ORDER BY IF(goods_code = 'Total', 1, 0),
+                 total_buy_price DESC
+    </select>
+
+    <!-- 등급별 매출 비율 (원형그래프) 조회 -->
+    <select id="selectAnalysisGradeSalesRadio" resultType="AnalysisGradeSalesRadioDTO">
+        WITH grade_group_sales AS (
+            SELECT
+                  SUM(oi.order_price) AS 'TOTAL_SALES',
+                  SUM(CASE WHEN c.customer_grade = 'GOLD' THEN oi.order_price END) AS 'GOLD_SALES',
+                  SUM(CASE WHEN c.customer_grade = 'BLACK' THEN oi.order_price END) AS 'BLACK_SALES',
+                  SUM(CASE WHEN c.customer_grade = 'GREEN' THEN oi.order_price END) AS 'GREEN_SALES',
+                  SUM(CASE WHEN c.customer_grade = 'PINK' THEN oi.order_price END) AS 'PINK_SALES',
+                  SUM(CASE WHEN c.customer_grade = 'BABY' THEN oi.order_price END) AS 'BABY_SALES'
+             FROM order_info oi
+             JOIN customer c ON oi.customer_code = c.customer_code
+            WHERE oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        )
+        SELECT
+               total_sales,
+               gold_sales,
+               black_sales,
+               green_sales,
+               pink_sales,
+               baby_sales,
+               ROUND(gold_sales / total_sales, 3) * 100 AS 'gold_sales_radio',
+               ROUND(black_sales / total_sales, 3) * 100 AS 'black_sales_radio',
+               ROUND(green_sales / total_sales, 3) * 100 AS 'green_sales_radio',
+               ROUND(pink_sales / total_sales, 3) * 100 AS 'pink_sales_radio',
+               ROUND(baby_sales / total_sales, 3) * 100 AS 'baby_sales_radio'
+          FROM grade_group_sales
+    </select>
+
+    <!-- 등급별 브랜드 매출 조회 (수평 막대 그래프) -->
+    <select id="selectAnalysisGradeSalesByBrand" resultType="AnalysisGradeSalesByBrandResDTO">
+       SELECT
+              g.brand_code,
+              b.brand_name,
+              SUM(oi.order_price) AS total_order_price
+         FROM order_info oi
+         JOIN customer c ON oi.customer_code = c.customer_code
+         JOIN goods g ON oi.goods_code = g.goods_code
+         JOIN brand b ON g.brand_code = b.brand_code
+        WHERE c.customer_grade = #{brandCode}
+          AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY brand_code
+        ORDER BY total_order_price DESC;
+    </select>
+
+    <!-- 등급별 브랜드 별 제품 매출 조회 (수평 막대 그래프) -->
+    <select id="">
+        SELECT IFNULL((SELECT goods_name
+                       FROM goods
+                       WHERE goods_code = T.goods_code), '합계') AS goods_name,
+               total_buy_price
+          FROM (
+                SELECT
+                       IFNULL(oi.goods_code, 'Total') AS goods_code,
+                       SUM(oi.order_price) AS total_buy_price
+                  FROM order_info oi
+                  JOIN goods g ON oi.goods_code = g.goods_code
+                  JOIN brand b ON g.brand_code = b.brand_code
+                  JOIN customer c ON oi.customer_code = c.customer_code
+                 WHERE b.brand_code = #{brandCode}
+                   AND c.customer_grade = #{gradeCode}
+                   AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
+                 GROUP BY oi.goods_code WITH ROLLUP
+             ) AS T
+        ORDER BY IF(goods_code = 'Total', 1, 0),
+                 total_buy_price DESC
+    </select>
+</mapper>
