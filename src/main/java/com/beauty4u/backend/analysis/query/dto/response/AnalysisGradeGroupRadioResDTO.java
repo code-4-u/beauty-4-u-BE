@@ -1,11 +1,15 @@
 package com.beauty4u.backend.analysis.query.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /* 등급별 구매 비율 (원형 그래프) 조회 */
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnalysisGradeGroupRadioResDTO {
     private Integer gold;       /* 골드 등급 수 */
     private Integer black;      /* 블랙 등급 수 */

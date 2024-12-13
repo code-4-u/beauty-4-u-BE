@@ -1,11 +1,15 @@
 package com.beauty4u.backend.analysis.query.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /* 연령별 구매 비율 응답 DTO */
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnalysisPurchasesByAgeResDTO {
     private int ten;                /* 10대 수 */
     private int twenty;             /* 20대 수 */

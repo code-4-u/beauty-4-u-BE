@@ -1,12 +1,15 @@
 package com.beauty4u.backend.analysis.query.dto.response;
 
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /* 연령별 매출 비율 조회 (원형 그래프) */
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnalysisAgeSalesRadioResDTO {
     private Integer totalSales;         /* 총 매출 */
 

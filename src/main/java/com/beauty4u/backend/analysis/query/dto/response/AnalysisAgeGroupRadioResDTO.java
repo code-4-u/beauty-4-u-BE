@@ -1,11 +1,15 @@
 package com.beauty4u.backend.analysis.query.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /* 고객 비율 분석 (연령별 성별 비율 분석) 응답 DTO */
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnalysisAgeGroupRadioResDTO {
     private Integer totalAge;                   /* 총 나이대 고객수 */
 

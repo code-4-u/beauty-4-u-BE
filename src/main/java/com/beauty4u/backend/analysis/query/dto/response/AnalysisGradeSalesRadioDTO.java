@@ -1,11 +1,15 @@
 package com.beauty4u.backend.analysis.query.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /* 등급별 매출 비율 (원형그래프) 조회 */
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnalysisGradeSalesRadioDTO {
     private Integer totalSales;     /* 총 매출 */
     private Integer goldSales;      /* 골드 등급 매출 */
