@@ -144,7 +144,7 @@
     </select>
 
     <!-- 등급별 구매 비율 (원형 그래프) -->
-    <select id="selectAnalysisGradeGroupRadio" resultType="selectAnalysisGradeGroupRadioResDTO">
+    <select id="selectAnalysisGradeGroupRadio" resultType="AnalysisGradeGroupRadioResDTO">
         WITH grade_group_radio AS (
             SELECT
                 count(CASE WHEN c.customer_grade = 'GOLD' THEN 1 END) AS gold,
