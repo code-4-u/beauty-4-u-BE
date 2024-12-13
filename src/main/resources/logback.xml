@@ -9,6 +9,10 @@
     <!--  파일명 -->
     <property name="API_LOG_PATH_NAME" value="c:/beautylog/goods-api.log"/>
 
+    <!-- api package -->
+    <logger name="com.beauty4u.backend.goods" level="INFO" additivity="false">
+        <appender-ref ref="api"/>
+    </logger>
     <!--  API -->
     <appender name="api" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${API_LOG_PATH_NAME}</file>
@@ -22,10 +26,6 @@
         </rollingPolicy>
     </appender>
 
-    <!-- api package -->
-    <logger name="com.beauty4u.backend.goods" level="INFO" additivity="false">
-        <appender-ref ref="api"/>
-    </logger>
     <!-- 콘솔 로깅 -->
 <!--    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
 <!--        <encoder>-->
