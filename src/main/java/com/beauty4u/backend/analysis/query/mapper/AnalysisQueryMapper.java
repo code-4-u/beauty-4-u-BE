@@ -3,7 +3,6 @@ package com.beauty4u.backend.analysis.query.mapper;
 import com.beauty4u.backend.analysis.query.dto.response.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.reactivestreams.Publisher;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,7 +50,9 @@ public interface AnalysisQueryMapper {
                                                             @Param("endDate") LocalDateTime endDate);
 
     /* 연령별 브랜드 매출 조회 (수평 막대 그래프) */
-    List<AnalysisAgeSalesByBrandResDTO> selectAnalysisAgeSalesByBrand(@Param("startDate") LocalDateTime startDate,
+    List<AnalysisAgeSalesByBrandResDTO> selectAnalysisAgeSalesByBrand(@Param("startAge") Integer startAge,
+                                                                      @Param("endAge") Integer endAge,
+                                                                      @Param("startDate") LocalDateTime startDate,
                                                                       @Param("endDate") LocalDateTime endDate);
 
     /* 연령별 브랜드 제품별 매출 조회 (막대 그래프) */

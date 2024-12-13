@@ -253,6 +253,7 @@
          JOIN goods g ON oi.goods_code = g.goods_code
          JOIN brand b ON g.brand_code = b.brand_code
         WHERE c.customer_age BETWEEN #{startAge} AND #{endAge}
+          AND oi.order_created_date BETWEEN #{startDate} AND #{endDate}
         GROUP BY brand_code
         ORDER BY total_order_price DESC;
     </select>
