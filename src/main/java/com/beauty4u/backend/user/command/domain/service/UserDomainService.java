@@ -3,6 +3,7 @@ package com.beauty4u.backend.user.command.domain.service;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.user.command.application.dto.CreateUserReqDTO;
+import com.beauty4u.backend.user.command.application.dto.UpdateUserReqDTO;
 import com.beauty4u.backend.user.command.domain.aggregate.Dept;
 import com.beauty4u.backend.user.command.domain.aggregate.Job;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
@@ -96,5 +97,22 @@ public class UserDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         user.unexpireUser();
+    }
+
+    public void updateUser(String userCode, UpdateUserReqDTO updateUserReqDTO) {
+
+        UserInfo user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Job job = jobRepository.findById(updateUserReqDTO.getJobCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB));
+        Dept dept = deptRepository.findById(updateUserReqDTO.getDeptCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_DEPT));
+        UserRole role = userRoleRepository.findById(updateUserReqDTO.getUserRoleId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ROLE));
+
+        user.updateUser(job, dept, role,
+                updateUserReqDTO.getEmail(),
+                updateUserReqDTO.getPhone());
     }
 }

@@ -87,4 +87,13 @@ public class UserInfo extends CreatedTimeEntity {
         this.userExpiredDate = null;
         this.userExpiredYn = YnType.N;
     }
+
+    public void updateUser(Job job, Dept dept, UserRole role,
+                           String email, String phone) {
+        this.jobCode = job;
+        this.deptCode = dept;
+        this.userRole = role;
+        this.email = email;
+        this.phone = phone;
+    }
 }
