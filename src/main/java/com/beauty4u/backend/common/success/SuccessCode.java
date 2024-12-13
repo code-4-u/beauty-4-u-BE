@@ -67,7 +67,22 @@ public enum SuccessCode {
     SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결 성공"),
     NOTI_SAVE_SUCCESS(HttpStatus.OK, "알림 등록 성공"),
     NOTI_FIND_LIST_SUCCESS(HttpStatus.OK, "알림 조회 성공"),
-    NOTI_READ_UPDATE_SUCCESS(HttpStatus.OK, "알림 읽음 상태 수정 성공");
+    NOTI_READ_UPDATE_SUCCESS(HttpStatus.OK, "알림 읽음 상태 수정 성공"),
+
+    /* 분석 대시보드 (analysis) */
+    ANAL_FIND_AGE_GROUP_RADIO_SUCCESS(HttpStatus.OK, "고객 특성 분석 데이터 조회 성공"),
+    ANAL_FIND_PUR_BY_AGE_SUCCESS(HttpStatus.OK, "연령별 구매 비율 데이터 조회 성공"),
+    ANAL_FIND_PUR_BY_BRAND_SUCCESS(HttpStatus.OK, "연령별 브랜드 별 구매 횟수 데이터 조회 성공"),
+    ANAL_FIND_PUR_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "해당 브랜드 제품별 구매 횟수 데이터 조회 성공"),
+    ANAL_FIND_GRADE_GROUP_RADIO_SUCCESS(HttpStatus.OK, "등급별 구매 비율 데티어 조회 성공"),
+    ANAL_FIND_GRADE_BY_BRAND_SUCCESS(HttpStatus.OK, "등급별 브랜드 구매 횟수 데이터 조회 성공"),
+    ANAL_FIND_GRADE_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "등급별 브랜드별 제품 구매 횟수 데이터 조회 성공"),
+    ANAL_FIND_AGE_SALES_RADIO_SUCCESS(HttpStatus.OK, "연령별 매출 비율 데이터 조회 성공"),
+    ANAL_FIND_AGE_SALES_BY_BRAND_SUCCESS(HttpStatus.OK, "연령별 브랜드 매출 데이터 조회 성공"),
+    ANAL_FIND_AGE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "연령별 브랜드 제품별 매출 데이터 조회 성공"),
+    ANAL_FIND_GRADE_SALES_RADIO_SUCCESS(HttpStatus.OK, "등급별 매출 비율 데이터 조회 성공"),
+    ANAL_FIND_GRADE_SALES_BY_BRAND_SUCCESS(HttpStatus.OK, "등급별 브핸드 매출 데이터 조회 성공"),
+    ANAL_FIND_GRADE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "등급별 브랜드별 제품 매출 데이터 조회 성공");
 
 
     private final HttpStatus httpStatus;
