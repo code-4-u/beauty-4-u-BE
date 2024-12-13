@@ -3,6 +3,7 @@ package com.beauty4u.backend.analysis.query.mapper;
 import com.beauty4u.backend.analysis.query.dto.response.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.reactivestreams.Publisher;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,8 +12,7 @@ import java.util.List;
 public interface AnalysisQueryMapper {
 
     /* 고객 비율 분석 (연령별 성별 비율 분석) 조회*/
-    AnalysisAgeGroupRadioResDTO selectAnalysisAgeGroupRadio(@Param("startDate") LocalDateTime startDate,
-                                                            @Param("endDate") LocalDateTime endDate);
+    AnalysisAgeGroupRadioResDTO selectAnalysisAgeGroupRadio();
 
     /* 연령별 구매 비율 구하기 (원형 그래프) 조회 */
     AnalysisPurchasesByAgeResDTO selectAnalysisPurchasesByAge(@Param("startDate") LocalDateTime startDate,
