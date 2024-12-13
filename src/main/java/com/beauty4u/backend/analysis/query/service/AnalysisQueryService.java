@@ -15,12 +15,12 @@ import java.util.List;
 public class AnalysisQueryService {
 
     /* 매퍼 생성 */
-    private AnalysisQueryMapper analysisQueryMapper;
+    private final AnalysisQueryMapper analysisQueryMapper;
 
     /* 고객 비율 분석 (연령별 성별 비율 분석) 조회 서비스 */
     @Transactional(readOnly = true)
-    public AnalysisAgeGroupRadioResDTO selectAnalysisAgeGroupRadio(LocalDateTime startDate, LocalDateTime endDate) {
-        return analysisQueryMapper.selectAnalysisAgeGroupRadio(startDate, endDate);
+    public AnalysisAgeGroupRadioResDTO selectAnalysisAgeGroupRadio() {
+        return analysisQueryMapper.selectAnalysisAgeGroupRadio();
     }
 
     /* 연령별 구매 비율 구하기 (원형 그래프) 조회 */
@@ -52,9 +52,9 @@ public class AnalysisQueryService {
 
     /* 등급별 브랜드 구매 횟수 (막대 그래프) 조회 */
     @Transactional(readOnly = true)
-    public List<AnalysisGradeByBrandResDTO> selectAnalysisGradeByBrandProduct(String grade,
-                                                                              LocalDateTime startDate,
-                                                                              LocalDateTime endDate) {
+    public List<AnalysisGradeByBrandResDTO> selectAnalysisGradeByBrand(String grade,
+                                                                       LocalDateTime startDate,
+                                                                       LocalDateTime endDate) {
         return analysisQueryMapper.selectAnalysisGradeByBrand(grade, startDate, endDate);
     }
 
