@@ -75,8 +75,8 @@ public class AnalysisQueryService {
 
     /* 연령별 브랜드 매출 조회 (수평 막대 그래프) */
     @Transactional(readOnly = true)
-    public List<AnalysisAgeSalesByBrandResDTO> selectAnalysisAgeSalesByBrand(LocalDateTime startDate, LocalDateTime endDate) {
-        return analysisQueryMapper.selectAnalysisAgeSalesByBrand(startDate, endDate);
+    public List<AnalysisAgeSalesByBrandResDTO> selectAnalysisAgeSalesByBrand(Integer startAge, Integer endAge, LocalDateTime startDate, LocalDateTime endDate) {
+        return analysisQueryMapper.selectAnalysisAgeSalesByBrand(startAge, endAge, startDate, endDate);
     }
 
     /* 연령별 브랜드 제품별 매출 조회 (막대 그래프) */
