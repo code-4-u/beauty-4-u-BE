@@ -10,8 +10,11 @@ import java.time.LocalDateTime;
 public class UserListResDTO {
 
     private String userCode;
+    private String userName;
     private String userRoleName;
     private String deptName;
+    private String jobName;
     private LocalDateTime createdDate;
     private LocalDateTime userExpiredDate;
+    private String userExpiredYn;
 }

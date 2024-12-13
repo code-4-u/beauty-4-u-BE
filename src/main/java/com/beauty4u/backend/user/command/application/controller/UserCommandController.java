@@ -83,7 +83,7 @@ public class UserCommandController {
 
         userService.findUserCode(findUserCodeReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.USERCODE_FIND_SUCCESS);
     }
 
     @Operation(summary = "비밀번호 재발급", description = "사번, 이름, 이메일을 입력하여 비밀번호를 재발급 할 수 있다.")
@@ -93,7 +93,7 @@ public class UserCommandController {
 
         userService.resetUserPassword(resetUserPasswordReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.PASSWORD_RESET_SUCCESS);
     }
 
     @Operation(summary = "비밀번호 수정", description = "현재 로그인 된 회원이 비밀번호를 수정한다.")
@@ -104,7 +104,7 @@ public class UserCommandController {
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
         userService.updateUserPassword(loginUserCode, updateUserPasswordReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.PASSWORD_UPDATE_SUCCESS);
     }
 
     @Operation(summary = "비밀번호 초기화", description = "관리자가 회원의 비밀번호를 초기화한다.")
@@ -114,7 +114,7 @@ public class UserCommandController {
 
         userService.adminResetUserPassword(userCodeReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.PASSWORD_UPDATE_SUCCESS);
     }
 
     @Operation(summary = "회원 비활성화", description = "관리자가 회원을 비활성화(계정 만료)한다.")
@@ -124,7 +124,7 @@ public class UserCommandController {
 
         userService.expireUser(userCodeReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.EXPIRE_UPDATE_SUCCESS);
     }
 
     @Operation(summary = "회원 활성화", description = "관리자가 비활성화 된 회원을 다시 활성화한다.")
@@ -134,6 +134,6 @@ public class UserCommandController {
 
         userService.unexpireUser(userCodeReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.USER_READ_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.EXPIRE_UPDATE_SUCCESS);
     }
 }

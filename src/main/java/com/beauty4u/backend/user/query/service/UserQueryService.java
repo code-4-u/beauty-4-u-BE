@@ -2,8 +2,10 @@ package com.beauty4u.backend.user.query.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
-import com.beauty4u.backend.user.query.dto.FindUserDetailResDTO;
-import com.beauty4u.backend.user.query.dto.UserListResDTO;
+import com.beauty4u.backend.user.query.dto.*;
+import com.beauty4u.backend.user.query.mapper.DeptQueryMapper;
+import com.beauty4u.backend.user.query.mapper.JobQueryMapper;
+import com.beauty4u.backend.user.query.mapper.RoleQueryMapper;
 import com.beauty4u.backend.user.query.mapper.UserQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ import java.util.List;
 public class UserQueryService {
 
     private final UserQueryMapper userQueryMapper;
+    private final DeptQueryMapper deptQueryMapper;
+    private final JobQueryMapper jobQueryMapper;
+    private final RoleQueryMapper roleQueryMapper;
 
     @Transactional(readOnly = true)
     public List<UserListResDTO> findUserList(Long page, Long count) {
@@ -35,5 +40,23 @@ public class UserQueryService {
         }
 
         return findUserDetailResDTO;
+    }
+
+    @Transactional(readOnly = true)
+    public List<DeptResDTO> findDeptList() {
+
+        return deptQueryMapper.findDeptList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<JobResDTO> findJobList() {
+
+        return jobQueryMapper.findJobList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<RoleResDTO> findRoleList() {
+
+        return roleQueryMapper.findRoleList();
     }
 }
