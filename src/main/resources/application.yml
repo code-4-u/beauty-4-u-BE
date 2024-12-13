@@ -17,7 +17,7 @@ spring:
       uri: mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@cluster0.avtro.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority
     elasticsearch:
       repositories:
-        enabled: false
+        enabled: true
 
   jpa:
     hibernate:
@@ -38,6 +38,11 @@ spring:
     reviews:
       index:
         name: reviews
+    logging:
+      config: classpath:logback.xml
+      level:
+        com.beauty4u.backend: DEBUG
+        org.elasticsearch: INFO
 
   mail:
     host: ${MAIL_HOST}
