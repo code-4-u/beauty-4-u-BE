@@ -1,6 +1,5 @@
 package com.beauty4u.backend.analysis.query.controller;
 
-import com.beauty4u.backend.analysis.command.domain.aggregate.Analysis;
 import com.beauty4u.backend.analysis.query.dto.request.*;
 import com.beauty4u.backend.analysis.query.dto.response.*;
 import com.beauty4u.backend.analysis.query.service.AnalysisQueryService;
@@ -10,7 +9,6 @@ import com.beauty4u.backend.common.success.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.shaded.com.google.protobuf.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -112,7 +110,7 @@ public class AnalysisQueryController {
                         analysisGradeCircleReqDTO.getEndDate()
                 );
 
-        return ResponseUtil.successResponse(SuccessCode.ANAL_FIND_GRADE_BY_BRAND_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.ANAL_FIND_GRADE_BY_BRAND_SUCCESS, list);
     }
 
     @Operation(summary = "등급별 브랜드 별 제품 구매 횟수 조회")
