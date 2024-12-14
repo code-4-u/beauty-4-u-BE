@@ -1,4 +1,4 @@
-package com.beauty4u.backend.basesystem.command.domain.aggregate;
+package com.beauty4u.backend.schedule.command.domain.aggregate;
 
 import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import com.beauty4u.backend.promotion.command.domain.aggregate.Promotion;
