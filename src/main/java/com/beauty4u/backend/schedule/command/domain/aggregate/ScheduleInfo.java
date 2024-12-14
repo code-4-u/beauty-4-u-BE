@@ -1,8 +1,6 @@
 package com.beauty4u.backend.schedule.command.domain.aggregate;
 
 import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
-import com.beauty4u.backend.promotion.command.domain.aggregate.Promotion;
-import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,18 +16,11 @@ public class ScheduleInfo extends BaseEntity {
 
     @Id
     @Column(name = "schedule_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teamspace_id")
-    private Teamspace teamspace;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "promotion_id")
-    private Promotion promotion;
-
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_code", nullable = false)
     private UserInfo userCode;
 
@@ -43,10 +34,24 @@ public class ScheduleInfo extends BaseEntity {
     private String scheduleContent;
 
     @NotNull
+    @Column(name = "schedule_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ScheduleType scheduleType;
+
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "schedule_url", nullable = false)
+    private String scheduleUrl;
+
+    @NotNull
     @Column(name = "schedule_start", nullable = false)
     private LocalDateTime scheduleStart;
 
     @NotNull
     @Column(name = "schedule_end", nullable = false)
     private LocalDateTime scheduleEnd;
+
+    public void modifyUser(UserInfo user) {
+        this.userCode = user;
+    }
 }
