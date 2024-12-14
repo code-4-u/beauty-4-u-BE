@@ -53,15 +53,16 @@ public class ScheduleInfo extends BaseEntity {
     @Column(name = "schedule_end", nullable = false)
     private LocalDateTime scheduleEnd;
 
-    public void modifyUser(UserInfo user) {
+    public void createTeamSchedule(UserInfo user, String url) {
         this.userCode = user;
+        this.scheduleType = ScheduleType.TEAMSPACE;
+        this.scheduleUrl = url;
     }
 
-    public void modifySchedule(String title, String content, String type, String url,
+    public void modifySchedule(String title, String content, String url,
                                LocalDateTime start, LocalDateTime end) {
         this.scheduleTitle = title;
         this.scheduleContent = content;
-        this.scheduleType = ScheduleType.valueOf(type);
         this.scheduleUrl = url;
         this.scheduleStart = start;
         this.scheduleEnd = end;

@@ -21,31 +21,34 @@ public class ScheduleDomainService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public void saveSchedule(String loginUserCode, ScheduleReqDTO scheduleReqDTO) {
+    public Long saveSchedule(String loginUserCode, ScheduleReqDTO scheduleReqDTO) {
+
+        String url = "/team/{deptCode}";
 
         ScheduleInfo schedule = modelMapper.map(scheduleReqDTO, ScheduleInfo.class);
 
         UserInfo user = userRepository.findByUserCode(loginUserCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        schedule.modifyUser(user);
+        schedule.createTeamSchedule(user, url);
 
-        scheduleRepository.save(schedule);
+        ScheduleInfo savedSchedule = scheduleRepository.save(schedule);
+
+        return savedSchedule.getId();
     }
 
     public void updateSchedule(Long scheduleId, ScheduleReqDTO scheduleReqDTO) {
 
         String title = scheduleReqDTO.getScheduleTitle();
         String content = scheduleReqDTO.getScheduleContent();
-        String type = scheduleReqDTO.getScheduleType();
-        String url = scheduleReqDTO.getScheduleUrl();
+        String url = "/team/test";
         LocalDateTime start = scheduleReqDTO.getScheduleStart();
         LocalDateTime end = scheduleReqDTO.getScheduleEnd();
 
         ScheduleInfo schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_SCHEDULE));
 
-        schedule.modifySchedule(title, content, type, url, start, end);
+        schedule.modifySchedule(title, content, url, start, end);
     }
 
     public void deleteSchedule(Long scheduleId) {

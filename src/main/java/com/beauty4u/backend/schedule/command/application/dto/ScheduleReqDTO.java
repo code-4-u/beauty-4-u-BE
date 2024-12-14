@@ -11,8 +11,6 @@ public class ScheduleReqDTO {
 
     private String scheduleTitle;
     private String scheduleContent;
-    private String scheduleType;
-    private String scheduleUrl;
     private LocalDateTime scheduleStart;
     private LocalDateTime scheduleEnd;
 }

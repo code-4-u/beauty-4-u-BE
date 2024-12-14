@@ -21,16 +21,16 @@ public class ScheduleCommandController {
 
     private final ScheduleService scheduleService;
 
-    @Operation(summary = "일정 등록", description = "회원이 일정을 등록한다.")
+    @Operation(summary = "팀 일정 등록", description = "회원이 팀 일정을 등록한다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> saveSchedule(
+    public ResponseEntity<ApiResponse<Long>> saveTeamSchedule(
             @RequestBody @Valid ScheduleReqDTO scheduleReqDTO) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
 
-        scheduleService.saveSchedule(loginUserCode, scheduleReqDTO);
+        Long scheduleId = scheduleService.saveSchedule(loginUserCode, scheduleReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.SCHEDULE_SAVE_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.SCHEDULE_SAVE_SUCCESS, scheduleId);
     }
 
     @Operation(summary = "일정 수정", description = "회원이 일정을 수정한다.")

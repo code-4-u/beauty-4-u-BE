@@ -13,9 +13,9 @@ public class ScheduleService {
     private final ScheduleDomainService scheduleDomainService;
 
     @Transactional
-    public void saveSchedule(String loginUserCode, ScheduleReqDTO scheduleReqDTO) {
+    public Long saveSchedule(String loginUserCode, ScheduleReqDTO scheduleReqDTO) {
 
-        scheduleDomainService.saveSchedule(loginUserCode, scheduleReqDTO);
+        return scheduleDomainService.saveSchedule(loginUserCode, scheduleReqDTO);
     }
 
     @Transactional
