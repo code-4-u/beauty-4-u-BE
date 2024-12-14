@@ -43,4 +43,14 @@ public class ScheduleCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.SCHEDULE_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "일정 삭제", description = "등록된 일정을 삭제한다.")
+    @DeleteMapping("/{scheduleId}")
+    public ResponseEntity<ApiResponse<Void>> deleteSchedule(
+            @PathVariable Long scheduleId) {
+
+        scheduleService.deleteSchedule(scheduleId);
+
+        return ResponseUtil.successResponse(SuccessCode.SCHEDULE_DELETE_SUCCESS);
+    }
 }

@@ -23,4 +23,10 @@ public class ScheduleService {
 
         scheduleDomainService.updateSchedule(scheduleId, scheduleReqDTO);
     }
+
+    @Transactional
+    public void deleteSchedule(Long scheduleId) {
+
+        scheduleDomainService.deleteSchedule(scheduleId);
+    }
 }

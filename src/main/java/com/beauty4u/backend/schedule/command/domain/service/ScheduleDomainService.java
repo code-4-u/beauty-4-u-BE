@@ -47,4 +47,12 @@ public class ScheduleDomainService {
 
         schedule.modifySchedule(title, content, type, url, start, end);
     }
+
+    public void deleteSchedule(Long scheduleId) {
+
+        ScheduleInfo schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_SCHEDULE));
+
+        scheduleRepository.delete(schedule);
+    }
 }
