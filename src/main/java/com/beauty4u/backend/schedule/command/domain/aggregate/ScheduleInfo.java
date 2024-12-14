@@ -54,4 +54,14 @@ public class ScheduleInfo extends BaseEntity {
     public void modifyUser(UserInfo user) {
         this.userCode = user;
     }
+
+    public void modifySchedule(String title, String content, String type, String url,
+                               LocalDateTime start, LocalDateTime end) {
+        this.scheduleTitle = title;
+        this.scheduleContent = content;
+        this.scheduleType = ScheduleType.valueOf(type);
+        this.scheduleUrl = url;
+        this.scheduleStart = start;
+        this.scheduleEnd = end;
+    }
 }
