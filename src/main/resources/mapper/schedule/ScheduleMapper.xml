@@ -12,5 +12,6 @@
             schedule_start,
             schedule_end
         FROM schedule_info
+        WHERE publish_status = 'PUBLISHED'
     </select>
 </mapper>
