@@ -11,24 +11,56 @@
         r.review_content
         FROM review r
         JOIN goods g ON (r.goods_code = g.goods_code)
-        <if test="orders != null and orders.size() > 0">
-            ORDER BY
-            <foreach collection="orders" item="order" separator=",">
+        ORDER BY r.created_date DESC
+    </select>
+
+    <select id="findAllReviewSort" resultType="ReviewQueryDTO">
+        SELECT
+        r.created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
+        FROM review r
+        JOIN goods g ON (r.goods_code = g.goods_code)
+        ORDER BY
+        <choose>
+            <when test="primarySort == 'review_score'">
+                r.review_score
+            </when>
+            <otherwise>
+                r.created_date
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="primaryOrder == 'ASC'">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+<!--        두번째 정렬 조건 null 아닐 때만 추가 -->
+        <if test="secondarySort != 'null' and secondarySort != ''">
+            ,
+            <choose>
+                <when test="secondarySort == 'review_score'">
+                    r.review_score
+                </when>
+                <when test="secondarySort == 'created_date'">
+                    r.created_date
+                </when>
+            </choose>
+            <if test="secondaryOrder != 'null' and secondaryOrder != ''">
                 <choose>
-                    <when test="order.property == 'review_score'">
-                        r.review_score ${order.direction}
-                    </when>
-                    <when test="order.property == 'created_date'">
-                        r.created_date ${order.direction}
+                    <when test="secondaryOrder == 'ASC'">
+                        ASC
                     </when>
                     <otherwise>
-                        r.created_date DESC
+                        DESC
                     </otherwise>
                 </choose>
-            </foreach>
-        </if>
-        <if test="orders == null or orders.size() == 0">
-            ORDER BY r.created_date DESC
+            </if>
         </if>
     </select>
 </mapper>
