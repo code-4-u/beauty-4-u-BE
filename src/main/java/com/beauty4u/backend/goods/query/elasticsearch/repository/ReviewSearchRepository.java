@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-//@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public interface ReviewSearchRepository extends ElasticsearchRepository<ReviewDocument, String> {
     @Query("{\"wildcard\": {\"review_content\": \"*?0*\"}}")
     // 검색 단어가 포함된 리뷰 전체 검색

@@ -6,8 +6,7 @@ import com.beauty4u.backend.goods.query.elasticsearch.document.ReviewDocument;
 import com.beauty4u.backend.goods.query.elasticsearch.repository.ReviewSearchRepository;
 import com.beauty4u.backend.goods.query.mapper.ReviewQueryMapper;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-//@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class ReviewQueryService {
-    private static final Logger log = LoggerFactory.getLogger(ReviewQueryService.class);
     private final ReviewQueryMapper reviewQueryMapper;
     private final ReviewSearchRepository reviewSearchRepository;
 
