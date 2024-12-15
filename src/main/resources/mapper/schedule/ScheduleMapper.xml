@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.schedule.query.mapper.ScheduleQueryMapper">
+
+    <select id="findScheduleList" resultType="ScheduleListResDTO">
+        SELECT
+            schedule_id,
+            schedule_title,
+            schedule_content,
+            schedule_type,
+            schedule_url,
+            schedule_start,
+            schedule_end
+        FROM schedule_info
+        WHERE publish_status = 'PUBLISHED'
+    </select>
+</mapper>

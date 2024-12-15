@@ -6,13 +6,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "file_info")
 public class FileInfo {
+
     @Id
     @Column(name = "file_id", nullable = false)
     private Long id;
@@ -29,5 +28,4 @@ public class FileInfo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inquiry_id")
     private Inquiry inquiry;
-
 }
