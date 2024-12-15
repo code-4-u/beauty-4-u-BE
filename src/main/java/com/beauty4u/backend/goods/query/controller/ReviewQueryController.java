@@ -7,9 +7,12 @@ import com.beauty4u.backend.goods.query.service.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,6 +36,22 @@ public class ReviewQueryController {
     @Operation(summary = "리뷰 정렬 조회", description = "리뷰 목록을 정렬 조회한다.")
     public ResponseEntity<List<ReviewQueryDTO>> findAllReviewSort(ReviewSortDTO reviewSortDTO) {
         List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReviewSort(reviewSortDTO);
+
+        return ResponseEntity.ok(reviewList);
+    }
+
+    @GetMapping("/list/date")
+    @Operation(summary = "기간별 리뷰 조회", description = "기간별 리뷰 목록을 조회한다.")
+    public ResponseEntity<List<ReviewQueryDTO>> findAllReviewByDate(
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate){
+
+        LocalDateTime startDateTime = startDate != null ? startDate.atStartOfDay() : null;
+        LocalDateTime endDateTime = endDate != null ? endDate.plusDays(1).atStartOfDay() : null;
+
+        List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReviewByDate(startDateTime, endDateTime);
+
+
 
         return ResponseEntity.ok(reviewList);
     }
