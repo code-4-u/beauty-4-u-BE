@@ -51,8 +51,6 @@ public class ReviewQueryController {
 
         List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReviewByDate(startDateTime, endDateTime);
 
-
-
         return ResponseEntity.ok(reviewList);
     }
 

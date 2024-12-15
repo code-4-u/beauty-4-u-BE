@@ -24,42 +24,34 @@
         FROM review r
         JOIN goods g ON (r.goods_code = g.goods_code)
         ORDER BY
-        <choose>
-            <when test="primarySort == 'review_score'">
-                r.review_score
-            </when>
-            <otherwise>
-                r.created_date
-            </otherwise>
-        </choose>
-        <choose>
-            <when test="primaryOrder == 'ASC'">
+        <!-- 첫 번째 정렬 조건 -->
+        <if test="primarySort == 'review_score'">
+            r.review_score
+        </if>
+        <if test="primarySort != 'review_score'">
+            r.created_date
+        </if>
+        <!-- 첫 번째 정렬 순서 -->
+        <if test="primaryOrder == 'ASC'">
+            ASC
+        </if>
+        <if test="primaryOrder != 'ASC'">
+            DESC
+        </if>
+        <!-- 두 번째 정렬 조건 -->
+        <if test="secondarySort != null and secondarySort != 'null'">
+            <if test="secondarySort == 'review_score'">
+                , r.review_score
+            </if>
+            <if test="secondarySort == 'created_date'">
+                , r.created_date
+            </if>
+            <!-- 두 번째 정렬 순서 -->
+            <if test="secondaryOrder == 'ASC'">
                 ASC
-            </when>
-            <otherwise>
+            </if>
+            <if test="secondaryOrder != 'ASC'">
                 DESC
-            </otherwise>
-        </choose>
-        <!--        두번째 정렬 조건 null 아닐 때만 추가 -->
-        <if test="secondarySort != 'null' and secondarySort != ''">
-            ,
-            <choose>
-                <when test="secondarySort == 'review_score'">
-                    r.review_score
-                </when>
-                <when test="secondarySort == 'created_date'">
-                    r.created_date
-                </when>
-            </choose>
-            <if test="secondaryOrder != 'null' and secondaryOrder != ''">
-                <choose>
-                    <when test="secondaryOrder == 'ASC'">
-                        ASC
-                    </when>
-                    <otherwise>
-                        DESC
-                    </otherwise>
-                </choose>
             </if>
         </if>
     </select>
