@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beauty4u.backend.goods.query.mapper.ReviewQueryMapper">
-
+    <!-- 리뷰 전체 조회 -->
     <select id="findAllReview" resultType="ReviewQueryDTO">
         SELECT
         r.created_date,
@@ -13,7 +13,7 @@
         JOIN goods g ON (r.goods_code = g.goods_code)
         ORDER BY r.created_date DESC
     </select>
-
+    <!-- 리뷰 정렬 조회 -->
     <select id="findAllReviewSort" resultType="ReviewQueryDTO">
         SELECT
         r.created_date,
@@ -40,7 +40,7 @@
                 DESC
             </otherwise>
         </choose>
-<!--        두번째 정렬 조건 null 아닐 때만 추가 -->
+        <!--        두번째 정렬 조건 null 아닐 때만 추가 -->
         <if test="secondarySort != 'null' and secondarySort != ''">
             ,
             <choose>
@@ -62,5 +62,25 @@
                 </choose>
             </if>
         </if>
+    </select>
+    <!--    리뷰 기간별 조회 -->
+    <select id="findAllReviewByDate" resultType="ReviewQueryDTO">
+        SELECT
+        r.created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
+        FROM review r
+        JOIN goods g ON (r.goods_code = g.goods_code)
+        <where>
+            <if test="startDate != null">
+                r.created_date >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND r.created_date <![CDATA[<=]]> #{endDate}
+            </if>
+        </where>
+        ORDER BY r.created_date DESC
     </select>
 </mapper>
