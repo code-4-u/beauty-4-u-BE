@@ -18,4 +18,7 @@ public interface ReviewQueryMapper {
 
     // 리뷰 기간별 조회
     List<ReviewQueryDTO> findAllReviewByDate(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+    // 평점 리뷰 조회
+    List<ReviewQueryDTO> findAllReviewByScore(Integer searchScore);
 }
