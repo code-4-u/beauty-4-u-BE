@@ -75,4 +75,21 @@
         </where>
         ORDER BY r.created_date DESC
     </select>
+<!--    평점 리뷰 조회 -->
+    <select id="findAllReviewByScore" resultType="ReviewQueryDTO">
+        SELECT
+        r.created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
+        FROM review r
+        JOIN goods g ON (r.goods_code = g.goods_code)
+        <where>
+            <if test="searchScore != null">
+                r.review_score = #{searchScore}
+            </if>
+        </where>
+        ORDER BY r.created_date DESC
+    </select>
 </mapper>
