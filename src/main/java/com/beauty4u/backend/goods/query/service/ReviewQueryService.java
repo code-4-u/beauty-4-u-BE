@@ -56,4 +56,9 @@ public class ReviewQueryService {
     public List<ReviewQueryDTO> findAllReviewByDate(LocalDateTime startDate, LocalDateTime endDate) {
         return reviewQueryMapper.findAllReviewByDate(startDate, endDate);
     }
+
+    // 평점 리뷰 조회
+    public List<ReviewQueryDTO> findAllReviewByScore(Integer searchScore) {
+        return reviewQueryMapper.findAllReviewByScore(searchScore);
+    }
 }
