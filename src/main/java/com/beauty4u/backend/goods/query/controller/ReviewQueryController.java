@@ -1,43 +1,38 @@
 package com.beauty4u.backend.goods.query.controller;
 
 import com.beauty4u.backend.goods.query.dto.ReviewQueryDTO;
+import com.beauty4u.backend.goods.query.dto.ReviewSortDTO;
 import com.beauty4u.backend.goods.query.elasticsearch.document.ReviewDocument;
 import com.beauty4u.backend.goods.query.service.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/review")
 @Tag(name = "Review", description = "리뷰 조회 API")
-@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+//@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class ReviewQueryController {
 
     private final ReviewQueryService reviewQueryService;
 
     @GetMapping("/list")
     @Operation(summary = "리뷰 목록 조회", description = "리뷰 목록 전체를 조회한다.")
-    public ResponseEntity<List<ReviewQueryDTO>> findAllReview(
-            @Parameter(description = "페이징/정렬")
-            @SortDefault(sort="created_date", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<List<ReviewQueryDTO>> findAllReview() {
+        List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReview();
 
-        List<Sort.Order> orders = pageable.getSort().stream()
-                .map(order -> new Sort.Order(order.getDirection(), order.getProperty()))
-                .collect(Collectors.toList());
+        return ResponseEntity.ok(reviewList);
+    }
 
-        List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReview(orders);
+    @GetMapping("/list/sort")
+    @Operation(summary = "리뷰 정렬 조회", description = "리뷰 목록을 정렬 조회한다.")
+    public ResponseEntity<List<ReviewQueryDTO>> findAllReviewSort(ReviewSortDTO reviewSortDTO) {
+        List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReviewSort(reviewSortDTO);
 
         return ResponseEntity.ok(reviewList);
     }
@@ -51,7 +46,7 @@ public class ReviewQueryController {
 
     @PostMapping("/index")
     @Operation(summary = "엘라스틱 서치 인덱스 생성", description = "DB 데이터를 엘라스틱 서치에 동기화한다.")
-    public ResponseEntity<Void> indexReview(){
+    public ResponseEntity<Void> indexReview() {
         reviewQueryService.indexReview();
         return ResponseEntity.ok().build();
     }
