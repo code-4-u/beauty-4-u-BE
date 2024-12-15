@@ -8,6 +8,7 @@ import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.elasticsearch.repository.GoodsSearchRepository;
 import com.beauty4u.backend.goods.query.mapper.GoodsQueryMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryService {
     private final SqlSession sqlSession;
     private final GoodsSearchRepository goodsSearchRepository;
@@ -71,5 +73,6 @@ public class GoodsQueryService {
                 .collect(Collectors.toList());
         // 엘라스틱서치에 저장
         goodsSearchRepository.saveAll(documents);
+
     }
 }

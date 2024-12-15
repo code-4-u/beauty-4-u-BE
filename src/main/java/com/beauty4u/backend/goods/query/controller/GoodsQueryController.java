@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/goods")
 @Tag(name = "Goods", description = "상품 조회 API")
-@ConditionalOnProperty(name = "elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;
@@ -44,31 +44,31 @@ public class GoodsQueryController {
     @GetMapping("category/top")
     @Operation(summary = "상위 카테고리 내 하위 카테고리 목록 조회", description = "상위 카테고리에 해당하는 하위 카테고리를 드롭다운으로 조회한다.")
     public ResponseEntity<List<SubCategoryDTO>> findSubCategory(
-            @RequestParam String topCategoryCode){
+            @RequestParam String topCategoryCode) {
         return ResponseEntity.ok(goodsQueryService.findSubCategory(topCategoryCode));
     }
 
     @GetMapping("/category/{topCategoryCode}")
     @Operation(summary = "상위 카테고리 상품과 해당 하위 카테고리 조회", description = "상위 카테고리에 해당하는 상품을 메인화면에서 조회한다.")
-    public ResponseEntity<CategoryDTO> findsTopCategoryGoods(@PathVariable String topCategoryCode){
+    public ResponseEntity<CategoryDTO> findsTopCategoryGoods(@PathVariable String topCategoryCode) {
         return ResponseEntity.ok(goodsQueryService.findTopCategoryGoods(topCategoryCode));
     }
 
     @GetMapping("/category/sub/{SubCategoryCode}")
     @Operation(summary = "하위 카테고리 상품 조회", description = "하위 카테고리에 해당하는 상품을 조회한다.")
-    public ResponseEntity<List<GoodsQueryDTO>> findSubCategoryGoods(@PathVariable String SubCategoryCode){
+    public ResponseEntity<List<GoodsQueryDTO>> findSubCategoryGoods(@PathVariable String SubCategoryCode) {
         return ResponseEntity.ok(goodsQueryService.findSubCategoryGoods(SubCategoryCode));
     }
 
     @GetMapping("/search/{searchGoodsName}")
     @Operation(summary = "상품명 검색", description = "엘라스틱 서치로 상품명을 검색한다.")
-    public ResponseEntity<List<GoodsDocument>> searchGoods(@PathVariable String searchGoodsName){
+    public ResponseEntity<List<GoodsDocument>> searchGoods(@PathVariable String searchGoodsName) {
         return ResponseEntity.ok(goodsQueryService.searchGoods(searchGoodsName));
     }
 
     @PostMapping("/index")
     @Operation(summary = "엘라스틱 서치 인덱스 생성", description = "DB 데이터를 엘라스틱 서치에 동기화한다.")
-    public ResponseEntity<Void> indexGoods(){
+    public ResponseEntity<Void> indexGoods() {
         goodsQueryService.indexGoods();
         return ResponseEntity.ok().build();
     }

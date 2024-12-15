@@ -39,6 +39,19 @@ spring:
       index:
         name: reviews
 
+#  logback.xml 사용 여부 결정
+  logging:
+    use-logback: false
+    level:
+      com.beauty4u.backend: DEBUG
+
+  logstash:
+    enabled: false
+    destination:
+      host: localhost
+      port: 5000
+
+
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
