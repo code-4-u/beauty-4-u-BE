@@ -54,6 +54,14 @@ public class ReviewQueryController {
         return ResponseEntity.ok(reviewList);
     }
 
+    @GetMapping("/list/score")
+    @Operation(summary = "평점 리뷰 조회", description = "해당하는 평점 리뷰를 조회한다")
+    public ResponseEntity<List<ReviewQueryDTO>> findAllReviewByScore(@RequestParam Integer searchScore) {
+        List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReviewByScore(searchScore);
+
+        return ResponseEntity.ok(reviewList);
+    }
+
     @GetMapping("/list/{searchReview}")
     @Operation(summary = "리뷰 검색", description = "엘라스틱 서치로 리뷰를 검색한다.")
     public ResponseEntity<List<ReviewDocument>> searchReview(@PathVariable String searchReview) {
