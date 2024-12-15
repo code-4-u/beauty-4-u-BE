@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,5 +50,10 @@ public class ReviewQueryService {
     // 리뷰 정렬 조회
     public List<ReviewQueryDTO> findAllReviewSort(ReviewSortDTO reviewSortDTO) {
         return reviewQueryMapper.findAllReviewSort(reviewSortDTO);
+    }
+
+    // 리뷰 기간별 조회
+    public List<ReviewQueryDTO> findAllReviewByDate(LocalDateTime startDate, LocalDateTime endDate) {
+        return reviewQueryMapper.findAllReviewByDate(startDate, endDate);
     }
 }
