@@ -49,6 +49,7 @@ public enum SuccessCode {
     INFORM_DELETE_SUCCESS(HttpStatus.OK, "공지사항 삭제 성공"),
     INFORM_FIND_LIST_SUCCESS(HttpStatus.OK, "공지사항 목록 조회 성공"),
     INFORM_FIND_DETAIL_SUCCESS(HttpStatus.OK, "공지사항 상세 조회 성공"),
+    INFORM_UPDATE_VIEWCOUNT_SUCCESS(HttpStatus.OK, "조회수 수정 성공"),
 
     // 문의 (inquiry)
     INQUIRY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 질문 등록 성공"),
@@ -88,8 +89,12 @@ public enum SuccessCode {
     SCHEDULE_SAVE_SUCCESS(HttpStatus.CREATED, "일정 등록 성공"),
     SCHEDULE_UPDATE_SUCCESS(HttpStatus.OK, "일정 수정 성공"),
     SCHEDULE_DELETE_SUCCESS(HttpStatus.OK, "일정 삭제 성공"),
-    SCHEDULE_FIND_LIST_SUCCESS(HttpStatus.OK, "일정 목록 조회 성공");
+    SCHEDULE_FIND_LIST_SUCCESS(HttpStatus.OK, "일정 목록 조회 성공"),
 
+    // 이미지 저장
+    UPLOAD_IMAGE_SUCCESS(HttpStatus.OK, "이미지 저장 성공"),
+    FILE_SAVE_SUCCESS(HttpStatus.OK, "파일 저장 성공"),
+    FILE_DELETE_SUCCESS(HttpStatus.OK, "파일 삭제 성공");
 
     private final HttpStatus httpStatus;
     private final String message;

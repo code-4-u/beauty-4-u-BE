@@ -5,6 +5,7 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.inform.command.application.dto.InformReqDTO;
+import com.beauty4u.backend.inform.command.application.dto.UpdateInformViewcount;
 import com.beauty4u.backend.inform.command.application.service.InformService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,14 +27,14 @@ public class InformCommandController {
 
     @Operation(summary = "공지사항 등록", description = "관리자가 공지사항을 등록한다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> saveInform(
+    public ResponseEntity<ApiResponse<Long>> saveInform(
             @RequestBody @Valid InformReqDTO informReqDTO) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
 
-        informService.saveInform(loginUserCode, informReqDTO);
+        Long informId = informService.saveInform(loginUserCode, informReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.INFORM_SAVE_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.INFORM_SAVE_SUCCESS, informId);
     }
 
     @Operation(summary = "공지사항 수정", description = "관리자가 공지사항을 수정한다.")
@@ -52,5 +56,18 @@ public class InformCommandController {
         informService.deleteInform(informId);
 
         return ResponseUtil.successResponse(SuccessCode.INFORM_DELETE_SUCCESS);
+    }
+
+    @Operation(summary = "조회 수 수정", description = "조회 수를 수정한다.")
+    @PutMapping("/{informId}/informViewcount")
+    public ResponseEntity<ApiResponse<Void>> updateInformViewcount(
+            @PathVariable("informId") Long informId,
+            @RequestBody UpdateInformViewcount updateInformViewcount) {
+
+        informService.updateInformViewCount(informId, updateInformViewcount);
+
+        System.out.println(updateInformViewcount.getInformViewcount());
+        System.out.println(informId);
+        return ResponseUtil.successResponse(SuccessCode.INFORM_UPDATE_VIEWCOUNT_SUCCESS);
     }
 }

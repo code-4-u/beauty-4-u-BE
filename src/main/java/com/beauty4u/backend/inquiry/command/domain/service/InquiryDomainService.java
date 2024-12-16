@@ -2,6 +2,7 @@ package com.beauty4u.backend.inquiry.command.domain.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
+import com.beauty4u.backend.inquiry.command.application.dto.InquiryDTO;
 import com.beauty4u.backend.inquiry.command.application.dto.QnaReqDTO;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
 import com.beauty4u.backend.inquiry.command.domain.repository.InquiryRepository;
@@ -53,5 +54,13 @@ public class InquiryDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY));
 
         inquiryRepository.delete(inquiry);
+    }
+
+    public InquiryDTO findInquiry(Long inquiryId) {
+
+        Inquiry findInquiry = inquiryRepository.findById(inquiryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY));
+
+        return modelMapper.map(findInquiry, InquiryDTO.class);
     }
 }

@@ -29,7 +29,6 @@ public class Inform extends BaseEntity {
     @Column(name = "inform_title", nullable = false)
     private String informTitle;
 
-    @NotNull
     @Lob
     @Column(name = "inform_content", nullable = false)
     private String informContent;
@@ -45,5 +44,9 @@ public class Inform extends BaseEntity {
     public void modifyInform(String title, String content) {
         this.informTitle = title;
         this.informContent = content;
+    }
+
+    public void modifyInformViewcount(Long informViewcount) {
+        this.informViewcount = informViewcount;
     }
 }

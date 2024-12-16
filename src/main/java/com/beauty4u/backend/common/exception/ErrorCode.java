@@ -43,6 +43,14 @@ public enum ErrorCode {
     NOT_REQUEST_NOTI(HttpStatus.CONFLICT, "알림 전송 실패"),
     NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "알림 조회 실패"),
 
+    // 이미지 업로드
+    EMPTY_FILE_EXCEPTION(HttpStatus.BAD_REQUEST, "이미지가 비어있습니다."),
+    IO_EXCEPTION_ON_IMAGE_UPLOAD(HttpStatus.BAD_REQUEST, "이미지를 저장하는데 문제가 생겼습니다."),
+    NO_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "파일의 확장자가 존재하지 않습니다."),
+    INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "해당 확장자를 지원하지 않습니다."),
+    PUT_OBJECT_EXCEPTION(HttpStatus.BAD_REQUEST, "S3에 업로드 실패했습니다."),
+    IO_EXCEPTION_ON_IMAGE_DELETE(HttpStatus.BAD_REQUEST, "삭제에 실패했습니다."),
+
     // 일정 (schedule)
     NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "일정 조회 실패");
 

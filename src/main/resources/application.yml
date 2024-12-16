@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: beauty4u
+  servlet:
+    multipart:
+      max-file-size: 10MB   # 개별 파일의 최대 크기
+      max-request-size: 10MB # 전체 요청의 최대 크기
   config:
     import: optional:file:.env[.properties]
   datasource:
@@ -18,6 +22,7 @@ spring:
     elasticsearch:
       repositories:
         enabled: false
+
 
   jpa:
     hibernate:
