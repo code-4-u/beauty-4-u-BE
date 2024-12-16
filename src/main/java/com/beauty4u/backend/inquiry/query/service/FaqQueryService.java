@@ -1,6 +1,8 @@
 package com.beauty4u.backend.inquiry.query.service;
 
 import com.beauty4u.backend.inquiry.query.dto.FaqDetailResDTO;
+import com.beauty4u.backend.inquiry.query.dto.FaqFilterReqDTO;
+import com.beauty4u.backend.inquiry.query.dto.FaqListDTO;
 import com.beauty4u.backend.inquiry.query.dto.FaqListResDTO;
 import com.beauty4u.backend.inquiry.query.mapper.FaqQueryMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +18,24 @@ public class FaqQueryService {
     private final FaqQueryMapper faqQueryMapper;
 
     @Transactional(readOnly = true)
-    public List<FaqListResDTO> findFaqList(Long page, Long count) {
+    public FaqListResDTO findFaqList(FaqFilterReqDTO faqFilterReqDTO) {
 
-        long offset = (page - 1) * count;
+        Long offset = (faqFilterReqDTO.getPage() - 1) * faqFilterReqDTO.getCount();
 
-        return faqQueryMapper.findFaqList(offset, count);
+        List<FaqListDTO> faqList = faqQueryMapper.findFaqList(
+                faqFilterReqDTO.getFaqTitle(),
+                offset,
+                faqFilterReqDTO.getCount());
+
+        FaqListResDTO faqListResDTO = new FaqListResDTO();
+        faqListResDTO.setFaqList(faqList);
+
+        Long totalCount = faqQueryMapper.findFaqListTotalCount(
+                faqFilterReqDTO.getFaqTitle());
+
+        faqListResDTO.setTotalCount(totalCount);
+
+        return faqListResDTO;
     }
 
     @Transactional(readOnly = true)
