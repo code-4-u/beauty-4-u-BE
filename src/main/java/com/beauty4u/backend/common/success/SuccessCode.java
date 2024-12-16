@@ -30,6 +30,16 @@ public enum SuccessCode {
     CUSTOMER_FIND_ORDERINFO_LIST_SUCCESS(HttpStatus.OK, "고객 주문 이력 조회 성공"),
     CUSTOMER_FIND_LIST_STATS_SUCCESS(HttpStatus.OK, "고객 목록 통계 요약 조회 성공"),
 
+    // 상품(goods)
+    GOODS_FIND_LIST_SUCCESS(HttpStatus.OK, "상품 목록 조회 성공"),
+    GOODS_FIND_ELASTICSEARCH_SUCCESS(HttpStatus.OK, "엘라스틱서치 상품 검색 성공"),
+    BRAND_FIND_LIST_SUCCESS(HttpStatus.OK, "브랜드 목록 조회 성공"),
+    BRAND_FIND_LIST_GOODS_SUCCESS(HttpStatus.OK, "브랜드 내 상품 목록 조회 성공"),
+    GOODS_FIND_LIST_SUBCATEGORYLIST_SUCCESS(HttpStatus.OK, "상위 카테고리 내 하위 카테고리 목록 조회 성공"),
+    GOODS_FIND_LIST_TOPCATEGORY_GOODS_AND_SUBCATEGORY(HttpStatus.OK, "상위 카테고리 내 상품과 하위 카테고리 목록 조회 성공"),
+    GOODS_FIND_LIST_SUBCATEGORYLIST_GOODS_SUCCESS(HttpStatus.OK, "하위 카테고리 내 상품 목록 조회 성공"),
+
+
     // 템플릿(template)
     TEMPLATE_FIND_LIST_SUCCESS(HttpStatus.OK, "템플릿 목록 조회 성공"),
     TEMPLATE_SAVE_SUCCESS(HttpStatus.OK, "템플릿 등록 성공"),

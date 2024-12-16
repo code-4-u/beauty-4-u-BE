@@ -31,6 +31,25 @@
         ORDER BY brand_name
     </select>
 
+<!--    선택 브랜드 내 상품 목록 조회 -->
+    <select id="findAllBrandGoods" resultType="GoodsQueryDTO">
+        SELECT
+        g.goods_code,
+        g.goods_name,
+        b.brand_name,
+        g.goods_skintype,
+        g.goods_price
+        FROM goods g
+        JOIN brand b ON (g.brand_code = b.brand_code)
+        <where>
+            <if test="brandCode != null and brandCode != ''">
+                AND b.brand_code = #{brandCode}
+            </if>
+        </where>
+        ORDER BY g.created_date
+    </select>
+
+
 <!--    상위 카테고리 내에 있는 하위 카테고리 조회 -->
     <select id="findSubCategory" resultType="SubCategoryDTO">
         SELECT

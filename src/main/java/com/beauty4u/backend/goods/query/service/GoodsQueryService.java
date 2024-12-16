@@ -29,7 +29,12 @@ public class GoodsQueryService {
 
     // 전체 브랜드 조회
     public List<BrandQueryDTO> findAllBrand() {
-        return sqlSession.getMapper(GoodsQueryMapper.class).findAllBrand();
+        return goodsQueryMapper.findAllBrand();
+    }
+
+    // 선택 브랜드 내 상품 목록 조회
+    public List<GoodsQueryDTO> findAllBrandGoods(String brandCode) {
+        return goodsQueryMapper.findAllBrandGoods(brandCode);
     }
 
     // 조건별 상품 조회

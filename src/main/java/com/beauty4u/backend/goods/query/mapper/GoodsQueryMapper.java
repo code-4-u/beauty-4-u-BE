@@ -27,4 +27,7 @@ public interface GoodsQueryMapper {
 
     // 하위 카테고리에 해당하는 상품 조회
     List<GoodsQueryDTO> findSubCategoryGoods(String subCategoryCode);
+
+    // 선택 브랜드 내 상품 목록 조회
+    List<GoodsQueryDTO> findAllBrandGoods(@Param("brandCode") String brandCode);
 }
