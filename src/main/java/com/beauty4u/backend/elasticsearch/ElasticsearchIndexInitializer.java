@@ -16,7 +16,7 @@ import java.io.IOException;
 // 엘라스틱서치의 인덱스를 자동 생성하고 관리하는 클래스
 @Component
 @Slf4j
-@ConditionalOnProperty(name = "spring.data.repositories.elasticsearch.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class ElasticsearchIndexInitializer {
 
     // 엘라스틱서치 작업 위한 핵심 클래스
