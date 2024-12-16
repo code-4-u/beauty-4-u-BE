@@ -101,7 +101,8 @@ public enum SuccessCode {
 
     // Promotion
     PROMOTION_SAVE_SUCCESS(HttpStatus.OK, "프로모션 저장 성공"),
-    PROMOTION_FIND_DETAIL_SUCCESS(HttpStatus.OK, "프로모션 상세 조회 성공");
+    PROMOTION_FIND_DETAIL_SUCCESS(HttpStatus.OK, "프로모션 상세 조회 성공"),
+    PROMOTION_FIND_LIST_SUCCESS(HttpStatus.OK, "프로모션 목록 조회 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
