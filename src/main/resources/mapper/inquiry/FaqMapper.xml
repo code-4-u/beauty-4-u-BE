@@ -2,13 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beauty4u.backend.inquiry.query.mapper.FaqQueryMapper">
 
-    <select id="findFaqList" resultType="FaqListResDTO">
+    <select id="findFaqList" resultType="FaqListDTO">
         SELECT
             faq_id,
             user_code,
             faq_title,
             faq_viewcount
         FROM faq
+        WHERE 1 = 1
+            <if test="faqTitle != null and faqTitle != ''">
+                AND faq_title LIKE CONCAT('%', #{faqTitle}, '%')
+            </if>
         LIMIT #{offset}, #{count}
     </select>
 
@@ -22,5 +26,15 @@
             updated_date
         FROM faq
         WHERE faq_id = #{faqId}
+    </select>
+
+    <select id="findFaqListTotalCount" resultType="Long">
+        SELECT
+            COUNT(*)
+        FROM faq
+        WHERE 1 = 1
+        <if test="faqTitle != null and faqTitle != ''">
+            AND faq_title LIKE CONCAT('%', #{faqTitle}, '%')
+        </if>
     </select>
 </mapper>

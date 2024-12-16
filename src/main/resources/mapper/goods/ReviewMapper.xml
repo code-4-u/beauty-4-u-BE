@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beauty4u.backend.goods.query.mapper.ReviewQueryMapper">
-
+    <!-- 리뷰 전체 조회 -->
     <select id="findAllReview" resultType="ReviewQueryDTO">
         SELECT
         r.created_date,
@@ -11,24 +11,85 @@
         r.review_content
         FROM review r
         JOIN goods g ON (r.goods_code = g.goods_code)
-        <if test="orders != null and orders.size() > 0">
-            ORDER BY
-            <foreach collection="orders" item="order" separator=",">
-                <choose>
-                    <when test="order.property == 'review_score'">
-                        r.review_score ${order.direction}
-                    </when>
-                    <when test="order.property == 'created_date'">
-                        r.created_date ${order.direction}
-                    </when>
-                    <otherwise>
-                        r.created_date DESC
-                    </otherwise>
-                </choose>
-            </foreach>
+        ORDER BY r.created_date DESC
+    </select>
+    <!-- 리뷰 정렬 조회 -->
+    <select id="findAllReviewSort" resultType="ReviewQueryDTO">
+        SELECT
+        r.created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
+        FROM review r
+        JOIN goods g ON (r.goods_code = g.goods_code)
+        ORDER BY
+        <!-- 첫 번째 정렬 조건 -->
+        <if test="primarySort == 'review_score'">
+            r.review_score
         </if>
-        <if test="orders == null or orders.size() == 0">
-            ORDER BY r.created_date DESC
+        <if test="primarySort != 'review_score'">
+            r.created_date
         </if>
+        <!-- 첫 번째 정렬 순서 -->
+        <if test="primaryOrder == 'ASC'">
+            ASC
+        </if>
+        <if test="primaryOrder != 'ASC'">
+            DESC
+        </if>
+        <!-- 두 번째 정렬 조건 -->
+        <if test="secondarySort != null and secondarySort != 'null'">
+            <if test="secondarySort == 'review_score'">
+                , r.review_score
+            </if>
+            <if test="secondarySort == 'created_date'">
+                , r.created_date
+            </if>
+            <!-- 두 번째 정렬 순서 -->
+            <if test="secondaryOrder == 'ASC'">
+                ASC
+            </if>
+            <if test="secondaryOrder != 'ASC'">
+                DESC
+            </if>
+        </if>
+    </select>
+    <!--    리뷰 기간별 조회 -->
+    <select id="findAllReviewByDate" resultType="ReviewQueryDTO">
+        SELECT
+        r.created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
+        FROM review r
+        JOIN goods g ON (r.goods_code = g.goods_code)
+        <where>
+            <if test="startDate != null">
+                r.created_date >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND r.created_date <![CDATA[<=]]> #{endDate}
+            </if>
+        </where>
+        ORDER BY r.created_date DESC
+    </select>
+<!--    평점 리뷰 조회 -->
+    <select id="findAllReviewByScore" resultType="ReviewQueryDTO">
+        SELECT
+        r.created_date,
+        r.review_id,
+        g.goods_name AS goodsName,
+        r.review_score,
+        r.review_content
+        FROM review r
+        JOIN goods g ON (r.goods_code = g.goods_code)
+        <where>
+            <if test="searchScore != null">
+                r.review_score = #{searchScore}
+            </if>
+        </where>
+        ORDER BY r.created_date DESC
     </select>
 </mapper>

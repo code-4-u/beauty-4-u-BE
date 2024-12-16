@@ -4,6 +4,7 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.inquiry.query.dto.FaqDetailResDTO;
+import com.beauty4u.backend.inquiry.query.dto.FaqFilterReqDTO;
 import com.beauty4u.backend.inquiry.query.dto.FaqListResDTO;
 import com.beauty4u.backend.inquiry.query.service.FaqQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,11 +25,10 @@ public class FaqQueryController {
 
     @Operation(summary = "FAQ 목록 조회", description = "FAQ 목록을 조회한다.")
     @GetMapping("/faq/list")
-    public ResponseEntity<ApiResponse<List<FaqListResDTO>>> findFaqList(
-            @RequestParam(defaultValue = "1") Long page,
-            @RequestParam(defaultValue = "10") Long count) {
+    public ResponseEntity<ApiResponse<FaqListResDTO>> findFaqList(
+            FaqFilterReqDTO faqFilterReqDTO) {
 
-        List<FaqListResDTO> faqListResDTOS = faqQueryService.findFaqList(page, count);
+        FaqListResDTO faqListResDTOS = faqQueryService.findFaqList(faqFilterReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.FAQ_FIND_LIST_SUCCESS, faqListResDTOS);
     }
