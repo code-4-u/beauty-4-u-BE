@@ -2,14 +2,19 @@ package com.beauty4u.backend.inform.command.domain.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
+import com.beauty4u.backend.common.util.S3ImageUtil;
+import com.beauty4u.backend.inform.command.application.dto.InformDTO;
 import com.beauty4u.backend.inform.command.application.dto.InformReqDTO;
+import com.beauty4u.backend.inform.command.application.dto.UpdateInformViewcount;
 import com.beauty4u.backend.inform.command.domain.aggregate.Inform;
 import com.beauty4u.backend.inform.command.domain.repository.InformRepository;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import com.beauty4u.backend.user.command.domain.repository.UserRepository;
+import com.beauty4u.backend.user.command.domain.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +22,11 @@ public class InformDomainService {
 
     private final InformRepository informRepository;
     private final UserRepository userRepository;
+    private final S3ImageUtil s3ImageUtil;
     private final ModelMapper modelMapper;
+    private final UserDomainService userDomainService;
 
-    public void saveInform(String loginUserCode, InformReqDTO informReqDTO) {
+    public Long saveInform(String loginUserCode, InformReqDTO informReqDTO) {
 
         Inform inform = modelMapper.map(informReqDTO, Inform.class);
 
@@ -33,6 +40,8 @@ public class InformDomainService {
         } catch (Exception e) {
             throw new CustomException(ErrorCode.NOT_SAVED_INFORM);
         }
+
+        return inform.getId();
     }
 
     public void updateInform(Long informId, InformReqDTO updateInformReqDTO) {
@@ -51,6 +60,24 @@ public class InformDomainService {
         Inform inform = informRepository.findById(informId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INFORM));
 
-        informRepository.delete(inform);
+        informRepository.deleteById(informId);
+    }
+
+    public InformDTO findInform(Long informId) {
+
+        Inform inform = informRepository.findById(informId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INFORM));
+
+        return modelMapper.map(inform, InformDTO.class);
+    }
+
+    public void updateInformViewcount(Long informId, UpdateInformViewcount informViewcount) {
+
+        Inform inform = informRepository.findById(informId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INFORM));
+
+        inform.modifyInformViewcount(informViewcount.getInformViewcount());
+
+        System.out.println(inform.getInformViewcount());
     }
 }
