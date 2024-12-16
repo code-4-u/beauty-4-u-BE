@@ -1,0 +1,96 @@
+package com.beauty4u.backend.basesystem.command.domain.service;
+
+import com.beauty4u.backend.basesystem.command.application.dto.FileDTO;
+import com.beauty4u.backend.basesystem.command.domain.aggregate.FileInfo;
+import com.beauty4u.backend.basesystem.command.domain.repository.FileRepository;
+import com.beauty4u.backend.common.util.S3ImageUtil;
+import com.beauty4u.backend.inform.command.application.dto.InformDTO;
+import com.beauty4u.backend.inform.command.domain.aggregate.Inform;
+import com.beauty4u.backend.inform.command.domain.service.InformDomainService;
+import com.beauty4u.backend.inquiry.command.application.dto.InquiryDTO;
+import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
+import com.beauty4u.backend.inquiry.command.domain.service.InquiryDomainService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class FileDomainService {
+
+    private final FileRepository fileRepository;
+    private final InformDomainService informDomainService;
+    private final InquiryDomainService inquiryDomainService;
+    private final S3ImageUtil s3ImageUtil;
+    private final ModelMapper modelMapper;
+
+    public void saveFile(List<String> images, Long entityId, Boolean isInformImage) {
+
+        List<FileDTO> fileDTOS = new ArrayList<>();
+
+        List<FileInfo> fileInfos = new ArrayList<>();
+
+        System.out.println(isInformImage);
+
+        if (isInformImage != null && isInformImage) {
+            InformDTO informDTO = informDomainService.findInform(entityId);
+
+            Inform inform = modelMapper.map(informDTO, Inform.class);
+
+            for (String image : images) {
+                FileDTO fileDTO = new FileDTO();
+                fileDTO.setInform(inform);
+                fileDTO.setFileUrl(image);
+                fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
+            }
+        } else {
+
+            InquiryDTO inquiryDTO = inquiryDomainService.findInquiry(entityId);
+
+            Inquiry inquiry = modelMapper.map(inquiryDTO, Inquiry.class);
+
+            for (String image : images) {
+                FileDTO fileDTO = new FileDTO();
+                fileDTO.setInquiry(inquiry);
+                fileDTO.setFileUrl(image);
+                fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
+            }
+        }
+
+        fileRepository.saveAll(fileInfos);
+    }
+
+    public void deleteFile(Long entityId, boolean isInformImage) {
+
+        List<FileDTO> fileDTOS = new ArrayList<>();
+
+        if (isInformImage) {
+            InformDTO informDTO = informDomainService.findInform(entityId);
+
+            Inform inform = modelMapper.map(informDTO, Inform.class);
+
+            fileRepository.deleteByInform(inform);
+        } else {
+
+            InquiryDTO inquiryDTO = inquiryDomainService.findInquiry(entityId);
+
+            Inquiry inquiry = modelMapper.map(inquiryDTO, Inquiry.class);
+
+            fileRepository.deleteByInquiry(inquiry);
+        }
+    }
+
+    public String s3UploadImage(MultipartFile image) {
+
+        return s3ImageUtil.upload(image);
+    }
+
+    public void s3UploadDeleteImage(String image) {
+
+        s3ImageUtil.deleteImageFromS3(image);
+    }
+}
