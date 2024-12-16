@@ -49,6 +49,7 @@ public enum SuccessCode {
     INFORM_DELETE_SUCCESS(HttpStatus.OK, "공지사항 삭제 성공"),
     INFORM_FIND_LIST_SUCCESS(HttpStatus.OK, "공지사항 목록 조회 성공"),
     INFORM_FIND_DETAIL_SUCCESS(HttpStatus.OK, "공지사항 상세 조회 성공"),
+    INFORM_UPDATE_VIEWCOUNT_SUCCESS(HttpStatus.OK, "조회수 수정 성공"),
 
     // 문의 (inquiry)
     INQUIRY_SAVE_SUCCESS(HttpStatus.CREATED, "QnA 질문 등록 성공"),
@@ -83,8 +84,12 @@ public enum SuccessCode {
     ANAL_FIND_AGE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "연령별 브랜드 제품별 매출 데이터 조회 성공"),
     ANAL_FIND_GRADE_SALES_RADIO_SUCCESS(HttpStatus.OK, "등급별 매출 비율 데이터 조회 성공"),
     ANAL_FIND_GRADE_SALES_BY_BRAND_SUCCESS(HttpStatus.OK, "등급별 브핸드 매출 데이터 조회 성공"),
-    ANAL_FIND_GRADE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "등급별 브랜드별 제품 매출 데이터 조회 성공");
+    ANAL_FIND_GRADE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "등급별 브랜드별 제품 매출 데이터 조회 성공"),
 
+    // 이미지 저장
+    UPLOAD_IMAGE_SUCCESS(HttpStatus.OK, "이미지 저장 성공"),
+    FILE_SAVE_SUCCESS(HttpStatus.OK, "파일 저장 성공"),
+    FILE_DELETE_SUCCESS(HttpStatus.OK, "파일 삭제 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
