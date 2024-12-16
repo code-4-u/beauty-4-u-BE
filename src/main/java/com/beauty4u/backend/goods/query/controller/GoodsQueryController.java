@@ -1,5 +1,8 @@
 package com.beauty4u.backend.goods.query.controller;
 
+import com.beauty4u.backend.common.response.ApiResponse;
+import com.beauty4u.backend.common.response.ResponseUtil;
+import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
 import com.beauty4u.backend.goods.query.dto.CategoryDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
@@ -26,44 +29,50 @@ public class GoodsQueryController {
 
     @GetMapping("/brands")
     @Operation(summary = "브랜드 목록 조회", description = "드롭다운용 브랜드 전체 목록을 조회한다.")
-    public ResponseEntity<List<BrandQueryDTO>> findAllBrand() {
+    public ResponseEntity<ApiResponse<List<BrandQueryDTO>>> findAllBrand() {
         List<BrandQueryDTO> brandList = goodsQueryService.findAllBrand();
 
-        return ResponseEntity.ok(brandList);
+        return ResponseUtil.successResponse(SuccessCode.BRAND_FIND_LIST_SUCCESS, brandList);
+    }
+
+    @GetMapping("/brands/{brandCode}")
+    @Operation(summary = "선택 브랜드 상품 조회", description = "선택한 브랜드에 해당하는 상품 목록을 조회한다.")
+    public ResponseEntity<ApiResponse<List<GoodsQueryDTO>>> findAllBrandGoods(@PathVariable String brandCode) {
+        return ResponseUtil.successResponse(SuccessCode.BRAND_FIND_LIST_GOODS_SUCCESS, goodsQueryService.findAllBrandGoods(brandCode));
     }
 
     @GetMapping("/search")
     @Operation(summary = "전체 상품 목록 조회", description = "조건에 따른 상품을 검색한다. 파라미터가 없으면 전체 상품을 조회한다.")
-    public ResponseEntity<List<GoodsQueryDTO>> findGoods(
+    public ResponseEntity<ApiResponse<List<GoodsQueryDTO>>> findGoods(
             @RequestParam(required = false) String brandCode,
             @RequestParam(required = false) String goodsName
     ) {
-        return ResponseEntity.ok(goodsQueryService.findGoods(brandCode, goodsName));
+        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_SUCCESS, goodsQueryService.findGoods(brandCode, goodsName));
     }
 
     @GetMapping("category/top")
     @Operation(summary = "상위 카테고리 내 하위 카테고리 목록 조회", description = "상위 카테고리에 해당하는 하위 카테고리를 드롭다운으로 조회한다.")
-    public ResponseEntity<List<SubCategoryDTO>> findSubCategory(
+    public ResponseEntity<ApiResponse<List<SubCategoryDTO>>> findSubCategory(
             @RequestParam String topCategoryCode) {
-        return ResponseEntity.ok(goodsQueryService.findSubCategory(topCategoryCode));
+        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_SUBCATEGORYLIST_SUCCESS, goodsQueryService.findSubCategory(topCategoryCode));
     }
 
     @GetMapping("/category/{topCategoryCode}")
     @Operation(summary = "상위 카테고리 상품과 해당 하위 카테고리 조회", description = "상위 카테고리에 해당하는 상품을 메인화면에서 조회한다.")
-    public ResponseEntity<CategoryDTO> findsTopCategoryGoods(@PathVariable String topCategoryCode) {
-        return ResponseEntity.ok(goodsQueryService.findTopCategoryGoods(topCategoryCode));
+    public ResponseEntity<ApiResponse<CategoryDTO>> findsTopCategoryGoods(@PathVariable String topCategoryCode) {
+        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_TOPCATEGORY_GOODS_AND_SUBCATEGORY, goodsQueryService.findTopCategoryGoods(topCategoryCode));
     }
 
     @GetMapping("/category/sub/{SubCategoryCode}")
     @Operation(summary = "하위 카테고리 상품 조회", description = "하위 카테고리에 해당하는 상품을 조회한다.")
-    public ResponseEntity<List<GoodsQueryDTO>> findSubCategoryGoods(@PathVariable String SubCategoryCode) {
-        return ResponseEntity.ok(goodsQueryService.findSubCategoryGoods(SubCategoryCode));
+    public ResponseEntity<ApiResponse<List<GoodsQueryDTO>>> findSubCategoryGoods(@PathVariable String SubCategoryCode) {
+        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_SUBCATEGORYLIST_SUCCESS, goodsQueryService.findSubCategoryGoods(SubCategoryCode));
     }
 
     @GetMapping("/search/{searchGoodsName}")
     @Operation(summary = "상품명 검색", description = "엘라스틱 서치로 상품명을 검색한다.")
-    public ResponseEntity<List<GoodsDocument>> searchGoods(@PathVariable String searchGoodsName) {
-        return ResponseEntity.ok(goodsQueryService.searchGoods(searchGoodsName));
+    public ResponseEntity<ApiResponse<List<GoodsDocument>>> searchGoods(@PathVariable String searchGoodsName) {
+        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_ELASTICSEARCH_SUCCESS, goodsQueryService.searchGoods(searchGoodsName));
     }
 
     @PostMapping("/index")
