@@ -89,8 +89,7 @@ public enum SuccessCode {
     SCHEDULE_SAVE_SUCCESS(HttpStatus.CREATED, "일정 등록 성공"),
     SCHEDULE_UPDATE_SUCCESS(HttpStatus.OK, "일정 수정 성공"),
     SCHEDULE_DELETE_SUCCESS(HttpStatus.OK, "일정 삭제 성공"),
-    SCHEDULE_FIND_LIST_SUCCESS(HttpStatus.OK, "일정 목록 조회 성공");
-    ANAL_FIND_GRADE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "등급별 브랜드별 제품 매출 데이터 조회 성공"),
+    SCHEDULE_FIND_LIST_SUCCESS(HttpStatus.OK, "일정 목록 조회 성공"),
 
     // 이미지 저장
     UPLOAD_IMAGE_SUCCESS(HttpStatus.OK, "이미지 저장 성공"),
