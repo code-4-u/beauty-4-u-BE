@@ -1,4 +1,4 @@
-package com.beauty4u.backend.promotion.command.application.dto;
+package com.beauty4u.backend.promotion.query.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -6,25 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SavePromotionReqDTO {
+public class PromotionDetailResDTO {
 
-    @NotNull(message = "제목을 입력하세요")
+    private Long promotionId;
     private String promotionTitle;
-
-    @NotNull(message = "내용을 입력하세요")
-    private String promotionContent;
-
-    @NotNull(message = "시작일을 입력하세요")
     private LocalDateTime promotionStartDate;
-
-    @NotNull(message = "종료일을 입력하세요")
     private LocalDateTime promotionEndDate;
-
     private String promotionStatus;
 }

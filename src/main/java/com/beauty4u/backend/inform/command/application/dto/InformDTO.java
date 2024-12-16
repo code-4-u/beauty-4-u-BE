@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class InformDTO extends BaseEntity {
 
-    private Long informId;
+    private Long id;
     private UserInfo userCode;
     private String informTitle;
     private String informContent;

@@ -52,7 +52,10 @@ public enum ErrorCode {
     IO_EXCEPTION_ON_IMAGE_DELETE(HttpStatus.BAD_REQUEST, "삭제에 실패했습니다."),
 
     // 일정 (schedule)
-    NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "일정 조회 실패");
+    NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "일정 조회 실패"),
+
+    // 프로모션
+    PROMOTION_FIND_DETAIL_FAIL(HttpStatus.NOT_FOUND, "프로모션 상제 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
