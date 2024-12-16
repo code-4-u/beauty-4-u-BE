@@ -1,6 +1,10 @@
 {
   "properties": {
-    "oaddr": {
+    "goods": {
+      "type": "text",
+      "analyzer": "korean"
+    },
+    "reviews": {
       "type": "text",
       "analyzer": "korean"
     }
