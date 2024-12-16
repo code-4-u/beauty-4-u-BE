@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class Promotion {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "promotion_id", nullable = false)
     private Long id;
 
@@ -37,5 +38,5 @@ public class Promotion {
     @NotNull
     @Lob
     @Column(name = "promotion_status", nullable = false)
-    private String promotionStatus;
+    private String promotionStatus = "BEFORE";
 }

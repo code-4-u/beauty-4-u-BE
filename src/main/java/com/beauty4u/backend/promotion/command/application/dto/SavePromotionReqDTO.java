@@ -21,8 +21,10 @@ public class SavePromotionReqDTO {
     private String promotionContent;
 
     @NotNull(message = "시작일을 입력하세요")
-    private LocalDateTime promotionStartTime;
+    private LocalDateTime promotionStartDate;
 
     @NotNull(message = "종료일을 입력하세요")
-    private LocalDateTime promotionEndTime;
+    private LocalDateTime promotionEndDate;
+
+    private String promotionStatus;
 }
