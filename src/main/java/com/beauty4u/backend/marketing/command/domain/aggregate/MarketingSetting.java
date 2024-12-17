@@ -10,30 +10,32 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "marketing_setting")
+@Table(name = "marketing_setting", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_analysis_channel",
+                          columnNames = {"analysis_kind", "marketing_setting_channel"})})
 public class MarketingSetting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "marketing_setting_id", nullable = false)
+    @Column(name = "marketing_setting_id")
     private Long marketingSettingId;
 
     @NotNull
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "analysis_id")
     private Analysis analysisId;
 
     @NotNull
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id")
     private Template templateId;
 
     @NotNull
-    @Column(name = "marketing_noti_interval", nullable = false)
+    @Column(name = "marketing_noti_interval")
     private Integer marketingNotiInterval;
 
     @NotNull
-    @Column(name = "analysis_kind", nullable = false)
+    @Column(name = "analysis_kind")
     @Enumerated(EnumType.STRING)
     private AnalysisKind analysisKind;
 
@@ -42,4 +44,11 @@ public class MarketingSetting {
     @Enumerated(EnumType.STRING)
     private SettingChannelType marketingSettingChannel;
 
+    public void updateMarketingSetting(Template templateId, AnalysisKind analysisKind, Integer marketingNotiInterval, SettingChannelType settingChannelType) {
+        this.templateId = templateId;
+        this.analysisKind = analysisKind;
+        this.marketingNotiInterval = marketingNotiInterval;
+        this.marketingSettingChannel = settingChannelType;
+
+    }
 }
