@@ -55,7 +55,8 @@ public enum ErrorCode {
     NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "일정 조회 실패"),
 
     // 프로모션
-    PROMOTION_FIND_DETAIL_FAIL(HttpStatus.NOT_FOUND, "프로모션 상제 조회 실패");
+    PROMOTION_FIND_DETAIL_FAIL(HttpStatus.NOT_FOUND, "프로모션 상제 조회 실패"),
+    PROMOTION_NOT_FOUND(HttpStatus.NOT_FOUND, "프로모션 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
