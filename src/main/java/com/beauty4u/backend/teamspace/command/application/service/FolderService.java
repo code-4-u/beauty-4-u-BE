@@ -1,12 +1,12 @@
 package com.beauty4u.backend.teamspace.command.application.service;
 
+import com.beauty4u.backend.common.aggregate.StatusType;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
+import com.beauty4u.backend.teamspace.command.application.dto.folder.FindFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.UpdateFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.saveFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.teamspace.FindTeamspaceDTO;
-import com.beauty4u.backend.teamspace.command.domain.aggregate.Folder;
-import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
 import com.beauty4u.backend.teamspace.command.domain.service.FolderDomainService;
 import com.beauty4u.backend.teamspace.command.domain.service.TeamspaceDomainService;
 import lombok.RequiredArgsConstructor;
@@ -29,21 +29,19 @@ public class FolderService {
 
         FindTeamspaceDTO findTeamspaceDTO = teamspaceDomainService.findTeamspaceById(saveFolderDTO.getTeamspaceId());
 
-        Teamspace teamspace = modelMapper.map(findTeamspaceDTO, Teamspace.class);
-
         // 부모 폴더 조회
-        Folder topFolder = saveFolderDTO.getTopFolderId() != null ?
-                modelMapper.map(folderDomainService.findById(saveFolderDTO.getTopFolderId()), Folder.class) : null;
+        FindFolderDTO topFolderDTO = saveFolderDTO.getTopFolderId() != null ?
+                folderDomainService.findById(saveFolderDTO.getTopFolderId()) : null;
 
-        // Folder 객체 생성
-        Folder folder = Folder.builder()
-                .teamspaceId(teamspace)                 // 팀스페이스 설정
-                .topFolderId(topFolder)           // 부모 폴더 설정
-                .folderName(saveFolderDTO.getFolderName())  // 폴더 이름 설정
-                .build();
+        // 부모 폴더가 삭제된 상태라면 오류 던짐
+        if (topFolderDTO != null) {
+            if (topFolderDTO.getPublishStatus().equals(StatusType.DELETED)) {
+                throw new CustomException(ErrorCode.TOP_FOLDER_IS_DELETED);
+            }
+        }
 
         // 폴더 저장
-        folderDomainService.saveFolder(folder);
+        folderDomainService.saveFolder(saveFolderDTO.getFolderName(), topFolderDTO, findTeamspaceDTO);
     }
 
     @Transactional
