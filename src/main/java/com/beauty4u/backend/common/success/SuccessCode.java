@@ -114,7 +114,10 @@ public enum SuccessCode {
     PROMOTION_FIND_DETAIL_SUCCESS(HttpStatus.OK, "프로모션 상세 조회 성공"),
     PROMOTION_FIND_LIST_SUCCESS(HttpStatus.OK, "프로모션 목록 조회 성공"),
     PROMOTION_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 수정 성공"),
-    PROMOTION_DELETE_SUCCESS(HttpStatus.OK, "프로모션 삭제 성공");
+    PROMOTION_DELETE_SUCCESS(HttpStatus.OK, "프로모션 삭제 성공"),
+
+    // 폴더 (folder)
+    FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
