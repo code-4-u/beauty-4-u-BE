@@ -16,21 +16,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MarketingSettingReqDTO {
-
-    @NotNull
     private Long analysisId;
-
-    @NotNull
     private Long templateId;
-
-    @NotNull
     private Integer marketingNotiInterval;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     private AnalysisKind analysisKind;
-
-    @NotNull
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private SettingChannelType settingChannelType;
 }

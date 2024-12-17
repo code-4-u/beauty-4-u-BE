@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/marketing")
-@Tag(name = "Marketing Setting", description = "마케팅 알림 설정 관련 API")
+@Tag(name = "Marketing Setting", description = "마케팅 알림 설정 API")
 public class MarketingSettingCommandController {
 
     private final MarketingSettingService marketingSettingService;

@@ -6,8 +6,14 @@ import com.beauty4u.backend.common.aggregate.SettingChannelType;
 import com.beauty4u.backend.template.command.domain.aggregate.Template;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 @Entity
 @Table(name = "marketing_setting", uniqueConstraints = {
