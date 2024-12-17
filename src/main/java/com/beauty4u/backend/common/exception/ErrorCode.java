@@ -58,7 +58,14 @@ public enum ErrorCode {
     PROMOTION_FIND_DETAIL_FAIL(HttpStatus.NOT_FOUND, "프로모션 상세 조회 실패"),
     PROMOTION_NOT_FOUND(HttpStatus.NOT_FOUND, "프로모션 조회 실패"),
     PROMOTION_NOT_SAVE(HttpStatus.CONFLICT, "프로모션 등록 실패"),
-    PROMOTION_NOT_DELETE(HttpStatus.NOT_FOUND, "프로모션 삭제 실패");
+    PROMOTION_NOT_DELETE(HttpStatus.NOT_FOUND, "프로모션 삭제 실패"),
+
+    // 팀 스페이스
+    NOT_FOUND_TEAMSPACE(HttpStatus.NOT_FOUND, "팀 스페이스 조회 실패"),
+
+    // 폴더
+    NOT_FOUND_TOP_FOLDER(HttpStatus.NOT_FOUND, "상위 폴더 조회 실패"),
+    FOLDER_SAVE_FAIL(HttpStatus.CONFLICT, "폴더 저장 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
