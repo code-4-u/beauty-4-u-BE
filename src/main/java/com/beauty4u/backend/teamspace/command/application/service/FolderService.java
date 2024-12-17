@@ -1,5 +1,7 @@
 package com.beauty4u.backend.teamspace.command.application.service;
 
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.UpdateFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.saveFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.teamspace.FindTeamspaceDTO;
@@ -47,6 +49,12 @@ public class FolderService {
     @Transactional
     public void updateFolder(Long folderId, UpdateFolderDTO updateFolderDTO) {
 
-        folderDomainService.updateFolder(folderId, updateFolderDTO);
+        try {
+            folderDomainService.updateFolder(folderId, updateFolderDTO);
+        } catch (CustomException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.FOLDER_UPDATE_FAIL);
+        }
     }
 }
