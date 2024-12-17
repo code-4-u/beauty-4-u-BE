@@ -1,5 +1,6 @@
 package com.beauty4u.backend.inquiry.query.service;
 
+import com.beauty4u.backend.inquiry.query.dto.InquiryDetailResDTO;
 import com.beauty4u.backend.inquiry.query.dto.InquiryFilterReqDTO;
 import com.beauty4u.backend.inquiry.query.dto.InquiryListDTO;
 import com.beauty4u.backend.inquiry.query.dto.InquiryListResDTO;
@@ -41,5 +42,11 @@ public class InquiryQueryService {
         inquiryListResDTO.setTotalCount(totalCount);
 
         return inquiryListResDTO;
+    }
+
+    @Transactional(readOnly = true)
+    public InquiryDetailResDTO findInquiryDetail(Long inquiryId) {
+
+        return inquiryQueryMapper.findInquiryDetail(inquiryId);
     }
 }
