@@ -1,5 +1,7 @@
 package com.beauty4u.backend.promotion.command.domain.service;
 
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.promotion.command.application.dto.SavePromotionReqDTO;
 import com.beauty4u.backend.promotion.command.domain.aggregate.Promotion;
 import com.beauty4u.backend.promotion.command.domain.repository.PromotionRepository;
@@ -19,5 +21,13 @@ public class PromotionDomainService {
         Promotion promotion = modelMapper.map(savePromotionReqDTO, Promotion.class);
 
         promotionRepository.save(promotion);
+    }
+
+    public void updatePromotion(Long promotionId, SavePromotionReqDTO savePromotionReqDTO) {
+
+        Promotion promotion = promotionRepository.findById(promotionId)
+                .orElseThrow(() -> new CustomException(ErrorCode.PROMOTION_NOT_FOUND));
+
+        modelMapper.map(savePromotionReqDTO, promotion);
     }
 }
