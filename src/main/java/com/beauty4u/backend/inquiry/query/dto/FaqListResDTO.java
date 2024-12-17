@@ -9,6 +9,6 @@ import java.util.List;
 @Setter
 public class FaqListResDTO {
 
-    private Long totalCount;
     private List<FaqListDTO> faqList;
+    private Long totalCount;
 }

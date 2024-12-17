@@ -8,6 +8,9 @@ import lombok.Setter;
 public class FaqFilterReqDTO {
 
     private String faqTitle;
-    private Long page = 1L;
-    private Long count = 10L;
+    private String publishStatus;
+    private String sort;
+    private String order;
+    private Long page;
+    private Long count;
 }
