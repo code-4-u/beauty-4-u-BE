@@ -3,6 +3,7 @@ package com.beauty4u.backend.teamspace.command.domain.service;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.FindFolderDTO;
+import com.beauty4u.backend.teamspace.command.application.dto.folder.UpdateFolderDTO;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Folder;
 import com.beauty4u.backend.teamspace.command.domain.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,16 @@ public class FolderDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TOP_FOLDER));
 
         return modelMapper.map(topFolder, FindFolderDTO.class);
+    }
+
+    public void updateFolder(Long folderId, UpdateFolderDTO updateFolderDTO) {
+
+        Folder folder = folderRepository.findById(folderId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TOP_FOLDER));
+
+        Folder topFolder = folderRepository.findById(updateFolderDTO.getTopFolderId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TOP_FOLDER));
+
+        folder.modifyFolder(topFolder, updateFolderDTO.getFolderName());
     }
 }

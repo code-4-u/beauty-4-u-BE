@@ -37,4 +37,10 @@ public class Folder extends BaseEntity{
     @NotNull
     @Column(name = "folder_name", nullable = false, length = 50)
     private String folderName;
+
+    public void modifyFolder(Folder topFolder, String folderName) {
+
+        this.topFolderId = topFolder;
+        this.folderName = folderName;
+    }
 }
