@@ -57,4 +57,10 @@ public class FolderService {
             throw new CustomException(ErrorCode.FOLDER_UPDATE_FAIL);
         }
     }
+
+    @Transactional
+    public void deleteFolder(Long folderId) {
+
+        folderDomainService.deleteFolder(folderId);
+    }
 }

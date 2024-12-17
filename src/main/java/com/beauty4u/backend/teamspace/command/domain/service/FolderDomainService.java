@@ -44,4 +44,13 @@ public class FolderDomainService {
 
         folder.modifyFolder(topFolder, updateFolderDTO.getFolderName());
     }
+
+    public void deleteFolder(Long folderId) {
+
+        try {
+            folderRepository.deleteById(folderId);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.FOLDER_DELETE_FAIL);
+        }
+    }
 }

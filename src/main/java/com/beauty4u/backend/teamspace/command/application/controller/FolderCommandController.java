@@ -42,4 +42,15 @@ public class FolderCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.FOLDER_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "폴더 삭제", description = "폴더를 삭제한다.")
+    @DeleteMapping("/{folderId}")
+    public ResponseEntity<ApiResponse<Void>> deleteFolder(
+            @PathVariable Long folderId
+    ) {
+
+        folderService.deleteFolder(folderId);
+
+        return ResponseUtil.successResponse(SuccessCode.FOLDER_DELETE_SUCCESS);
+    }
 }
