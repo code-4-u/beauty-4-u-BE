@@ -4,6 +4,7 @@ import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.inquiry.command.application.dto.InquiryDTO;
 import com.beauty4u.backend.inquiry.command.application.dto.QnaReqDTO;
+import com.beauty4u.backend.inquiry.command.application.dto.UpdateQnaViewcount;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
 import com.beauty4u.backend.inquiry.command.domain.repository.InquiryRepository;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
@@ -20,7 +21,7 @@ public class InquiryDomainService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public void saveQna(String loginUserCode, QnaReqDTO qnaReqDTO) {
+    public Long saveQna(String loginUserCode, QnaReqDTO qnaReqDTO) {
 
         Inquiry inquiry = modelMapper.map(qnaReqDTO, Inquiry.class);
 
@@ -34,6 +35,8 @@ public class InquiryDomainService {
         } catch (Exception e) {
             throw new CustomException(ErrorCode.NOT_SAVED_INQUIRY);
         }
+
+        return inquiry.getId();
     }
 
     public void updateQna(Long inquiryId, QnaReqDTO qnaReqDTO) {
@@ -62,5 +65,13 @@ public class InquiryDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY));
 
         return modelMapper.map(findInquiry, InquiryDTO.class);
+    }
+
+    public void updateFaqViewcount(Long inquiryId, UpdateQnaViewcount updateQnaViewcount) {
+
+        Inquiry inquiry = inquiryRepository.findById(inquiryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY));
+
+        inquiry.modifyViewcount(updateQnaViewcount.getQnaViewcount());
     }
 }
