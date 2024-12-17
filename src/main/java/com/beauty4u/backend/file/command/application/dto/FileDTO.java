@@ -1,4 +1,4 @@
-package com.beauty4u.backend.basesystem.command.application.dto;
+package com.beauty4u.backend.file.command.application.dto;
 
 import com.beauty4u.backend.inform.command.domain.aggregate.Inform;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
