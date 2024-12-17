@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 @Getter
 @Entity
 @Table(name = "scrap")
-public class Scrap {
+public class Scrap extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,19 +41,4 @@ public class Scrap {
     @NotNull
     @Column(name = "file_url", nullable = false, length = 50)
     private String fileUrl;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "publish_status", nullable = false)
-    private ScrapStatus scrapStatus = ScrapStatus.ACTIVE;
-
-    @NotNull
-    @Column(name = "scrap_created_date", nullable = false)
-    private ZonedDateTime scrapCreatedDate;
-
-    @Column(name = "scrap_updated_date")
-    private ZonedDateTime scrapUpdatedDate;
-
-    @Column(name = "scrap_deleted_date")
-    private ZonedDateTime scrapDeletedDate;
 }

@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "folder")
@@ -37,6 +40,13 @@ public class Folder extends BaseEntity{
     @NotNull
     @Column(name = "folder_name", nullable = false, length = 50)
     private String folderName;
+
+    @OneToMany(mappedBy = "topFolderId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Folder> subFolders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Scrap> scraps = new ArrayList<>();
+
 
     public void modifyFolder(Folder topFolder, String folderName) {
 
