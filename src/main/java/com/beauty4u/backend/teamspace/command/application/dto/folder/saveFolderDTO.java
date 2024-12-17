@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CreateFolderReqDto {
+public class saveFolderDTO {
 
     @NotNull
     private Long teamspaceId; // 소속 팀스페이스 ID
@@ -19,5 +19,4 @@ public class CreateFolderReqDto {
     @NotNull
     @Size(max = 50)
     private String folderName; // 폴더 이름
-
 }
