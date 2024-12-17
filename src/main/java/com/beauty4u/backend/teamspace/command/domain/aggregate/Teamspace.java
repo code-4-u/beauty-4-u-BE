@@ -19,5 +19,4 @@ public class Teamspace {
     @NotNull
     @Column(name = "dept_code", nullable = false)
     private String deptCode;
-
 }
