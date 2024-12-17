@@ -1,43 +1,39 @@
 package com.beauty4u.backend.config.webSocket;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 /* WebSocket 설정 */
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-//    private final StompHandler stompHandler;
+    private final StompHandler stompHandler;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat") // 모든 Origin 허용 -> 배포시에는 보안을 위해 Origin을 정확히 지정
-                .setAllowedOriginPatterns("*");
         registry.addEndpoint("/chat")
                 .setAllowedOriginPatterns("*")
-                .withSockJS(); // SockJS 사용가능 설정
-
+                .withSockJS();
+        registry.addEndpoint("/chat")
+                .setAllowedOriginPatterns("*");
     }
 
     // 메세지 브로커를 구성하는 메서드
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-
-        // 메시지를 받을 때, 경로를 설정해주는 함수
-        // 해당 경로 /sub으로 SimpleBroker를 등록한다.
-        // SimpleBroker는 해당하는 경로로 구독하는 client에게 메시지를 전달하는 간단한 작업을 수행한다.
-        registry.enableSimpleBroker("/sub");
-
-        // 메시지를 보낼 때, 관련 경로를 설정해주는 함수
-        registry.setApplicationDestinationPrefixes("/pub");
-
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/sub"); // 구독할 경로 설정
+        config.setApplicationDestinationPrefixes("/pub"); // 메세지 전송시 접두사(클라이언트가 메세지 전송)
     }
 
     // 클라이언트 인바운드 채널을 구성하는 메서드
 //    @Override
 //    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        // stompHandler를 인터셉터로 등록하여 STOMP 메시지 핸들링을 수행
 //        registration.interceptors(stompHandler);
 //    }
 

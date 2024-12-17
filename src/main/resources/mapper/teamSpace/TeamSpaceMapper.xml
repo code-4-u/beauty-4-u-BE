@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beauty4u.backend.teamspace.query.mapper.TeamSpaceQueryMapper">
+
     <select id="findAllTeamSpaceUser" resultType="TeamSpaceUserInfoDto">
         SELECT
         ui.user_code AS userCode,
@@ -15,5 +16,11 @@
         WHERE
         ui.dept_code = #{deptCode}
         AND ui.user_expired_yn = 'N'
+    </select>
+
+    <select id="findTeamSpaceDeptCode" parameterType="String" resultType="String">
+        SELECT dept_code
+        FROM teamspace
+        WHERE teamspace_id = #{teamspaceId}
     </select>
 </mapper>
