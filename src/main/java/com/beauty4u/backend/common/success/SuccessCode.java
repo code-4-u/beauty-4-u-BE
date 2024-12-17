@@ -118,7 +118,8 @@ public enum SuccessCode {
 
     // 폴더 (folder)
     FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공"),
-    FOLDER_UPDATE_SUCCESS(HttpStatus.OK, "폴더 수정 성공");
+    FOLDER_UPDATE_SUCCESS(HttpStatus.OK, "폴더 수정 성공"),
+    FOLDER_LIST_FIND_SUCCESS(HttpStatus.OK, "폴더 목록 조회 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
