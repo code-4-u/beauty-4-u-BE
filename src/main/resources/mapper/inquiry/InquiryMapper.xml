@@ -2,18 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beauty4u.backend.inquiry.query.mapper.InquiryQueryMapper">
 
-    <select id="findInquiryList" resultType="InquiryListResDTO">
+    <select id="findInquiryList" resultType="InquiryListDTO">
         SELECT
-            inquiry_id,
-            user_code,
-            inquiry_title,
-            publish_status,
-            inquiry_viewcount,
-            created_date,
-            updated_date,
-            inquiry_secret_yn,
-            inquiry_reply_yn
-        FROM inquiry
+            i.inquiry_id,
+            u.user_code,
+            u.user_name,
+            i.inquiry_title,
+            i.publish_status,
+            i.inquiry_viewcount,
+            i.created_date,
+            i.updated_date,
+            i.inquiry_secret_yn,
+            i.inquiry_reply_yn
+        FROM inquiry i
+        LEFT JOIN user_info u USING(user_code)
+        WHERE 1 = 1
+            <if test="inquiryTitle != null and inquiryTitle != ''">
+                and i.inquiry_title like CONCAT('%', #{inquiryTitle}, '%')
+            </if>
+
+            <if test="publishStatus != null and publishStatus != ''">
+                and i.publish_status = #{publishStatus}
+            </if>
+        ORDER BY
+            <choose>
+                <when test="sort == 'view'">
+                    i.inquiry_viewcount
+                </when>
+                <when test="sort == 'title'">
+                    i.inquiry_title
+                </when>
+                <otherwise>
+                    i.created_date
+                </otherwise>
+            </choose>
+
+            <choose>
+                <when test="order == 'asc'">
+                    ASC
+                </when>
+                <otherwise>
+                    DESC
+                </otherwise>
+            </choose>
         LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findInquiryListTotalCount" resultType="Long">
+        SELECT
+            COUNT(*)
+        FROM inquiry i
+        LEFT JOIN user_info u USING(user_code)
+        WHERE 1 = 1
+        <if test="inquiryTitle != null and inquiryTitle != ''">
+            and i.inquiry_title like CONCAT('%', #{inquiryTitle}, '%')
+        </if>
+
+        <if test="publishStatus != null and publishStatus != ''">
+            and i.publish_status = #{publishStatus}
+        </if>
+        ORDER BY
+        <choose>
+            <when test="sort == 'view'">
+                i.inquiry_viewcount
+            </when>
+            <when test="sort == 'title'">
+                i.inquiry_title
+            </when>
+            <otherwise>
+                i.created_date
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
     </select>
 </mapper>
