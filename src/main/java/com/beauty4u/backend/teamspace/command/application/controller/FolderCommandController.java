@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/teamspace/folder")
+@RequestMapping("/api/v1/folder")
 @RequiredArgsConstructor
 @Tag(name = "TeamSpaceFolder", description = "팀스페이스 폴더 관련 API")
 public class FolderCommandController {
