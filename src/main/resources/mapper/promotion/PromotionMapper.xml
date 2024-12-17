@@ -15,4 +15,77 @@
          WHERE promotion_id = #{promotionId}
     </select>
 
+    <select id="findPromotionList" resultType="PromotionDetailResDTO">
+        SELECT
+        promotion_id as promotionId,
+        promotion_title as promotionTitle,
+        promotion_start_date as promotionStartDate,
+        promotion_end_date as promotionEndDate,
+        promotion_status as promotionStatus
+        FROM promotion
+        WHERE 1 = 1
+        <if test="promotionTitle != null and promotionTitle != ''">
+            and promotion_title LIKE CONCAT('%', #{promotionTitle}, '%')
+        </if>
+
+        <if test="startDate != null and promotionStartDate != ''">
+            and promotion_start_date <![CDATA[>=]]> #{startDate}
+        </if>
+
+        <if test="endDate != null and promotionStartDate != ''">
+            and promotion_end_date <![CDATA[>=]]> #{endDate}
+        </if>
+
+        <if test="promotionStatus != null and promotionStatus != ''">
+            and
+            <choose>
+                <when test="promotionStatus == 'BEFORE'">
+                    promotion_status = 'BEFORE'
+                </when>
+
+                <when test="promotionStatus == 'ONGOING'">
+                    promotion_status = 'ONGOING'
+                </when>
+
+                <when test="promotionStatus == 'ENDED'">
+                    promotion_status = 'ENDED'
+                </when>
+
+                <otherwise>
+                    promotion_status IN ('BEFORE', 'ONGOING', 'ENDED')
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY
+            <choose>
+                <when test="sort == 'startDate'">
+                    promotion_start_date
+                </when>
+
+                <when test="sort == 'endDate'">
+                    promotion_end_date
+                </when>
+                <otherwise>
+                    promotion_title
+                </otherwise>
+            </choose>
+
+            <if test="order != null and order != '''">
+                <choose>
+                    <when test="order == 'asc'">
+                        ASC
+                    </when>
+                    <when test="order == 'desc'">
+                        DESC
+                    </when>
+                    <otherwise>
+                        ASC
+                    </otherwise>
+                </choose>
+            </if>
+        </if>
+        LIMIT #{offset}, #{count}
+    </select>
 </mapper>
