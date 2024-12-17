@@ -41,4 +41,15 @@ public class PromotionController {
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "프로모션 삭제", description = "프로모션을 삭제한다.")
+    @DeleteMapping("/{promotionId}")
+    public ResponseEntity<ApiResponse<Void>> deletePromotion(
+            @PathVariable Long promotionId
+    ) {
+
+        promotionService.deletePromotion(promotionId);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMOTION_DELETE_SUCCESS);
+    }
 }
