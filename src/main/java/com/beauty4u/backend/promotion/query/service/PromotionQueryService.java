@@ -4,7 +4,7 @@ import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionListReqDTO;
 import com.beauty4u.backend.promotion.query.dto.PromotionDetailResDTO;
-import com.beauty4u.backend.promotion.query.mapper.PromotionMapper;
+import com.beauty4u.backend.promotion.query.mapper.PromotionQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PromotionQueryService {
 
-    private final PromotionMapper promotionMapper;
+    private final PromotionQueryMapper promotionMapper;
 
     public PromotionDetailResDTO findPromotionDetail(Long promotionId) {
 
