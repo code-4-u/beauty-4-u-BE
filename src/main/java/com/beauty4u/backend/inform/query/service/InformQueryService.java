@@ -44,9 +44,7 @@ public class InformQueryService {
                 offset,
                 informFilterDTO.getCount());
 
-        InformListResDTO informListResDTO = new InformListResDTO(
-
-        );
+        InformListResDTO informListResDTO = new InformListResDTO();
         informListResDTO.setInformList(informListDTO);
 
         Long totalCount = informQueryMapper.findInformListTotalCount(

@@ -10,5 +10,4 @@ public interface FileRepository extends JpaRepository<FileInfo, Long> {
     void deleteByInform(Inform inform);
 
     void deleteByInquiry(Inquiry inquiry);
-
 }

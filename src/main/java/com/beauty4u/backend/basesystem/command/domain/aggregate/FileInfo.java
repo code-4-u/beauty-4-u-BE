@@ -14,6 +14,7 @@ public class FileInfo {
 
     @Id
     @Column(name = "file_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 255)
