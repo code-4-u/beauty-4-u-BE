@@ -5,10 +5,7 @@ import com.beauty4u.backend.teamspace.query.service.TeamSpaceQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,11 @@ public class TeamSpaceQueryController {
     public List<TeamSpaceUserInfoDto> getTeamSpaceUsersByDeptCode(
             @RequestParam("deptCode") String deptCode) {
         return teamSpaceQueryService.findAllTeamSpaceUser(deptCode);
+    }
+
+    @Operation(summary = "팀스페이스 ID로 부서 코드 조회", description = "팀스페이스 ID에 맞는 부서 코드를 조회합니다.")
+    @GetMapping("/{teamspaceId}/dept")
+    public String getDeptCodeByTeamspaceId(@PathVariable String teamspaceId) {
+        return teamSpaceQueryService.getDeptCodeByTeamspaceId(teamspaceId);
     }
 }
