@@ -68,7 +68,10 @@ public enum ErrorCode {
     FOLDER_SAVE_FAIL(HttpStatus.CONFLICT, "폴더 저장 실패"),
     FOLDER_UPDATE_FAIL(HttpStatus.CONFLICT, "폴더 수정 실패"),
     FOLDER_LIST_NOT_FOUND(HttpStatus.NOT_FOUND, "폴더 목록 조회 실패"),
-    FOLDER_DELETE_FAIL(HttpStatus.CONFLICT, "폴더 삭제 실패");
+    FOLDER_DELETE_FAIL(HttpStatus.CONFLICT, "폴더 삭제 실패"),
+    FOLDER_SAME_NAME(HttpStatus.CONFLICT, "같은 위치내 같은 이름으로 인한 실패"),
+    TOP_FOLDER_IS_DELETED(HttpStatus.BAD_REQUEST, "상위 폴더는 삭제된 상태입니다."),
+    NOT_FOUND_FOLDER(HttpStatus.NOT_FOUND, "해당 폴더 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
