@@ -23,4 +23,10 @@ public class PromotionService {
 
         promotionDomainService.updatePromotion(promotionId, savePromotionReqDTO);
     }
+
+    @Transactional
+    public void deletePromotion(Long promotionId) {
+
+        promotionDomainService.deletePromotion(promotionId);
+    }
 }
