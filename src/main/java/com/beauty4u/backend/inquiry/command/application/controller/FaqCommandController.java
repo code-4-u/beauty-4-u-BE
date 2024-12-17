@@ -5,6 +5,7 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.inquiry.command.application.dto.FaqReqDTO;
+import com.beauty4u.backend.inquiry.command.application.dto.UpdateFaqViewcount;
 import com.beauty4u.backend.inquiry.command.application.service.FaqService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,5 +53,16 @@ public class FaqCommandController {
         faqService.deleteFaq(faqId);
 
         return ResponseUtil.successResponse(SuccessCode.FAQ_DELETE_SUCCESS);
+    }
+
+    @Operation(summary = "FAQ 조회수 수정", description = "등록된 FAQ의 조회수를 수정한다.")
+    @PutMapping("/faq/{faqId}/faqViewcount")
+    public ResponseEntity<ApiResponse<Void>> updateFaqViewcount(
+            @PathVariable("faqId") Long faqId,
+            @RequestBody UpdateFaqViewcount updateFaqViewcount) {
+
+        faqService.updateFaqViewcount(faqId, updateFaqViewcount);
+
+        return ResponseUtil.successResponse(SuccessCode.FAQ_UPDATE_VIEWCOUNT_SUCCESS);
     }
 }

@@ -12,10 +12,14 @@ public interface FaqQueryMapper {
 
     List<FaqListDTO> findFaqList(
             @Param("faqTitle") String faqTitle,
+            @Param("publishStatus") String publishStatus,
+            @Param("sort") String sort,
+            @Param("order") String order,
             @Param("offset") Long offset,
             @Param("count") Long count);
 
-    FaqDetailResDTO findFaqDetail(@Param("faqId") Long faqId);
+    FaqDetailResDTO findFaqDetail(
+            @Param("faqId") Long faqId);
 
     Long findFaqListTotalCount(
             @Param("faqTitle") String faqTitle);

@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FaqFilterReqDTO {
+public class InquiryFilterReqDTO {
 
-    private String faqTitle;
+    private String qnaTitle;
     private String publishStatus;
     private String sort;
     private String order;

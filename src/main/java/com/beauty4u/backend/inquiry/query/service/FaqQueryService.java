@@ -24,6 +24,9 @@ public class FaqQueryService {
 
         List<FaqListDTO> faqList = faqQueryMapper.findFaqList(
                 faqFilterReqDTO.getFaqTitle(),
+                faqFilterReqDTO.getPublishStatus(),
+                faqFilterReqDTO.getSort(),
+                faqFilterReqDTO.getOrder(),
                 offset,
                 faqFilterReqDTO.getCount());
 

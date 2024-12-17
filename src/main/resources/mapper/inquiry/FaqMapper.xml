@@ -13,6 +13,31 @@
             <if test="faqTitle != null and faqTitle != ''">
                 AND faq_title LIKE CONCAT('%', #{faqTitle}, '%')
             </if>
+
+            <if test="publishStatus != null and publishStatus != ''">
+                AND publish_status = #{publishStatus}
+            </if>
+        ORDER BY
+            <choose>
+                <when test="sort == 'view'">
+                    faq_viewcount
+                </when>
+                <when test="sort == 'title'">
+                    faq_title
+                </when>
+                <otherwise>
+                    created_date
+                </otherwise>
+            </choose>
+
+            <choose>
+                <when test="order == 'asc'">
+                    ASC
+                </when>
+                <otherwise>
+                    DESC
+                </otherwise>
+            </choose>
         LIMIT #{offset}, #{count}
     </select>
 
@@ -21,6 +46,7 @@
             faq_id,
             user_code,
             faq_title,
+            faq_content,
             faq_viewcount,
             created_date,
             updated_date

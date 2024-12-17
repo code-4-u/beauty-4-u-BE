@@ -69,6 +69,8 @@ public enum SuccessCode {
     INQUIRY_REPLY_UPDATE_SUCCESS(HttpStatus.OK, "QnA 답변 수정 성공"),
     INQUIRY_REPLY_DELETE_SUCCESS(HttpStatus.OK, "QnA 답변 삭제 성공"),
     INQUIRY_FIND_LIST_SUCCESS(HttpStatus.OK, "QnA 목록 조회 성공"),
+    INQUIRY_FIND_DETAIL_SUCCESS(HttpStatus.OK, "QnA 상세 조회 성공"),
+    INQUIRY_UPDATE_VIEWCOUNT_SUCCESS(HttpStatus.OK, "조회수 수정 성공"),
 
     // FAQ
     FAQ_SAVE_SUCCESS(HttpStatus.CREATED, "FAQ 등록 성공"),
@@ -76,6 +78,7 @@ public enum SuccessCode {
     FAQ_DELETE_SUCCESS(HttpStatus.OK, "FAQ 삭제 성공"),
     FAQ_FIND_LIST_SUCCESS(HttpStatus.OK, "FAQ 목록 조회 성공"),
     FAQ_FIND_DETAIL_SUCCESS(HttpStatus.OK, "FAQ 상세 조회 성공"),
+    FAQ_UPDATE_VIEWCOUNT_SUCCESS(HttpStatus.OK, "조회수 수정 성공"),
 
     // 알림 (noti)
     SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결 성공"),

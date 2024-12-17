@@ -70,4 +70,8 @@ public class Inquiry extends BaseEntity {
             this.inquiryReplyYn = YnType.N;
         }
     }
+
+    public void modifyViewcount(Long qnaViewcount) {
+        this.inquiryViewcount = qnaViewcount;
+    }
 }

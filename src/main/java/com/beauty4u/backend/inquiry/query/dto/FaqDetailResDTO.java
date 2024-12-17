@@ -12,6 +12,7 @@ public class FaqDetailResDTO {
     private String faqId;
     private String userCode;
     private String faqTitle;
+    private String faqContent;
     private String faqViewcount;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
