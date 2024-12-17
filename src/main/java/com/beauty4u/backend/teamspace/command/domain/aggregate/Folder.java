@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.ZonedDateTime;
+import org.hibernate.annotations.SQLDelete;
 
 @Getter
 @Entity
@@ -16,7 +16,8 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Folder {
+@SQLDelete(sql = "UPDATE folder SET publish_status = 'DELETED', deleted_date = NOW() WHERE folder_id = ?")
+public class Folder extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,19 +37,4 @@ public class Folder {
     @NotNull
     @Column(name = "folder_name", nullable = false, length = 50)
     private String folderName;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "publish_status", nullable = false)
-    private FolderStatus folderStatus = FolderStatus.ACTIVE;
-
-    @NotNull
-    @Column(name = "folder_created_date", nullable = false)
-    private ZonedDateTime folderCreatedDate;
-
-    @Column(name = "folder_updated_date")
-    private ZonedDateTime folderUpdatedDate;
-
-    @Column(name = "folder_deleted_date")
-    private ZonedDateTime folderDeletedDate;
 }
