@@ -1,5 +1,7 @@
 package com.beauty4u.backend.marketing.command.domain.service;
 
+import com.beauty4u.backend.analysis.command.domain.aggregate.Analysis;
+import com.beauty4u.backend.analysis.command.domain.repository.AnalysisRepository;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.marketing.command.application.dto.MarketSettingUpdateDTO;
@@ -18,13 +20,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class MarketingSettingDomainService {
 
     private final TemplateRepository templateRepository;
+    private final AnalysisRepository analysisRepository;
     private final MarketingSettingRepository marketingSettingRepository;
-    private final ModelMapper modelMapper;
 
     // 마케팅 알림 등록
     @Transactional
     public void saveMarketingSetting(MarketingSettingReqDTO marketingSettingReqDTO) {
-        MarketingSetting marketingSetting = modelMapper.map(marketingSettingReqDTO, MarketingSetting.class);
+
+        Template template = templateRepository.findById(marketingSettingReqDTO.getTemplateId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEMPLATE));
+
+        Analysis analysis = analysisRepository.findById(marketingSettingReqDTO.getAnalysisId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ANALYSIS));
+
+        MarketingSetting marketingSetting = MarketingSetting.builder()
+                .analysisId(analysis)
+                .templateId(template)
+                .marketingNotiInterval(marketingSettingReqDTO.getMarketingNotiInterval())
+                .analysisKind(marketingSettingReqDTO.getAnalysisKind())
+                .marketingSettingChannel(marketingSettingReqDTO.getSettingChannelType())
+                .build();
 
         marketingSettingRepository.save(marketingSetting);
     }
