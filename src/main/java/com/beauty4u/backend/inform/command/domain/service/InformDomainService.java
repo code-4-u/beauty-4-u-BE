@@ -14,7 +14,6 @@ import com.beauty4u.backend.user.command.domain.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -77,7 +76,5 @@ public class InformDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INFORM));
 
         inform.modifyInformViewcount(informViewcount.getInformViewcount());
-
-        System.out.println(inform.getInformViewcount());
     }
 }

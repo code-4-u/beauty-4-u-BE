@@ -13,9 +13,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,8 +63,6 @@ public class InformCommandController {
 
         informService.updateInformViewCount(informId, updateInformViewcount);
 
-        System.out.println(updateInformViewcount.getInformViewcount());
-        System.out.println(informId);
         return ResponseUtil.successResponse(SuccessCode.INFORM_UPDATE_VIEWCOUNT_SUCCESS);
     }
 }
