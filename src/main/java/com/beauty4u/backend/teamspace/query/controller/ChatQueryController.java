@@ -25,6 +25,5 @@ public class ChatQueryController {
 
         List<ChatMessage> chatMessages = chatQueryService.getChatHistory(teamspaceId);
         return new ResponseEntity<>(chatMessages, HttpStatus.OK);
-
     }
 }

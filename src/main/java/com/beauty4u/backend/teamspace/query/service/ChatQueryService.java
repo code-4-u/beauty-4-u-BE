@@ -4,7 +4,6 @@ import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
