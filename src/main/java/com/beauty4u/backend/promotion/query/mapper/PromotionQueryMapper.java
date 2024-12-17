@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
-public interface PromotionMapper {
+public interface PromotionQueryMapper {
 
     PromotionDetailResDTO findPromotionById(@Param("promotionId") Long promotionId);
 

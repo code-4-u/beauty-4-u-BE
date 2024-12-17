@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,5 +28,28 @@ public class PromotionController {
         promotionService.savePromotion(savePromotionReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_SAVE_SUCCESS);
+    }
+
+    @Operation(summary = "프로모션 수정", description = "프로모션을 수정한다.")
+    @PutMapping("/{promotionId}")
+    public ResponseEntity<ApiResponse<Void>> updatePromotion(
+            @PathVariable Long promotionId,
+            @RequestBody SavePromotionReqDTO savePromotionReqDTO
+    ) {
+
+        promotionService.updatePromotion(promotionId, savePromotionReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMOTION_UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "프로모션 삭제", description = "프로모션을 삭제한다.")
+    @DeleteMapping("/{promotionId}")
+    public ResponseEntity<ApiResponse<Void>> deletePromotion(
+            @PathVariable Long promotionId
+    ) {
+
+        promotionService.deletePromotion(promotionId);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMOTION_DELETE_SUCCESS);
     }
 }

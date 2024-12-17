@@ -17,4 +17,16 @@ public class PromotionService {
 
         promotionDomainService.savePromotion(savePromotionReqDTO);
     }
+
+    @Transactional
+    public void updatePromotion(Long promotionId, SavePromotionReqDTO savePromotionReqDTO) {
+
+        promotionDomainService.updatePromotion(promotionId, savePromotionReqDTO);
+    }
+
+    @Transactional
+    public void deletePromotion(Long promotionId) {
+
+        promotionDomainService.deletePromotion(promotionId);
+    }
 }
