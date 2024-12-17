@@ -46,4 +46,8 @@ public class Faq extends BaseEntity {
         this.faqTitle = title;
         this.faqContent = content;
     }
+
+    public void modifyViewcount(Long faqViewcount) {
+        this.faqViewcount = faqViewcount;
+    }
 }

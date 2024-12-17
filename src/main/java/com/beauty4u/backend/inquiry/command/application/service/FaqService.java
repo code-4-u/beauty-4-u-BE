@@ -1,6 +1,7 @@
 package com.beauty4u.backend.inquiry.command.application.service;
 
 import com.beauty4u.backend.inquiry.command.application.dto.FaqReqDTO;
+import com.beauty4u.backend.inquiry.command.application.dto.UpdateFaqViewcount;
 import com.beauty4u.backend.inquiry.command.domain.service.FaqDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,11 @@ public class FaqService {
     public void deleteFaq(Long faqId) {
 
         faqDomainService.deleteFaq(faqId);
+    }
+
+    @Transactional
+    public void updateFaqViewcount(Long faqId, UpdateFaqViewcount updateFaqViewcount) {
+
+        faqDomainService.updateFaqViewcount(faqId, updateFaqViewcount);
     }
 }

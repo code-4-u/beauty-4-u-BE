@@ -3,6 +3,7 @@ package com.beauty4u.backend.inquiry.command.domain.service;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.inquiry.command.application.dto.FaqReqDTO;
+import com.beauty4u.backend.inquiry.command.application.dto.UpdateFaqViewcount;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Faq;
 import com.beauty4u.backend.inquiry.command.domain.repository.FaqRepository;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
@@ -52,5 +53,13 @@ public class FaqDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_FAQ));
 
         faqRepository.delete(faq);
+    }
+
+    public void updateFaqViewcount(Long faqId, UpdateFaqViewcount updateFaqViewcount) {
+
+        Faq faq = faqRepository.findById(faqId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_FAQ));
+
+        faq.modifyViewcount(updateFaqViewcount.getFaqViewcount());
     }
 }
