@@ -4,10 +4,7 @@ import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.goods.command.domain.aggregate.Goods;
 import com.beauty4u.backend.goods.command.domain.repository.GoodsRepository;
-import com.beauty4u.backend.promotion.command.application.dto.DeletePromotionGoodsReqDTO;
-import com.beauty4u.backend.promotion.command.application.dto.SaveGoodsDiscountDTO;
-import com.beauty4u.backend.promotion.command.application.dto.SavePromotionGoodsDTO;
-import com.beauty4u.backend.promotion.command.application.dto.SavePromotionGoodsReqDTO;
+import com.beauty4u.backend.promotion.command.application.dto.*;
 import com.beauty4u.backend.promotion.command.domain.aggregate.Promotion;
 import com.beauty4u.backend.promotion.command.domain.aggregate.PromotionGoods;
 import com.beauty4u.backend.promotion.command.domain.repository.PromotionGoodsRepository;
@@ -62,6 +59,18 @@ public class PromotionGoodsDomainService {
             }
         } catch (Exception e) {
             throw new CustomException(ErrorCode.PROMOTION_GOODS_LIST_DELETE_FAIL);
+        }
+    }
+
+    public void updatePromotionGoodsDiscount(UpdatePromotionGoodsReqDTO updatePromotionGoodsReqDTO) {
+
+        try {
+            PromotionGoods promotionGoods = promotionGoodsRepository.findById(updatePromotionGoodsReqDTO.getId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GOODS));
+
+            modelMapper.map(updatePromotionGoodsReqDTO, promotionGoods);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.PROMOTION_GOODS_UPDATE_FAIL);
         }
     }
 }
