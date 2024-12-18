@@ -21,7 +21,7 @@ public class Promotion {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "promotion_type_id", nullable = false)
-    private Promotion promotionType;
+    private PromotionType promotionType;
 
     @Size(max = 100)
     @NotNull
