@@ -1,8 +1,6 @@
 package com.beauty4u.backend.teamspace.query.service;
 
-import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardFilterDTO;
-import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardListDTO;
-import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardListResDTO;
+import com.beauty4u.backend.teamspace.query.dto.teamboard.*;
 import com.beauty4u.backend.teamspace.query.mapper.TeamBoardQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,5 +55,20 @@ public class TeamBoardQueryService {
         teamBoardListResDTO.setTotalCount(totalCount);
 
         return teamBoardListResDTO;
+    }
+
+    @Transactional(readOnly = true)
+    public TeamBoardDetailResDTO findTeamBoardDetail(Long teamBoardId) {
+
+        TeamBoardDetailDTO teamBoardDetailDTO = teamBoardQueryMapper.findTeamBoardDetail(teamBoardId);
+
+        TeamBoardDetailResDTO teamBoardDetailResDTO = new TeamBoardDetailResDTO();
+        teamBoardDetailResDTO.setTeamBoardDetailDTO(teamBoardDetailDTO);
+
+        List<TeamBoardReplyListDTO> teamBoardReplyList = teamBoardQueryMapper.findTeamBoardReplyList(teamBoardId);
+
+        teamBoardDetailResDTO.setTeamBoardReplyList(teamBoardReplyList);
+
+        return teamBoardDetailResDTO;
     }
 }

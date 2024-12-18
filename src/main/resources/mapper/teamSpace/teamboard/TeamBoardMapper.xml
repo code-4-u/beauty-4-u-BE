@@ -89,4 +89,33 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="findTeamBoardDetail" resultType="TeamBoardDetailDTO">
+        SELECT
+            b.team_board_id,
+            u.user_code,
+            u.user_name,
+            b.team_board_title,
+            b.team_board_content,
+            b.publish_status,
+            b.created_date,
+            b.updated_date
+        FROM team_board b
+        LEFT JOIN user_info u USING (user_code)
+        WHERE b.team_board_id = #{teamBoardId}
+    </select>
+
+    <select id="findTeamBoardReplyList" resultType="TeamBoardReplyListDTO">
+        SELECT
+            r.team_board_reply_id,
+            u.user_code,
+            u.user_name,
+            r.team_board_reply_content,
+            r.publish_status,
+            r.created_date,
+            r.updated_date
+        FROM team_board_reply r
+        LEFT JOIN user_info u USING (user_code)
+        WHERE r.team_board_id = #{teamBoardId}
+    </select>
 </mapper>

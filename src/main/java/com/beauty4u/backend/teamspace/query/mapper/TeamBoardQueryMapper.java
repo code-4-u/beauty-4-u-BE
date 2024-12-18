@@ -1,6 +1,9 @@
 package com.beauty4u.backend.teamspace.query.mapper;
 
+import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardDetailDTO;
+import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardDetailResDTO;
 import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardListDTO;
+import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardReplyListDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +31,10 @@ public interface TeamBoardQueryMapper {
             @Param("endDateTime") LocalDateTime endDateTime,
             @Param("sort") String sort,
             @Param("order") String order);
+
+    TeamBoardDetailDTO findTeamBoardDetail(
+            @Param("teamBoardId") Long teamBoardId);
+
+    List<TeamBoardReplyListDTO> findTeamBoardReplyList(
+            @Param("teamBoardId") Long teamBoardId);
 }
