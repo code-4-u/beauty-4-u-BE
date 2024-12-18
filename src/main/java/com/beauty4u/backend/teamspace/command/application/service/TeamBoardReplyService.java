@@ -17,4 +17,10 @@ public class TeamBoardReplyService {
 
         teamBoardReplyDomainService.saveTeamBoardReply(loginUserCode, teamBoardId, teamBoardReplyReqDTO);
     }
+
+    @Transactional
+    public void updateTeamBoardReply(Long teamBoardId, Long teamBoardReplyId, TeamBoardReplyReqDTO teamBoardReplyReqDTO) {
+
+        teamBoardReplyDomainService.updateTeamBoardReply(teamBoardId, teamBoardReplyId, teamBoardReplyReqDTO);
+    }
 }

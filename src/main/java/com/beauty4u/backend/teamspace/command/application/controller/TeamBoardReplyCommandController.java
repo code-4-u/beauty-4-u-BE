@@ -34,4 +34,15 @@ public class TeamBoardReplyCommandController {
         return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_REPLY_SAVE_SUCCESS);
     }
 
+    @Operation(summary = "팀 게시판 댓글 수정", description = "회원이 팀 게시판 댓글을 수정한다.")
+    @PutMapping("/{teamBoardId}/reply/{teamBoardReplyId}")
+    public ResponseEntity<ApiResponse<Void>> updateQnaReply(
+            @PathVariable Long teamBoardId,
+            @PathVariable Long teamBoardReplyId,
+            @RequestBody @Valid TeamBoardReplyReqDTO teamBoardReplyReqDTO) {
+
+        teamBoardReplyService.updateTeamBoardReply(teamBoardId, teamBoardReplyId, teamBoardReplyReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_REPLY_UPDATE_SUCCESS);
+    }
 }

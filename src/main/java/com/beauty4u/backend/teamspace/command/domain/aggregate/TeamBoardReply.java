@@ -37,5 +37,9 @@ public class TeamBoardReply extends BaseEntity {
         this.teamBoard = teamBoard;
         this.userCode = user;
     }
+
+    public void modifyContent(String content) {
+        this.teamBoardReplyContent = content;
+    }
 }
 

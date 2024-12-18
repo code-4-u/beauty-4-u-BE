@@ -40,4 +40,18 @@ public class TeamBoardReplyDomainService {
             throw new CustomException(ErrorCode.NOT_FOUND_TEAMBOARD_REPLY);
         }
     }
+
+    public void updateTeamBoardReply(Long teamBoardId, Long teamBoardReplyId, TeamBoardReplyReqDTO teamBoardReplyReqDTO) {
+
+        String content = teamBoardReplyReqDTO.getTeamBoardReplyContent();
+
+        TeamBoardReply teamBoardReply = teamBoardReplyRepository.findById(teamBoardReplyId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEAMBOARD_REPLY));
+
+        if (!teamBoardReply.getTeamBoard().getId().equals(teamBoardId)) {
+            throw new CustomException(ErrorCode.INVALID_TEAMBOARD_REPLY_UPDATE);
+        }
+
+        teamBoardReply.modifyContent(content);
+    }
 }
