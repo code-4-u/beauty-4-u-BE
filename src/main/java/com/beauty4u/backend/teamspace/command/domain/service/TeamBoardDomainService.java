@@ -45,4 +45,12 @@ public class TeamBoardDomainService {
 
         teamBoard.modifyTeamBoard(title, content);
     }
+
+    public void deleteTeamBoard(Long teamBoardId) {
+
+        TeamBoard teamBoard = teamBoardRepository.findById(teamBoardId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEAMBOARD));
+
+        teamBoardRepository.delete(teamBoard);
+    }
 }

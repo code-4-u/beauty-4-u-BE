@@ -4,7 +4,6 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
-import com.beauty4u.backend.inquiry.command.application.dto.QnaReqDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.teamboard.TeamBoardReqDTO;
 import com.beauty4u.backend.teamspace.command.application.service.TeamBoardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,4 +44,13 @@ public class TeamBoardCommandController {
         return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_UPDATE_SUCCESS);
     }
 
+    @Operation(summary = "팀 게시글 삭제", description = "회원(직원)이 팀 게시판에 등록된 게시글을 삭제한다.")
+    @DeleteMapping("/{teamBoardId}")
+    public ResponseEntity<ApiResponse<Void>> deleteTeamBoard(
+            @PathVariable Long teamBoardId) {
+
+        teamBoardService.deleteTeamBoard(teamBoardId);
+
+        return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_DELETE_SUCCESS);
+    }
 }
