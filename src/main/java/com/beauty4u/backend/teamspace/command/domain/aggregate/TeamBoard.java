@@ -34,6 +34,10 @@ public class TeamBoard extends BaseEntity {
     @Column(name = "team_board_content", nullable = false)
     private String teamBoardContent;
 
+    public void modifyUser(UserInfo user) {
+        this.userCode = user;
+    }
+
     public void modifyTeamBoard(String title, String content) {
         this.teamBoardTitle = title;
         this.teamBoardContent = content;

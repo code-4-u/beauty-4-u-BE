@@ -26,6 +26,8 @@ public class TeamBoardDomainService {
         UserInfo user = userRepository.findByUserCode(loginUserCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
+        teamBoard.modifyUser(user);
+
         try {
             teamBoardRepository.save(teamBoard);
         } catch (Exception e) {
