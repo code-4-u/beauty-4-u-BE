@@ -4,7 +4,6 @@ import com.beauty4u.backend.config.redis.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -131,9 +130,17 @@ public class JwtUtil {
     /* Access Token 생성 */
     public String generateAccessToken(Authentication authentication) {
 
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        Claims claims = Jwts.claims().setSubject(authentication.getName());
+        claims.put("jobName", customUserDetails.getJobName());
+        claims.put("deptName", customUserDetails.getDeptName());
+        claims.put("userName", customUserDetails.getName());
+        claims.put("auth", authentication.getAuthorities());
+
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim("auth", authentication.getAuthorities())
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidityTime))
                 .signWith(key)

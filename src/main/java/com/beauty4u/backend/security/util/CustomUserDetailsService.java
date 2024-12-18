@@ -5,7 +5,6 @@ import com.beauty4u.backend.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,9 +30,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + loginUser.getUserRole().getUserRoleName()));
 
-        return new User(
+        return new CustomUserDetails(
                 loginUser.getUserCode(),
                 loginUser.getUserPassword(),
+                loginUser.getJobCode().getJobName(),
+                loginUser.getDeptCode().getDeptName(),
+                loginUser.getUserName(),
                 grantedAuthorities
         );
     }
