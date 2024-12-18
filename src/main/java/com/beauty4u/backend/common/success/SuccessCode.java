@@ -128,7 +128,8 @@ public enum SuccessCode {
 
     // 프로모션 적용 상품
     PROMOTION_GOODS_LIST_SAVE_SUCCESS(HttpStatus.OK, "프로모션 적용 상품 저장 성공"),
-    PROMOTION_GOODS_LIST_DELETE_SUCCESS(HttpStatus.OK, "프로모션 적용 상품 삭제 실패"),
+    PROMOTION_GOODS_LIST_DELETE_SUCCESS(HttpStatus.OK, "프로모션 적용 상품 삭제 성공"),
+    PROMOTION_GOODS_LIST_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 적용 상품 수정 성공"),
 
     // 폴더 (folder)
     FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공"),
