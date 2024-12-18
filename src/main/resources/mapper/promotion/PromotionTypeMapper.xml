@@ -4,6 +4,18 @@
 
 <mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionTypeQueryMapper">
 
+    <resultMap id="FindPromotionTypeDetailDTOMap" type="FindPromotionTypeDetailDTO">
+        <id property="promotionTypeId" column="promotion_type_id" />
+        <result property="promotionTypeName" column="promotion_type_name" />
+        <collection property="promotionDetailList" ofType="PromotionDetailResDTO">
+            <id property="promotionId" column="promotion_id" />
+            <result property="promotionTitle" column="promotion_title" />
+            <result property="promotionStartDate" column="promotion_start_date" />
+            <result property="promotionEndDate" column="promotion_end_date" />
+            <result property="promotionStatus" column="promotion_status" />
+        </collection>
+    </resultMap>
+
     <select id="findPromotionTypeList" resultType="FindPromotionTypeListDTO">
         SELECT
             promotion_type_id,
@@ -39,4 +51,17 @@
         LIMIT #{offset}, #{count}
     </select>
 
+    <select id="findPromotionTypeDetail" resultMap="FindPromotionTypeDetailDTOMap">
+        SELECT
+            pt.promotion_type_id,
+            pt.promotion_type_name,
+            p.promotion_id,
+            p.promotion_title,
+            p.promotion_start_date,
+            p.promotion_end_date,
+            p.promotion_status
+        FROM promotion p
+                 LEFT JOIN promotion_type pt ON p.promotion_type_id = pt.promotion_type_id
+        WHERE p.promotion_type_id = #{promotionTypeId}
+    </select>
 </mapper>
