@@ -1,0 +1,18 @@
+package com.beauty4u.backend.teamspace.query.dto.teamboard;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class TeamBoardListResDTO {
+
+    List<TeamBoardListDTO> teamBoardList;
+    private Long totalCount;
+}
