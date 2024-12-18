@@ -31,4 +31,9 @@ public class PromotionTypeDomainService {
 
         modelMapper.map(updatePromotionTypeDTO, promotionType);
     }
+
+    public void deletePromotionTypeById(Long promotionId) {
+
+        promotionTypeRepository.deleteById(promotionId);
+    }
 }
