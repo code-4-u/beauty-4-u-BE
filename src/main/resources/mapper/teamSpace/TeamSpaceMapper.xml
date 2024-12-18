@@ -23,4 +23,11 @@
         FROM teamspace
         WHERE teamspace_id = #{teamspaceId}
     </select>
+
+    <select id="findTeamSpaceId" parameterType="String" resultType="Long">
+        SELECT teamspace_id
+        FROM teamspace
+        WHERE dept_code = #{dept_code}
+    </select>
+
 </mapper>

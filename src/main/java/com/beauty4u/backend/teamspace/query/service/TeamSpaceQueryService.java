@@ -23,4 +23,9 @@ public class TeamSpaceQueryService {
     public String getDeptCodeByTeamspaceId(String teamspaceId) {
         return teamSpaceQueryMapper.findTeamSpaceDeptCode(teamspaceId);
     }
+
+    // 부서 코드로 팀스페이스 id 조회
+    public Long getMyTeamSpaceIdByDeptCode(String deptCode) {
+        return teamSpaceQueryMapper.findTeamSpaceId(deptCode);
+    }
 }
