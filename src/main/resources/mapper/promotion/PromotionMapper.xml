@@ -72,7 +72,7 @@
                 </otherwise>
             </choose>
 
-            <if test="order != null and order != '''">
+            <if test="order != null and order != ''">
                 <choose>
                     <when test="order == 'asc'">
                         ASC
