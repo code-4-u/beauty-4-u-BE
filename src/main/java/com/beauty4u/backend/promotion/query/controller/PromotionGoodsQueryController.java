@@ -3,6 +3,8 @@ package com.beauty4u.backend.promotion.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
+import com.beauty4u.backend.promotion.query.dto.FindPromotionGoodsCommonInfoFilterDTO;
+import com.beauty4u.backend.promotion.query.dto.FindPromotionGoodsCommonInfoResDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionGoodsListFilterDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionGoodsListResDTO;
 import com.beauty4u.backend.promotion.query.service.PromotionGoodsQueryService;
@@ -36,5 +38,18 @@ public class PromotionGoodsQueryController {
                 =  promotionGoodsQueryService.findPromotionGoodsList(promotionId, findPromotionGoodsListFilterDTO);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_GOODS_LIST_FIND_SUCCESS, findPromotionGoodsListResDTOS);
+    }
+
+    @Operation(summary = "특정 상품에 대한 프로모션별 정보 조회", description = "특정 상품이 포함된 프로모션에 대한 기본 정보를 조회한다.")
+    @GetMapping("/{goodsCode}")
+    public ResponseEntity<ApiResponse<List<FindPromotionGoodsCommonInfoResDTO>>> findPromotionGoodsCommonInfoList(
+            @PathVariable("goodsCode") String goodsCode,
+            FindPromotionGoodsCommonInfoFilterDTO findPromotionGoodsCommonInfoFilterDTO
+    ) {
+
+        List<FindPromotionGoodsCommonInfoResDTO> findPromotionGoodsCommonInfoResDTOS
+                = promotionGoodsQueryService.findPromotionGoodsCommonInfoList(goodsCode, findPromotionGoodsCommonInfoFilterDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.GOODS_PROMOTION_COMMON_INFO_LIST_FIND_SUCCESS);
     }
 }

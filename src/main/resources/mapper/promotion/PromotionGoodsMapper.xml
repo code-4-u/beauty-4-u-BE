@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionGoodsQueryMapper">
     
@@ -30,5 +30,66 @@
         </if>
         LIMIT #{offset}, #{count}
     </select>
-    
+
+    <select id="findPromotionGoodsCommonInfoList" resultType="FindPromotionGoodsSalesDTO">
+        SELECT
+            p.promotion_id,
+            p.promotion_title,
+            p.promotion_start_date,
+            p.promotion_end_date,
+            pg.discount_rate
+        FROM promotion p
+        LEFT JOIN promotion_goods pg ON p.promotion_id = pg.promotion_id
+        WHERE pg.goods_code = #{goodsCode}
+        AND YEAR(p.promotion_start_date) = #{year}
+        AND MONTH(p.promotion_start_date) = #{month}
+        <if test="promotionTitle != null and promotionTitle != ''">
+            and promotionTitle LIKE CONCAT('%', TRIM(#{promotionTitle}), '%')
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY
+            <choose>
+                <when test="sort == 'title'">
+                    p.promotion_title
+                </when>
+                <when test="sort == 'endDate'">
+                    p.promotion_end_date
+                </when>
+                <otherwise>
+                    p.promotion_start_date
+                </otherwise>
+            </choose>
+
+            <choose>
+                <when test="order == 'desc'">
+                    DESC
+                </when>
+                <otherwise>
+                    ASC
+                </otherwise>
+            </choose>
+        </if>
+        LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findPromotionGoodsSales" resultType="Long">
+        SELECT
+            SUM(order_price)
+        FROM order_info
+        WHERE goods_code = #{goodsCode}
+        AND order_status = 'PURCHASED'
+        AND created_date <![CDATA[>=]]> #{promotionStartDate}
+        AND created_date <![CDATA[<=]]> #{promotionEndDate}
+    </select>
+
+    <select id="findPromotionGoodsAvgSales" resultType="Long">
+        SELECT
+            SUM(order_price)
+        FROM order_info
+        WHERE goods_code = #{goodsCode}
+          AND order_status = 'PURCHASED'
+          AND created_date <![CDATA[>=]]> #{oneYearAgo}
+          AND created_date <![CDATA[<=]]> #{promotionStartDate}
+    </select>
 </mapper>
