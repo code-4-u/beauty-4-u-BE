@@ -3,10 +3,15 @@ package com.beauty4u.backend.goods.query.service;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.goods.query.dto.GoodsSalesFilterDTO;
+import com.beauty4u.backend.goods.query.dto.GoodsSalesMonthlyListFilterDTO;
+import com.beauty4u.backend.goods.query.dto.GoodsSalesMonthlyListResDTO;
 import com.beauty4u.backend.goods.query.dto.GoodsSalesResDTO;
 import com.beauty4u.backend.goods.query.mapper.GoodsSalesQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,5 +66,32 @@ public class GoodsSalesQueryService {
 
         double increaseRate = (double) (currentSales - lastSales) / lastSales * 100;
         return Math.round(increaseRate * 10) / 10.0; // 소수점 첫째 자리까지 반올림
+    }
+
+    public List<GoodsSalesMonthlyListResDTO> findSalesGoodsMonthlyList(String goodsCode, GoodsSalesMonthlyListFilterDTO goodsSalesMonthlyListFilterDTO) {
+
+        List<GoodsSalesMonthlyListResDTO> goodsSalesMonthlyListResDTOS = new ArrayList<>();
+
+        try {
+            // 각 월에 대한 매출액 조회
+            for (int month = 1; month <= 12; month++) {
+                Long goodsMonthlySales = goodsSalesQueryMapper.findGoodsMonthlySales(
+                        goodsCode,
+                        month,
+                        goodsSalesMonthlyListFilterDTO.getYear()
+                );
+
+                // 각 월에 대한 dto 생성
+                GoodsSalesMonthlyListResDTO goodsSalesMonthlyListResDTO
+                        = new GoodsSalesMonthlyListResDTO(month, goodsMonthlySales);
+
+                // 만들어진 dto 추가
+                goodsSalesMonthlyListResDTOS.add(goodsSalesMonthlyListResDTO);
+            }
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.GOODS_SALES_MONTHLY_LIST_FIND_FAIL);
+        }
+
+        return goodsSalesMonthlyListResDTOS;
     }
 }
