@@ -18,6 +18,7 @@ public class PromotionQueryService {
 
     private final PromotionQueryMapper promotionMapper;
 
+    @Transactional(readOnly = true)
     public PromotionDetailResDTO findPromotionDetail(Long promotionId) {
 
         PromotionDetailResDTO findPromotionDTO = null;
