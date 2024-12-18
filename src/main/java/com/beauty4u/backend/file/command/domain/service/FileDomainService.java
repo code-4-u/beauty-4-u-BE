@@ -1,8 +1,8 @@
-package com.beauty4u.backend.basesystem.command.domain.service;
+package com.beauty4u.backend.file.command.domain.service;
 
-import com.beauty4u.backend.basesystem.command.application.dto.FileDTO;
-import com.beauty4u.backend.basesystem.command.domain.aggregate.FileInfo;
-import com.beauty4u.backend.basesystem.command.domain.repository.FileRepository;
+import com.beauty4u.backend.file.command.application.dto.FileDTO;
+import com.beauty4u.backend.file.command.domain.aggregate.FileInfo;
+import com.beauty4u.backend.file.command.domain.repository.FileRepository;
 import com.beauty4u.backend.common.util.S3ImageUtil;
 import com.beauty4u.backend.inform.command.application.dto.InformDTO;
 import com.beauty4u.backend.inform.command.domain.aggregate.Inform;

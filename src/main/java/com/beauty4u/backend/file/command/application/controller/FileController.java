@@ -1,8 +1,8 @@
-package com.beauty4u.backend.basesystem.command.application.controller;
+package com.beauty4u.backend.file.command.application.controller;
 
-import com.beauty4u.backend.basesystem.command.application.dto.FileDeleteReqDTO;
-import com.beauty4u.backend.basesystem.command.application.dto.FileSaveReqDTO;
-import com.beauty4u.backend.basesystem.command.application.service.FileService;
+import com.beauty4u.backend.file.command.application.dto.FileDeleteReqDTO;
+import com.beauty4u.backend.file.command.application.dto.FileSaveReqDTO;
+import com.beauty4u.backend.file.command.application.service.FileService;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;

@@ -1,8 +1,8 @@
-package com.beauty4u.backend.basesystem.command.application.service;
+package com.beauty4u.backend.file.command.application.service;
 
-import com.beauty4u.backend.basesystem.command.application.dto.FileDeleteReqDTO;
-import com.beauty4u.backend.basesystem.command.application.dto.FileSaveReqDTO;
-import com.beauty4u.backend.basesystem.command.domain.service.FileDomainService;
+import com.beauty4u.backend.file.command.application.dto.FileDeleteReqDTO;
+import com.beauty4u.backend.file.command.application.dto.FileSaveReqDTO;
+import com.beauty4u.backend.file.command.domain.service.FileDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
