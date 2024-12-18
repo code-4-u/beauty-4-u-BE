@@ -67,6 +67,9 @@ public enum ErrorCode {
     // 팀 스페이스
     NOT_FOUND_TEAMSPACE(HttpStatus.NOT_FOUND, "팀 스페이스 조회 실패"),
 
+    // 상품
+    NOT_FOUND_GOODS(HttpStatus.NOT_FOUND, "상품 조회 실패"),
+
     // 폴더
     NOT_FOUND_TOP_FOLDER(HttpStatus.NOT_FOUND, "상위 폴더 조회 실패"),
     FOLDER_SAVE_FAIL(HttpStatus.CONFLICT, "폴더 저장 실패"),
@@ -75,7 +78,10 @@ public enum ErrorCode {
     FOLDER_DELETE_FAIL(HttpStatus.CONFLICT, "폴더 삭제 실패"),
     FOLDER_SAME_NAME(HttpStatus.CONFLICT, "같은 위치내 같은 이름으로 인한 실패"),
     TOP_FOLDER_IS_DELETED(HttpStatus.BAD_REQUEST, "상위 폴더는 삭제된 상태입니다."),
-    NOT_FOUND_FOLDER(HttpStatus.NOT_FOUND, "해당 폴더 조회 실패");
+    NOT_FOUND_FOLDER(HttpStatus.NOT_FOUND, "해당 폴더 조회 실패"),
+
+    // 프로모션 적용 상품
+    PROMOTION_GOODS_SAVE_FAIL(HttpStatus.CONFLICT, "프로모션 적용 상품 저장 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
