@@ -10,6 +10,7 @@
         WHERE goods_code = #{goodsCode}
         AND YEAR(created_date) = #{year}
         AND MONTH(created_date) = #{month}
+        AND order_status = 'PURCHASED'
     </select>
 
 </mapper>
