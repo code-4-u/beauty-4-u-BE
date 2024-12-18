@@ -24,7 +24,7 @@
             promotion_type_name
           FROM promotion_type
         WHERE 1 = 1
-        <if test="isNotEmpty(promotionTypeName)">
+        <if test="promotionTypeName != null and promotionTypeName != ''">
             and promotion_type_name LIKE CONCAT('%', trim(#{promotionTypeName}), '%')
         </if>
 
