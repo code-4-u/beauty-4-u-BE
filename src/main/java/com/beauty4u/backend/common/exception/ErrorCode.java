@@ -81,7 +81,11 @@ public enum ErrorCode {
     NOT_FOUND_FOLDER(HttpStatus.NOT_FOUND, "해당 폴더 조회 실패"),
 
     // 프로모션 적용 상품
-    PROMOTION_GOODS_SAVE_FAIL(HttpStatus.CONFLICT, "프로모션 적용 상품 저장 실패");
+    PROMOTION_GOODS_SAVE_FAIL(HttpStatus.CONFLICT, "프로모션 적용 상품 저장 실패"),
+
+    // 팀 게시판 (teamspace)
+    NOT_SAVED_TEAMBOARD(HttpStatus.CONFLICT, "팀 게시판 등록 실패"),
+    NOT_FOUND_TEAMBOARD(HttpStatus.NOT_FOUND, "팀 게시판 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
