@@ -4,6 +4,7 @@ import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.goods.command.domain.aggregate.Goods;
 import com.beauty4u.backend.goods.command.domain.repository.GoodsRepository;
+import com.beauty4u.backend.promotion.command.application.dto.DeletePromotionGoodsReqDTO;
 import com.beauty4u.backend.promotion.command.application.dto.SaveGoodsDiscountDTO;
 import com.beauty4u.backend.promotion.command.application.dto.SavePromotionGoodsDTO;
 import com.beauty4u.backend.promotion.command.application.dto.SavePromotionGoodsReqDTO;
@@ -49,6 +50,18 @@ public class PromotionGoodsDomainService {
             promotionGoodsRepository.saveAll(promotionGoodsList);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.PROMOTION_GOODS_SAVE_FAIL);
+        }
+    }
+
+    public void deletePromotionGoodsList(DeletePromotionGoodsReqDTO deletePromotionGoodsReqDTO) {
+
+        try {
+            for (Long id : deletePromotionGoodsReqDTO.getPromotionGoodsIdList()) {
+
+                promotionGoodsRepository.deleteById(id);
+            }
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.PROMOTION_GOODS_LIST_DELETE_FAIL);
         }
     }
 }
