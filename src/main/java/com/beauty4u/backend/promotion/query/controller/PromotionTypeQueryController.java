@@ -26,10 +26,11 @@ public class PromotionTypeQueryController {
     @Operation(summary = "프로모션 종류 목록 조회", description = "프로모션 종류 목록을 조회한다.")
     @GetMapping
     public ResponseEntity<ApiResponse<List<FindPromotionTypeListDTO>>> findPromotionTypeList(
-            @RequestParam PromotionTypeFilterDTO promotionTypeFilterDTO
+            PromotionTypeFilterDTO promotionTypeFilterDTO
     ) {
 
-        List<FindPromotionTypeListDTO> findPromotionTypeListDTOS = promotionTypeQueryService.findPromotionTypeList(promotionTypeFilterDTO);
+        List<FindPromotionTypeListDTO> findPromotionTypeListDTOS
+                = promotionTypeQueryService.findPromotionTypeList(promotionTypeFilterDTO);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_LIST_FIND_SUCCESS, findPromotionTypeListDTOS);
     }
