@@ -88,6 +88,7 @@ public enum ErrorCode {
 
     // 특정 상품의 매출액
     GOODS_SALES_COMPARE_FIND_FAIL(HttpStatus.BAD_REQUEST, "제품의 전년 대비 같은 월 비교 실패"),
+    GOODS_SALES_MONTHLY_LIST_FIND_FAIL(HttpStatus.BAD_REQUEST, "제품의 해당 연도 모든 매출액 조회 실패"),
 
     // 팀 게시판 (teamspace)
     NOT_SAVED_TEAMBOARD(HttpStatus.CONFLICT, "팀 게시판 글 등록 실패"),

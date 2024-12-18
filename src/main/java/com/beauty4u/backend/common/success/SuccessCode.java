@@ -137,6 +137,7 @@ public enum SuccessCode {
 
     // 제품에 대한 매출
     GOODS_SALES_FIND_SUCCESS(HttpStatus.OK, "제품의 전년 대비 같은 월 비교 성공"),
+    GOODS_SALES_MONTHLY_LIST_FIND_SUCCESS(HttpStatus.OK, "제품의 해당 연도 모든 매출액 조회 성공"),
 
     // 폴더 (folder)
     FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공"),
@@ -151,7 +152,6 @@ public enum SuccessCode {
     TEAMBOARD_REPLY_SAVE_SUCCESS(HttpStatus.CREATED, "팀 게시판 댓글 등록 성공"),
     TEAMBOARD_REPLY_UPDATE_SUCCESS(HttpStatus.OK, "팀 게시판 댓글 수정 성공"),
     TEAMBOARD_REPLY_DELETE_SUCCESS(HttpStatus.OK, "팀 게시판 댓글 삭제 성공"),
-
     TEAMBOARD_FIND_LIST_SUCCESS(HttpStatus.OK, "팀 게시판 글 목록 조회 성공"),
     TEAMBOARD_FIND_DETAIL_SUCCESS(HttpStatus.OK, "팀 게시판 글 상세 조회 성공");
 
