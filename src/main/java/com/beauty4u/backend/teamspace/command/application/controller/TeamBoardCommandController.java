@@ -21,7 +21,7 @@ public class TeamBoardCommandController {
 
     private final TeamBoardService teamBoardService;
 
-    @Operation(summary = "팀 게시글 등록", description = "회원(직원)이 팀 게시판에 게시글을 등록한다.")
+    @Operation(summary = "팀 게시글 등록", description = "회원이 팀 게시판에 게시글을 등록한다.")
     @PostMapping
     public ResponseEntity<ApiResponse<Long>> saveTeamBoard(
             @RequestBody @Valid TeamBoardReqDTO teamBoardReqDTO) {
@@ -33,7 +33,7 @@ public class TeamBoardCommandController {
         return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_SAVE_SUCCESS, teamBoardId);
     }
 
-    @Operation(summary = "팀 게시글 수정", description = "회원(직원)이 팀 게시판에 등록된 게시글을 수정한다.")
+    @Operation(summary = "팀 게시글 수정", description = "회원이 팀 게시판에 등록된 게시글을 수정한다.")
     @PutMapping("/{teamBoardId}")
     public ResponseEntity<ApiResponse<Void>> updateTeamBoard(
             @PathVariable Long teamBoardId,
@@ -44,7 +44,7 @@ public class TeamBoardCommandController {
         return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "팀 게시글 삭제", description = "회원(직원)이 팀 게시판에 등록된 게시글을 삭제한다.")
+    @Operation(summary = "팀 게시글 삭제", description = "회원이 팀 게시판에 등록된 게시글을 삭제한다.")
     @DeleteMapping("/{teamBoardId}")
     public ResponseEntity<ApiResponse<Void>> deleteTeamBoard(
             @PathVariable Long teamBoardId) {

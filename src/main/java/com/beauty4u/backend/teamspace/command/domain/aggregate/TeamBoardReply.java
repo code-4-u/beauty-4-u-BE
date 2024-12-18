@@ -32,5 +32,10 @@ public class TeamBoardReply extends BaseEntity {
     @Lob
     @Column(name = "team_board_reply_content", nullable = false)
     private String teamBoardReplyContent;
+
+    public void saveReply(TeamBoard teamBoard, UserInfo user) {
+        this.teamBoard = teamBoard;
+        this.userCode = user;
+    }
 }
 
