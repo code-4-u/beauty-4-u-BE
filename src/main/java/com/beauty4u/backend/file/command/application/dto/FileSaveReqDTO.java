@@ -15,5 +15,5 @@ public class FileSaveReqDTO {
 
     private Long entityId;
     private List<String> imageUrls;
-    private Boolean isInform;
+    private String entityType;
 }

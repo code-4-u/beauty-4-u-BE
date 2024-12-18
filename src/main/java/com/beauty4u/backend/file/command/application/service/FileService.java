@@ -21,7 +21,7 @@ public class FileService {
         fileDomainService.saveFile(
                 fileSaveReqDTO.getImageUrls(),
                 fileSaveReqDTO.getEntityId(),
-                fileSaveReqDTO.getIsInform());
+                fileSaveReqDTO.getEntityType());
     }
 
     public void deleteImages(FileDeleteReqDTO fileDeleteReqDTO) {

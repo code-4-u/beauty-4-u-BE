@@ -2,6 +2,7 @@ package com.beauty4u.backend.teamspace.command.domain.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
+import com.beauty4u.backend.teamspace.command.application.dto.TeamBoardDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.teamboard.TeamBoardReqDTO;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.TeamBoard;
 import com.beauty4u.backend.teamspace.command.domain.repository.TeamBoardRepository;
@@ -54,5 +55,13 @@ public class TeamBoardDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEAMBOARD));
 
         teamBoardRepository.delete(teamBoard);
+    }
+
+    public TeamBoardDTO findTeamBoard(Long teamBoardId) {
+
+        TeamBoard findTeamBoard = teamBoardRepository.findById(teamBoardId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEAMBOARD));
+
+        return modelMapper.map(findTeamBoard, TeamBoardDTO.class);
     }
 }
