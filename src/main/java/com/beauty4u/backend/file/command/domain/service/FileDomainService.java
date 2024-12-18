@@ -1,9 +1,9 @@
 package com.beauty4u.backend.file.command.domain.service;
 
+import com.beauty4u.backend.common.util.S3ImageUtil;
 import com.beauty4u.backend.file.command.application.dto.FileDTO;
 import com.beauty4u.backend.file.command.domain.aggregate.FileInfo;
 import com.beauty4u.backend.file.command.domain.repository.FileRepository;
-import com.beauty4u.backend.common.util.S3ImageUtil;
 import com.beauty4u.backend.inform.command.application.dto.InformDTO;
 import com.beauty4u.backend.inform.command.domain.aggregate.Inform;
 import com.beauty4u.backend.inform.command.domain.service.InformDomainService;
@@ -14,7 +14,6 @@ import com.beauty4u.backend.teamspace.command.application.dto.TeamBoardDTO;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.TeamBoard;
 import com.beauty4u.backend.teamspace.command.domain.service.TeamBoardDomainService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +23,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class FileDomainService {
 
     private final FileRepository fileRepository;
@@ -67,8 +65,6 @@ public class FileDomainService {
             TeamBoardDTO teamBoardDTO = teamBoardDomainService.findTeamBoard(entityId);
 
             TeamBoard teamBoard = modelMapper.map(teamBoardDTO, TeamBoard.class);
-
-            log.info("조회한 팀스페 번호 : {}",teamBoard.getId());
 
             for (String image : images) {
                 FileDTO fileDTO = new FileDTO();
