@@ -144,7 +144,10 @@ public enum SuccessCode {
     TEAMBOARD_DELETE_SUCCESS(HttpStatus.OK, "팀 게시판 글 삭제 성공"),
     TEAMBOARD_REPLY_SAVE_SUCCESS(HttpStatus.CREATED, "팀 게시판 댓글 등록 성공"),
     TEAMBOARD_REPLY_UPDATE_SUCCESS(HttpStatus.OK, "팀 게시판 댓글 수정 성공"),
-    TEAMBOARD_REPLY_DELETE_SUCCESS(HttpStatus.OK, "팀 게시판 댓글 삭제 성공");
+    TEAMBOARD_REPLY_DELETE_SUCCESS(HttpStatus.OK, "팀 게시판 댓글 삭제 성공"),
+
+    TEAMBOARD_FIND_LIST_SUCCESS(HttpStatus.OK, "팀 게시판 글 목록 조회 성공"),
+    TEAMBOARD_FIND_DETAIL_SUCCESS(HttpStatus.OK, "팀 게시판 글 상세 조회 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
