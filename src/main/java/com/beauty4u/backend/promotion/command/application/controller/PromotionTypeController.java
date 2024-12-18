@@ -42,4 +42,15 @@ public class PromotionTypeController {
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_UPDATE_SUCCESS);
     }
+
+    @Operation(summary = "프로모션 종류 삭제", description = "프로모션 종류를 삭제한다.")
+    @DeleteMapping("/{promotionId}")
+    public ResponseEntity<ApiResponse<Void>> deletePromotionType(
+            @PathVariable Long promotionId
+    ) {
+
+        promotionTypeService.deletePromotionType(promotionId);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_DELETE_SUCCESS);
+    }
 }

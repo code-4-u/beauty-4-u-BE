@@ -24,4 +24,10 @@ public class PromotionTypeService {
 
         promotionTypeDomainService.updatePromotionType(id, updatePromotionTypeDTO);
     }
+
+    @Transactional
+    public void deletePromotionType(Long promotionId) {
+
+        promotionTypeDomainService.deletePromotionTypeById(promotionId);
+    }
 }

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -44,4 +45,7 @@ public class Promotion {
     @Lob
     @Column(name = "promotion_status", nullable = false)
     private String promotionStatus = "BEFORE";
+
+    @OneToMany(mappedBy = "promotion", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PromotionGoods> promotionGoodsList;
 }
