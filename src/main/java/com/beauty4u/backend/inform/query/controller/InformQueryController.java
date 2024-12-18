@@ -40,6 +40,6 @@ public class InformQueryController {
 
         InformDetailResDTO informDetailResDTO = informQueryService.findInformDetail(informId);
 
-        return ResponseUtil.successResponse(SuccessCode.CUSTOMER_FIND_DETAIL_SUCCESS, informDetailResDTO);
+        return ResponseUtil.successResponse(SuccessCode.INFORM_FIND_DETAIL_SUCCESS, informDetailResDTO);
     }
 }
