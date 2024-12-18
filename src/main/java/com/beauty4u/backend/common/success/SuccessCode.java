@@ -124,6 +124,7 @@ public enum SuccessCode {
     PROMOTIONTYPE_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 종류 수정 성공"),
     PROMOTIONTYPE_LIST_FIND_SUCCESS(HttpStatus.OK, "프로모션 종류 목록 조회 성공"),
     PROMOTIONTYPE_DETAIL_FIND_SUCCESS(HttpStatus.OK, "프로모션 종류 상세 조회 성공"),
+    PROMOTIONTYPE_DELETE_SUCCESS(HttpStatus.OK, "프로모션 종류 삭제 성공"),
 
     // 폴더 (folder)
     FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공"),
