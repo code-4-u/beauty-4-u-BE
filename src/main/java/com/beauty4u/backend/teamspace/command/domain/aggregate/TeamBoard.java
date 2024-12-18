@@ -33,4 +33,9 @@ public class TeamBoard extends BaseEntity {
     @Lob
     @Column(name = "team_board_content", nullable = false)
     private String teamBoardContent;
+
+    public void modifyTeamBoard(String title, String content) {
+        this.teamBoardTitle = title;
+        this.teamBoardContent = content;
+    }
 }

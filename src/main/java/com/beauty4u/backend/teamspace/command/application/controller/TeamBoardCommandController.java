@@ -4,6 +4,7 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.inquiry.command.application.dto.QnaReqDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.teamboard.TeamBoardReqDTO;
 import com.beauty4u.backend.teamspace.command.application.service.TeamBoardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,10 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/teamspace")
@@ -35,4 +33,16 @@ public class TeamBoardCommandController {
 
         return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_SAVE_SUCCESS, teamBoardId);
     }
+
+    @Operation(summary = "팀 게시글 수정", description = "회원(직원)이 팀 게시판에 등록된 게시글을 수정한다.")
+    @PutMapping("/{teamBoardId}")
+    public ResponseEntity<ApiResponse<Void>> updateTeamBoard(
+            @PathVariable Long teamBoardId,
+            @RequestBody @Valid TeamBoardReqDTO teamBoardReqDTO) {
+
+        teamBoardService.updateTeamBoard(teamBoardId, teamBoardReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_UPDATE_SUCCESS);
+    }
+
 }

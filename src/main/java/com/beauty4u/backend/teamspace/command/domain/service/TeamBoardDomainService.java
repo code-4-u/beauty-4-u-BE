@@ -34,4 +34,15 @@ public class TeamBoardDomainService {
 
         return teamBoard.getId();
     }
+
+    public void updateTeamBoard(Long teamBoardId, TeamBoardReqDTO teamBoardReqDTO) {
+
+        String title = teamBoardReqDTO.getTeamBoardTitle();
+        String content = teamBoardReqDTO.getTeamBoardContent();
+
+        TeamBoard teamBoard = teamBoardRepository.findById(teamBoardId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEAMBOARD));
+
+        teamBoard.modifyTeamBoard(title, content);
+    }
 }

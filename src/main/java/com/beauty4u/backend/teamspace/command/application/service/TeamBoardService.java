@@ -17,4 +17,10 @@ public class TeamBoardService {
 
         return teamBoardDomainService.saveTeamBoard(loginUserCode, teamBoardReqDTO);
     }
+
+    @Transactional
+    public void updateTeamBoard(Long teamBoardId, TeamBoardReqDTO teamBoardReqDTO) {
+
+        teamBoardDomainService.updateTeamBoard(teamBoardId, teamBoardReqDTO);
+    }
 }
