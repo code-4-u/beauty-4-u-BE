@@ -136,9 +136,12 @@ public enum SuccessCode {
     FOLDER_DELETE_SUCCESS(HttpStatus.OK, "폴더 삭제 성공"),
 
     // 팀 게시판 (teamspace)
-    TEAMBOARD_SAVE_SUCCESS(HttpStatus.CREATED, "팀 게시판 등록 성공"),
-    TEAMBOARD_UPDATE_SUCCESS(HttpStatus.OK, "팀 게시판 수정 성공"),
-    TEAMBOARD_DELETE_SUCCESS(HttpStatus.OK, "팀 게시판 삭제 성공");
+    TEAMBOARD_SAVE_SUCCESS(HttpStatus.CREATED, "팀 게시판 글 등록 성공"),
+    TEAMBOARD_UPDATE_SUCCESS(HttpStatus.OK, "팀 게시판 글 수정 성공"),
+    TEAMBOARD_DELETE_SUCCESS(HttpStatus.OK, "팀 게시판 글 삭제 성공"),
+    TEAMBOARD_REPLY_SAVE_SUCCESS(HttpStatus.CREATED, "팀 게시판 댓글 등록 성공"),
+    TEAMBOARD_REPLY_UPDATE_SUCCESS(HttpStatus.OK, "팀 게시판 댓글 수정 성공"),
+    TEAMBOARD_REPLY_DELETE_SUCCESS(HttpStatus.OK, "팀 게시판 댓글 삭제 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
