@@ -24,9 +24,12 @@ public class PromotionQueryController {
 
     @Operation(summary = "프로모션 상세 조회", description = "프로모션을 상세 조회한다.")
     @GetMapping("/{promotionId}")
-    public ResponseEntity<ApiResponse<PromotionDetailResDTO>> findPromotionDetail(@PathVariable Long promotionId) {
+    public ResponseEntity<ApiResponse<PromotionDetailResDTO>> findPromotionDetail(
+            @PathVariable Long promotionId
+    ) {
 
-        PromotionDetailResDTO promotionDetailResDTO = promotionQueryService.findPromotionDetail(promotionId);
+        PromotionDetailResDTO promotionDetailResDTO
+                = promotionQueryService.findPromotionDetail(promotionId);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_FIND_DETAIL_SUCCESS, promotionDetailResDTO);
     }
@@ -37,7 +40,8 @@ public class PromotionQueryController {
             FindPromotionListReqDTO findPromotionListReqDTO
     ) {
 
-        List<PromotionDetailResDTO> promotionDetailResDTOS = promotionQueryService.findPromotionList(findPromotionListReqDTO);
+        List<PromotionDetailResDTO> promotionDetailResDTOS
+                = promotionQueryService.findPromotionList(findPromotionListReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_FIND_LIST_SUCCESS, promotionDetailResDTOS);
     }

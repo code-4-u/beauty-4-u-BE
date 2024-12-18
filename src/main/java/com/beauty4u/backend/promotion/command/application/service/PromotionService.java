@@ -1,5 +1,7 @@
 package com.beauty4u.backend.promotion.command.application.service;
 
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.promotion.command.application.dto.SavePromotionReqDTO;
 import com.beauty4u.backend.promotion.command.domain.service.PromotionDomainService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,11 @@ public class PromotionService {
     @Transactional
     public void updatePromotion(Long promotionId, SavePromotionReqDTO savePromotionReqDTO) {
 
-        promotionDomainService.updatePromotion(promotionId, savePromotionReqDTO);
+        try {
+            promotionDomainService.updatePromotion(promotionId, savePromotionReqDTO);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.PROMOTION_NOT_UPDATE);
+        }
     }
 
     @Transactional

@@ -6,12 +6,15 @@
 
     <select id="findPromotionById" resultType="PromotionDetailResDTO">
         SELECT
-            promotion_id,
-            promotion_title,
-            promotion_start_date,
-            promotion_end_date,
-            promotion_status
-          FROM promotion
+            p.promotion_id,
+            p.promotion_type_id,
+            pt.promotion_type_name,
+            p.promotion_title,
+            p.promotion_start_date,
+            p.promotion_end_date,
+            p.promotion_status
+          FROM promotion p
+          LEFT JOIN promotion_type pt ON p.promotion_type_id = pt.promotion_type_id
          WHERE promotion_id = #{promotionId}
     </select>
 

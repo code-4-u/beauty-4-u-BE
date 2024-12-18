@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 public class PromotionDetailResDTO {
 
     private Long promotionId;
+    private Long promotionTypeId;
+    private String promotionTypeName;
     private String promotionTitle;
     private LocalDateTime promotionStartDate;
     private LocalDateTime promotionEndDate;
