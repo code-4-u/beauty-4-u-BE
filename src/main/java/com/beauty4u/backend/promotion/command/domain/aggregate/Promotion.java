@@ -17,6 +17,11 @@ public class Promotion {
     @Column(name = "promotion_id", nullable = false)
     private Long id;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "promotion_type_id", nullable = false)
+    private Promotion promotionType;
+
     @Size(max = 100)
     @NotNull
     @Column(name = "promotion_title", nullable = false, length = 100)
