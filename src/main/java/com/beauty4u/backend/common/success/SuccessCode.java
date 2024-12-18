@@ -135,6 +135,9 @@ public enum SuccessCode {
     // 특정 상품에 대한 프로모션
     GOODS_PROMOTION_COMMON_INFO_LIST_FIND_SUCCESS(HttpStatus.OK, "특정 상품에 대한 프로모션별 정보 조회 성공"),
 
+    // 제품에 대한 매출
+    GOODS_SALES_FIND_SUCCESS(HttpStatus.OK, "제품의 전년 대비 같은 월 비교 성공"),
+
     // 폴더 (folder)
     FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공"),
     FOLDER_UPDATE_SUCCESS(HttpStatus.OK, "폴더 수정 성공"),
