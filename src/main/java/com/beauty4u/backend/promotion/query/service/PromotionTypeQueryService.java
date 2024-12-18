@@ -1,5 +1,6 @@
 package com.beauty4u.backend.promotion.query.service;
 
+import com.beauty4u.backend.promotion.query.dto.FindPromotionTypeDetailDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionTypeListDTO;
 import com.beauty4u.backend.promotion.query.dto.PromotionTypeFilterDTO;
 import com.beauty4u.backend.promotion.query.mapper.PromotionTypeQueryMapper;
@@ -31,5 +32,10 @@ public class PromotionTypeQueryService {
                 offset,
                 promotionTypeFilterDTO.getCount()
         );
+    }
+
+    public FindPromotionTypeDetailDTO findPromotionTypeDetail(Long promotionTypeId) {
+
+        return promotionTypeQueryMapper.findPromotionTypeDetail(promotionTypeId);
     }
 }
