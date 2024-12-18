@@ -4,15 +4,13 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.promotion.command.application.dto.SavePromotionTypeDTO;
+import com.beauty4u.backend.promotion.command.application.dto.UpdatePromotionTypeDTO;
 import com.beauty4u.backend.promotion.command.application.service.PromotionTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,5 +29,17 @@ public class PromotionTypeController {
         promotionTypeService.savePromotionType(savePromotionTypeDTO);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_SAVE_SUCCESS);
+    }
+
+    @Operation(summary = "프로모션 수정", description = "프로모션 수정을 한다.")
+    @PutMapping("/{promotionTypeId}")
+    public ResponseEntity<ApiResponse<Void>> updatePromotionType(
+            @PathVariable(value = "promotionTypeId") Long id,
+            @RequestBody UpdatePromotionTypeDTO updatePromotionTypeDTO
+    ){
+
+        promotionTypeService.updatePromotionType(id, updatePromotionTypeDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_UPDATE_SUCCESS);
     }
 }
