@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.teamspace.query.mapper.TeamBoardQueryMapper">
+
+    <select id="findTeamBoardList" resultType="TeamBoardListDTO">
+        SELECT
+            b.team_board_id,
+            u.user_code,
+            u.user_name,
+            b.team_board_title,
+            b.publish_status,
+            b.created_date
+        FROM team_board b
+        LEFT JOIN user_info u USING (user_code)
+        WHERE 1 = 1
+        <if test="startDateTime != null">
+            and b.created_date <![CDATA[>=]]> #{startDateTime}
+        </if>
+
+        <if test="endDateTime != null">
+            and b.created_date <![CDATA[<=]]> #{endDateTime}
+        </if>
+
+        <if test="teamBoardTitle != null and teamBoardTitle != ''">
+            and b.team_board_title like CONCAT('%', #{teamBoardTitle}, '%')
+        </if>
+
+        <if test="publishStatus != null and publishStatus != ''">
+            and b.publish_status = #{publishStatus}
+        </if>
+        ORDER BY
+        <choose>
+            <when test="sort == 'title'">
+                b.team_board_title
+            </when>
+            <otherwise>
+                b.created_date
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+        LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findTeamBoardListTotalCount" resultType="Long">
+        SELECT
+            COUNT(*)
+        FROM team_board b
+        LEFT JOIN user_info u USING (user_code)
+        WHERE 1 = 1
+        <if test="startDateTime != null">
+            and b.created_date <![CDATA[>=]]> #{startDateTime}
+        </if>
+
+        <if test="endDateTime != null">
+            and b.created_date <![CDATA[<=]]> #{endDateTime}
+        </if>
+
+        <if test="teamBoardTitle != null and teamBoardTitle != ''">
+            and b.team_board_title like CONCAT('%', #{teamBoardTitle}, '%')
+        </if>
+
+        <if test="publishStatus != null and publishStatus != ''">
+            and b.publish_status = #{publishStatus}
+        </if>
+        ORDER BY
+        <choose>
+            <when test="sort == 'title'">
+                b.team_board_title
+            </when>
+            <otherwise>
+                b.created_date
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findTeamBoardDetail" resultType="TeamBoardDetailDTO">
+        SELECT
+            b.team_board_id,
+            u.user_code,
+            u.user_name,
+            b.team_board_title,
+            b.team_board_content,
+            b.publish_status,
+            b.created_date,
+            b.updated_date
+        FROM team_board b
+        LEFT JOIN user_info u USING (user_code)
+        WHERE b.team_board_id = #{teamBoardId}
+    </select>
+
+    <select id="findTeamBoardReplyList" resultType="TeamBoardReplyListDTO">
+        SELECT
+            r.team_board_reply_id,
+            u.user_code,
+            u.user_name,
+            r.team_board_reply_content,
+            r.publish_status,
+            r.created_date,
+            r.updated_date
+        FROM team_board_reply r
+        LEFT JOIN user_info u USING (user_code)
+        WHERE r.team_board_id = #{teamBoardId}
+    </select>
+</mapper>

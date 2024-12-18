@@ -1,4 +1,4 @@
-package com.beauty4u.backend.inform.query.dto;
+package com.beauty4u.backend.teamspace.query.dto.teamboard;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InformListResDTO {
+public class TeamBoardListResDTO {
 
-    List<InformListDTO> informList;
+    List<TeamBoardListDTO> teamBoardList;
     private Long totalCount;
 }

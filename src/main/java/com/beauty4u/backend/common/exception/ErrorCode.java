@@ -84,7 +84,15 @@ public enum ErrorCode {
     PROMOTION_GOODS_SAVE_FAIL(HttpStatus.CONFLICT, "프로모션 적용 상품 저장 실패"),
     PROMOTION_GOODS_LIST_DELETE_FAIL(HttpStatus.CONFLICT, "프로모션 적용 상품 삭제 실패"),
     PROMOTION_GOODS_UPDATE_FAIL(HttpStatus.BAD_REQUEST, "프로모션 적용 상품 수정 실패"),
-    PROMOTION_GOODS_LIST_NOT_FOUND(HttpStatus.NOT_FOUND, "프로모션 적용 상품 목록 조회 실패");
+    PROMOTION_GOODS_LIST_NOT_FOUND(HttpStatus.NOT_FOUND, "프로모션 적용 상품 목록 조회 실패"),
+
+    // 팀 게시판 (teamspace)
+    NOT_SAVED_TEAMBOARD(HttpStatus.CONFLICT, "팀 게시판 글 등록 실패"),
+    NOT_FOUND_TEAMBOARD(HttpStatus.NOT_FOUND, "팀 게시판 글 조회 실패"),
+    NOT_SAVED_TEAMBOARD_REPLY(HttpStatus.CONFLICT, "팀 게시판 댓글 등록 실패"),
+    NOT_FOUND_TEAMBOARD_REPLY(HttpStatus.NOT_FOUND, "팀 게시판 댓글 조회 실패"),
+    INVALID_TEAMBOARD_REPLY_UPDATE(HttpStatus.BAD_REQUEST, "잘못된 요청으로 인한 팀 게시판 댓글 수정 실패"),
+    INVALID_TEAMBOARD_REPLY_DELETE(HttpStatus.BAD_REQUEST, "잘못된 요청으로 인한 팀 게시판 댓글 삭제 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
