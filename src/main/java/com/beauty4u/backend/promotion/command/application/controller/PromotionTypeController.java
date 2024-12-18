@@ -20,7 +20,7 @@ public class PromotionTypeController {
 
     private final PromotionTypeService promotionTypeService;
 
-    @Operation(summary = "프로모션 등록", description = "프로모션 등록을 한다.")
+    @Operation(summary = "프로모션 종류 등록", description = "프로모션 종류 등록을 한다.")
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> savePromotionType(
             @RequestBody SavePromotionTypeDTO savePromotionTypeDTO
@@ -31,7 +31,7 @@ public class PromotionTypeController {
         return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_SAVE_SUCCESS);
     }
 
-    @Operation(summary = "프로모션 수정", description = "프로모션 수정을 한다.")
+    @Operation(summary = "프로모션 종류 수정", description = "프로모션 종류 수정을 한다.")
     @PutMapping("/{promotionTypeId}")
     public ResponseEntity<ApiResponse<Void>> updatePromotionType(
             @PathVariable(value = "promotionTypeId") Long id,
