@@ -134,8 +134,9 @@ public class JwtUtil {
 
         Claims claims = Jwts.claims().setSubject(authentication.getName());
         claims.put("jobName", customUserDetails.getJobName());
+        claims.put("deptCode", customUserDetails.getDeptCode());
         claims.put("deptName", customUserDetails.getDeptName());
-        claims.put("userName", customUserDetails.getName());
+        claims.put("userName", customUserDetails.getUserName());
         claims.put("auth", authentication.getAuthorities());
 
         return Jwts.builder()
