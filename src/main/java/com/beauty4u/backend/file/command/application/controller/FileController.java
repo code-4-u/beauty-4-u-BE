@@ -1,8 +1,8 @@
-package com.beauty4u.backend.basesystem.command.application.controller;
+package com.beauty4u.backend.file.command.application.controller;
 
-import com.beauty4u.backend.basesystem.command.application.dto.FileDeleteReqDTO;
-import com.beauty4u.backend.basesystem.command.application.dto.FileSaveReqDTO;
-import com.beauty4u.backend.basesystem.command.application.service.FileService;
+import com.beauty4u.backend.file.command.application.dto.FileDeleteReqDTO;
+import com.beauty4u.backend.file.command.application.dto.FileSaveReqDTO;
+import com.beauty4u.backend.file.command.application.service.FileService;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
@@ -34,7 +34,7 @@ public class FileController {
     }
 
     // db에서 삭제
-    @Operation(summary = "업로든 된 사진 삭제", description = "업로드 된 사진 삭제")
+    @Operation(summary = "업로드 된 사진 삭제", description = "업로드 된 사진 삭제")
     @PostMapping("/delete")
     public ResponseEntity<ApiResponse<Void>> deleteImage(
             @RequestBody FileDeleteReqDTO fileDeleteReqDTO
@@ -60,7 +60,7 @@ public class FileController {
     }
 
     // s3에서 삭제
-    @Operation(summary = "사진 업로드 삭제", description = "업로드되니 사진을 삭제한다.")
+    @Operation(summary = "사진 업로드 삭제", description = "업로드 된 사진을 삭제한다.")
     @PostMapping("/s3/uploadList")
     public ResponseEntity<ApiResponse<String>> s3UploadDeleteImage(
             @RequestPart(value = "image", required = false) List<String> imageUrls

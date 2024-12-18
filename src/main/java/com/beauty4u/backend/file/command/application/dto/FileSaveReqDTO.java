@@ -1,4 +1,4 @@
-package com.beauty4u.backend.basesystem.command.application.dto;
+package com.beauty4u.backend.file.command.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileDeleteReqDTO {
+public class FileSaveReqDTO {
 
     private Long entityId;
-    private Boolean isInform;
+    private List<String> imageUrls;
+    private String entityType;
 }

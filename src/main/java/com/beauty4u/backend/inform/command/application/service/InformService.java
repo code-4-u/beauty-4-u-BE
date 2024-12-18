@@ -1,6 +1,6 @@
 package com.beauty4u.backend.inform.command.application.service;
 
-import com.beauty4u.backend.basesystem.command.domain.service.FileDomainService;
+import com.beauty4u.backend.file.command.domain.service.FileDomainService;
 import com.beauty4u.backend.common.util.S3ImageUtil;
 import com.beauty4u.backend.inform.command.application.dto.InformReqDTO;
 import com.beauty4u.backend.inform.command.application.dto.UpdateInformViewcount;

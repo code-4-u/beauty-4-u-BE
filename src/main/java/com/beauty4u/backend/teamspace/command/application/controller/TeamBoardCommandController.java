@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/teamspace")
+@RequestMapping("/api/v1/teamspace/board")
 @RequiredArgsConstructor
 @Tag(name = "TeamSpace", description = "팀스페이스 관련 API")
 public class TeamBoardCommandController {
