@@ -23,4 +23,10 @@ public class TeamBoardReplyService {
 
         teamBoardReplyDomainService.updateTeamBoardReply(teamBoardId, teamBoardReplyId, teamBoardReplyReqDTO);
     }
+
+    @Transactional
+    public void deleteTeamBoardReply(Long teamBoardId, Long teamBoardReplyId) {
+
+        teamBoardReplyDomainService.deleteTeamBoardReply(teamBoardId, teamBoardReplyId);
+    }
 }

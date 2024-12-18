@@ -54,4 +54,16 @@ public class TeamBoardReplyDomainService {
 
         teamBoardReply.modifyContent(content);
     }
+
+    public void deleteTeamBoardReply(Long teamBoardId, Long teamBoardReplyId) {
+
+        TeamBoardReply teamBoardReply = teamBoardReplyRepository.findById(teamBoardReplyId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEAMBOARD_REPLY));
+
+        if (!teamBoardReply.getTeamBoard().getId().equals(teamBoardId)) {
+            throw new CustomException(ErrorCode.INVALID_TEAMBOARD_REPLY_DELETE);
+        }
+
+        teamBoardReplyRepository.delete(teamBoardReply);
+    }
 }

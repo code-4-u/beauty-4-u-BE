@@ -36,7 +36,7 @@ public class TeamBoardReplyCommandController {
 
     @Operation(summary = "팀 게시판 댓글 수정", description = "회원이 팀 게시판 댓글을 수정한다.")
     @PutMapping("/{teamBoardId}/reply/{teamBoardReplyId}")
-    public ResponseEntity<ApiResponse<Void>> updateQnaReply(
+    public ResponseEntity<ApiResponse<Void>> updateTeamBoardReply(
             @PathVariable Long teamBoardId,
             @PathVariable Long teamBoardReplyId,
             @RequestBody @Valid TeamBoardReplyReqDTO teamBoardReplyReqDTO) {
@@ -44,5 +44,16 @@ public class TeamBoardReplyCommandController {
         teamBoardReplyService.updateTeamBoardReply(teamBoardId, teamBoardReplyId, teamBoardReplyReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_REPLY_UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "팀 게시판 댓글 삭제", description = "회원이 팀 게시판 댓글을 삭제한다.")
+    @DeleteMapping("/{teamBoardId}/reply/{teamBoardReplyId}")
+    public ResponseEntity<ApiResponse<Void>> deleteTeamBoardReply(
+            @PathVariable Long teamBoardId,
+            @PathVariable Long teamBoardReplyId) {
+
+        teamBoardReplyService.deleteTeamBoardReply(teamBoardId, teamBoardReplyId);
+
+        return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_REPLY_DELETE_SUCCESS);
     }
 }
