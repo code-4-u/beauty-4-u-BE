@@ -34,6 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 loginUser.getUserCode(),
                 loginUser.getUserPassword(),
                 loginUser.getJobCode().getJobName(),
+                loginUser.getDeptCode().getDeptCode(),
                 loginUser.getDeptCode().getDeptName(),
                 loginUser.getUserName(),
                 grantedAuthorities
