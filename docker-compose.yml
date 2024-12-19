@@ -34,7 +34,9 @@ services:
  # elk 서비스 - elasticsearch, kibana, logstash
   elasticsearch:
     container_name: elasticsearch_beauty4u
-    image: elasticsearch:7.14.1
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
