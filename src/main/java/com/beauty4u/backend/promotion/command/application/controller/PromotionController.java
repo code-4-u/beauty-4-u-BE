@@ -21,13 +21,13 @@ public class PromotionController {
 
     @Operation(summary = "프로모션 등록", description = "프로모션을 등록한다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> savePromotion(
+    public ResponseEntity<ApiResponse<Long>> savePromotion(
             @RequestBody SavePromotionReqDTO savePromotionReqDTO
     ) {
 
-        promotionService.savePromotion(savePromotionReqDTO);
+        Long promotionId = promotionService.savePromotion(savePromotionReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.PROMOTION_SAVE_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.PROMOTION_SAVE_SUCCESS, promotionId);
     }
 
     @Operation(summary = "프로모션 수정", description = "프로모션을 수정한다.")
