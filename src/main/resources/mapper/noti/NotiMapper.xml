@@ -10,7 +10,7 @@
             noti_url,
             noti_read_yn,
             noti_sender,
-            created_date,
+            created_date
         FROM noti
         WHERE noti_receiver = #{userCode}
     </select>
