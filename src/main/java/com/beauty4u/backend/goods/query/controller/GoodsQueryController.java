@@ -3,10 +3,7 @@ package com.beauty4u.backend.goods.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
-import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
-import com.beauty4u.backend.goods.query.dto.CategoryDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
-import com.beauty4u.backend.goods.query.dto.SubCategoryDTO;
+import com.beauty4u.backend.goods.query.dto.*;
 import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.service.GoodsQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/goods")
 @Tag(name = "Goods", description = "상품 조회 API")
-@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;
@@ -74,6 +70,17 @@ public class GoodsQueryController {
     public ResponseEntity<ApiResponse<List<GoodsDocument>>> searchGoods(@PathVariable String searchGoodsName) {
         return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_ELASTICSEARCH_SUCCESS, goodsQueryService.searchGoods(searchGoodsName));
     }
+
+    @Operation(summary = "상위 카테고리 조회", description = "상위 카테고리 조회")
+    @GetMapping("/topCategory")
+    public ResponseEntity<ApiResponse<List<TopCategoryResDTO>>> findTopCategoryList() {
+
+
+        List<TopCategoryResDTO> topCategoryResDTOS = goodsQueryService.findTopCategoryList();
+
+        return ResponseUtil.successResponse(SuccessCode.TOP_CATEGORY_LIST_FIND_SUCCESS, topCategoryResDTOS);
+    }
+
 
     @PostMapping("/index")
     @Operation(summary = "엘라스틱 서치 인덱스 생성", description = "DB 데이터를 엘라스틱 서치에 동기화한다.")
