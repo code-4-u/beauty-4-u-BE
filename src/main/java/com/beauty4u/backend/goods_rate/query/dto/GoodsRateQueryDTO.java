@@ -10,9 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodsRateQueryDTO {
-    private String orderDate;
-    private String goodsCode;
     private String goodsName;
     private String brandName;
-    private String increaseRate;
+    private String rateChange;
+    private String rateType;
 }
