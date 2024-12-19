@@ -1,5 +1,7 @@
 package com.beauty4u.backend.goods.query.service;
 
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.goods.query.dto.*;
 import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.elasticsearch.repository.GoodsSearchRepository;
@@ -82,5 +84,30 @@ public class GoodsQueryService {
     public List<TopCategoryResDTO> findTopCategoryList() {
 
         return categoryQueryMapper.findAllTopCategoryList();
+    }
+
+    // 필터링 조건에 따른 제품 조회
+    public List<GoodsQueryDTO> findFilterGoodsList(GoodsFilterReqDTO goodsFilterReqDTO) {
+
+        Long offset = (goodsFilterReqDTO.getPage() - 1) * goodsFilterReqDTO.getCount();
+
+        List<GoodsQueryDTO> goodsQueryDTOS = null;
+
+        try {
+            goodsQueryDTOS = goodsQueryMapper.findFilterGoodsList(
+                    goodsFilterReqDTO.getTopCategoryCode(),
+                    goodsFilterReqDTO.getSubCategoryCode(),
+                    goodsFilterReqDTO.getMinPrice(),
+                    goodsFilterReqDTO.getMaxPrice(),
+                    goodsFilterReqDTO.getSort(),
+                    goodsFilterReqDTO.getOrder(),
+                    offset,
+                    goodsFilterReqDTO.getCount()
+            );
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.NOT_FOUND_GOODS_LIST);
+        }
+
+        return goodsQueryDTOS;
     }
 }
