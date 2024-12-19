@@ -10,11 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,15 +35,13 @@ public class AnalysisQueryController {
 
     @Operation(summary = "연령별 구매 비율 데이터 조회")
     @GetMapping("/purchases-by-age")
-    public ResponseEntity<ApiResponse<AnalysisPurchasesByAgeResDTO>> selectAnalysisPurchasesByAge
-            (@RequestBody AnalysisCircleGraphReqDTO analysisCircleGraphRequestDTO) {
+    public ResponseEntity<ApiResponse<AnalysisPurchasesByAgeResDTO>> selectAnalysisPurchasesByAge(
+            @RequestParam LocalDateTime startDate,
+            @RequestParam LocalDateTime endDate) {
 
         /* 연령별 구매 비율 데이터 조회 */
         AnalysisPurchasesByAgeResDTO object =
-                analysisQueryService.selectAnalysisPurchasesByAge(
-                        analysisCircleGraphRequestDTO.getStartDate(),
-                        analysisCircleGraphRequestDTO.getEndDate()
-                );
+                analysisQueryService.selectAnalysisPurchasesByAge(startDate,endDate);
 
         return ResponseUtil.successResponse(SuccessCode.ANAL_FIND_PUR_BY_AGE_SUCCESS, object);
     }

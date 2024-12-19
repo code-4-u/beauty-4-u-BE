@@ -41,12 +41,12 @@ public class AnalysisAgeGroupRadioResDTO {
     private Double customerTenFemaleRadio;      /* 10대 여자 비율 */
     private Double customerTwentyMaleRadio;     /* 20대 남자 비율 */
     private Double customerTwentyFemaleRadio;   /* 20대 여자 비율 */
-    private Double customerThirtyMaleRatio;     /* 30대 남자 비율 */
-    private Double customerThirtyFemaleRatio;   /* 30대 여자 비율 */
-    private Double customerFortyMaleRatio;      /* 40대 남자 비율 */
-    private Double customerFortyFemaleRatio;    /* 40대 여자 비율 */
-    private Double customerFiftyMaleRatio;      /* 50대 남자 비율 */
-    private Double customerFiftyFemaleRatio;    /* 50대 여자 비율 */
-    private Double customerSixtyupMaleRatio;    /* 60대 이상 남자 비율 */
-    private Double customerSixtyupFemaleRatio;  /* 60대 이상 여자 비율 */
+    private Double customerThirtyMaleRadio;     /* 30대 남자 비율 */
+    private Double customerThirtyFemaleRadio;   /* 30대 여자 비율 */
+    private Double customerFortyMaleRadio;      /* 40대 남자 비율 */
+    private Double customerFortyFemaleRadio;    /* 40대 여자 비율 */
+    private Double customerFiftyMaleRadio;      /* 50대 남자 비율 */
+    private Double customerFiftyFemaleRadio;    /* 50대 여자 비율 */
+    private Double customerSixtyupMaleRadio;    /* 60대 이상 남자 비율 */
+    private Double customerSixtyupFemaleRadio;  /* 60대 이상 여자 비율 */
 }

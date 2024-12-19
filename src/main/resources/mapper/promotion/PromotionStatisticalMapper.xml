@@ -1,0 +1,97 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionStatisticalMapper">
+
+    <!-- 프로모션 타입별 조회 ASC 조회 -->
+    <select id="findTypeByPromotion" resultType="FindPromotionByTypeResDTO">
+        SELECT promotion_id,
+               promotion_type_id,
+               promotion_title
+        FROM promotion p
+        ORDER BY p.promotion_type_id
+    </select>
+
+    <!-- 프로모션 종류에 따른 년도별 그래프 조회 -->
+    <select id="findPromotionByYearSales" parameterType="java.util.List" resultType="FindPromotionByYearSalesResDTO">
+        WITH yearly_sales AS (
+                SELECT p.promotion_title,
+                       EXTRACT(YEAR FROM p.promotion_start_date) AS promo_year,
+                       SUM(oi.order_price)                       AS total_sales
+                  FROM promotion p
+                  JOIN order_info oi
+                    ON oi.order_created_date BETWEEN p.promotion_start_date AND p.promotion_end_date
+                 WHERE p.promotion_id IN
+                 <foreach item="type" collection="list" open="(" separator="," close=")">
+                    #{type}
+                 </foreach>
+                 GROUP BY p.promotion_title,
+                          EXTRACT(YEAR FROM p.promotion_start_date))
+        SELECT promo_year,
+               total_sales,
+               LAG(total_sales) OVER (ORDER BY promo_year) AS prev_year_sales,
+               IF(LAG(total_sales) OVER (ORDER BY promo_year) IS NOT NULL,
+               ((total_sales - LAG(total_sales) OVER (ORDER BY promo_year)) / LAG(total_sales)
+               OVER (ORDER BY promo_year) * 100), NULL) as growth_rate
+        FROM yearly_sales
+        ORDER BY promo_year
+    </select>
+
+    <!-- 프로모션 기간 상품 매출 랭킹 비교 -->
+    <select id="findPromotionByComparisonSales" resultType="FindPromotionByComparisonSalesResDTO">
+        WITH sales_previous AS (
+            SELECT
+                  (SELECT goods_name
+                     FROM goods
+                    WHERE goods_code = oi.goods_code) AS goods_name,
+                  SUM(oi.order_price) AS total_order_price,
+                  ROW_NUMBER() OVER (ORDER BY SUM(oi.order_price) DESC) AS rank_sales_previous
+             FROM order_info oi
+             JOIN promotion p ON oi.order_created_date BETWEEN p.promotion_start_date AND p.promotion_end_date
+            WHERE p.promotion_id  = #{previousPromotionId}
+            GROUP BY goods_name
+            ORDER BY rank_sales_previous
+        ),
+        sales_after AS (
+            SELECT
+                  (SELECT goods_name
+                     FROM goods
+                    WHERE Goods_code = oi.goods_code) AS goods_name,
+                  SUM(oi.order_price) AS total_order_price,
+                  ROW_NUMBER() OVER (ORDER BY SUM(oi.order_price) DESC) AS rank_sales_after
+             FROM order_info oi
+             JOIN promotion p ON oi.order_created_date BETWEEN p.promotion_start_date AND p.promotion_end_date
+            WHERE p.promotion_id = #{afterPromotionId}
+            GROUP BY goods_name
+            ORDER BY rank_sales_after
+        )
+        SELECT
+                COALESCE(s22.goods_name, s23.goods_name) AS goods_name,
+                s22.total_order_price AS sales_year_previous,
+                s23.total_order_price AS sales_year_after,
+                s22.rank_sales_previous AS sales_rank_previous,
+                s23.rank_sales_after AS sales_rank_after,
+            CASE
+                WHEN s22.rank_sales_previous IS NULL THEN '신규진입'
+                WHEN s23.rank_sales_after IS NULL THEN '판매중단'
+            ELSE CASE
+                <![CDATA[
+                    WHEN s22.rank_sales_previous - s23.rank_sales_after > 0 THEN CONCAT(ABS(s22.rank_sales_previous - s23.rank_sales_after), ' 단계 상승')
+                    WHEN s22.rank_sales_previous - s23.rank_sales_after < 0 THEN CONCAT(ABS(s22.rank_sales_previous - s23.rank_sales_after), ' 단계 하락')
+                    ELSE '변동없음'
+                ]]>
+                 END
+            END AS rank_change,
+        CASE
+            <![CDATA[
+            WHEN (s23.total_order_price - s22.total_order_price) / s22.total_order_price * 100 > 0
+            THEN CONCAT(ROUND(ABS((s23.total_order_price - s22.total_order_price) / s22.total_order_price * 100), 1), '%', ' 증가')
+            WHEN (s23.total_order_price - s22.total_order_price) / s22.total_order_price * 100 < 0
+            THEN CONCAT(ROUND(ABS((s23.total_order_price - s22.total_order_price) / s22.total_order_price * 100), 1), '%', ' 감소')
+            ELSE '변동없음'
+            ]]>
+        END AS sales_percent_change
+        FROM sales_previous s22
+        RIGHT JOIN sales_after s23 ON s22.goods_name = s23.goods_name
+    </select>
+</mapper>

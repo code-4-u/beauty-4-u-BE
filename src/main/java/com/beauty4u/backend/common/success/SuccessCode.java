@@ -102,6 +102,11 @@ public enum SuccessCode {
     ANAL_FIND_GRADE_SALES_BY_BRAND_SUCCESS(HttpStatus.OK, "등급별 브핸드 매출 데이터 조회 성공"),
     ANAL_FIND_GRADE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "등급별 브랜드별 제품 매출 데이터 조회 성공"),
 
+    /* 프로모션 통계 (promotion statistical) */
+    PROMO_STAT_FIND_TYPE_BY_PROMOTION(HttpStatus.OK, "프로모션 타입별 조회 성공"),
+    PROMO_STAT_FIND_BY_YEAR_SALES(HttpStatus.OK, "프로모션 종류에 따른 년도별 그래프 조회 "),
+    PROMO_STAT_FIND_BY_COM_SALES(HttpStatus.OK, "프로모션 기간 상품 매출 랭킹 비교"),
+
     // 일정
     SCHEDULE_SAVE_SUCCESS(HttpStatus.CREATED, "일정 등록 성공"),
     SCHEDULE_UPDATE_SUCCESS(HttpStatus.OK, "일정 수정 성공"),
