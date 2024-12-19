@@ -19,7 +19,7 @@ public class PromotionDomainService {
     private final PromotionTypeRepository promotionTypeRepository;
     private final ModelMapper modelMapper;
 
-    public void savePromotion(SavePromotionReqDTO savePromotionReqDTO) {
+    public Long savePromotion(SavePromotionReqDTO savePromotionReqDTO) {
 
         PromotionType promotionType = promotionTypeRepository.findById(savePromotionReqDTO.getPromotionTypeId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PROMOTIONTYPE));
@@ -33,6 +33,8 @@ public class PromotionDomainService {
         } catch (Exception e) {
             throw new CustomException(ErrorCode.PROMOTION_NOT_SAVE);
         }
+
+        return promotion.getId();
     }
 
     public void updatePromotion(Long promotionId, SavePromotionReqDTO savePromotionReqDTO) {

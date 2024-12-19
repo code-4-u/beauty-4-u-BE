@@ -15,9 +15,9 @@ public class PromotionService {
     private final PromotionDomainService promotionDomainService;
 
     @Transactional
-    public void savePromotion(SavePromotionReqDTO savePromotionReqDTO) {
+    public Long savePromotion(SavePromotionReqDTO savePromotionReqDTO) {
 
-        promotionDomainService.savePromotion(savePromotionReqDTO);
+        return promotionDomainService.savePromotion(savePromotionReqDTO);
     }
 
     @Transactional
