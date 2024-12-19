@@ -15,5 +15,6 @@ public class FindPromotionGoodsListResDTO {
     private Long promotionId;
     private String goodsCode;
     private String goodsName;
+    private String goodsPrice;
     private Integer discountRate;
 }

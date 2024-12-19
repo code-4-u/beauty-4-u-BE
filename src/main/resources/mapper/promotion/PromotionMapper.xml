@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionQueryMapper">
 
     <select id="findPromotionById" resultType="PromotionDetailResDTO">
@@ -10,6 +9,7 @@
             p.promotion_type_id,
             pt.promotion_type_name,
             p.promotion_title,
+            p.promotion_content,
             p.promotion_start_date,
             p.promotion_end_date,
             p.promotion_status

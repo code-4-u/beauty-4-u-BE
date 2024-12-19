@@ -1,6 +1,5 @@
 package com.beauty4u.backend.promotion.query.mapper;
 
-import com.beauty4u.backend.promotion.query.dto.FindPromotionGoodsCommonInfoResDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionGoodsListResDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionGoodsSalesDTO;
 import org.apache.ibatis.annotations.Mapper;
