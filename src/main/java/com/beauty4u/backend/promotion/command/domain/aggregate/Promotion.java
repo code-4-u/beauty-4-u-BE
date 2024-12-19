@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -46,6 +47,12 @@ public class Promotion {
     @Column(name = "promotion_status", nullable = false)
     private String promotionStatus = "BEFORE";
 
-    @OneToMany(mappedBy = "promotion", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<PromotionGoods> promotionGoodsList;
+    @OneToMany(mappedBy = "promotion",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
+    private List<PromotionGoods> promotionGoodsList = new ArrayList<>();
+
+    public void modifyPromtionType(PromotionType promotionType) {
+        this.promotionType = promotionType;
+    }
 }

@@ -1,11 +1,9 @@
 package com.beauty4u.backend.goods.query.service;
 
-import com.beauty4u.backend.goods.query.dto.BrandQueryDTO;
-import com.beauty4u.backend.goods.query.dto.CategoryDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
-import com.beauty4u.backend.goods.query.dto.SubCategoryDTO;
+import com.beauty4u.backend.goods.query.dto.*;
 import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.elasticsearch.repository.GoodsSearchRepository;
+import com.beauty4u.backend.goods.query.mapper.CategoryQueryMapper;
 import com.beauty4u.backend.goods.query.mapper.GoodsQueryMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +19,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryService {
     private final SqlSession sqlSession;
     private final GoodsSearchRepository goodsSearchRepository;
     private final GoodsQueryMapper goodsQueryMapper;
+    private final CategoryQueryMapper categoryQueryMapper;
 
     // 전체 브랜드 조회
     public List<BrandQueryDTO> findAllBrand() {
@@ -79,5 +77,10 @@ public class GoodsQueryService {
         // 엘라스틱서치에 저장
         goodsSearchRepository.saveAll(documents);
 
+    }
+
+    public List<TopCategoryResDTO> findTopCategoryList() {
+
+        return categoryQueryMapper.findAllTopCategoryList();
     }
 }

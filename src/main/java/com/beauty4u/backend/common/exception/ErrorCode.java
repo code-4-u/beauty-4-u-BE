@@ -85,6 +85,7 @@ public enum ErrorCode {
     PROMOTION_GOODS_LIST_DELETE_FAIL(HttpStatus.CONFLICT, "프로모션 적용 상품 삭제 실패"),
     PROMOTION_GOODS_UPDATE_FAIL(HttpStatus.BAD_REQUEST, "프로모션 적용 상품 수정 실패"),
     PROMOTION_GOODS_LIST_NOT_FOUND(HttpStatus.NOT_FOUND, "프로모션 적용 상품 목록 조회 실패"),
+    NOT_FOUND_PROMOTION_GOODS(HttpStatus.NOT_FOUND, "프로모션 적용 상품 조회 실패"),
 
     // 특정 상품의 매출액
     GOODS_SALES_COMPARE_FIND_FAIL(HttpStatus.BAD_REQUEST, "제품의 전년 대비 같은 월 비교 실패"),

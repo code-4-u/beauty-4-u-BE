@@ -65,10 +65,13 @@ public class PromotionGoodsDomainService {
     public void updatePromotionGoodsDiscount(UpdatePromotionGoodsReqDTO updatePromotionGoodsReqDTO) {
 
         try {
-            PromotionGoods promotionGoods = promotionGoodsRepository.findById(updatePromotionGoodsReqDTO.getId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GOODS));
 
-            modelMapper.map(updatePromotionGoodsReqDTO, promotionGoods);
+            for (UpdatePromotionGoodsListReqDTO promotionGoods : updatePromotionGoodsReqDTO.getPromotionGoodsList()) {
+                PromotionGoods findPromotionGoods = promotionGoodsRepository.findById(promotionGoods.getPromotionGoodsId())
+                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PROMOTION_GOODS));
+
+                findPromotionGoods.modifyDiscountRate(promotionGoods.getDiscountRate());
+            }
         } catch (Exception e) {
             throw new CustomException(ErrorCode.PROMOTION_GOODS_UPDATE_FAIL);
         }
