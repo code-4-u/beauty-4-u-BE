@@ -4,12 +4,12 @@
     <select id="findGoodsRate" resultType="GoodsRateQueryDTO">
         WITH
         current_period_sales AS (
-        <!--        현재 기간 매출 합계 -->
         SELECT
         o.goods_code,
         g.goods_name,
         b.brand_name,
-        SUM(o.order_count * o.order_price) as current_sales
+        SUM(o.order_count * o.order_price) as current_sales,
+        COUNT(DISTINCT DATE(o.created_date)) as days_in_current
         FROM order_info o
         JOIN goods g ON o.goods_code = g.goods_code
         JOIN brand b ON g.brand_code = b.brand_code
@@ -26,22 +26,21 @@
         AND DATE(#{endDate})
         GROUP BY o.goods_code, g.goods_name, b.brand_name
         ),
-        <!--        이전 기간 매출 합계 -->
-        previous_period_sales AS
-        (
+        previous_period_sales AS (
         SELECT
         o.goods_code,
-        SUM(o.order_count * o.order_price) as previous_sales
+        SUM(o.order_count * o.order_price) as previous_sales,
+        COUNT(DISTINCT DATE(o.created_date)) as days_in_previous
         FROM order_info o
         WHERE o.order_status = 'PURCHASED'
         AND DATE(o.created_date) BETWEEN
         CASE #{periodType}
-        WHEN 'DAILY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 1 DAY)
-        WHEN 'WEEKLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 13 DAY)
-        WHEN 'MONTHLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 50 DAY)
-        WHEN 'QUARTER' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 179 DAY)
-        WHEN 'HALF' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 359 DAY)
-        WHEN 'YEARLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 729 DAY)
+        WHEN 'DAILY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 2 DAY)
+        WHEN 'WEEKLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 14 DAY)
+        WHEN 'MONTHLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 60 DAY)
+        WHEN 'QUARTER' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 180 DAY)
+        WHEN 'HALF' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 360 DAY)
+        WHEN 'YEARLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 730 DAY)
         END
         AND
         CASE #{periodType}
@@ -54,29 +53,42 @@
         END
         GROUP BY o.goods_code
         ),
-        rate_calc AS
-        (
+        avg_sales_calc AS (
         SELECT
         c.goods_code,
         c.goods_name,
         c.brand_name,
         c.current_sales,
         p.previous_sales,
-        ((c.current_sales - p.previous_sales) / p.previous_sales * 100) as rate_value,
-        CONCAT(
-        ROUND(((c.current_sales - p.previous_sales) / p.previous_sales * 100), 2),
-        '% (',
-        FORMAT(p.previous_sales, 0),
-        '원 → ',
-        FORMAT(c.current_sales, 0),
-        '원)'
-        ) as rate_change
+        c.days_in_current,
+        p.days_in_previous,
+        (c.current_sales / NULLIF(c.days_in_current, 0)) as avg_current_sales,
+        (p.previous_sales / NULLIF(p.days_in_previous, 0)) as avg_previous_sales
         FROM current_period_sales c
         INNER JOIN previous_period_sales p ON c.goods_code = p.goods_code
-        WHERE p.previous_sales >= 0
+        WHERE p.previous_sales > 0
+        AND c.days_in_current > 0
+        AND p.days_in_previous > 0
+        ),
+        rate_calc AS (
+        SELECT
+        goods_code,
+        goods_name,
+        brand_name,
+        current_sales,
+        previous_sales,
+        ((avg_current_sales - avg_previous_sales) / avg_previous_sales * 100) as rate_value,
+        CONCAT(
+        ROUND(((avg_current_sales - avg_previous_sales) / avg_previous_sales * 100), 2),
+        '% (',
+        FORMAT(previous_sales, 0),
+        '원 → ',
+        FORMAT(current_sales, 0),
+        '원)'
+        ) as rate_change
+        FROM avg_sales_calc
         )
         SELECT * FROM (
-        <!--        상승률 TOP 5-->
         (SELECT
         goods_name AS goodsName,
         brand_name AS brandName,
@@ -89,7 +101,6 @@
 
         UNION ALL
 
-        <!--         하락률 TOP 5-->
         (SELECT
         goods_name AS goodsName,
         brand_name AS brandName,
