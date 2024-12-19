@@ -11,6 +11,7 @@ import lombok.Getter;
 public class PromotionGoods {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "promotion_goods_id", nullable = false)
     private Long id;
 
