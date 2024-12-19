@@ -38,8 +38,9 @@ public enum SuccessCode {
     GOODS_FIND_LIST_SUBCATEGORYLIST_SUCCESS(HttpStatus.OK, "상위 카테고리 내 하위 카테고리 목록 조회 성공"),
     GOODS_FIND_LIST_TOPCATEGORY_GOODS_AND_SUBCATEGORY(HttpStatus.OK, "상위 카테고리 내 상품과 하위 카테고리 목록 조회 성공"),
     GOODS_FIND_LIST_SUBCATEGORYLIST_GOODS_SUCCESS(HttpStatus.OK, "하위 카테고리 내 상품 목록 조회 성공"),
-    GOODS_FIND_LIST_INCREASE_RATE_SUCCESS(HttpStatus.OK, "매출 상승된 상품 목록 조회 성공"),
 
+    // 매출
+    GOODS_FIND_LIST_RATE_SUCCESS(HttpStatus.OK, "매출률 상품 목록 조회 성공"),
 
     // 템플릿(template)
     TEMPLATE_FIND_LIST_SUCCESS(HttpStatus.OK, "템플릿 목록 조회 성공"),
