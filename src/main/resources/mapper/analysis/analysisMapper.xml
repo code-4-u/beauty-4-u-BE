@@ -88,8 +88,9 @@
                total_age,
                ROUND(ten / total_age, 3) * 100 AS 'ten_radio',
                ROUND(twenty / total_age, 3) * 100 AS 'twenty_radio',
-               ROUND(thirty / total_age, 3) * 100 AS 'forty_radio',
-               ROUND(forty / total_age, 3) * 100 AS 'fifty_radio',
+               ROUND(thirty / total_age, 3) * 100 AS 'thirty_radio',
+               ROUND(forty / total_age, 3) * 100 AS 'forty_radio',
+               ROUND(fifty / total_age, 3) * 100 AS 'fifty_radio',
                ROUND(sixtyup / total_age, 3) * 100 AS 'sixtyup_radio'
           FROM age_group_buy
     </select>
