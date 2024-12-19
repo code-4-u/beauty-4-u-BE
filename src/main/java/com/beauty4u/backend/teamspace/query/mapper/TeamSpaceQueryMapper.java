@@ -14,4 +14,7 @@ public interface TeamSpaceQueryMapper {
 
     // 팀스페이스 ID를 이용하여 부서 코드 조회
     String findTeamSpaceDeptCode(@Param("teamspaceId") String teamspaceId);
+
+    // 부서 코드를 이용하여 팀스페이스 ID 조회
+    Long findTeamSpaceId(@Param("dept_code") String deptCode);
 }
