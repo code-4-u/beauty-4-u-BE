@@ -153,6 +153,16 @@ public enum SuccessCode {
     FOLDER_LIST_FIND_SUCCESS(HttpStatus.OK, "폴더 목록 조회 성공"),
     FOLDER_DELETE_SUCCESS(HttpStatus.OK, "폴더 삭제 성공"),
 
+    // 채팅 메세지
+    CHAT_SEND_SUCCESS(HttpStatus.CREATED, "채팅 메세지 전송 성공"),
+    CHAT_FIND_SUCCESS(HttpStatus.OK, "채팅 메세지 조회 성공"),
+
+    // 팀스페이스
+    TEAMSPACE_SAVE_SUCCESS(HttpStatus.CREATED, "팀스페이스 생성 성공"),
+    TEAMSPACE_SAVE_ALL_SUCCESS(HttpStatus.CREATED, "부서별 팀스페이스 생성 성공"),
+    TEAMSPACE_FIND_DEPTCODE_SUCCESS(HttpStatus.CREATED, "부서별 팀스페이스 생성 성공"),
+    TEAMSPACE_CHAT_FIND_DETAIL_SUCCESS(HttpStatus.OK, "팀스페이스 채팅 상세조회 성공"),
+    
     // 팀 게시판 (teamspace)
     TEAMBOARD_SAVE_SUCCESS(HttpStatus.CREATED, "팀 게시판 글 등록 성공"),
     TEAMBOARD_UPDATE_SUCCESS(HttpStatus.OK, "팀 게시판 글 수정 성공"),

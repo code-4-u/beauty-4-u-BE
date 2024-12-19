@@ -8,4 +8,12 @@
             dept_name
         FROM dept
     </select>
+
+    <select id="findDeptName" resultType="DeptResDTO">
+        SELECT
+        dept_code,
+        dept_name
+        FROM dept
+        WHERE dept_code = #{dept_code}
+    </select>
 </mapper>

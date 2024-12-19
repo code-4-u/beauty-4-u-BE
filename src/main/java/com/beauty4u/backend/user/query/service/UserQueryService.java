@@ -49,6 +49,11 @@ public class UserQueryService {
     }
 
     @Transactional(readOnly = true)
+    public DeptResDTO findDeptName(String deptCode) {
+        return deptQueryMapper.findDeptName(deptCode);
+    }
+
+    @Transactional(readOnly = true)
     public List<JobResDTO> findJobList() {
 
         return jobQueryMapper.findJobList();
