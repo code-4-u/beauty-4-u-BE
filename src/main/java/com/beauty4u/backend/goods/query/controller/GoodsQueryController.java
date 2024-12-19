@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/goods")
 @Tag(name = "Goods", description = "상품 조회 API")
+@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;
