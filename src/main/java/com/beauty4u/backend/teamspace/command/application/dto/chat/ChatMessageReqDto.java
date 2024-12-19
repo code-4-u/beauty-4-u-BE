@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 public class ChatMessageReqDto {
 
     private String userCode; // senderId 변경
+    private String userName;
     private String messageContent;
     private ZonedDateTime messageCreatedTime;
 
