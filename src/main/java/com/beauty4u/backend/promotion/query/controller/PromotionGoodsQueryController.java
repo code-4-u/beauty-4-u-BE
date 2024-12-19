@@ -41,7 +41,7 @@ public class PromotionGoodsQueryController {
     }
 
     @Operation(summary = "특정 상품에 대한 프로모션별 정보 조회", description = "특정 상품이 포함된 프로모션에 대한 기본 정보를 조회한다.")
-    @GetMapping("/{goodsCode}")
+    @GetMapping("/stats/{goodsCode}")
     public ResponseEntity<ApiResponse<List<FindPromotionGoodsCommonInfoResDTO>>> findPromotionGoodsCommonInfoList(
             @PathVariable("goodsCode") String goodsCode,
             FindPromotionGoodsCommonInfoFilterDTO findPromotionGoodsCommonInfoFilterDTO

@@ -7,7 +7,14 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "promotion_goods")
+@Table(name = "promotion_goods",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_promotion_goods", // 제약조건 이름
+                        columnNames = {"promotion_id", "goods_code"} // 유니크해야 하는 컬럼들
+                )
+        }
+)
 public class PromotionGoods {
 
     @Id
@@ -28,4 +35,8 @@ public class PromotionGoods {
     @NotNull
     @Column(name = "discount_rate", nullable = false)
     private Integer discountRate;
+
+    public void modifyDiscountRate(Integer discountRate) {
+        this.discountRate = discountRate;
+    }
 }
