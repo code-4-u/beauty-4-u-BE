@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.goods_rate.query.mapper.GoodsRateQueryMapper">
+    <select id="findGoodsRateIncrease" resultType="GoodsRateQueryDTO">
+        WITH
+        goods_allsales AS (
+        SELECT
+        o.created_date AS oneday,
+        o.goods_code,
+        g.goods_name,
+        b.brand_name,
+        SUM(o.order_count * o.order_price) AS daily_sales
+        FROM order_info o
+        JOIN goods g ON (o.goods_code = g.goods_code)
+        JOIN brand b ON (g.brand_code = b.brand_code)
+        GROUP BY o.goods_code, o.created_date, g.goods_name
+        ),
+        rate_growth AS (
+        SELECT
+        a.goods_code,
+        a.oneday,
+        a.goods_name,
+        b.brand_name,
+        a.daily_sales AS current_sales,
+        b.daily_sales AS previous_sales,
+        CASE
+        WHEN b.daily_sales IS NOT NULL AND b.daily_sales != 0
+        THEN CONCAT(
+        ROUND(((a.daily_sales - b.daily_sales) / b.daily_sales) * 100,2),
+        '% (',
+        FORMAT(b.daily_sales, 0),
+        '원 → ',
+        FORMAT(a.daily_sales, 0),
+        '원)'
+        )
+        ELSE NULL
+        END AS increaseRate
+        FROM goods_allsales a
+        LEFT JOIN goods_allsales b ON a.goods_code = b.goods_code
+        AND b.oneday = DATE_SUB(a.oneday, INTERVAL 1 DAY)
+        )
+        SELECT
+        DATE_FORMAT(oneday, '%Y-%m-%d') AS orderDate,
+        goods_code AS goodsCode,
+        goods_name AS goodsName,
+        brand_name AS brandName,
+        increaseRate
+        FROM rate_growth
+        WHERE increaseRate > 0
+        <if test="startDate != null">
+            AND oneday >= #{startDate}
+        </if>
+        <if test="endDate != null">
+            CAST(SUBSTRING_INDEX(increaseRate, '%', 1) AS DECIMAL(10,2)) DESC
+        </if>
+        ORDER BY increaseRate DESC
+        LIMIT 5
+    </select>
+</mapper>
