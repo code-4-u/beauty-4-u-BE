@@ -100,7 +100,10 @@ public enum ErrorCode {
     INVALID_TEAMBOARD_REPLY_DELETE(HttpStatus.BAD_REQUEST, "잘못된 요청으로 인한 팀 게시판 댓글 삭제 실패"),
 
     // 특정 상품에 대한 프로모션
-    GOODS_PROMOTION_COMMON_INFO_LIST_FIND_FAIL(HttpStatus.NOT_FOUND, "특정 상품에 대한 프로모션별 정보 조회 실패");
+    GOODS_PROMOTION_COMMON_INFO_LIST_FIND_FAIL(HttpStatus.NOT_FOUND, "특정 상품에 대한 프로모션별 정보 조회 실패"),
+
+    // 상품 조회
+    NOT_FOUND_GOODS_LIST(HttpStatus.NOT_FOUND, "필터링 조건에 따른 상품 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
