@@ -30,4 +30,15 @@ public interface GoodsQueryMapper {
 
     // 선택 브랜드 내 상품 목록 조회
     List<GoodsQueryDTO> findAllBrandGoods(@Param("brandCode") String brandCode);
+
+    List<GoodsQueryDTO> findFilterGoodsList(
+            @Param("topCategoryCode") String topCategoryCode,
+            @Param("subCategoryCode") String subCategoryCode,
+            @Param("minPrice") Long minPrice,
+            @Param("maxPrice") Long maxPrice,
+            @Param("sort") String sort,
+            @Param("order") String order,
+            @Param("offset") Long offset,
+            @Param("count") Long count
+    );
 }
