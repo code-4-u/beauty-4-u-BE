@@ -9,6 +9,7 @@
             pg.promotion_id,
             pg.goods_code,
             g.goods_name,
+            g.goods_price,
             pg.discount_rate
         FROM promotion_goods pg
         LEFT JOIN goods g ON pg.goods_code = g.goods_code
