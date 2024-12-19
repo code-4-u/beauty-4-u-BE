@@ -81,6 +81,17 @@ public class GoodsQueryController {
         return ResponseUtil.successResponse(SuccessCode.TOP_CATEGORY_LIST_FIND_SUCCESS, topCategoryResDTOS);
     }
 
+    @Operation(summary = "필터링 조건에 따른 제품 조회", description = "필터링 조건에 따라서 제품 목록을 조회한다.")
+    @GetMapping()
+    public ResponseEntity<ApiResponse<List<GoodsQueryDTO>>> findFilterGoodsList(
+            GoodsFilterReqDTO goodsFilterReqDTO
+    ) {
+
+        List<GoodsQueryDTO> goodsQueryDTOS
+                = goodsQueryService.findFilterGoodsList(goodsFilterReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_SUCCESS, goodsQueryDTOS);
+    }
 
     @PostMapping("/index")
     @Operation(summary = "엘라스틱 서치 인덱스 생성", description = "DB 데이터를 엘라스틱 서치에 동기화한다.")
