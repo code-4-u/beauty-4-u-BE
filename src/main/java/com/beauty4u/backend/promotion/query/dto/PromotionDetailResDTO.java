@@ -17,6 +17,7 @@ public class PromotionDetailResDTO {
     private Long promotionTypeId;
     private String promotionTypeName;
     private String promotionTitle;
+    private String promotionContent;
     private LocalDateTime promotionStartDate;
     private LocalDateTime promotionEndDate;
     private String promotionStatus;
