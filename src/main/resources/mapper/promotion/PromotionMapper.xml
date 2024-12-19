@@ -20,22 +20,25 @@
 
     <select id="findPromotionList" resultType="PromotionDetailResDTO">
         SELECT
-        promotion_id as promotionId,
-        promotion_title as promotionTitle,
-        promotion_start_date as promotionStartDate,
-        promotion_end_date as promotionEndDate,
-        promotion_status as promotionStatus
-        FROM promotion
+        p.promotion_id as promotionId,
+        p.promotion_type_id as promotionTypeId,
+        pt.promotion_type_name as promotionTypeName,
+        p.promotion_title as promotionTitle,
+        p.promotion_start_date as promotionStartDate,
+        p.promotion_end_date as promotionEndDate,
+        p.promotion_status as promotionStatus
+        FROM promotion p
+        LEFT JOIN promotion_type pt ON p.promotion_type_id = pt.promotion_type_id
         WHERE 1 = 1
         <if test="promotionTitle != null and promotionTitle != ''">
             and promotion_title LIKE CONCAT('%', #{promotionTitle}, '%')
         </if>
 
-        <if test="startDate != null and promotionStartDate != ''">
+        <if test="startDate != null">
             and promotion_start_date <![CDATA[>=]]> #{startDate}
         </if>
 
-        <if test="endDate != null and promotionStartDate != ''">
+        <if test="endDate != null">
             and promotion_end_date <![CDATA[>=]]> #{endDate}
         </if>
 
