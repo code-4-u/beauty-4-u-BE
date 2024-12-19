@@ -7,7 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindPromotionByYearSalesResDTO {
-    private String promotionTitle;  /* 프로모션 이름 */
-    private Integer promoYear;      /* 프로모션 진행한 년도 */
+    private String promoYear;       /* 프로모션 진행 년도 */
     private Integer totalSales;     /* 총 매출 */
+    private Integer prevYearSales;  /* 이전 프로모션 총 매출 */
+    private Integer growthRate;     /* 매출 증감율 */
 }
