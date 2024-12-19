@@ -1,13 +1,9 @@
 package com.beauty4u.backend.promotion.query.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /* 프로모션 기간 상품 매출 랭킹 비교 DTO */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindPromotionByComparisonSalesResDTO {

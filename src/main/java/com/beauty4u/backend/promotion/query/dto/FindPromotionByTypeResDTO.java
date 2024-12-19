@@ -1,13 +1,9 @@
 package com.beauty4u.backend.promotion.query.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /* 프로모션 타입별 조회 ASC 조회 */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindPromotionByTypeResDTO {
