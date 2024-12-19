@@ -87,4 +87,58 @@
         WHERE sub_category_code = #{subCategoryCode}
         ORDER BY created_date
     </select>
+
+    <select id="findFilterGoodsList" resultType="GoodsQueryDTO">
+        SELECT
+            g.goods_code,
+            g.goods_name,
+            b.brand_name,
+            g.goods_skintype,
+            g.goods_price
+        FROM goods g
+        LEFT JOIN brand b ON g.brand_code = b.brand_code
+        LEFT JOIN sub_category sc ON g.sub_category_code = sc.sub_category_code
+        LEFT JOIN top_category tc ON sc.top_category_code = tc.top_category_code
+        WHERE 1 = 1
+        <if test="topCategoryCode != null and topCategoryCode != ''">
+            and sc.top_category_code = #{topCategoryCode}
+        </if>
+
+        <if test="subCategoryCode != null and subCategoryCode != ''">
+            and sc.sub_category_code = #{subCategoryCode}
+        </if>
+
+        <if test="minPrice != null">
+            and g.goods_price  <![CDATA[]]> #{minPrice}
+        </if>
+
+        <if test="maxPrice != null">
+            and g.goods_price <![CDATA[]]> #{maxPrice}
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY
+                <choose>
+                    <when test="sort == 'price'">
+                        g.goods_price
+                    </when>
+                    <otherwise>
+                        g.goods_name
+                    </otherwise>
+                </choose>
+
+            <if test="order != null and order != ''">
+                <choose>
+                    <when test="order == 'desc'">
+                        DESC
+                    </when>
+                    <otherwise>
+                        ASC
+                    </otherwise>
+                </choose>
+            </if>
+        </if>
+
+        LIMIT #{offset}, #{count}
+    </select>
 </mapper>
