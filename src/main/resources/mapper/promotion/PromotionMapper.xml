@@ -39,7 +39,7 @@
         </if>
 
         <if test="endDate != null">
-            and promotion_end_date <![CDATA[>=]]> #{endDate}
+            and promotion_start_date <![CDATA[<=]]> #{endDate}
         </if>
 
         <if test="promotionStatus != null and promotionStatus != ''">

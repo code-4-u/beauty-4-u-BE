@@ -32,6 +32,7 @@ public interface GoodsQueryMapper {
     List<GoodsQueryDTO> findAllBrandGoods(@Param("brandCode") String brandCode);
 
     List<GoodsQueryDTO> findFilterGoodsList(
+            @Param("searchWord") String searchWord,
             @Param("topCategoryCode") String topCategoryCode,
             @Param("subCategoryCode") String subCategoryCode,
             @Param("minPrice") Long minPrice,

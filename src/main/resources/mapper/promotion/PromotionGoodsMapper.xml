@@ -42,10 +42,16 @@
         FROM promotion p
         LEFT JOIN promotion_goods pg ON p.promotion_id = pg.promotion_id
         WHERE pg.goods_code = #{goodsCode}
-        AND YEAR(p.promotion_start_date) = #{year}
-        AND MONTH(p.promotion_start_date) = #{month}
+          <if test="year != null">
+              AND YEAR(p.promotion_start_date) = #{year}
+          </if>
+
+          <if test="month != null">
+              AND MONTH(p.promotion_start_date) = #{month}
+          </if>
+
         <if test="promotionTitle != null and promotionTitle != ''">
-            and promotionTitle LIKE CONCAT('%', TRIM(#{promotionTitle}), '%')
+            and p.promotion_title LIKE CONCAT('%', TRIM(#{promotionTitle}), '%')
         </if>
 
         <if test="sort != null and sort != ''">
@@ -91,6 +97,6 @@
         WHERE goods_code = #{goodsCode}
           AND order_status = 'PURCHASED'
           AND created_date <![CDATA[>=]]> #{oneYearAgo}
-          AND created_date <![CDATA[<=]]> #{promotionStartDate}
+          AND created_date <![CDATA[<]]> #{promotionStartDate}
     </select>
 </mapper>

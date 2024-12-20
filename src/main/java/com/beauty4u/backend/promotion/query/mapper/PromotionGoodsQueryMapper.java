@@ -32,11 +32,13 @@ public interface PromotionGoodsQueryMapper {
     );
 
     Long findPromotionGoodsSales(
+            @Param("goodsCode") String goodsCode,
             @Param("promotionStartDate") LocalDateTime promotionStartDate,
             @Param("promotionEndDate") LocalDateTime promotionEndDate
     );
 
     Long findPromotionGoodsAvgSales(
+            @Param("goodsCode") String goodsCode,
             @Param("oneYearAgo") LocalDateTime oneYearAgo,
             @Param("promotionStartDate") LocalDateTime promotionStartDate
     );
