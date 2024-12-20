@@ -4,6 +4,7 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.schedule.command.application.dto.CreateScheduleReqDTO;
 import com.beauty4u.backend.schedule.command.application.dto.ScheduleReqDTO;
 import com.beauty4u.backend.schedule.command.application.service.ScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,14 +22,14 @@ public class ScheduleCommandController {
 
     private final ScheduleService scheduleService;
 
-    @Operation(summary = "팀 일정 등록", description = "회원이 팀 일정을 등록한다.")
+    @Operation(summary = "일정 등록", description = "회원이 일정을 등록한다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<Long>> saveTeamSchedule(
-            @RequestBody @Valid ScheduleReqDTO scheduleReqDTO) {
+    public ResponseEntity<ApiResponse<Long>> saveSchedule(
+            @RequestBody @Valid CreateScheduleReqDTO createScheduleReqDTO) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
 
-        Long scheduleId = scheduleService.saveSchedule(loginUserCode, scheduleReqDTO);
+        Long scheduleId = scheduleService.saveSchedule(loginUserCode, createScheduleReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.SCHEDULE_SAVE_SUCCESS, scheduleId);
     }

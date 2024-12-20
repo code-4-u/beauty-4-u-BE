@@ -59,6 +59,12 @@ public class ScheduleInfo extends BaseEntity {
         this.scheduleUrl = url;
     }
 
+    public void createPromotionSchedule(UserInfo user, String url) {
+        this.userCode = user;
+        this.scheduleType = ScheduleType.PROMOTION;
+        this.scheduleUrl = url;
+    }
+
     public void modifySchedule(String title, String content, String url,
                                LocalDateTime start, LocalDateTime end) {
         this.scheduleTitle = title;
