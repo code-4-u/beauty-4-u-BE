@@ -1,5 +1,6 @@
 package com.beauty4u.backend.schedule.command.application.service;
 
+import com.beauty4u.backend.schedule.command.application.dto.CreateScheduleReqDTO;
 import com.beauty4u.backend.schedule.command.application.dto.ScheduleReqDTO;
 import com.beauty4u.backend.schedule.command.domain.service.ScheduleDomainService;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,9 @@ public class ScheduleService {
     private final ScheduleDomainService scheduleDomainService;
 
     @Transactional
-    public Long saveSchedule(String loginUserCode, ScheduleReqDTO scheduleReqDTO) {
+    public Long saveSchedule(String loginUserCode, CreateScheduleReqDTO createScheduleReqDTO) {
 
-        return scheduleDomainService.saveSchedule(loginUserCode, scheduleReqDTO);
+        return scheduleDomainService.saveSchedule(loginUserCode, createScheduleReqDTO);
     }
 
     @Transactional

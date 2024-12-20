@@ -2,6 +2,7 @@ package com.beauty4u.backend.schedule.command.domain.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
+import com.beauty4u.backend.schedule.command.application.dto.CreateScheduleReqDTO;
 import com.beauty4u.backend.schedule.command.application.dto.ScheduleReqDTO;
 import com.beauty4u.backend.schedule.command.domain.aggregate.ScheduleInfo;
 import com.beauty4u.backend.schedule.command.domain.repository.ScheduleRepository;
@@ -21,16 +22,21 @@ public class ScheduleDomainService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public Long saveSchedule(String loginUserCode, ScheduleReqDTO scheduleReqDTO) {
+    public Long saveSchedule(String loginUserCode, CreateScheduleReqDTO createScheduleReqDTO) {
 
-        String url = "/team/{deptCode}";
+        String type = createScheduleReqDTO.getScheduleType();
+        String url = createScheduleReqDTO.getScheduleUrl();
 
-        ScheduleInfo schedule = modelMapper.map(scheduleReqDTO, ScheduleInfo.class);
+        ScheduleInfo schedule = modelMapper.map(createScheduleReqDTO.getScheduleReqDTO(), ScheduleInfo.class);
 
         UserInfo user = userRepository.findByUserCode(loginUserCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        schedule.createTeamSchedule(user, url);
+        if (type.equals("TEAMSPACE")) {
+            schedule.createTeamSchedule(user, url);
+        } else {
+            schedule.createPromotionSchedule(user, url);
+        }
 
         ScheduleInfo savedSchedule = scheduleRepository.save(schedule);
 
