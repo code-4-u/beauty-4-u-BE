@@ -51,6 +51,6 @@ public class GoodsSalesQueryController {
         List<GoodsSalesMonthlyListResDTO> goodsSalesMonthlyListResDTO
                 = goodsSalesQueryService.findSalesGoodsMonthlyList(goodsCode, goodsSalesMonthlyListFilterDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.GOODS_SALES_MONTHLY_LIST_FIND_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.GOODS_SALES_MONTHLY_LIST_FIND_SUCCESS, goodsSalesMonthlyListResDTO);
     }
 }

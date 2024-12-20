@@ -96,6 +96,7 @@ public class GoodsQueryService {
 
         try {
             goodsQueryDTOS = goodsQueryMapper.findFilterGoodsList(
+                    goodsFilterReqDTO.getSearchWord(),
                     goodsFilterReqDTO.getTopCategoryCode(),
                     goodsFilterReqDTO.getSubCategoryCode(),
                     goodsFilterReqDTO.getMinPrice(),

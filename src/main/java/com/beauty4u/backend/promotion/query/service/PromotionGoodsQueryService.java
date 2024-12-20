@@ -76,16 +76,22 @@ public class PromotionGoodsQueryService {
                 LocalDateTime promotionEndDate = findPromotionGoodsSalesDTO.getPromotionEndDate();
 
                 Long sales = promotionGoodsQueryMapper.findPromotionGoodsSales(
+                        goodsCode,
                         promotionStartDate,
                         promotionEndDate
                 );
 
+                if (sales == null) sales = 0L;
+
                 LocalDateTime oneYearAgo = promotionStartDate.minusYears(1);
 
                 Long totalSales = promotionGoodsQueryMapper.findPromotionGoodsAvgSales(
+                        goodsCode,
                         oneYearAgo,
                         promotionStartDate
                 );
+
+                if (totalSales == null) totalSales = 0L;
 
                 long days = ChronoUnit.DAYS.between(promotionStartDate, promotionEndDate);
 
@@ -114,7 +120,7 @@ public class PromotionGoodsQueryService {
         if (avgSales == 0) {
             return 0; // 또는 예외 처리
         }
-
+        System.out.println("PromotionGoodsQueryService.calculateIncreaseRate");
         double increaseRate = (double) (sales - avgSales) / avgSales * 100;
         return Math.round(increaseRate * 10) / 10.0; // 소수점 첫째 자리까지 반올림
     }

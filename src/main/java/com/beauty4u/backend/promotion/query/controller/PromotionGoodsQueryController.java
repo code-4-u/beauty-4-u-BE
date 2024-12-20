@@ -50,6 +50,6 @@ public class PromotionGoodsQueryController {
         List<FindPromotionGoodsCommonInfoResDTO> findPromotionGoodsCommonInfoResDTOS
                 = promotionGoodsQueryService.findPromotionGoodsCommonInfoList(goodsCode, findPromotionGoodsCommonInfoFilterDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.GOODS_PROMOTION_COMMON_INFO_LIST_FIND_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.GOODS_PROMOTION_COMMON_INFO_LIST_FIND_SUCCESS, findPromotionGoodsCommonInfoResDTOS);
     }
 }

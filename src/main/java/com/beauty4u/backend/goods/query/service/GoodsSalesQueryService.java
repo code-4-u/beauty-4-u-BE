@@ -35,12 +35,20 @@ public class GoodsSalesQueryService {
 
             Integer lastYear = year - 1; // 작년
 
+            if (currentYearMontlySales == null) {
+                currentYearMontlySales = 0L;
+            }
+
             // 전 연도의 매출액 조회
             Long lastYearMonthlySales = goodsSalesQueryMapper.findGoodsMonthlySales(
                     goodsCode,
                     month,
                     lastYear
             );
+
+            if (lastYearMonthlySales == null) {
+                lastYearMonthlySales = 0L;
+            }
 
             // 증감율 계산
             double percent = calculateIncreaseRate(currentYearMontlySales, lastYearMonthlySales);
@@ -63,6 +71,8 @@ public class GoodsSalesQueryService {
         if (lastSales == 0) {
             return 0; // 또는 예외 처리
         }
+
+
 
         double increaseRate = (double) (currentSales - lastSales) / lastSales * 100;
         return Math.round(increaseRate * 10) / 10.0; // 소수점 첫째 자리까지 반올림
