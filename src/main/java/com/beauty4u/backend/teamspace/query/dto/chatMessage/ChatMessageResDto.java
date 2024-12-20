@@ -1,20 +1,17 @@
 package com.beauty4u.backend.teamspace.query.dto.chatMessage;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ChatMessageResDto {
-    private Long messageId;
+    private String messageId;
     private Long teamspaceId;
-//    private String userCode; // 메세지 발신자
-    private String senderName;
-    private String scarpId;
+    private String userCode;
+    private String userName; // 메세지 발신자
     private String messageStatus;
     private String messageContent;
     private String messageCreatedTime;

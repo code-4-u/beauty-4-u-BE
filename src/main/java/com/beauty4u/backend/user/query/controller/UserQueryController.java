@@ -62,6 +62,15 @@ public class UserQueryController {
         return ResponseUtil.successResponse(SuccessCode.DEPT_READ_SUCCESS, deptResDTOS);
     }
 
+    @Operation(summary = "부서 이름 조회")
+    @GetMapping("/dept")
+    public ResponseEntity<ApiResponse<DeptResDTO>> findDeptName(@RequestParam String deptCode) {
+
+        DeptResDTO deptResDTO = userQueryService.findDeptName(deptCode);
+
+        return ResponseUtil.successResponse(SuccessCode.DEPT_READ_SUCCESS, deptResDTO);
+    }
+
     @Operation(summary = "직급 목록 조회")
     @GetMapping("/job/list")
     public ResponseEntity<ApiResponse<List<JobResDTO>>> findJobList() {

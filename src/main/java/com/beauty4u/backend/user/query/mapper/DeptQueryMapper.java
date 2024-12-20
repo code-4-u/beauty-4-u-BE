@@ -9,4 +9,6 @@ import java.util.List;
 public interface DeptQueryMapper {
 
     List<DeptResDTO> findDeptList();
+
+    DeptResDTO findDeptName(String deptCode);
 }
