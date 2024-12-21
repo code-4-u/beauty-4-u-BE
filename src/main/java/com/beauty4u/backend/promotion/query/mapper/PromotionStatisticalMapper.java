@@ -1,14 +1,18 @@
 package com.beauty4u.backend.promotion.query.mapper;
 
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByComparisonSalesResDTO;
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByTypeResDTO;
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByYearSalesResDTO;
+import com.beauty4u.backend.promotion.query.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface PromotionStatisticalMapper {
+
+    /* 프로모션 종류 조회 */
+    List<FindPromotionTypeResDTO> findPromotionType();
+
+    /* 프로모션 검색 */
+    List<FindPromotionResDTO> findPromotion(FindPromotionReqDTO findPromotionReqDTO);
 
     /* 프로모션 타입별 조회 ASC 조회 */
     List<FindPromotionByTypeResDTO> findTypeByPromotion();

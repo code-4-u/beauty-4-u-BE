@@ -3,6 +3,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionStatisticalMapper">
 
+    <!-- 프로모션 종류 조회 -->
+    <select id="findPromotionType" resultType="FindPromotionTypeResDTO">
+        SELECT
+               promotion_type_id,
+               promotion_type_name
+          FROM promotion_type;
+    </select>
+
+    <!-- 프로모션 검색 기능 -->
+    <select id="findPromotion" resultType="FindPromotionResDTO">
+        SELECT
+               promotion_id,
+               promotion_type_id,
+               promotion_title,
+               promotion_content,
+               promotion_start_date,
+               promotion_end_date,
+               promotion_status
+          FROM promotion
+         WHERE 1=1
+         <if test="searchKeyword != null and searchKeyword != ''">
+           AND promotion_title LIKE CONCAT('%', trim(#{searchKeyword}), '%')
+         </if>
+         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+           AND promotion_start_date BETWEEN #{startDate} AND #{endDate}
+         </if>
+         <if test="promotionTypeId != null and promotionTypeId != ''">
+           AND promotion_type_id = #{promotionTypeId}
+         </if>
+         <if test="promotionStatus != null and promotionStatus != ''">
+           AND promotion_Status = #{promotionStatus}
+         </if>
+    </select>
+
     <!-- 프로모션 타입별 조회 ASC 조회 -->
     <select id="findTypeByPromotion" resultType="FindPromotionByTypeResDTO">
         SELECT promotion_id,
