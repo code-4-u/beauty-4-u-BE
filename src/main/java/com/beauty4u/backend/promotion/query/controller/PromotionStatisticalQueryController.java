@@ -3,18 +3,13 @@ package com.beauty4u.backend.promotion.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByComparisonSalesResDTO;
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByTypeResDTO;
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByYearSalesResDTO;
+import com.beauty4u.backend.promotion.query.dto.*;
 import com.beauty4u.backend.promotion.query.service.PromotionStatisticalQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +21,25 @@ import java.util.List;
 public class PromotionStatisticalQueryController {
 
     private final PromotionStatisticalQueryService promotionStatisticalQueryService;
+
+    @Operation(summary = "프로모션 종류 조회")
+    @GetMapping("/type")
+    public ResponseEntity<ApiResponse<List<FindPromotionTypeResDTO>>> findPromotionType() {
+
+        List<FindPromotionTypeResDTO> result = promotionStatisticalQueryService.findPromotionType();
+
+        return ResponseUtil.successResponse(SuccessCode.PROMO_STAT_FIND_TYPE, result);
+    }
+
+    @Operation(summary = "프로모션 검색 기능")
+    @GetMapping("/search-promotion")
+    public ResponseEntity<ApiResponse<List<FindPromotionResDTO>>> findPromotion(
+            @ModelAttribute FindPromotionReqDTO findpromotionReqDTO) {
+
+        List<FindPromotionResDTO> result = promotionStatisticalQueryService.findPromotion(findpromotionReqDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMO_STAT_SEARCH_SUCCESS, result);
+    }
 
     @Operation(summary = "프로모션 타입별 조회 ASC 조회")
     @GetMapping("/type-by-promotion")
