@@ -105,6 +105,8 @@ public enum SuccessCode {
     ANAL_FIND_GRADE_SALES_BY_BRAND_PRODUCT_SUCCESS(HttpStatus.OK, "등급별 브랜드별 제품 매출 데이터 조회 성공"),
 
     /* 프로모션 통계 (promotion statistical) */
+    PROMO_STAT_FIND_TYPE(HttpStatus.OK, "프로모션 종류 조회"),
+    PROMO_STAT_SEARCH_SUCCESS(HttpStatus.OK, "프로모션 검색 성공"),
     PROMO_STAT_FIND_TYPE_BY_PROMOTION(HttpStatus.OK, "프로모션 타입별 조회 성공"),
     PROMO_STAT_FIND_BY_YEAR_SALES(HttpStatus.OK, "프로모션 종류에 따른 년도별 그래프 조회 "),
     PROMO_STAT_FIND_BY_COM_SALES(HttpStatus.OK, "프로모션 기간 상품 매출 랭킹 비교"),
