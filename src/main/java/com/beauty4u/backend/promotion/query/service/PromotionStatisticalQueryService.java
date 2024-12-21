@@ -1,8 +1,6 @@
 package com.beauty4u.backend.promotion.query.service;
 
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByComparisonSalesResDTO;
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByTypeResDTO;
-import com.beauty4u.backend.promotion.query.dto.FindPromotionByYearSalesResDTO;
+import com.beauty4u.backend.promotion.query.dto.*;
 import com.beauty4u.backend.promotion.query.mapper.PromotionStatisticalMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,18 @@ import java.util.List;
 public class PromotionStatisticalQueryService {
 
     private final PromotionStatisticalMapper promotionStatisticalMapper;
+
+    /* 프로모션 종류 조회 */
+    @Transactional
+    public List<FindPromotionTypeResDTO> findPromotionType() {
+        return promotionStatisticalMapper.findPromotionType();
+    }
+
+    /* 프로모션 검색 기능 */
+    @Transactional
+    public List<FindPromotionResDTO> findPromotion(FindPromotionReqDTO findPromotionReqDTO){
+        return promotionStatisticalMapper.findPromotion(findPromotionReqDTO);
+    }
 
     /* 프로모션 타입별 조회 ASC 조회 */
     @Transactional
