@@ -1,5 +1,6 @@
 package com.beauty4u.backend.user.query.service;
 
+import com.beauty4u.backend.user.query.dto.UserListDTO;
 import com.beauty4u.backend.user.query.dto.UserListResDTO;
 import com.beauty4u.backend.user.query.mapper.UserQueryMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,20 +27,20 @@ class UserQueryServiceTest {
     @InjectMocks
     private UserQueryService userQueryService;
 
-    private UserListResDTO user1;
-    private UserListResDTO user2;
+    private UserListDTO user1;
+    private UserListDTO user2;
 
     @BeforeEach
     void setUp() {
 
-        user1 = new UserListResDTO();
+        user1 = new UserListDTO();
         user1.setUserCode("USER_001");
         user1.setUserRoleName("ADMIN");
         user1.setDeptName("마케팅팀");
         user1.setCreatedDate(LocalDateTime.of(2024, 1, 1, 9, 0));
         user1.setUserExpiredDate(LocalDateTime.of(2025, 12, 31, 23, 59));
 
-        user2 = new UserListResDTO();
+        user2 = new UserListDTO();
         user2.setUserCode("USER_002");
         user2.setUserRoleName("USER");
         user2.setDeptName("영업팀");
@@ -55,27 +56,28 @@ class UserQueryServiceTest {
         Long page = 1L;
         Long count = 10L;
         long offset = (page - 1) * count;
+        String search = "";
 
-        List<UserListResDTO> expectedUsers = Arrays.asList(user1, user2);
+        List<UserListDTO> expectedUsers = Arrays.asList(user1, user2);
 
-        when(userQueryMapper.findUserList(offset, count))
+        when(userQueryMapper.findUserList(offset, count, search))
                 .thenReturn(expectedUsers);
 
         // when
-        List<UserListResDTO> actualUsers = userQueryService.findUserList(page, count);
+        UserListResDTO actualUsers = userQueryService.findUserList(page, count, search);
 
         // then
-        assertThat(actualUsers).isNotNull();
-        assertThat(actualUsers).hasSize(2);
-        assertThat(actualUsers).isEqualTo(expectedUsers);
+        assertThat(actualUsers.getContent()).isNotNull();
+        assertThat(actualUsers.getContent()).hasSize(2);
+        assertThat(actualUsers.getContent()).isEqualTo(expectedUsers);
 
-        UserListResDTO firstUser = actualUsers.get(0);
+        UserListDTO firstUser = actualUsers.getContent().get(0);
         assertThat(firstUser.getUserCode()).isEqualTo("USER_001");
         assertThat(firstUser.getUserRoleName()).isEqualTo("ADMIN");
         assertThat(firstUser.getDeptName()).isEqualTo("마케팅팀");
         assertThat(firstUser.getCreatedDate()).isEqualTo(LocalDateTime.of(2024, 1, 1, 9, 0));
 
-        UserListResDTO secondUser = actualUsers.get(1);
+        UserListDTO secondUser = actualUsers.getContent().get(1);
         assertThat(secondUser.getUserCode()).isEqualTo("USER_002");
         assertThat(secondUser.getUserRoleName()).isEqualTo("USER");
         assertThat(secondUser.getDeptName()).isEqualTo("영업팀");
@@ -90,16 +92,17 @@ class UserQueryServiceTest {
         Long page = 1L;
         Long count = 10L;
         long offset = (page - 1) * count;
+        String search = "";
 
-        when(userQueryMapper.findUserList(offset, count))
+        when(userQueryMapper.findUserList(offset, count, search))
                 .thenReturn(List.of());
 
         // when
-        List<UserListResDTO> actualUsers = userQueryService.findUserList(page, count);
+        UserListResDTO actualUsers = userQueryService.findUserList(page, count, search);
 
         // then
         assertThat(actualUsers).isNotNull();
-        assertThat(actualUsers).isEmpty();
+        assertThat(actualUsers.getContent()).isEmpty();
     }
 
     @Test
@@ -110,27 +113,28 @@ class UserQueryServiceTest {
         Long page = 2L;
         Long count = 2L;
         long offset = (page - 1) * count;
+        String search = "";
 
-        UserListResDTO user3 = new UserListResDTO();
+        UserListDTO user3 = new UserListDTO();
         user3.setUserCode("USER_003");
         user3.setUserRoleName("USER");
         user3.setDeptName("개발팀");
         user3.setCreatedDate(LocalDateTime.of(2024, 3, 1, 9, 0));
         user3.setUserExpiredDate(LocalDateTime.of(2025, 12, 31, 23, 59));
 
-        List<UserListResDTO> expectedUsers = List.of(user3);
+        List<UserListDTO> expectedUsers = List.of(user3);
 
-        when(userQueryMapper.findUserList(offset, count))
+        when(userQueryMapper.findUserList(offset, count, search))
                 .thenReturn(expectedUsers);
 
         // when
-        List<UserListResDTO> actualUsers = userQueryService.findUserList(page, count);
+        UserListResDTO actualUsers = userQueryService.findUserList(page, count, search);
 
         // then
-        assertThat(actualUsers).isNotNull();
-        assertThat(actualUsers).hasSize(1);
+        assertThat(actualUsers.getContent()).isNotNull();
+        assertThat(actualUsers.getContent()).hasSize(1);
 
-        UserListResDTO actualUser = actualUsers.get(0);
+        UserListDTO actualUser = actualUsers.getContent().get(0);
         assertThat(actualUser.getUserCode()).isEqualTo("USER_003");
         assertThat(actualUser.getDeptName()).isEqualTo("개발팀");
     }
@@ -143,16 +147,17 @@ class UserQueryServiceTest {
         Long page = 100L;
         Long count = 10L;
         long offset = (page - 1) * count;
+        String search = "";
 
-        when(userQueryMapper.findUserList(offset, count))
+        when(userQueryMapper.findUserList(offset, count, search))
                 .thenReturn(List.of());
 
         // when
-        List<UserListResDTO> actualUsers = userQueryService.findUserList(page, count);
+        UserListResDTO actualUsers = userQueryService.findUserList(page, count, search);
 
         // then
-        assertThat(actualUsers).isNotNull();
-        assertThat(actualUsers).isEmpty();
+        assertThat(actualUsers.getContent()).isNotNull();
+        assertThat(actualUsers.getContent()).isEmpty();
     }
 
     @Test
@@ -163,17 +168,18 @@ class UserQueryServiceTest {
         Long page = 1L;
         Long count = 100L;
         long offset = (page - 1) * count;
+        String search = "";
 
-        List<UserListResDTO> expectedUsers = Arrays.asList(user1, user2);
+        List<UserListDTO> expectedUsers = Arrays.asList(user1, user2);
 
-        when(userQueryMapper.findUserList(offset, count))
+        when(userQueryMapper.findUserList(offset, count, search))
                 .thenReturn(expectedUsers);
 
         // when
-        List<UserListResDTO> actualUsers = userQueryService.findUserList(page, count);
+        UserListResDTO actualUsers = userQueryService.findUserList(page, count, search);
 
         // then
-        assertThat(actualUsers).isNotNull();
-        assertThat(actualUsers).hasSize(2);
+        assertThat(actualUsers.getContent()).isNotNull();
+        assertThat(actualUsers.getContent()).hasSize(2);
     }
 }
