@@ -20,9 +20,9 @@ public class InquiryService {
     }
 
     @Transactional
-    public void updateQna(Long inquiryId, QnaReqDTO qnaReqDTO) {
+    public void updateQna(String loginUserCode, Long inquiryId, QnaReqDTO qnaReqDTO) {
 
-        inquiryDomainService.updateQna(inquiryId, qnaReqDTO);
+        inquiryDomainService.updateQna(loginUserCode, inquiryId, qnaReqDTO);
     }
 
     @Transactional
