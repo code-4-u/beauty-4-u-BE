@@ -64,4 +64,10 @@ public class UserQueryService {
 
         return roleQueryMapper.findRoleList();
     }
+
+    @Transactional(readOnly = true)
+    public List<String> findDeptUserList(String deptCode) {
+
+        return userQueryMapper.findDeptUserList(deptCode);
+    }
 }
