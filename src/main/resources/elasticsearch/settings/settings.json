@@ -1,23 +1,39 @@
 {
+  "number_of_shards": 1,
+  "number_of_replicas": 0,
   "analysis": {
-    "tokenizer": {
-      "nori_none": {
-        "type": "nori_tokenizer",
-        "decompound_mode": "none"
-      },
-      "nori_discard": {
-        "type": "nori_tokenizer",
-        "decompound_mode": "discard"
-      },
-      "nori_mixed": {
-        "type": "nori_tokenizer",
-        "decompound_mode": "mixed"
-      }
-    },
     "analyzer": {
       "korean": {
-        "type": "nori",
-        "stopwords": "_korean_"
+        "type": "custom",
+        "tokenizer": "nori_tokenizer",
+        "filter": [
+          "lowercase",
+          "my_ngram",
+          "nori_readingform"
+        ]
+      },
+      "prefix_analyzer": {
+        "type": "custom",
+        "tokenizer": "prefix_analyzer",
+        "filter": ["lowercase"]
+      }
+    },
+    "tokenizer": {
+      "prefix_analyzer": {
+        "type": "edge_ngram",
+        "min_gram": 1,
+        "max_gram": 10,
+        "token_chars": [
+          "letter",
+          "digit"
+        ]
+      }
+    },
+    "filter": {
+      "my_ngram": {
+        "type": "ngram",
+        "min_gram": 1,
+        "max_gram": 1
       }
     }
   }
