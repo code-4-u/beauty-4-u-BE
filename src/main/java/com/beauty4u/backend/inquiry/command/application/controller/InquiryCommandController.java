@@ -40,7 +40,9 @@ public class InquiryCommandController {
             @PathVariable Long inquiryId,
             @RequestBody @Valid QnaReqDTO qnaReqDTO) {
 
-        inquiryService.updateQna(inquiryId, qnaReqDTO);
+        String loginUserCode = CustomUserUtil.getCurrentUserCode();
+
+        inquiryService.updateQna(loginUserCode, inquiryId, qnaReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_UPDATE_SUCCESS);
     }

@@ -11,6 +11,7 @@ import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import com.beauty4u.backend.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,7 +40,7 @@ public class InquiryDomainService {
         return inquiry.getId();
     }
 
-    public void updateQna(Long inquiryId, QnaReqDTO qnaReqDTO) {
+    public void updateQna(String loginUserCode, Long inquiryId, QnaReqDTO qnaReqDTO) {
 
         String title = qnaReqDTO.getInquiryTitle();
         String content = qnaReqDTO.getInquiryContent();
@@ -47,6 +48,11 @@ public class InquiryDomainService {
 
         Inquiry inquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY));
+
+        if (inquiry.getUserCode().equals(loginUserCode)) {
+
+            throw new CustomException(ErrorCode.NOT_SAME_USER);
+        }
 
         inquiry.modifyInquiry(title, content, secretYn);
     }
