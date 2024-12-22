@@ -15,7 +15,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 @Mapping(mappingPath = "/elasticsearch/mappings/mappings.json")
 public class GoodsDocument extends BaseSearchDocument {
 
-    @Field(name = "goods_name", type = FieldType.Text)
+    @Field(name = "goods_name", type = FieldType.Text, analyzer = "korean")
     private String goodsName;
 
     public static GoodsDocument from(GoodsQueryDTO goodsQueryDTO) {
