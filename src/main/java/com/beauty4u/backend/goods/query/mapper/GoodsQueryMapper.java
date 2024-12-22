@@ -16,6 +16,13 @@ public interface GoodsQueryMapper {
     // 조건별 상품 목록 조회
     List<GoodsQueryDTO> findGoods(
             @Param("brandCode") String brandCode,
+            @Param("goodsName") String goodsName,
+            @Param("offset") Long offset,
+            @Param("count") Long count
+    );
+
+    Long findGoodsTotalCount(
+            @Param("brandCode") String brandCode,
             @Param("goodsName") String goodsName
     );
 
