@@ -24,8 +24,8 @@ public class NotiQueryController {
 
     private final NotiQueryService notiQueryService;
 
-    @Operation(summary = "알림 조회", description = "알림을 조회한다.")
-    @GetMapping()
+    @Operation(summary = "헤더 알림 조회", description = "헤더 알림을 조회한다.")
+    @GetMapping
     public ResponseEntity<ApiResponse<List<NotiListResDTO>>> findNotiList() {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
