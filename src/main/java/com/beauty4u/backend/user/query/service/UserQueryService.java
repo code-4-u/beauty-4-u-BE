@@ -23,11 +23,30 @@ public class UserQueryService {
     private final RoleQueryMapper roleQueryMapper;
 
     @Transactional(readOnly = true)
-    public List<UserListResDTO> findUserList(Long page, Long count) {
+    public UserListResDTO findUserList(Long page, Long count, String search) {
 
         long offset = (page - 1) * count;
 
-        return userQueryMapper.findUserList(offset, count);
+        System.out.println("offset = " + offset);
+
+        UserListResDTO userListResDTO = null;
+
+        try {
+            // 회원 목록 찾기
+            List<UserListDTO> userListDTO = userQueryMapper.findUserList(offset, count, search);
+
+            userListResDTO = new UserListResDTO();
+            userListResDTO.setContent(userListDTO);
+
+            // 전체 회원 수 구하기
+            Long totalUserCount = userQueryMapper.findUserListCount(search);
+            userListResDTO.setTotalElements(totalUserCount);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.NOT_FOUND_USER_LIST);
+        }
+
+
+        return userListResDTO;
     }
 
     @Transactional(readOnly = true)

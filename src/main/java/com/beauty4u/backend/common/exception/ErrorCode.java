@@ -14,6 +14,7 @@ public enum ErrorCode {
     LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "로그인 실패"),
     LOGOUT_FAIL(HttpStatus.UNAUTHORIZED, "로그아웃 실패"),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "현재 비밀번호가 일치하지 않습니다."),
+    NOT_FOUND_USER_LIST(HttpStatus.BAD_REQUEST, "회원 목록 조회를 실패했습니다."),
 
     EMAIL_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 전송 실패"),
 
