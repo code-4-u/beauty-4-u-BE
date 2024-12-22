@@ -3,6 +3,8 @@
 <mapper namespace="com.beauty4u.backend.goods_rate.query.mapper.GoodsRateQueryMapper">
     <select id="findGoodsRate" resultType="GoodsRateQueryDTO">
         WITH
+<!--        지정된 기간의 판매된 상품들의 총 매출: current_sales
+, 해당 기간동안 판매된 일수 계산: days_in_current -->
         current_period_sales AS (
         SELECT
         o.goods_code,
@@ -26,6 +28,7 @@
         AND DATE(#{endDate})
         GROUP BY o.goods_code, g.goods_name, b.brand_name
         ),
+<!--        이전 기간(현재가 주간이라면 지난 주) 동안의 판매량 및 판매된 일수 계산 -->
         previous_period_sales AS (
         SELECT
         o.goods_code,
@@ -35,12 +38,12 @@
         WHERE o.order_status = 'PURCHASED'
         AND DATE(o.created_date) BETWEEN
         CASE #{periodType}
-        WHEN 'DAILY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 2 DAY)
-        WHEN 'WEEKLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 14 DAY)
-        WHEN 'MONTHLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 60 DAY)
-        WHEN 'QUARTER' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 180 DAY)
-        WHEN 'HALF' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 360 DAY)
-        WHEN 'YEARLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 730 DAY)
+        WHEN 'DAILY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 1 DAY)
+        WHEN 'WEEKLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 13 DAY)
+        WHEN 'MONTHLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 59 DAY)
+        WHEN 'QUARTER' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 179 DAY)
+        WHEN 'HALF' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 359 DAY)
+        WHEN 'YEARLY' THEN DATE_SUB(DATE(#{endDate}), INTERVAL 729 DAY)
         END
         AND
         CASE #{periodType}
@@ -53,6 +56,7 @@
         END
         GROUP BY o.goods_code
         ),
+<!--        현재 및 이전 기간의 일평균 판매량을 계산, 이를 비교 -->
         avg_sales_calc AS (
         SELECT
         c.goods_code,
@@ -70,6 +74,7 @@
         AND c.days_in_current > 0
         AND p.days_in_previous > 0
         ),
+<!--        현재와 이전 기간의 일평균 매출을 비교하여 증가율 또는 감소율 계산 -->
         rate_calc AS (
         SELECT
         goods_code,
