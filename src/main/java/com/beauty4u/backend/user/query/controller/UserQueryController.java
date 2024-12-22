@@ -24,11 +24,13 @@ public class UserQueryController {
 
     @Operation(summary = "회원 목록 조회")
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<List<UserListResDTO>>> findUserList(
+    public ResponseEntity<ApiResponse<UserListResDTO>> findUserList(
             @RequestParam(defaultValue = "1") Long page,
-            @RequestParam(defaultValue = "10") Long count) {
+            @RequestParam(defaultValue = "10") Long count,
+            @RequestParam(defaultValue = "") String search
+    ) {
 
-        List<UserListResDTO> userListResDTOS = userQueryService.findUserList(page, count);
+        UserListResDTO userListResDTOS = userQueryService.findUserList(page, count, search);
 
         return ResponseUtil.successResponse(SuccessCode.USER_FIND_LIST_SUCCESS, userListResDTOS);
     }
