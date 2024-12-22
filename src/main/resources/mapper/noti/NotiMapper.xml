@@ -13,5 +13,7 @@
             created_date
         FROM noti
         WHERE noti_receiver = #{userCode}
+        AND noti_read_yn = 'N'
+        ORDER BY created_date DESC
     </select>
 </mapper>

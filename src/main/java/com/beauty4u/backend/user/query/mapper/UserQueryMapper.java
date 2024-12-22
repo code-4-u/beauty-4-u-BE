@@ -18,5 +18,8 @@ public interface UserQueryMapper {
 
     FindUserDetailResDTO findUserDetail(@Param("userCode") String userCode);
 
+    List<String> findDeptUserList(
+            @Param("deptCode") String deptCode);
+
     Long findUserListCount(@Param("search") String search);
 }

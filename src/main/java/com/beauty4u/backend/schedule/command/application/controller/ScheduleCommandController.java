@@ -28,8 +28,9 @@ public class ScheduleCommandController {
             @RequestBody @Valid CreateScheduleReqDTO createScheduleReqDTO) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
+        String loginDeptCode = CustomUserUtil.getCurrentDeptCode();
 
-        Long scheduleId = scheduleService.saveSchedule(loginUserCode, createScheduleReqDTO);
+        Long scheduleId = scheduleService.saveSchedule(loginUserCode, loginDeptCode, createScheduleReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.SCHEDULE_SAVE_SUCCESS, scheduleId);
     }

@@ -41,4 +41,12 @@
         JOIN user_role r USING (user_role_id)
         WHERE u.user_code = #{userCode}
     </select>
+
+    <select id="findDeptUserList" resultType="String">
+        SELECT
+            u.user_code
+        FROM user_info u
+        JOIN dept d USING (dept_code)
+        WHERE d.dept_code = #{deptCode}
+    </select>
 </mapper>

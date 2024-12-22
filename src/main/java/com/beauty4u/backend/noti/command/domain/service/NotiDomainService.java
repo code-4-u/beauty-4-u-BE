@@ -3,7 +3,6 @@ package com.beauty4u.backend.noti.command.domain.service;
 import com.beauty4u.backend.common.aggregate.YnType;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
-import com.beauty4u.backend.inquiry.command.domain.repository.InquiryRepository;
 import com.beauty4u.backend.noti.command.domain.aggregate.Noti;
 import com.beauty4u.backend.noti.command.domain.aggregate.NotiType;
 import com.beauty4u.backend.noti.command.domain.repository.NotiRepository;
@@ -11,6 +10,7 @@ import com.beauty4u.backend.noti.command.domain.repository.SseRepository;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import com.beauty4u.backend.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -20,12 +20,12 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NotiDomainService {
 
     private final SseRepository sseRepository;
     private final NotiRepository notiRepository;
     private final UserRepository userRepository;
-    private final InquiryRepository inquiryRepository;
 
     /* 연결 지속시간 : 한 시간 */
     private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
@@ -39,7 +39,12 @@ public class NotiDomainService {
         emitter.onTimeout(() -> sseRepository.deleteById(emitterId));
 
         // 연결 성공 시 더미 이벤트 전송
-        sendToClient(emitter, emitterId, "EventStream Created. [userCode=" + loginUserCode + "]");
+        sendToClient(emitter, emitterId,
+                Map.of(
+                        "type", "connection",
+                        "message", "EventStream Created. [userCode=" + loginUserCode + "]"
+                )
+        );
 
         if (!lastEventId.isEmpty()) {
             Map<String, Object> events = sseRepository.findAllEventCacheStartWithByUserCode(loginUserCode);
@@ -52,7 +57,7 @@ public class NotiDomainService {
     }
 
     /* 알림 등록 및 SSE 알림 전송 */
-    public void send(String senderCode, List<String> receiverCodes, NotiType notiType, String url) {
+    public void send(String senderCode, List<String> receiverCodes, NotiType notiType, String message, String url) {
 
         UserInfo sender = userRepository.findByUserCode(senderCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -68,7 +73,7 @@ public class NotiDomainService {
                 .map(receiver -> Noti.builder()
                         .notiReceiver(receiver)
                         .notiType(notiType)
-                        .notiContent(notiType.getMessage())
+                        .notiContent(message)
                         .notiUrl(url)
                         .notiReadYn(YnType.N)
                         .notiSender(sender)
@@ -98,7 +103,8 @@ public class NotiDomainService {
                     .data(data));
         } catch (IOException e) {
             sseRepository.deleteById(emitterId);
-            throw new CustomException(ErrorCode.NOT_REQUEST_NOTI);
+//            throw new CustomException(ErrorCode.NOT_REQUEST_NOTI);
+            log.error("알림 전송 실패: {}", e.getMessage());
         }
     }
 
