@@ -8,6 +8,7 @@ import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.service.GoodsQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +41,13 @@ public class GoodsQueryController {
 
     @GetMapping("/search")
     @Operation(summary = "전체 상품 목록 조회", description = "조건에 따른 상품을 검색한다. 파라미터가 없으면 전체 상품을 조회한다.")
-    public ResponseEntity<ApiResponse<List<GoodsQueryDTO>>> findGoods(
+    public ResponseEntity<ApiResponse<GoodsListResDTO>> findGoods(
             @RequestParam(required = false) String brandCode,
-            @RequestParam(required = false) String goodsName
+            @RequestParam(required = false) String goodsName,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "8") @Min(1) Long count
     ) {
-        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_SUCCESS, goodsQueryService.findGoods(brandCode, goodsName));
+        return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_SUCCESS, goodsQueryService.findGoods(brandCode, goodsName, page, count));
     }
 
     @GetMapping("category/top")

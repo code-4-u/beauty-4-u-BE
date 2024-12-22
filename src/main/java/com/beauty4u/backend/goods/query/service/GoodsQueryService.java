@@ -39,8 +39,23 @@ public class GoodsQueryService {
     }
 
     // 조건별 상품 조회
-    public List<GoodsQueryDTO> findGoods(String brandCode, String goodsName) {
-        return goodsQueryMapper.findGoods(brandCode, goodsName);
+    public GoodsListResDTO findGoods(String brandCode, String goodsName, int page, Long count) {
+        Long offset = (long) page * count;
+
+        List<GoodsQueryDTO> goodsList = goodsQueryMapper.findGoods(
+                brandCode,
+                goodsName,
+                offset,
+                count
+        );
+
+        Long totalCount = goodsQueryMapper.findGoodsTotalCount(brandCode, goodsName);
+
+        GoodsListResDTO goodsListResDTO = new GoodsListResDTO();
+        goodsListResDTO.setTotalCount(totalCount);
+        goodsListResDTO.setGoodsList(goodsList);
+
+        return goodsListResDTO;
     }
 
     // 상위 카테고리 내에 있는 하위 카테고리 조회
@@ -72,7 +87,7 @@ public class GoodsQueryService {
     @Transactional
     public void indexGoods() {
         // DB에서 모든 상품 데이터 조회
-        List<GoodsQueryDTO> goods = sqlSession.getMapper(GoodsQueryMapper.class).findGoods(null, null);
+        List<GoodsQueryDTO> goods = goodsQueryMapper.findGoods(null, null, null, null);
         // GoodsDocument 로 변환
         List<GoodsDocument> documents = goods.stream()
                 .map(GoodsDocument::from)
