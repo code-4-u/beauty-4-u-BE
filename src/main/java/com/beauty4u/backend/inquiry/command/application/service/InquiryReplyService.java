@@ -19,14 +19,14 @@ public class InquiryReplyService {
     }
 
     @Transactional
-    public void updateQnaReply(Long inquiryId, QnaReplyReqDTO qnaReplyReqDTO) {
+    public void updateQnaReply(Long inquiryReplyId, QnaReplyReqDTO qnaReplyReqDTO) {
 
-        inquiryReplyDomainService.updateQnaReply(inquiryId, qnaReplyReqDTO);
+        inquiryReplyDomainService.updateQnaReply(inquiryReplyId, qnaReplyReqDTO);
     }
 
     @Transactional
-    public void deleteQnaReply(Long inquiryId) {
+    public void deleteQnaReply(Long inquiryReplyId) {
 
-        inquiryReplyDomainService.deleteQnaReply(inquiryId);
+        inquiryReplyDomainService.deleteQnaReply(inquiryReplyId);
     }
 }
