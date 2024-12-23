@@ -5,14 +5,16 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionListReqDTO;
 import com.beauty4u.backend.promotion.query.dto.PromotionDetailResDTO;
+import com.beauty4u.backend.promotion.query.dto.PromotionListResDTO;
 import com.beauty4u.backend.promotion.query.service.PromotionQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,13 +38,13 @@ public class PromotionQueryController {
 
     @Operation(summary = "프로모션 목록 조회", description = "프로모션 목록을 조회한다.")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PromotionDetailResDTO>>> findPromotionList(
+    public ResponseEntity<ApiResponse<PromotionListResDTO>> findPromotionList(
             FindPromotionListReqDTO findPromotionListReqDTO
     ) {
 
-        List<PromotionDetailResDTO> promotionDetailResDTOS
+        PromotionListResDTO promotionList
                 = promotionQueryService.findPromotionList(findPromotionListReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.PROMOTION_FIND_LIST_SUCCESS, promotionDetailResDTOS);
+        return ResponseUtil.successResponse(SuccessCode.PROMOTION_FIND_LIST_SUCCESS, promotionList);
     }
 }
