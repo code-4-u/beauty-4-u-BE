@@ -54,10 +54,10 @@ public class PromotionStatisticalQueryController {
     @Operation(summary = "프로모션 종류에 따른 년도별 그래프 조회")
     @GetMapping("/by-year-sales")
     public ResponseEntity<ApiResponse<List<FindPromotionByYearSalesResDTO>>> findPromotionByYearSales(
-            @RequestParam List<Integer> promoId) {
+            @RequestParam List<Integer> promotionIds) {
 
         List<FindPromotionByYearSalesResDTO> result =
-                promotionStatisticalQueryService.findPromotionByYearSales(promoId);
+                promotionStatisticalQueryService.findPromotionByYearSales(promotionIds);
 
         return ResponseUtil.successResponse(SuccessCode.PROMO_STAT_FIND_BY_YEAR_SALES, result);
     }
