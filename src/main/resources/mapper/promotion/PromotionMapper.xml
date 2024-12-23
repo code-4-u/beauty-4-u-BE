@@ -94,4 +94,74 @@
         </if>
         LIMIT #{offset}, #{count}
     </select>
+
+    <select id="findPromotionListCount" resultType="Long">
+        SELECT
+            COUNT(*)
+        FROM promotion p
+        LEFT JOIN promotion_type pt ON p.promotion_type_id = pt.promotion_type_id
+        WHERE 1 = 1
+        <if test="promotionTitle != null and promotionTitle != ''">
+            and promotion_title LIKE CONCAT('%', #{promotionTitle}, '%')
+        </if>
+
+        <if test="startDate != null">
+            and promotion_start_date <![CDATA[>=]]> #{startDate}
+        </if>
+
+        <if test="endDate != null">
+            and promotion_start_date <![CDATA[<=]]> #{endDate}
+        </if>
+
+        <if test="promotionStatus != null and promotionStatus != ''">
+            and
+            <choose>
+                <when test="promotionStatus == 'BEFORE'">
+                    promotion_status = 'BEFORE'
+                </when>
+
+                <when test="promotionStatus == 'ONGOING'">
+                    promotion_status = 'ONGOING'
+                </when>
+
+                <when test="promotionStatus == 'ENDED'">
+                    promotion_status = 'ENDED'
+                </when>
+
+                <otherwise>
+                    promotion_status IN ('BEFORE', 'ONGOING', 'ENDED')
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY
+            <choose>
+                <when test="sort == 'startDate'">
+                    promotion_start_date
+                </when>
+
+                <when test="sort == 'endDate'">
+                    promotion_end_date
+                </when>
+                <otherwise>
+                    promotion_title
+                </otherwise>
+            </choose>
+
+            <if test="order != null and order != ''">
+                <choose>
+                    <when test="order == 'asc'">
+                        ASC
+                    </when>
+                    <when test="order == 'desc'">
+                        DESC
+                    </when>
+                    <otherwise>
+                        ASC
+                    </otherwise>
+                </choose>
+            </if>
+        </if>
+    </select>
 </mapper>
