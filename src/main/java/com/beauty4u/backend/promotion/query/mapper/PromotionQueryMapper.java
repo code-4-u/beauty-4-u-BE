@@ -24,8 +24,8 @@ public interface PromotionQueryMapper {
 
     Long findPromotionListCount(
             @Param("promotionTitle") String promotionTitle,
-            @Param("startDateTime") LocalDateTime startDateTime,
-            @Param("endDateTime") LocalDateTime endDateTime,
+            @Param("startDate") LocalDateTime startDateTime,
+            @Param("endDate") LocalDateTime endDateTime,
             @Param("promotionStatus") String promotionStatus,
             @Param("sort") String sort,
             @Param("order") String order

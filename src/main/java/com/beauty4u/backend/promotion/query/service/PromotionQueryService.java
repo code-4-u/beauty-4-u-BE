@@ -64,7 +64,8 @@ public class PromotionQueryService {
 
             promotionListResDTO.setPromotionList(promotionList);
 
-            Long totalCount = promotionMapper.findPromotionListCount(findPromotionListReqDTO.getPromotionTitle(),
+            Long totalCount = promotionMapper.findPromotionListCount(
+                    findPromotionListReqDTO.getPromotionTitle(),
                     startDateTime,
                     endDateTime,
                     findPromotionListReqDTO.getPromotionStatus(),
