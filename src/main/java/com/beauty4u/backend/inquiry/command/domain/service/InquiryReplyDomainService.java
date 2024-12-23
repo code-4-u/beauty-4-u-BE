@@ -43,24 +43,29 @@ public class InquiryReplyDomainService {
         }
     }
 
-    public void updateQnaReply(Long inquiryId, QnaReplyReqDTO qnaReplyReqDTO) {
+    public void updateQnaReply(Long inquiryReplyId, QnaReplyReqDTO qnaReplyReqDTO) {
 
         String content = qnaReplyReqDTO.getInquiryReplyContent();
 
-        InquiryReply inquiryReply = inquiryReplyRepository.findByInquiryId(inquiryId)
+        InquiryReply inquiryReply = inquiryReplyRepository.findById(inquiryReplyId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
 
         inquiryReply.modifyContent(content);
     }
 
-    public void deleteQnaReply(Long inquiryId) {
+    public void deleteQnaReply(Long inquiryReplyId) {
 
-        InquiryReply inquiryReply = inquiryReplyRepository.findByInquiryId(inquiryId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
+        try {
+            InquiryReply inquiryReply = inquiryReplyRepository.findById(inquiryReplyId)
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_INQUIRY_REPLY));
 
-        inquiryReplyRepository.delete(inquiryReply);
+            Inquiry inquiry = inquiryReply.getInquiry();
 
-        Inquiry inquiry = inquiryReply.getInquiry();
-        inquiry.modifyReply(false);
+            inquiry.modifyReply(false);
+
+            inquiryReplyRepository.deleteById(inquiryReplyId);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.NOT_DELETE_INQUIRY_REPLY);
+        }
     }
 }

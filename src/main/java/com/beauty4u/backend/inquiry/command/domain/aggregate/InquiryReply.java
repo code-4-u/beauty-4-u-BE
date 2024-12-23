@@ -10,7 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 @Getter
 @Entity
 @Table(name = "inquiry_reply")
-@SQLDelete(sql = "UPDATE inquiry_reply SET deleted_date = NOW() WHERE inquiry_reply_id = ?")
+@SQLDelete(sql = "UPDATE inquiry_reply SET deleted_date = NOW(), publish_status = 'DELETED' WHERE inquiry_reply_id = ?")
 public class InquiryReply extends BaseEntity {
 
     @Id

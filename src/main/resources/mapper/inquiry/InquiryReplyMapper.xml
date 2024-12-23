@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.inquiry.query.mapper.InquiryReplyQueryMapper">
+
+    <select id="findInquiryReplyDetail" resultType="InquiryReplyResDTO">
+        SELECT
+            ir.inquiry_reply_id,
+            u.user_name,
+            ir.inquiry_reply_content,
+            ir.publish_status,
+            ir.created_date
+        FROM inquiry_reply ir
+        LEFT JOIN user_info u ON ir.user_code = u.user_code
+        WHERE ir.inquiry_id = #{inquiryId}
+        AND ir.publish_status = 'PUBLISHED'
+    </select>
+</mapper>

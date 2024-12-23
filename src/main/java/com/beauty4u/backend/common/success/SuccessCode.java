@@ -74,6 +74,7 @@ public enum SuccessCode {
     INQUIRY_FIND_LIST_SUCCESS(HttpStatus.OK, "QnA 목록 조회 성공"),
     INQUIRY_FIND_DETAIL_SUCCESS(HttpStatus.OK, "QnA 상세 조회 성공"),
     INQUIRY_UPDATE_VIEWCOUNT_SUCCESS(HttpStatus.OK, "조회수 수정 성공"),
+    INQUIRY_REPLY_FIND_SUCCESS(HttpStatus.OK, "문의 답글 조회 성공"),
 
     // FAQ
     FAQ_SAVE_SUCCESS(HttpStatus.CREATED, "FAQ 등록 성공"),

@@ -35,22 +35,22 @@ public class InquiryReplyCommandController {
     }
 
     @Operation(summary = "QnA 답변(A) 수정", description = "회원(관리자)이 답변을 수정한다.")
-    @PutMapping("/{inquiryId}/reply")
+    @PutMapping("/{inquiryReplyId}/reply")
     public ResponseEntity<ApiResponse<Void>> updateQnaReply(
-            @PathVariable Long inquiryId,
+            @PathVariable Long inquiryReplyId,
             @RequestBody @Valid QnaReplyReqDTO qnaReplyReqDTO) {
 
-        inquiryReplyService.updateQnaReply(inquiryId, qnaReplyReqDTO);
+        inquiryReplyService.updateQnaReply(inquiryReplyId, qnaReplyReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_REPLY_UPDATE_SUCCESS);
     }
 
     @Operation(summary = "QnA 답변(A) 삭제", description = "회원(관리자)이 답변을 삭제한다.")
-    @DeleteMapping("/{inquiryId}/reply")
+    @DeleteMapping("/{inquiryReplyId}/reply")
     public ResponseEntity<ApiResponse<Void>> deleteQnaReply(
-            @PathVariable Long inquiryId) {
+            @PathVariable Long inquiryReplyId) {
 
-        inquiryReplyService.deleteQnaReply(inquiryId);
+        inquiryReplyService.deleteQnaReply(inquiryReplyId);
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_REPLY_DELETE_SUCCESS);
     }
