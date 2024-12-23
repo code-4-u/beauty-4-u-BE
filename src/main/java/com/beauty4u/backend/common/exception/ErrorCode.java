@@ -64,6 +64,7 @@ public enum ErrorCode {
     PROMOTION_NOT_SAVE(HttpStatus.CONFLICT, "프로모션 등록 실패"),
     PROMOTION_NOT_DELETE(HttpStatus.NOT_FOUND, "프로모션 삭제 실패"),
     PROMOTION_NOT_UPDATE(HttpStatus.CONFLICT, "프로모션 수정 실패"),
+    NOT_FOUND_PROMOTION_LIST(HttpStatus.NOT_FOUND, "프로모션 목록 조회 실패"),
 
     // 프로모션 종류
     NOT_FOUND_PROMOTIONTYPE(HttpStatus.NOT_FOUND, "프로모션 조회 실패"),
