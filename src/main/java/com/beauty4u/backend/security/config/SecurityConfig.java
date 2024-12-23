@@ -13,6 +13,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -40,7 +41,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors
                         .configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz ->
                         authz.requestMatchers(
                                         "/",
@@ -60,6 +61,12 @@ public class SecurityConfig {
                                         "/ws"
                                 ).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/user/**", "GET")).hasRole("관리자")
+                                // ADMIN 권한이 필요한 URL
+                                .requestMatchers(
+                                        new AntPathRequestMatcher("/api/v1/inform", "POST"),
+                                        new AntPathRequestMatcher("/api/v1/inform/{informId}", "PUT"),
+                                        new AntPathRequestMatcher("/api/v1/inform/{informId}", "DELETE")
+                                ).hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(
