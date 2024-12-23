@@ -3,6 +3,7 @@ package com.beauty4u.backend.inquiry.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
+import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.inquiry.query.dto.InquiryDetailResDTO;
 import com.beauty4u.backend.inquiry.query.dto.InquiryFilterReqDTO;
 import com.beauty4u.backend.inquiry.query.dto.InquiryListResDTO;
@@ -29,7 +30,9 @@ public class InquiryQueryController {
     public ResponseEntity<ApiResponse<InquiryListResDTO>> findInquiryList(
             InquiryFilterReqDTO inquiryFilterReqDTO) {
 
-        InquiryListResDTO inquiryListResDTOS = inquiryQueryService.findInquiryList(inquiryFilterReqDTO);
+        String loginUserCode = CustomUserUtil.getCurrentUserCode();
+
+        InquiryListResDTO inquiryListResDTOS = inquiryQueryService.findInquiryList(loginUserCode, inquiryFilterReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.INQUIRY_FIND_LIST_SUCCESS, inquiryListResDTOS);
     }

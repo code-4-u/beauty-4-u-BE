@@ -39,6 +39,7 @@ public enum ErrorCode {
     NOT_SAVED_FAQ(HttpStatus.CONFLICT, "FAQ 등록 실패"),
     NOT_FOUND_FAQ(HttpStatus.NOT_FOUND, "FAQ 조회 실패"),
     NOT_SAME_USER(HttpStatus.BAD_REQUEST, "수정자와 등록자가 다름"),
+    NOT_FOUND_INQUIRY_LIST(HttpStatus.BAD_REQUEST, "QnA 질문 목록 조회 실패"),
 
     // 알림 (noti)
     NOT_SAVED_NOTI(HttpStatus.CONFLICT, "알림 등록 실패"),

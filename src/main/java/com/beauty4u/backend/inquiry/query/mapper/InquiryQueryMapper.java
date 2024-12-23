@@ -11,8 +11,10 @@ import java.util.List;
 public interface InquiryQueryMapper {
 
     List<InquiryListDTO> findInquiryList(
+            @Param("userCode") String userCode,
             @Param("inquiryTitle") String inquiryTitle,
             @Param("publishStatus") String publishStatus,
+            @Param("userRoleName") String userRoleName,
             @Param("sort") String sort,
             @Param("order") String order,
             @Param("offset") Long offset,
@@ -21,6 +23,7 @@ public interface InquiryQueryMapper {
     Long findInquiryListTotalCount(
             @Param("inquiryTitle") String inquiryTitle,
             @Param("publishStatus") String publishStatus,
+            @Param("userRoleName") String userRoleName,
             @Param("sort") String sort,
             @Param("order") String order);
 
