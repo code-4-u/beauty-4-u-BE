@@ -72,4 +72,25 @@ public class PromotionStatisticalQueryController {
 
         return ResponseUtil.successResponse(SuccessCode.PROMO_STAT_FIND_BY_COM_SALES, result);
     }
+
+    @Operation(summary = "프로모션 기간 적용 상품 리스트 조회")
+    @GetMapping("/by-goods-sales")
+    public ResponseEntity<ApiResponse<List<FindPromotionByGoodsSalesResDTO>>> findPromotionByGoodsSales(
+            @RequestParam Integer promotionId) {
+
+        List<FindPromotionByGoodsSalesResDTO> result = promotionStatisticalQueryService.findPromotionByGoodsSales(promotionId);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMO_STAT_FIND_BY_GOODS_SALES_SUCCESS, result);
+    }
+
+    @Operation(summary = "프로모션 별 제품 리스트 비교 조회")
+    @GetMapping("/by-comparison-promotion")
+    public ResponseEntity<ApiResponse<List<FindPromotionByComparisonResDTO>>> findPromotionComparison(
+            @RequestParam Integer promotionId1, @RequestParam Integer promotionId2) {
+
+        List<FindPromotionByComparisonResDTO> result = promotionStatisticalQueryService.findPromotionComparison(promotionId1, promotionId2);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMO_STAT_FIND_BY_GOODS_SALES_SUCCESS, result);
+    }
+
 }
