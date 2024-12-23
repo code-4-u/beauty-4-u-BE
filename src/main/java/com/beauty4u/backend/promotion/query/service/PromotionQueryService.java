@@ -4,6 +4,7 @@ import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionListReqDTO;
 import com.beauty4u.backend.promotion.query.dto.PromotionDetailResDTO;
+import com.beauty4u.backend.promotion.query.dto.PromotionListResDTO;
 import com.beauty4u.backend.promotion.query.mapper.PromotionQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,17 +33,14 @@ public class PromotionQueryService {
     }
 
     @Transactional(readOnly = true)
-    public List<PromotionDetailResDTO> findPromotionList(FindPromotionListReqDTO findPromotionListReqDTO) {
+    public PromotionListResDTO findPromotionList(FindPromotionListReqDTO findPromotionListReqDTO) {
 
         Long offset = (findPromotionListReqDTO.getPage() - 1) * findPromotionListReqDTO.getCount();
-
-        System.out.println("offset:" + offset);
-        System.out.println("count: " + findPromotionListReqDTO.getCount());
 
         LocalDateTime startDateTime = null;
         LocalDateTime endDateTime = null; // 종료일의 23:59:59
 
-        System.out.println(findPromotionListReqDTO);
+        PromotionListResDTO promotionListResDTO = new PromotionListResDTO();
 
         if (findPromotionListReqDTO.getPromotionStartDate() != null) {
             startDateTime = findPromotionListReqDTO.getPromotionStartDate().atStartOfDay();
@@ -52,19 +50,35 @@ public class PromotionQueryService {
             endDateTime = findPromotionListReqDTO.getPromotionEndDate().atTime(23, 59, 59);
         }
 
-        List<PromotionDetailResDTO> promotionList = promotionMapper.findPromotionList(
-                findPromotionListReqDTO.getPromotionTitle(),
-                startDateTime,
-                endDateTime,
-                findPromotionListReqDTO.getPromotionStatus(),
-                findPromotionListReqDTO.getSort(),
-                findPromotionListReqDTO.getOrder(),
-                offset,
-                findPromotionListReqDTO.getCount()
-        );
+        try {
+            List<PromotionDetailResDTO> promotionList = promotionMapper.findPromotionList(
+                    findPromotionListReqDTO.getPromotionTitle(),
+                    startDateTime,
+                    endDateTime,
+                    findPromotionListReqDTO.getPromotionStatus(),
+                    findPromotionListReqDTO.getSort(),
+                    findPromotionListReqDTO.getOrder(),
+                    offset,
+                    findPromotionListReqDTO.getCount()
+            );
 
-        System.out.println(promotionList.size());
+            promotionListResDTO.setPromotionList(promotionList);
 
-        return promotionList;
+            Long totalCount = promotionMapper.findPromotionListCount(findPromotionListReqDTO.getPromotionTitle(),
+                    startDateTime,
+                    endDateTime,
+                    findPromotionListReqDTO.getPromotionStatus(),
+                    findPromotionListReqDTO.getSort(),
+                    findPromotionListReqDTO.getOrder()
+            );
+
+            promotionListResDTO.setTotalCount(totalCount);
+
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.NOT_FOUND_PROMOTION_LIST);
+        }
+
+
+        return promotionListResDTO;
     }
 }
