@@ -95,6 +95,7 @@
         )
         SELECT * FROM (
         (SELECT
+        goods_code AS goodsCode,
         goods_name AS goodsName,
         brand_name AS brandName,
         rate_change AS rateChange,
@@ -107,6 +108,7 @@
         UNION ALL
 
         (SELECT
+        goods_code AS goodsCode,
         goods_name AS goodsName,
         brand_name AS brandName,
         rate_change AS rateChange,
