@@ -21,4 +21,13 @@ public interface PromotionQueryMapper {
             @Param("order") String order,
             @Param("offset") Long offset,
             @Param("count") Long count);
+
+    Long findPromotionListCount(
+            @Param("promotionTitle") String promotionTitle,
+            @Param("startDateTime") LocalDateTime startDateTime,
+            @Param("endDateTime") LocalDateTime endDateTime,
+            @Param("promotionStatus") String promotionStatus,
+            @Param("sort") String sort,
+            @Param("order") String order
+    );
 }
