@@ -96,6 +96,9 @@ public enum ErrorCode {
     GOODS_SALES_COMPARE_FIND_FAIL(HttpStatus.BAD_REQUEST, "제품의 전년 대비 같은 월 비교 실패"),
     GOODS_SALES_MONTHLY_LIST_FIND_FAIL(HttpStatus.BAD_REQUEST, "제품의 해당 연도 모든 매출액 조회 실패"),
 
+    // 채팅 메세지
+    NOT_FOUND_MESSAGE(HttpStatus.NOT_FOUND, "메세지 조회 실패"),
+
     // 팀 게시판 (teamspace)
     NOT_SAVED_TEAMBOARD(HttpStatus.CONFLICT, "팀 게시판 글 등록 실패"),
     NOT_FOUND_TEAMBOARD(HttpStatus.NOT_FOUND, "팀 게시판 글 조회 실패"),
