@@ -31,17 +31,6 @@ public class ChatRoomQueryService {
         return chatRoomQueryMapper.findAllChatRoomUser(deptCode);
     }
 
-    // 팀스페이스 id로 부서 코드 조회
-    @Transactional(readOnly = true)
-    public String getDeptCodeByTeamspaceId(String teamspaceId) {
-        return chatRoomQueryMapper.findTeamSpaceDeptCode(teamspaceId);
-    }
-
-    // 부서 코드로 팀스페이스 id 조회
-    @Transactional(readOnly = true)
-    public Long getMyTeamSpaceIdByDeptCode(String deptCode) {
-        return chatRoomQueryMapper.findTeamSpaceId(deptCode);
-    }
 
     // 팀스페이스 세부 정보 조회
     @Transactional(readOnly = true)
