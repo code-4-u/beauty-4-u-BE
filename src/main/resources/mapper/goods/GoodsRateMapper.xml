@@ -102,8 +102,7 @@
         'INCREASE' AS rateType
         FROM rate_calc
         WHERE rate_value > 0
-        ORDER BY rate_value DESC
-        LIMIT 5)
+        ORDER BY rate_value DESC)
 
         UNION ALL
 
@@ -115,8 +114,7 @@
         'DECREASE' AS rateType
         FROM rate_calc
         WHERE rate_value &lt; 0
-        ORDER BY rate_value ASC
-        LIMIT 5)
+        ORDER BY rate_value ASC)
         ) result
     </select>
 </mapper>
