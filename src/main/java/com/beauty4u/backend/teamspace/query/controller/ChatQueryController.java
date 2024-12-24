@@ -19,11 +19,11 @@ public class ChatQueryController {
 
     private final ChatQueryService chatQueryService;
 
-    @GetMapping("/teamspace/{teamspaceId}")
-    @Operation(summary = "채팅 내역 조회", description = "팀스페이스 채팅 내역을 조회한다.")
-    public ResponseEntity<List<ChatMessageResDto>> getChatHistory(@PathVariable Long teamspaceId) {
+    @GetMapping("/chat/{chatRoomId}")
+    @Operation(summary = "채팅 내역 조회", description = "채팅방 채팅 내역을 조회한다.")
+    public ResponseEntity<List<ChatMessageResDto>> getChatHistory(@PathVariable Long chatRoomId) {
 
-        List<ChatMessageResDto> chatMessages = chatQueryService.getChatHistory(teamspaceId);
+        List<ChatMessageResDto> chatMessages = chatQueryService.getChatHistory(chatRoomId);
         return new ResponseEntity<>(chatMessages, HttpStatus.OK);
     }
 }

@@ -1,4 +1,4 @@
-package com.beauty4u.backend.teamspace.command.application.dto.teamspace;
+package com.beauty4u.backend.teamspace.command.application.dto.chatroom;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateTeamspaceReqDto {
+public class CreateChatRoomReqDto {
 
     // 채팅방에 참여하고 있는 회원의 정보 (채팅방 id로 참여자 정보 조회)
     private String userCode; // 회원 id

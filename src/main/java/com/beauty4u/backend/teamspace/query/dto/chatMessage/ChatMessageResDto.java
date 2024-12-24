@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class ChatMessageResDto {
     private String messageId;
-    private Long teamspaceId;
+    private Long chatRoomId;
     private String userCode;
     private String userName; // 메세지 발신자
     private String messageStatus;

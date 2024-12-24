@@ -1,4 +1,4 @@
-package com.beauty4u.backend.teamspace.query.dto.teamspace;
+package com.beauty4u.backend.teamspace.query.dto.chatroom;
 
 import com.beauty4u.backend.teamspace.query.dto.chatMessage.ChatMessageResDto;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeamSpaceDetailsDto {
+public class ChatRoomDetailsDto {
     private String deptName;
-    private List<TeamSpaceUserInfoDto> participants;
+    private List<ChatRoomUserInfoDto> participants;
     private List<ChatMessageResDto> messages;
 }

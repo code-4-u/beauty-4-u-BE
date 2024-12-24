@@ -11,8 +11,11 @@ import com.beauty4u.backend.inquiry.command.application.dto.InquiryDTO;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
 import com.beauty4u.backend.inquiry.command.domain.service.InquiryDomainService;
 import com.beauty4u.backend.teamspace.command.application.dto.TeamBoardDTO;
+import com.beauty4u.backend.teamspace.command.application.dto.chat.ChatMessageReqDto;
+import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.TeamBoard;
 import com.beauty4u.backend.teamspace.command.domain.service.TeamBoardDomainService;
+import com.beauty4u.backend.teamspace.command.domain.service.ChatRoomDomainService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,7 @@ public class FileDomainService {
     private final InformDomainService informDomainService;
     private final InquiryDomainService inquiryDomainService;
     private final TeamBoardDomainService teamBoardDomainService;
+    private final ChatRoomDomainService chatRoomDomainService;
     private final S3ImageUtil s3ImageUtil;
     private final ModelMapper modelMapper;
 
@@ -57,6 +61,18 @@ public class FileDomainService {
             for (String image : images) {
                 FileDTO fileDTO = new FileDTO();
                 fileDTO.setInquiry(inquiry);
+                fileDTO.setFileUrl(image);
+                fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
+            }
+        } else if(entityType.equals("message")){
+
+            ChatMessageReqDto chatMessageReqDto = chatRoomDomainService.findMessage(entityId);
+
+            ChatMessage chatMessage = modelMapper.map(chatMessageReqDto, ChatMessage.class);
+
+            for (String image : images) {
+                FileDTO fileDTO = new FileDTO();
+                fileDTO.setMessage(chatMessage);
                 fileDTO.setFileUrl(image);
                 fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
             }
