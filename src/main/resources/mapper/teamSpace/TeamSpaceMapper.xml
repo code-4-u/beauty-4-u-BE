@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.beauty4u.backend.teamspace.query.mapper.TeamSpaceQueryMapper">
+<mapper namespace="com.beauty4u.backend.chatRoom.query.mapper.TeamSpaceQueryMapper">
 
     <select id="findAllTeamSpaceUser" resultType="TeamSpaceUserInfoDto">
         SELECT
@@ -20,13 +20,13 @@
 
     <select id="findTeamSpaceDeptCode" parameterType="String" resultType="String">
         SELECT dept_code
-        FROM teamspace
-        WHERE teamspace_id = #{teamspaceId}
+        FROM chatRoom
+        WHERE teamspace_id = #{chatRoomId}
     </select>
 
     <select id="findTeamSpaceId" parameterType="String" resultType="Long">
         SELECT teamspace_id
-        FROM teamspace
+        FROM chatRoom
         WHERE dept_code = #{dept_code}
     </select>
 

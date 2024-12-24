@@ -19,8 +19,8 @@ public class LastRead {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "teamspace_id", nullable = false)
-    private Teamspace teamspace;
+    @JoinColumn(name = "chat_room_id", nullable = false)
+    private ChatRoom chatRoom;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

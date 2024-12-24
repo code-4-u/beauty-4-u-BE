@@ -47,7 +47,7 @@ public class ChatQueryService {
     private ChatMessageResDto convertToDto(ChatMessage chatMessage, String userName) {
         ChatMessageResDto dto = new ChatMessageResDto();
         dto.setMessageId(chatMessage.getId().toHexString());
-        dto.setTeamspaceId(chatMessage.getTeamspaceId());
+        dto.setChatRoomId(chatMessage.getChatRoomId());
         dto.setUserCode(chatMessage.getUserCode());
         dto.setUserName(userName); // 유저 이름 설정
         dto.setMessageStatus(chatMessage.getMessageStatus().toString());

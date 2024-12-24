@@ -5,9 +5,9 @@ import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.FindFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.UpdateFolderDTO;
-import com.beauty4u.backend.teamspace.command.application.dto.teamspace.FindTeamspaceDTO;
+import com.beauty4u.backend.teamspace.command.application.dto.chatroom.FindChatRoomDTO;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.Folder;
-import com.beauty4u.backend.teamspace.command.domain.aggregate.Teamspace;
+import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatRoom;
 import com.beauty4u.backend.teamspace.command.domain.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,20 +20,20 @@ public class FolderDomainService {
     private final FolderRepository folderRepository;
     private final ModelMapper modelMapper;
 
-    public void saveFolder(String folderName, FindFolderDTO topFolderDTO, FindTeamspaceDTO findTeamspaceDTO) {
+    public void saveFolder(String folderName, FindFolderDTO topFolderDTO, FindChatRoomDTO findChatRoomDTO) {
 
         boolean isExistsSameFolderName;
         Folder topFolder = null;
-        Teamspace teamspace = modelMapper.map(findTeamspaceDTO, Teamspace.class);
+        ChatRoom chatRoom = modelMapper.map(findChatRoomDTO, ChatRoom.class);
 
         // 부모 폴더가 없다면 -> 해당 폴더가 가장 상위 폴더
         if (topFolderDTO == null) {
 
             // 가장 상위 폴더에서 같은 이름이 있는지 확인
             isExistsSameFolderName = folderRepository
-                    .existsByFolderNameAndTeamspaceIdAndPublishStatusAndTopFolderIdIsNull(
+                    .existsByFolderNameAndChatRoomIdAndPublishStatusAndTopFolderIdIsNull(
                             folderName,
-                            teamspace,
+                            chatRoom,
                             StatusType.PUBLISHED);
         } else { // 부모 폴더가 있다면
 
@@ -54,7 +54,7 @@ public class FolderDomainService {
         // 폴더 이름이 겹치지 않으면 저장 시도
         try {
             Folder newFolder = Folder.builder()
-                    .teamspaceId(teamspace)  // 팀스페이스 설정
+                    .chatRoomId(chatRoom)  // 팀스페이스 설정
                     .topFolderId(topFolder)  // 부모 폴더 설정
                     .folderName(folderName)  // 폴더 이름 설정
                     .build();
@@ -89,9 +89,9 @@ public class FolderDomainService {
 
             // 가장 상위 폴더에서 같은 이름이 있는지 확인
             IsExistsSameFolderName = folderRepository
-                    .existsByFolderNameAndTeamspaceIdAndPublishStatusAndTopFolderIdIsNull(
+                    .existsByFolderNameAndChatRoomIdAndPublishStatusAndTopFolderIdIsNull(
                             folder.getFolderName(),
-                            folder.getTeamspaceId(),
+                            folder.getChatRoomId(),
                             StatusType.PUBLISHED
                     );
         } else { // 부모 폴더가 있다면
