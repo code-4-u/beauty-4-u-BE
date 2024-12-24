@@ -16,9 +16,9 @@ public class ChatCommandController {
     private final ChatService chatService;
 
     // 웹소켓 메세지를 특정 경로로 매핑한다.
-    @MessageMapping("/{teamspaceId}") // /pub/1
-    public void sendMessage(@DestinationVariable(value = "teamspaceId") Long teamspaceId,
+    @MessageMapping("/{chatRoomId}") // /pub/1
+    public void sendMessage(@DestinationVariable(value = "chatRoomId") Long chatRoomId,
                             ChatMessageReqDto chatMessageReqDto) {
-        chatService.sendMessage(teamspaceId, chatMessageReqDto);
+        chatService.sendMessage(chatRoomId, chatMessageReqDto);
     }
 }
