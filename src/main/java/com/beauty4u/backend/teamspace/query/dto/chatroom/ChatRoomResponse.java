@@ -1,4 +1,4 @@
-package com.beauty4u.backend.teamspace.query.dto.teamspace;
+package com.beauty4u.backend.teamspace.query.dto.chatroom;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class TeamSpaceResponse {
+public class ChatRoomResponse {
 
-    private Long teamspaceId;
+    private Long chatRoomId;
     private String deptCode;
 }

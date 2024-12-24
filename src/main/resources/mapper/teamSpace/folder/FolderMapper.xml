@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.beauty4u.backend.teamspace.query.mapper.FolderQueryMapper">
+<mapper namespace="com.beauty4u.backend.chatRoom.query.mapper.FolderQueryMapper">
 
     <select id="findFolderList" resultType="FolderListResDTO">
         SELECT f1.folder_id,
@@ -9,7 +9,7 @@
                f1.folder_name
         FROM folder f1
                  LEFT JOIN folder f2 ON f1.top_folder_id = f2.folder_id
-        WHERE f1.teamspace_id = #{teamspaceId}
+        WHERE f1.teamspace_id = #{chatRoomId}
           AND f1.publish_status = #{folderStatus}
         <choose>
             <when test="topFolderId == null">

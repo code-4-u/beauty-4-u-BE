@@ -29,8 +29,8 @@ public class Folder extends BaseEntity{
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "teamspace_id", nullable = false)
-    private Teamspace teamspaceId;
+    @JoinColumn(name = "chat_room_id", nullable = false)
+    private ChatRoom chatRoomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "top_folder_id")

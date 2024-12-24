@@ -1,4 +1,4 @@
-package com.beauty4u.backend.teamspace.command.application.dto.teamspace;
+package com.beauty4u.backend.teamspace.command.application.dto.chatroom;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindTeamspaceDTO {
+public class FindChatRoomDTO {
 
     private Long id;
-    private String deptCode;
 }

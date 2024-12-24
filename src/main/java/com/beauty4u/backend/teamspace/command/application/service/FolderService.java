@@ -6,9 +6,9 @@ import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.FindFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.UpdateFolderDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.folder.saveFolderDTO;
-import com.beauty4u.backend.teamspace.command.application.dto.teamspace.FindTeamspaceDTO;
+import com.beauty4u.backend.teamspace.command.application.dto.chatroom.FindChatRoomDTO;
 import com.beauty4u.backend.teamspace.command.domain.service.FolderDomainService;
-import com.beauty4u.backend.teamspace.command.domain.service.TeamspaceDomainService;
+import com.beauty4u.backend.teamspace.command.domain.service.ChatRoomDomainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -20,14 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FolderService {
 
-    private final TeamspaceDomainService teamspaceDomainService;
+    private final ChatRoomDomainService chatRoomDomainService;
     private final FolderDomainService folderDomainService;
-    private final ModelMapper modelMapper;
 
     @Transactional
     public void saveFolder(saveFolderDTO saveFolderDTO) {
 
-        FindTeamspaceDTO findTeamspaceDTO = teamspaceDomainService.findTeamspaceById(saveFolderDTO.getTeamspaceId());
+        FindChatRoomDTO findChatRoomDTO = chatRoomDomainService.findChatRoomById(saveFolderDTO.getTeamspaceId());
 
         // 부모 폴더 조회
         FindFolderDTO topFolderDTO = saveFolderDTO.getTopFolderId() != null ?
@@ -41,7 +40,7 @@ public class FolderService {
         }
 
         // 폴더 저장
-        folderDomainService.saveFolder(saveFolderDTO.getFolderName(), topFolderDTO, findTeamspaceDTO);
+        folderDomainService.saveFolder(saveFolderDTO.getFolderName(), topFolderDTO, findChatRoomDTO);
     }
 
     @Transactional

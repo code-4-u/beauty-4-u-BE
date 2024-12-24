@@ -20,7 +20,7 @@ public class ChatQueryService {
 
     public List<ChatMessageResDto> getChatHistory(Long teamspaceId) {
         // 1. 채팅 메세지 조회
-        List<ChatMessage> chatMessages = chatMessageRepository.findByTeamspaceId(teamspaceId);
+        List<ChatMessage> chatMessages = chatMessageRepository.findByChatRoomId(teamspaceId);
 
         // 2. userCode 목록 추출 (중복 제거)
         List<String> userCodes = chatMessages.stream()
@@ -47,7 +47,7 @@ public class ChatQueryService {
     private ChatMessageResDto convertToDto(ChatMessage chatMessage, String userName) {
         ChatMessageResDto dto = new ChatMessageResDto();
         dto.setMessageId(chatMessage.getId().toHexString());
-        dto.setTeamspaceId(chatMessage.getTeamspaceId());
+        dto.setChatRoomId(chatMessage.getChatRoomId());
         dto.setUserCode(chatMessage.getUserCode());
         dto.setUserName(userName); // 유저 이름 설정
         dto.setMessageStatus(chatMessage.getMessageStatus().toString());

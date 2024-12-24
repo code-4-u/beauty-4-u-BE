@@ -1,7 +1,7 @@
 package com.beauty4u.backend.teamspace.command.application.dto.chat;
 
+import com.beauty4u.backend.common.aggregate.entity.BaseEntity;
 import lombok.*;
-import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -9,12 +9,11 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-public class ChatMessageReqDto {
+public class ChatMessageReqDto extends BaseEntity {
 
-    private String userCode; // senderId 변경
-    private String userName;
+    private Long id;
+    private String userCode;
     private String messageContent;
-    private ZonedDateTime messageCreatedTime;
 
 }
 
