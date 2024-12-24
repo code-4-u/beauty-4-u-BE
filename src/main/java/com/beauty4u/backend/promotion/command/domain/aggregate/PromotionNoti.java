@@ -14,17 +14,12 @@ public class PromotionNoti {
 
     @Id
     @Column(name = "promotion_noti_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // 이 부분을 추가
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "promotion_setting_id", nullable = false)
-    private PromotionSetting promotionSetting;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_code", nullable = false)
-    private Customer customerCode;
+    @Column(name = "customer_code")
+    private String customerCode;
 
     @NotNull
     @Lob
