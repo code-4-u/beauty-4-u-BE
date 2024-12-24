@@ -74,18 +74,6 @@ public class FileDomainService {
                 fileDTO.setFileUrl(url);
                 fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
             }
-        } else if(entityType.equals("message")){
-
-            ChatMessageReqDto chatMessageReqDto = chatRoomDomainService.findMessage(entityId);
-
-            ChatMessage chatMessage = modelMapper.map(chatMessageReqDto, ChatMessage.class);
-
-            for (String image : images) {
-                FileDTO fileDTO = new FileDTO();
-                fileDTO.setMessage(chatMessage);
-                fileDTO.setFileUrl(image);
-                fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
-            }
         } else {
 
             String url = "/chat/" + entityId.toString();
