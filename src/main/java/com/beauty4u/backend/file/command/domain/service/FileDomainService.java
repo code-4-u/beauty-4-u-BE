@@ -3,6 +3,7 @@ package com.beauty4u.backend.file.command.domain.service;
 import com.beauty4u.backend.common.util.S3ImageUtil;
 import com.beauty4u.backend.file.command.application.dto.FileDTO;
 import com.beauty4u.backend.file.command.domain.aggregate.FileInfo;
+import com.beauty4u.backend.file.command.domain.aggregate.FileType;
 import com.beauty4u.backend.file.command.domain.repository.FileRepository;
 import com.beauty4u.backend.inform.command.application.dto.InformDTO;
 import com.beauty4u.backend.inform.command.domain.aggregate.Inform;
@@ -10,8 +11,6 @@ import com.beauty4u.backend.inform.command.domain.service.InformDomainService;
 import com.beauty4u.backend.inquiry.command.application.dto.InquiryDTO;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
 import com.beauty4u.backend.inquiry.command.domain.service.InquiryDomainService;
-import com.beauty4u.backend.teamspace.command.application.dto.TeamBoardDTO;
-import com.beauty4u.backend.teamspace.command.domain.aggregate.TeamBoard;
 import com.beauty4u.backend.teamspace.command.domain.service.TeamBoardDomainService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,40 +37,49 @@ public class FileDomainService {
 
         if (entityType.equals("inform")) {
 
-            InformDTO informDTO = informDomainService.findInform(entityId);
-
-            Inform inform = modelMapper.map(informDTO, Inform.class);
+            String url = "/inform/" + entityId.toString();
 
             for (String image : images) {
                 FileDTO fileDTO = new FileDTO();
-                fileDTO.setInform(inform);
-                fileDTO.setFileUrl(image);
+                fileDTO.setFileS3Url(image);
+                fileDTO.setFileType(FileType.INFORM);
+                fileDTO.setFileUrl(url);
                 fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
             }
         } else if (entityType.equals("inquiry")){
 
-            InquiryDTO inquiryDTO = inquiryDomainService.findInquiry(entityId);
-
-            Inquiry inquiry = modelMapper.map(inquiryDTO, Inquiry.class);
+            String url = "/inquiry/" + entityId.toString();
 
             for (String image : images) {
                 FileDTO fileDTO = new FileDTO();
-                fileDTO.setInquiry(inquiry);
-                fileDTO.setFileUrl(image);
+                fileDTO.setFileS3Url(image);
+                fileDTO.setFileType(FileType.INQUIRY);
+                fileDTO.setFileUrl(url);
+                fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
+            }
+        } else if (entityType.equals("teamboard")){
+
+            String url = "/teamboard/" + entityId.toString();
+
+            for (String image : images) {
+                FileDTO fileDTO = new FileDTO();
+                fileDTO.setFileS3Url(image);
+                fileDTO.setFileType(FileType.TEAMBOARD);
+                fileDTO.setFileUrl(url);
                 fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
             }
         } else {
 
-            TeamBoardDTO teamBoardDTO = teamBoardDomainService.findTeamBoard(entityId);
-
-            TeamBoard teamBoard = modelMapper.map(teamBoardDTO, TeamBoard.class);
+            String url = "/chat/" + entityId.toString();
 
             for (String image : images) {
                 FileDTO fileDTO = new FileDTO();
-                fileDTO.setTeamBoard(teamBoard);
-                fileDTO.setFileUrl(image);
+                fileDTO.setFileS3Url(image);
+                fileDTO.setFileType(FileType.CHAT);
+                fileDTO.setFileUrl(url);
                 fileInfos.add(modelMapper.map(fileDTO, FileInfo.class));
             }
+
         }
 
         fileRepository.saveAll(fileInfos);
@@ -86,14 +94,14 @@ public class FileDomainService {
 
             Inform inform = modelMapper.map(informDTO, Inform.class);
 
-            fileRepository.deleteByInform(inform);
+//            fileRepository.deleteByInform(inform);
         } else {
 
             InquiryDTO inquiryDTO = inquiryDomainService.findInquiry(entityId);
 
             Inquiry inquiry = modelMapper.map(inquiryDTO, Inquiry.class);
 
-            fileRepository.deleteByInquiry(inquiry);
+//            fileRepository.deleteByInquiry(inquiry);
         }
     }
 
