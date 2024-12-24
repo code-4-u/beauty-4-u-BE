@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/chat")
 @RequiredArgsConstructor
@@ -28,10 +26,4 @@ public class ChatRoomCommandController {
         return ResponseUtil.successResponse(SuccessCode.TEAMSPACE_SAVE_SUCCESS);
     }
 
-    @PostMapping("/initialize")
-    @Operation(summary = "부서별 채팅방 생성", description = "부서별 초기 채팅방을 생성한다.")
-    public ResponseEntity<ApiResponse<Void>> initializeCreateTeamSpace() {
-        List<ChatRoom> chatRooms = chatRoomService.createAndAssignTeamSpaces();
-        return ResponseUtil.successResponse(SuccessCode.TEAMSPACE_SAVE_ALL_SUCCESS);
-    }
 }

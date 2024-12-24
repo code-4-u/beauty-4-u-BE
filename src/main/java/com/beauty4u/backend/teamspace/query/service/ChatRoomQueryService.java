@@ -53,7 +53,7 @@ public class ChatRoomQueryService {
 
     private List<ChatMessageResDto> getChatMessagesWithUserNames(Long teamspaceId) {
         // 1. 채팅 메시지 조회
-        List<ChatMessage> chatMessages = chatMessageRepository.findByTeamspaceId(teamspaceId);
+        List<ChatMessage> chatMessages = chatMessageRepository.findByChatRoomId(teamspaceId);
 
         // 2. userCode 목록 추출 및 유저 정보 조회
         Map<String, String> userCodeToNameMap = getUserCodeToNameMap(
