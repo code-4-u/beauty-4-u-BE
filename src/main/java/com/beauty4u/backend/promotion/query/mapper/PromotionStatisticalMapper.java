@@ -22,4 +22,9 @@ public interface PromotionStatisticalMapper {
 
     /* 프로모션 기간 상품 매출 랭킹 비교 */
     List<FindPromotionByComparisonSalesResDTO> findPromotionByComparisonSales(Integer previousPromotionId, Integer afterPromotionId);
+
+    /* 프로모션 기간 적용 상품 리스트 조회 */
+    List<FindPromotionByGoodsSalesResDTO> findPromotionByGoodsSales(Integer promotionId);
+
+    List<FindPromotionByComparisonResDTO> findPromotionComparison(Integer promotionId1, Integer promotionId2);
 }

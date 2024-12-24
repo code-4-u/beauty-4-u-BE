@@ -43,4 +43,15 @@ public class PromotionStatisticalQueryService {
     public List<FindPromotionByComparisonSalesResDTO> findPromotionByComparisonSales(Integer previousPromotionId, Integer afterPromotionId){
         return promotionStatisticalMapper.findPromotionByComparisonSales(previousPromotionId, afterPromotionId);
     }
+
+    /* 프로모션 기간 적용 상품 리스트 조회 */
+    @Transactional
+    public List<FindPromotionByGoodsSalesResDTO> findPromotionByGoodsSales(Integer promotionId) {
+        return promotionStatisticalMapper.findPromotionByGoodsSales(promotionId);
+    }
+
+    @Transactional
+    public List<FindPromotionByComparisonResDTO> findPromotionComparison(Integer promotionId1, Integer promotionId2) {
+        return promotionStatisticalMapper.findPromotionComparison(promotionId1, promotionId2);
+    }
 }

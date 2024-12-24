@@ -111,6 +111,7 @@ public enum SuccessCode {
     PROMO_STAT_FIND_TYPE_BY_PROMOTION(HttpStatus.OK, "프로모션 타입별 조회 성공"),
     PROMO_STAT_FIND_BY_YEAR_SALES(HttpStatus.OK, "프로모션 종류에 따른 년도별 그래프 조회 "),
     PROMO_STAT_FIND_BY_COM_SALES(HttpStatus.OK, "프로모션 기간 상품 매출 랭킹 비교"),
+    PROMO_STAT_FIND_BY_GOODS_SALES_SUCCESS(HttpStatus.OK, "프로모션 기간 적용 상품 리스트 조회"),
 
     // 일정
     SCHEDULE_SAVE_SUCCESS(HttpStatus.CREATED, "일정 등록 성공"),
