@@ -144,6 +144,11 @@ public enum SuccessCode {
     PROMOTION_GOODS_LIST_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 적용 상품 수정 성공"),
     PROMOTION_GOODS_LIST_FIND_SUCCESS(HttpStatus.OK, "프로모션 적용 상품 목록 조회 성공"),
 
+    // 프로모션 알림 저장
+    PROMOTION_NOTI_SAVE_SUCCESS(HttpStatus.OK, "프로모션 알림 등록 성공"),
+    PROMOTION_NOTI_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 알림 수정 성공"),
+    PROMOTION_NOTI_DELETE_SUCCESS(HttpStatus.OK, "프로모션 알림 삭제 성공"),
+
     // 특정 상품에 대한 프로모션
     GOODS_PROMOTION_COMMON_INFO_LIST_FIND_SUCCESS(HttpStatus.OK, "특정 상품에 대한 프로모션별 정보 조회 성공"),
 
