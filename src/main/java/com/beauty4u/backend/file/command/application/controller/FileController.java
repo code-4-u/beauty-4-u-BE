@@ -7,6 +7,7 @@ import com.beauty4u.backend.file.command.application.dto.FileDeleteReqDTO;
 import com.beauty4u.backend.file.command.application.dto.FileSaveReqDTO;
 import com.beauty4u.backend.file.command.application.service.FileService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/file")
+@Tag(name = "File", description = "파일 관련 API")
 public class FileController {
 
     private final FileService fileService;
