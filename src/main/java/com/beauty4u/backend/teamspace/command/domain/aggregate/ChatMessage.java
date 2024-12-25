@@ -10,6 +10,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "chatMessage")
 @NoArgsConstructor
@@ -25,13 +27,16 @@ public class ChatMessage{
     @NotNull
     private Long chatRoomId; // 채팅방 번호
 
+    @NotNull
     private String userCode; // sender 사용자 코드
-
-    @Enumerated(value = EnumType.STRING)  // 몽고DB에서 기본적으로 문자열 처리를 해준다.
-    private MessageStatus messageStatus = MessageStatus.ACTIVE; // 메시지 상태 (ACTIVE, INACTIVE)
 
     @NotNull
     private String messageContent; // 메시지 내용
+
+    private List<Long> attachedFileIds = new ArrayList<>(); // 첨부 파일 정보
+
+    @Enumerated(value = EnumType.STRING)  // 몽고DB에서 기본적으로 문자열 처리를 해준다.
+    private MessageStatus messageStatus = MessageStatus.ACTIVE; // 메시지 상태 (ACTIVE, INACTIVE)
 
     @CreatedDate // 생성 시간 자동 설정
     private LocalDateTime messageCreatedTime;
