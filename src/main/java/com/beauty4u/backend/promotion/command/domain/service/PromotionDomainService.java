@@ -21,8 +21,19 @@ public class PromotionDomainService {
 
     public Long savePromotion(SavePromotionReqDTO savePromotionReqDTO) {
 
-        PromotionType promotionType = promotionTypeRepository.findById(savePromotionReqDTO.getPromotionTypeId())
+        PromotionType promotionType = promotionTypeRepository.findById(savePromotionReqDTO.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PROMOTIONTYPE));
+
+        int promotionYear = savePromotionReqDTO.getPromotionStartDate().getYear();
+
+        // 같은 해에 프로모션이 2개 이상 존재하는지 확인
+        Boolean result = promotionRepository.existsPromotionInSameYear(
+                savePromotionReqDTO.getId(), promotionYear);
+
+        // 만약 프로모션이 이미 존재하면
+        if (result != null && result) {
+            throw new CustomException(ErrorCode.PROMOTION_EXISTS_IN_SAME_YEAR);
+        }
 
         Promotion promotion = modelMapper.map(savePromotionReqDTO, Promotion.class);
 
@@ -41,6 +52,22 @@ public class PromotionDomainService {
 
         Promotion promotion = promotionRepository.findById(promotionId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PROMOTION_NOT_FOUND));
+
+        int currentPromotionYear = promotion.getPromotionStartDate().getYear();
+        int updatePromotionYear = savePromotionReqDTO.getPromotionStartDate().getYear();
+
+        // 수정하려는 연도가 기존 연도와 같지 않으면
+        if (currentPromotionYear != updatePromotionYear) {
+
+            // 같은 해에 프로모션이 2개 이상 존재하는지 확인
+            Boolean result = promotionRepository.existsPromotionInSameYear(
+                    savePromotionReqDTO.getId(), updatePromotionYear);
+
+            // 만약 프로모션이 이미 존재하면
+            if (result != null && result) {
+                throw new CustomException(ErrorCode.PROMOTION_EXISTS_IN_SAME_YEAR);
+            }
+        }
 
         modelMapper.map(savePromotionReqDTO, promotion);
     }
