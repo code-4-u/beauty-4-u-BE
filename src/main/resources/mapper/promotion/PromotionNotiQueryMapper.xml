@@ -1,0 +1,44 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionNotiQueryMapper">
+
+    <select id="findPromotion" resultType="FindPromotionResDTO">
+        SELECT
+            promotion_id,
+            promotion_type_id,
+            promotion_title,
+            promotion_content,
+            promotion_start_date,
+            promotion_end_date,
+            promotion_status
+        FROM promotion
+        WHERE promotion_title LIKE CONCAT('%', TRIM(#{promotionName}), '%')
+          AND promotion_status = "ONGOING"
+    </select>
+
+    <select id="findPromotionByCustomerGoods" resultType="FindPromotionByCustomerGoodsResDTO">
+       SELECT
+              c.customer_code,
+              c.customer_gender,
+              c.customer_age,
+              c.customer_skintype,
+              c.customer_grade
+         FROM customer c
+         JOIN personalized_recommendation pr ON c.customer_code = pr.customer_code
+         JOIN promotion_goods pg ON pr.goods_code = pg.goods_code
+        WHERE pg.promotion_id = #{promotionId}
+        LIMIT #{page}, #{count}
+    </select>
+
+    <select id="findPromotionByCustomerGoodsCount" resultType="java.lang.Integer">
+        SELECT
+               COUNT(*)
+          FROM customer c
+          JOIN personalized_recommendation pr ON c.customer_code = pr.customer_code
+         WHERE pr.goods_code IN (SELECT goods_code
+                                FROM promotion_goods pg
+                                WHERE pg.promotion_id = #{promotionId})
+    </select>
+
+</mapper>
