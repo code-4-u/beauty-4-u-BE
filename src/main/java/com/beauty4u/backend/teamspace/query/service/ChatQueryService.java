@@ -1,11 +1,15 @@
 package com.beauty4u.backend.teamspace.query.service;
 
+import com.beauty4u.backend.file.command.application.dto.FileDTO;
+import com.beauty4u.backend.file.command.domain.aggregate.FileInfo;
+import com.beauty4u.backend.file.command.domain.repository.FileRepository;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatMessageRepository;
 import com.beauty4u.backend.teamspace.query.dto.chatMessage.ChatMessageResDto;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import com.beauty4u.backend.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +21,12 @@ public class ChatQueryService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
+    private final FileRepository fileRepository;
+    private final ModelMapper modelMapper;
 
-    public List<ChatMessageResDto> getChatHistory(Long teamspaceId) {
+    public List<ChatMessageResDto> getChatHistory(Long chatRoomId) {
         // 1. 채팅 메세지 조회
-        List<ChatMessage> chatMessages = chatMessageRepository.findByChatRoomId(teamspaceId);
+        List<ChatMessage> chatMessages = chatMessageRepository.findByChatRoomId(chatRoomId);
 
         // 2. userCode 목록 추출 (중복 제거)
         List<String> userCodes = chatMessages.stream()
@@ -35,16 +41,23 @@ public class ChatQueryService {
         Map<String, String> userCodeToNameMap = users.stream()
                 .collect(Collectors.toMap(UserInfo::getUserCode, UserInfo::getUserName));
 
-        // 5. 채팅 메시지와 사용자 이름 매핑
+        // 5. 채팅 메시지와 사용자 이름 매핑 & 파일 정보 조회
         return chatMessages.stream()
                 .map(chatMessage -> {
                     String userName = userCodeToNameMap.getOrDefault(chatMessage.getUserCode(), "알수 없음");
-                    return convertToDto(chatMessage, userName);
+
+                    // 첨부 파일 조회
+                    List<FileInfo> attachedFiles = fileRepository.findAllById(
+                            chatMessage.getAttachedFileIds().stream()
+                                    .toList()
+                    );
+
+                    return convertToDto(chatMessage, userName, attachedFiles);
                 })
                 .toList();
     }
 
-    private ChatMessageResDto convertToDto(ChatMessage chatMessage, String userName) {
+    private ChatMessageResDto convertToDto(ChatMessage chatMessage, String userName, List<FileInfo> attachedFiles) {
         ChatMessageResDto dto = new ChatMessageResDto();
         dto.setMessageId(chatMessage.getId().toHexString());
         dto.setChatRoomId(chatMessage.getChatRoomId());
@@ -58,6 +71,14 @@ public class ChatQueryService {
                         ? chatMessage.getMessageDeletedTime().toString()
                         : null
         );
+
+        // 첨부 파일 정보 추가
+        dto.setAttachedFiles(
+                attachedFiles.stream()
+                        .map(fileInfo -> modelMapper.map(fileInfo, FileDTO.class)) // FileInfo -> FileDTO 매핑
+                        .collect(Collectors.toList()) // Stream을 List로 변환
+        );
+
         return dto;
     }
 }
