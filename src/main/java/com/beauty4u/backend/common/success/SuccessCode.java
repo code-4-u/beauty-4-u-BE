@@ -123,6 +123,7 @@ public enum SuccessCode {
     UPLOAD_IMAGE_SUCCESS(HttpStatus.OK, "이미지 저장 성공"),
     FILE_SAVE_SUCCESS(HttpStatus.OK, "파일 저장 성공"),
     FILE_DELETE_SUCCESS(HttpStatus.OK, "파일 삭제 성공"),
+    FILE_LIST_FIND_SUCCESS(HttpStatus.OK, "특정 게시판에 저장된 파일 목록 조회 성공"),
 
     // Promotion
     PROMOTION_SAVE_SUCCESS(HttpStatus.OK, "프로모션 저장 성공"),
