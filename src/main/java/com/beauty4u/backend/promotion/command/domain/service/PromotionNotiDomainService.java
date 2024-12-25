@@ -17,9 +17,8 @@ public class PromotionNotiDomainService {
     private final PromotionNotiRepository promotionNotiRepository;
     private final ModelMapper modelMapper;
 
-    public void savePromotionNoti(SavePromotionNotiDTO savePromotionNotiDTO) {
-        PromotionNoti promotionNoti = modelMapper.map(savePromotionNotiDTO, PromotionNoti.class);
-        promotionNotiRepository.save(promotionNoti);
+    public void savePromotionNoti(Long promotionId) {
+        promotionNotiRepository.insertPromotionNotifications(promotionId);
     }
 
     public void updatePromotionNoti(Long id, UpdatePromotionNotiDTO updatePromotionNotiDTO) {
