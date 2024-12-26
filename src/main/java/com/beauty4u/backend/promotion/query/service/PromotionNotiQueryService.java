@@ -1,6 +1,7 @@
 package com.beauty4u.backend.promotion.query.service;
 
 import com.beauty4u.backend.promotion.query.dto.FindPromotionByCustomerGoodsResDTO;
+import com.beauty4u.backend.promotion.query.dto.FindPromotionNotiTargetResDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionResDTO;
 import com.beauty4u.backend.promotion.query.mapper.PromotionNotiQueryMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,11 @@ public class PromotionNotiQueryService {
     @Transactional
     public List<FindPromotionResDTO> findPromotion(String promotionName) {
         return promotionNotiQueryMapper.findPromotion(promotionName);
+    }
+
+    @Transactional
+    public List<FindPromotionNotiTargetResDTO> findPromotionNotiTarget(Long promotionId) {
+        return promotionNotiQueryMapper.findPromotionNotiTarget(promotionId);
     }
 
     @Transactional
