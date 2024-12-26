@@ -184,7 +184,10 @@ public enum SuccessCode {
     TEAMBOARD_FIND_DETAIL_SUCCESS(HttpStatus.OK, "팀 게시판 글 상세 조회 성공"),
 
     // 제미나이 요약
-    GEMINI_REVIEW_FIND_SUCCESS(HttpStatus.OK, "제미나이 리뷰 요약 성공");
+    GEMINI_REVIEW_FIND_SUCCESS(HttpStatus.OK, "제미나이 리뷰 요약 성공"),
+
+    // 연관분석
+    APRIORI_FIND_SUCCESS(HttpStatus.OK, "연관 분석 후 조합 목록 조회 성공");
 
     private final HttpStatus httpStatus;
     private final String message;

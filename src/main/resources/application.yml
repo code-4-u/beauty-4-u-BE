@@ -34,7 +34,7 @@ spring:
 
   # 엘라스틱서치 최초 설치 시 기본 계정
   elasticsearch:
-    enabled: false
+    enabled: true
     uris: ${ELASTIC_URIS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
@@ -47,12 +47,12 @@ spring:
 
 #  logback-spring.xml 사용 여부 결정
   logging:
-    use-logback: false
+    use-logback: true
     level:
       com.beauty4u.backend: DEBUG
 
   logstash:
-    enabled: false
+    enabled: true
     destination:
       host: localhost
       port: 5000
@@ -89,6 +89,7 @@ token:
 springdoc:
   swagger-ui:
     path: /
+    doc-expansion: none
 
 redis:
   host: ${REDIS_HOST}
@@ -105,3 +106,12 @@ cloud:
       secret-key: ${AWS_BUCKET_SECRET_KEY}
     stack:
       auto: false
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
+
+apriori:
+  api:
+    url: http://localhost:8000
