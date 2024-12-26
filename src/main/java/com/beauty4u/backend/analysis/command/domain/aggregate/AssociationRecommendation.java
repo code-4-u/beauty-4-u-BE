@@ -29,11 +29,6 @@ public class AssociationRecommendation {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_code", nullable = false)
-    private Customer customerCode;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "analysis_id", nullable = false)
     private Analysis analysis;
 
@@ -44,6 +39,10 @@ public class AssociationRecommendation {
     @NotNull
     @Column(name = "confidence", nullable = false)
     private Float confidence;
+
+    @NotNull
+    @Column(name = "lift", nullable = false)
+    private Float lift;
 
     @Column(name = "last_noti_sent_date")
     private LocalDateTime lastNotiSentDate;
