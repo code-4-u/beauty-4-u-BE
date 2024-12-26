@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class SavePromotionReqDTO {
 
     @NotNull(message = "프로모션 종류 id를 입력하세요")
-    private Long promotionTypeId;
+    private Long id;
 
     @NotNull(message = "제목을 입력하세요")
     private String promotionTitle;
