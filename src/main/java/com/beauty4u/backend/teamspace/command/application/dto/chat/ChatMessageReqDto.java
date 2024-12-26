@@ -14,9 +14,9 @@ import java.util.List;
 @ToString
 public class ChatMessageReqDto extends BaseEntity {
 
+    private Long chatRoomId; // 채팅방 번호
     private String userCode; // 메세지를 보낸 유저 코드
     private String messageContent;
-    private Long chatRoomId;
     private List<FileDTO> attachedFiles; // 파일 정보 (URL, ID 등)
 
     //private String messageType; // 메시지 타입 (Optional)

@@ -1,5 +1,6 @@
 package com.beauty4u.backend.teamspace.query.mapper;
 
+import com.beauty4u.backend.teamspace.query.dto.chatroom.ChatRoomDTO;
 import com.beauty4u.backend.teamspace.query.dto.chatroom.ChatRoomUserInfoDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,4 +15,7 @@ public interface ChatRoomQueryMapper {
 
     // 유저가 채팅방에 참여 중인지 확인
     boolean isUserInChatRoom(@Param("chatRoomId") Long chatRoomId, @Param("userCode") String userCode);
+
+    // 유저가 속한 채팅방 리스트 조회
+    List<ChatRoomDTO> findAllChatRoomList(String loginUserCode);
 }

@@ -170,9 +170,11 @@ public enum SuccessCode {
 
     // 채팅방
     CHATROOM_SAVE_SUCCESS(HttpStatus.CREATED, "채팅방 생성 성공"),
-    TEAMSPACE_SAVE_ALL_SUCCESS(HttpStatus.CREATED, "부서별 팀스페이스 생성 성공"),
-    TEAMSPACE_FIND_DEPTCODE_SUCCESS(HttpStatus.CREATED, "부서별 팀스페이스 생성 성공"),
-    TEAMSPACE_CHAT_FIND_DETAIL_SUCCESS(HttpStatus.OK, "팀스페이스 채팅 상세조회 성공"),
+
+    // 채팅 멤버
+    CHATMEMBER_SAVE_SUCCESS(HttpStatus.OK, "채팅방 멤버 초대 성공"),
+    CHATMEMBER_DELETE_SUCCESS(HttpStatus.OK, "채팅방 나가기 성공"),
+
     
     // 팀 게시판 (teamspace)
     TEAMBOARD_SAVE_SUCCESS(HttpStatus.CREATED, "팀 게시판 글 등록 성공"),

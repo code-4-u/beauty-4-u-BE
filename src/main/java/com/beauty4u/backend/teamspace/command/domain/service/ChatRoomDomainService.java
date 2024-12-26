@@ -8,6 +8,7 @@ import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatRoom;
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatMessageRepository;
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatRoomRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ChatRoomDomainService {
     public FindChatRoomDTO findChatRoomById(Long chatRoomId) {
 
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TEAMSPACE));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
 
         return modelMapper.map(chatRoom, FindChatRoomDTO.class);
     }
@@ -34,5 +35,10 @@ public class ChatRoomDomainService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MESSAGE));
 
         return modelMapper.map(chatMessage, ChatMessageReqDto.class);
+    }
+
+    @Transactional
+    public void deleteChatRoom(Long chatRoomId) {
+        chatRoomRepository.deleteById(chatRoomId);
     }
 }

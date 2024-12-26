@@ -9,8 +9,10 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class ChatRoomResponse {
+public class ChatRoomDTO {
 
     private Long chatRoomId;
-    private String deptCode;
+//    private String lastMessage;
+//    private Integer unreadCount;
+//    private LocalDateTime timestamp;
 }
