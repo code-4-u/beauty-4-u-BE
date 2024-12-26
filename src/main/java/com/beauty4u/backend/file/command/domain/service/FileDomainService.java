@@ -11,12 +11,6 @@ import com.beauty4u.backend.inform.command.domain.service.InformDomainService;
 import com.beauty4u.backend.inquiry.command.application.dto.InquiryDTO;
 import com.beauty4u.backend.inquiry.command.domain.aggregate.Inquiry;
 import com.beauty4u.backend.inquiry.command.domain.service.InquiryDomainService;
-import com.beauty4u.backend.teamspace.command.application.dto.TeamBoardDTO;
-import com.beauty4u.backend.teamspace.command.application.dto.chat.ChatMessageReqDto;
-import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
-import com.beauty4u.backend.teamspace.command.domain.aggregate.TeamBoard;
-import com.beauty4u.backend.teamspace.command.domain.service.TeamBoardDomainService;
-import com.beauty4u.backend.teamspace.command.domain.service.ChatRoomDomainService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,12 +27,10 @@ public class FileDomainService {
     private final FileRepository fileRepository;
     private final InformDomainService informDomainService;
     private final InquiryDomainService inquiryDomainService;
-    private final TeamBoardDomainService teamBoardDomainService;
-    private final ChatRoomDomainService chatRoomDomainService;
     private final S3ImageUtil s3ImageUtil;
     private final ModelMapper modelMapper;
 
-    public void saveFile(List<String> images, Long entityId, String entityType) {
+    public List<Long> saveFile(List<String> images, Long entityId, String entityType) {
 
         List<FileInfo> fileInfos = new ArrayList<>();
 
@@ -88,7 +81,13 @@ public class FileDomainService {
 
         }
 
-        fileRepository.saveAll(fileInfos);
+        // 저장된 엔티티 리스트 반환
+        List<FileInfo> savedFiles = fileRepository.saveAll(fileInfos);
+
+        // 저장된 ID 리스트 반환
+        return savedFiles.stream()
+                .map(FileInfo::getId) // 각 파일의 ID 추출
+                .collect(Collectors.toList());
     }
 
     public void deleteFile(Long entityId, boolean isInformImage) {

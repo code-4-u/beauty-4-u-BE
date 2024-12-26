@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/v1/chat")
 @RequiredArgsConstructor
@@ -25,9 +24,17 @@ public class ChatMemberCommandController {
     @Operation(summary = "채팅방 멤버 초대", description = "채팅방에 채팅 멤버를 추가한다.")
     public ResponseEntity<ApiResponse<Void>> invite(@PathVariable Long chatRoomId,
                                                     @PathVariable String userCode) {
+        String loginUserCode = CustomUserUtil.getCurrentUserCode();
+        chatMemberService.saveChatMember(loginUserCode, chatRoomId, userCode);
+        return ResponseUtil.successResponse(SuccessCode.CHATMEMBER_SAVE_SUCCESS);
+    }
+
+    @DeleteMapping("/{chatRoomId}/leave")
+    @Operation(summary = "채팅방 나가기", description = "채팅방에서 나간다.")
+    public ResponseEntity<ApiResponse<Void>> leaveChatRoom(@PathVariable Long chatRoomId) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
-        chatMemberService.inviteUsersToChatRoom(loginUserCode, chatRoomId, userCode);
-        return ResponseUtil.successResponse(SuccessCode.CHATROOM_SAVE_SUCCESS);
+        chatMemberService.leaveChatRoom(chatRoomId, loginUserCode); // 채팅방 나가기 처리 로직 호출
+        return ResponseUtil.successResponse(SuccessCode.CHATMEMBER_DELETE_SUCCESS);
     }
 }
