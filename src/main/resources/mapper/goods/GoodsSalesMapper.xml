@@ -13,4 +13,16 @@
         AND order_status = 'PURCHASED'
     </select>
 
+    <select id="findSalesGoodsAge" resultType="Long">
+        SELECT
+            SUM(order_price)
+        FROM order_info o
+        LEFT JOIN customer c on c.customer_code = o.customer_code
+        WHERE o.goods_code = #{goodsCode}
+        AND YEAR(o.created_date) = #{targetYear}
+        AND MONTH(o.created_date) = #{targetMonth}
+        AND c.customer_age <![CDATA[>=]]> #{startAge}
+        AND c.customer_age <![CDATA[<]]> #{endAge}
+    </select>
+
 </mapper>
