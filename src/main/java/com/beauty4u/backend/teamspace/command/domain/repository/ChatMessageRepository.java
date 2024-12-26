@@ -10,4 +10,5 @@ import java.util.List;
 public interface ChatMessageRepository extends MongoRepository<ChatMessage, Long> {
     List<ChatMessage> findByChatRoomId(Long findByChatRoomId);
 
+    void deleteByChatRoomId(Long chatRoomId); // 해당 채팅방의 메시지 삭제
 }
