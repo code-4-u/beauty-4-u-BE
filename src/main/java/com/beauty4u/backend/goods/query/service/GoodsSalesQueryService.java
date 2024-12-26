@@ -2,13 +2,11 @@ package com.beauty4u.backend.goods.query.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesFilterDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesMonthlyListFilterDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesMonthlyListResDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesResDTO;
+import com.beauty4u.backend.goods.query.dto.*;
 import com.beauty4u.backend.goods.query.mapper.GoodsSalesQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +17,7 @@ public class GoodsSalesQueryService {
 
     private final GoodsSalesQueryMapper goodsSalesQueryMapper;
 
+    @Transactional(readOnly = true)
     public GoodsSalesResDTO findSalesGoods(String goodsCode, GoodsSalesFilterDTO goodsSalesFilterDTO) {
 
         Integer month = goodsSalesFilterDTO.getMonth();
@@ -78,6 +77,7 @@ public class GoodsSalesQueryService {
         return Math.round(increaseRate * 10) / 10.0; // 소수점 첫째 자리까지 반올림
     }
 
+    @Transactional(readOnly = true)
     public List<GoodsSalesMonthlyListResDTO> findSalesGoodsMonthlyList(String goodsCode, GoodsSalesMonthlyListFilterDTO goodsSalesMonthlyListFilterDTO) {
 
         List<GoodsSalesMonthlyListResDTO> goodsSalesMonthlyListResDTOS = new ArrayList<>();
@@ -103,5 +103,60 @@ public class GoodsSalesQueryService {
         }
 
         return goodsSalesMonthlyListResDTOS;
+    }
+
+    @Transactional(readOnly = true)
+    public List<GoodsSalesAgeListResDTO> findSalesGoodsAge(
+            String goodsCode, GoodsSalesAgeListFilterDTO goodsSalesAgeListFilterDTO) {
+
+        int[] ages = {10, 20, 30, 40, 50, 60};
+
+        int month = goodsSalesAgeListFilterDTO.getMonth();
+
+        int beforeYear = goodsSalesAgeListFilterDTO.getYear() - 1;
+        int afterYear = goodsSalesAgeListFilterDTO.getYear();
+
+        List<GoodsSalesAgeListResDTO> = new ArrayList<>();
+
+        GoodsSalesAgeListResDTO beforeSales = new GoodsSalesAgeListResDTO();
+        GoodsSalesAgeListResDTO afterSales = new GoodsSalesAgeListResDTO();
+
+        for (int age : ages) {
+
+            int startAge = age;
+            int endAge = age + 10;
+
+            Long beforeSalesGoodsAge = goodsSalesQueryMapper.findSalesGoodsAge(
+                    goodsCode,
+                    beforeYear,
+                    month,
+                    startAge,
+                    endAge
+            );
+
+            MonthSalesDTO beforeMonthSalesDTO = new MonthSalesDTO();
+            beforeMonthSalesDTO.setAgeUnit(startAge);
+            beforeMonthSalesDTO.setSales(beforeSalesGoodsAge);
+
+            beforeSales.getMonthSalesList().add(beforeMonthSalesDTO);
+            beforeSales.setYear(beforeYear);
+
+            Long afterSalesGoodsAge = goodsSalesQueryMapper.findSalesGoodsAge(
+                    goodsCode,
+                    afterYear,
+                    month,
+                    startAge,
+                    endAge
+            );
+
+            MonthSalesDTO afterMonthSalesDTO = new MonthSalesDTO();
+            afterMonthSalesDTO.setAgeUnit(startAge);
+            afterMonthSalesDTO.setSales(beforeSalesGoodsAge);
+
+            afterSales.getMonthSalesList().add(afterMonthSalesDTO);
+            afterSales.setYear(afterYear);
+        }
+
+
     }
 }
