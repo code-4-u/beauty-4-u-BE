@@ -1,7 +1,7 @@
 package com.beauty4u.backend.teamspace.command.application.service;
 
 import com.beauty4u.backend.teamspace.command.application.dto.chatroom.ChatRoomResponseDto;
-import com.beauty4u.backend.teamspace.command.application.dto.chatroom.InviteUsersToChatRoomReqDto;
+import com.beauty4u.backend.teamspace.command.application.dto.chatmember.ChatMemberReqDTO;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMember;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatRoom;
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatMemberRepository;
@@ -23,7 +23,7 @@ public class ChatRoomService {
 
     // 채팅방 생성
     @Transactional
-    public ChatRoomResponseDto createChatRoom(String creatorUserCode, InviteUsersToChatRoomReqDto reqDto) {
+    public ChatRoomResponseDto createChatRoom(String creatorUserCode, ChatMemberReqDTO reqDto) {
 
         // 1. 채팅방 생성
         ChatRoom chatRoom = new ChatRoom();

@@ -3,9 +3,9 @@ package com.beauty4u.backend.teamspace.command.application.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
-    import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.teamspace.command.application.dto.chatroom.ChatRoomResponseDto;
-import com.beauty4u.backend.teamspace.command.application.dto.chatroom.InviteUsersToChatRoomReqDto;
+import com.beauty4u.backend.teamspace.command.application.dto.chatmember.ChatMemberReqDTO;
 import com.beauty4u.backend.teamspace.command.application.service.ChatRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,8 +22,8 @@ public class ChatRoomCommandController {
     private final ChatRoomService chatRoomService;
 
     @PostMapping("/create")
-    @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다.")
-    public ResponseEntity<ApiResponse<ChatRoomResponseDto>> createTeamSpace(@RequestBody InviteUsersToChatRoomReqDto reqDto) {
+    @Operation(summary = "채팅방 생성", description = "채팅방을 생성하고 채팅방 유저 코드를 반환한다.")
+    public ResponseEntity<ApiResponse<ChatRoomResponseDto>> createTeamSpace(@RequestBody ChatMemberReqDTO reqDto) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
 

@@ -69,8 +69,8 @@ public enum ErrorCode {
     // 프로모션 종류
     NOT_FOUND_PROMOTIONTYPE(HttpStatus.NOT_FOUND, "프로모션 조회 실패"),
 
-    // 팀 스페이스
-    NOT_FOUND_TEAMSPACE(HttpStatus.NOT_FOUND, "팀 스페이스 조회 실패"),
+    // 채팅방
+    NOT_FOUND_CHATROOM(HttpStatus.NOT_FOUND, "채팅방 조회 실패"),
 
     // 상품
     NOT_FOUND_GOODS(HttpStatus.NOT_FOUND, "상품 조회 실패"),
