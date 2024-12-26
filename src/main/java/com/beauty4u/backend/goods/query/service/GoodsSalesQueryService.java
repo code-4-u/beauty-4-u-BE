@@ -116,26 +116,34 @@ public class GoodsSalesQueryService {
         int beforeYear = goodsSalesAgeListFilterDTO.getYear() - 1;
         int afterYear = goodsSalesAgeListFilterDTO.getYear();
 
-        List<GoodsSalesAgeListResDTO> = new ArrayList<>();
+        List<GoodsSalesAgeListResDTO> goodsSalesAgeListResDTOS  = new ArrayList<>();
 
         GoodsSalesAgeListResDTO beforeSales = new GoodsSalesAgeListResDTO();
         GoodsSalesAgeListResDTO afterSales = new GoodsSalesAgeListResDTO();
 
+        beforeSales.setMonthSalesList(new ArrayList<>());
+        afterSales.setMonthSalesList(new ArrayList<>());
+
         for (int age : ages) {
 
-            int startAge = age;
             int endAge = age + 10;
+
+            if (age == 60) endAge = 100;
 
             Long beforeSalesGoodsAge = goodsSalesQueryMapper.findSalesGoodsAge(
                     goodsCode,
                     beforeYear,
                     month,
-                    startAge,
+                    age,
                     endAge
             );
 
+            if (beforeSalesGoodsAge == null) {
+                beforeSalesGoodsAge = 0L;
+            }
+
             MonthSalesDTO beforeMonthSalesDTO = new MonthSalesDTO();
-            beforeMonthSalesDTO.setAgeUnit(startAge);
+            beforeMonthSalesDTO.setAgeUnit(age);
             beforeMonthSalesDTO.setSales(beforeSalesGoodsAge);
 
             beforeSales.getMonthSalesList().add(beforeMonthSalesDTO);
@@ -145,18 +153,25 @@ public class GoodsSalesQueryService {
                     goodsCode,
                     afterYear,
                     month,
-                    startAge,
+                    age,
                     endAge
             );
 
+            if (afterSalesGoodsAge == null) {
+                afterSalesGoodsAge = 0L;
+            }
+
             MonthSalesDTO afterMonthSalesDTO = new MonthSalesDTO();
-            afterMonthSalesDTO.setAgeUnit(startAge);
-            afterMonthSalesDTO.setSales(beforeSalesGoodsAge);
+            afterMonthSalesDTO.setAgeUnit(age);
+            afterMonthSalesDTO.setSales(afterSalesGoodsAge);
 
             afterSales.getMonthSalesList().add(afterMonthSalesDTO);
             afterSales.setYear(afterYear);
         }
 
+        goodsSalesAgeListResDTOS.add(beforeSales);
+        goodsSalesAgeListResDTOS.add(afterSales);
 
+        return goodsSalesAgeListResDTOS;
     }
 }
