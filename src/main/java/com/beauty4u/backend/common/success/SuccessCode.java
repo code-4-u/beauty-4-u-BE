@@ -156,6 +156,7 @@ public enum SuccessCode {
     // 제품에 대한 매출
     GOODS_SALES_FIND_SUCCESS(HttpStatus.OK, "제품의 전년 대비 같은 월 비교 성공"),
     GOODS_SALES_MONTHLY_LIST_FIND_SUCCESS(HttpStatus.OK, "제품의 해당 연도 모든 매출액 조회 성공"),
+    GOODS_SALES_AGE_LIST_FIND_SUCCESS(HttpStatus.OK, "제품의 해당 연도와 지난 연도의 같은 달의 연령별 매출액 비교 조회 성공"),
 
     // 폴더 (folder)
     FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공"),
