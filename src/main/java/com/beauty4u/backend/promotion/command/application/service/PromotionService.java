@@ -25,6 +25,8 @@ public class PromotionService {
 
         try {
             promotionDomainService.updatePromotion(promotionId, savePromotionReqDTO);
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.PROMOTION_NOT_UPDATE);
         }
