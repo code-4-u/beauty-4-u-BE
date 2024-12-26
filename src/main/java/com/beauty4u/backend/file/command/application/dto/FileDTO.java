@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FileDTO {
 
-    private Long fileId;
     private String fileS3Url;
     private FileType fileType;
     private String fileUrl;

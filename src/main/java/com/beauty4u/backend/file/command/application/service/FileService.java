@@ -17,8 +17,8 @@ public class FileService {
     private final FileDomainService fileDomainService;
 
     @Transactional
-    public void saveImages(FileSaveReqDTO fileSaveReqDTO) {
-        fileDomainService.saveFile(
+    public List<Long> saveImages(FileSaveReqDTO fileSaveReqDTO) {
+        return fileDomainService.saveFile(
                 fileSaveReqDTO.getImageUrls(),
                 fileSaveReqDTO.getEntityId(),
                 fileSaveReqDTO.getEntityType());
