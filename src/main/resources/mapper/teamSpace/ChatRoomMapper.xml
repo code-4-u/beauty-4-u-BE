@@ -23,4 +23,15 @@
         )
     </select>
 
+    <!-- 사용자 코드로 채팅방 목록 조회 -->
+    <select id="findAllChatRoomList" resultType="ChatRoomDTO">
+        SELECT
+        cr.chat_room_id AS chatRoomId
+        FROM
+        chat_room cr
+        JOIN
+        chat_member cm ON cr.chat_room_id = cm.chat_room_id
+        WHERE
+        cm.user_code = #{userCode}
+    </select>
 </mapper>

@@ -3,12 +3,12 @@ package com.beauty4u.backend.teamspace.query.service;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatMessageRepository;
 import com.beauty4u.backend.teamspace.query.dto.chatMessage.ChatMessageResDto;
+import com.beauty4u.backend.teamspace.query.dto.chatroom.ChatRoomDTO;
 import com.beauty4u.backend.teamspace.query.dto.chatroom.ChatRoomDetailsDto;
 import com.beauty4u.backend.teamspace.query.dto.chatroom.ChatRoomUserInfoDto;
 import com.beauty4u.backend.teamspace.query.mapper.ChatRoomQueryMapper;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import com.beauty4u.backend.user.command.domain.repository.UserRepository;
-import com.beauty4u.backend.user.query.mapper.DeptQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class ChatRoomQueryService {
 
     private final ChatRoomQueryMapper chatRoomQueryMapper;
-    private final DeptQueryMapper deptQueryMapper;
     private final UserRepository userRepository;
     private final ChatMessageRepository chatMessageRepository;
 
@@ -38,7 +37,6 @@ public class ChatRoomQueryService {
         return chatRoomQueryMapper.findAllChatRoomUser(chatRoomId);
     }
 
-
     // 채팅방 세부 정보 조회
     @Transactional(readOnly = true)
     public ChatRoomDetailsDto getChatRoomDetails(Long chatRoomId,String loginUserCode) {
@@ -52,9 +50,6 @@ public class ChatRoomQueryService {
         return new ChatRoomDetailsDto(chatRoomId, participants, messages);
     }
 
-    private String getDeptNameByCode(String deptCode) {
-        return deptQueryMapper.findDeptName(deptCode).getDeptName();
-    }
 
     private List<ChatMessageResDto> getChatMessagesWithUserNames(Long chatRoomId) {
         // 1. 채팅 메시지 조회
@@ -95,5 +90,14 @@ public class ChatRoomQueryService {
                         ? chatMessage.getMessageDeletedTime().toString()
                         : null)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ChatRoomDTO> getMyChatRooms(String loginUserCode) {
+
+        if (loginUserCode == null) {
+            throw new IllegalArgumentException("채팅방 조회를 위한 사용자의 userCode값이 존재하지 않습니다. JWT authentication is required.");
+        }
+        return chatRoomQueryMapper.findAllChatRoomList(loginUserCode);
     }
 }
