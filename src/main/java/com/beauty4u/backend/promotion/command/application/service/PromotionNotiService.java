@@ -1,5 +1,6 @@
 package com.beauty4u.backend.promotion.command.application.service;
 
+import com.beauty4u.backend.promotion.command.application.dto.PromotionEmailResult;
 import com.beauty4u.backend.promotion.command.application.dto.SavePromotionNotiDTO;
 import com.beauty4u.backend.promotion.command.application.dto.UpdatePromotionNotiDTO;
 import com.beauty4u.backend.promotion.command.domain.service.PromotionNotiDomainService;
@@ -14,8 +15,13 @@ public class PromotionNotiService {
     private final PromotionNotiDomainService promotionNotiDomainService;
 
     @Transactional
-    public void savePromotionNoti(Long promotionId) {
-        promotionNotiDomainService.savePromotionNoti(promotionId);
+    public PromotionEmailResult savePromotionNotiFakeSMTP(Long promotionId) {
+        return promotionNotiDomainService.savePromotionNotiFakeSMTP(promotionId);
+    }
+
+    @Transactional
+    public PromotionEmailResult sendPromotionNotiGmail(Long promotionId) {
+        return promotionNotiDomainService.sendPromotionNotiMail(promotionId);
     }
 
     @Transactional
