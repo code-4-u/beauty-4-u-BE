@@ -111,7 +111,14 @@ public enum ErrorCode {
     GOODS_PROMOTION_COMMON_INFO_LIST_FIND_FAIL(HttpStatus.NOT_FOUND, "특정 상품에 대한 프로모션별 정보 조회 실패"),
 
     // 상품 조회
-    NOT_FOUND_GOODS_LIST(HttpStatus.NOT_FOUND, "필터링 조건에 따른 상품 조회 실패");
+    NOT_FOUND_GOODS_LIST(HttpStatus.NOT_FOUND, "필터링 조건에 따른 상품 조회 실패"),
+
+    // 연관 분석
+    APRIORI_FAIL(HttpStatus.BAD_REQUEST, "연관 분석 실패"),
+    NOT_FOUND_ASSOCIATION_RECOMMENDATION(HttpStatus.NOT_FOUND, "연관 분석 결과 조회 실패"),
+
+    // 분석
+    NOT_FOUND_ANALYSIS(HttpStatus.NOT_FOUND, "분석 테이블 조회 실패");
 
     private final HttpStatus httpStatus;
     private final String message;
