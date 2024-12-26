@@ -21,10 +21,10 @@ public class PromotionNotiController {
     private final PromotionNotiService promotionNotiService;
 
     @Operation(summary = "프로모션 알림 등록", description = "프로모션 알림을 등록을 한다.")
-    @PostMapping("/")
-    public ResponseEntity<ApiResponse<Void>> savePromotionNoti(@RequestBody SavePromotionNotiDTO savePromotionNotiDTO) {
+    @PostMapping("/noti/{promotionId}")
+    public ResponseEntity<ApiResponse<Void>> savePromotionNoti(@PathVariable Long promotionId) {
 
-        promotionNotiService.savePromotionNoti(savePromotionNotiDTO);
+        promotionNotiService.savePromotionNoti(promotionId);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_NOTI_SAVE_SUCCESS);
     }

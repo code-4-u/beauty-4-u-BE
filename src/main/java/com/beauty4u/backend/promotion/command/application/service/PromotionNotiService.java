@@ -14,8 +14,8 @@ public class PromotionNotiService {
     private final PromotionNotiDomainService promotionNotiDomainService;
 
     @Transactional
-    public void savePromotionNoti(SavePromotionNotiDTO savePromotionNotiDTO) {
-        promotionNotiDomainService.savePromotionNoti(savePromotionNotiDTO);
+    public void savePromotionNoti(Long promotionId) {
+        promotionNotiDomainService.savePromotionNoti(promotionId);
     }
 
     @Transactional
