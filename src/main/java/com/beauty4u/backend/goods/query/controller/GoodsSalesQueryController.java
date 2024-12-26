@@ -61,6 +61,6 @@ public class GoodsSalesQueryController {
         List<GoodsSalesAgeListResDTO> goodsSalesAgeListResDTO
                 = goodsSalesQueryService.findSalesGoodsAge(goodsCode, goodsSalesAgeListFilterDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.GOODS_SALES_AGE_LIST_FIND_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.GOODS_SALES_AGE_LIST_FIND_SUCCESS, goodsSalesAgeListResDTO);
     }
 }
