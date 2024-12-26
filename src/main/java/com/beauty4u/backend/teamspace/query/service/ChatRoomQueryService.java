@@ -25,35 +25,40 @@ public class ChatRoomQueryService {
     private final UserRepository userRepository;
     private final ChatMessageRepository chatMessageRepository;
 
-    // 부서 코드로 채팅참여자 정보 조회
+    // 채팅방 채팅참여자 정보 조회
     @Transactional(readOnly = true)
-    public List<ChatRoomUserInfoDto> findAllChatRoomUser(String deptCode) {
-        return chatRoomQueryMapper.findAllChatRoomUser(deptCode);
+    public List<ChatRoomUserInfoDto> findAllChatRoomUser(Long chatRoomId, String loginUserCode) {
+
+        // 해당 유저가 채팅방에 속한 유저인지 확인
+        // 1. 유저가 채팅방에 참여 중인지 확인
+        if (!chatRoomQueryMapper.isUserInChatRoom(chatRoomId, loginUserCode)) {
+            throw new IllegalArgumentException("Access denied: 채팅방 유저가 아닙니다.");
+        }
+
+        return chatRoomQueryMapper.findAllChatRoomUser(chatRoomId);
     }
 
 
-    // 팀스페이스 세부 정보 조회
+    // 채팅방 세부 정보 조회
     @Transactional(readOnly = true)
-    public ChatRoomDetailsDto getChatRoomDetails(Long chatRoomId, String deptCode) {
-        // 1. 부서 이름 조회
-        String deptName = getDeptNameByCode(deptCode);
+    public ChatRoomDetailsDto getChatRoomDetails(Long chatRoomId,String loginUserCode) {
 
-        // 2. 참여자 정보 조회
-        List<ChatRoomUserInfoDto> participants = findAllChatRoomUser(deptCode);
+        // 1. 채팅 참여자 정보 조회
+        List<ChatRoomUserInfoDto> participants = findAllChatRoomUser(chatRoomId, loginUserCode);
 
         // 3. 채팅 메시지와 사용자 이름 매핑
         List<ChatMessageResDto> messages = getChatMessagesWithUserNames(chatRoomId);
 
-        return new ChatRoomDetailsDto(deptName, participants, messages);
+        return new ChatRoomDetailsDto(chatRoomId, participants, messages);
     }
 
     private String getDeptNameByCode(String deptCode) {
         return deptQueryMapper.findDeptName(deptCode).getDeptName();
     }
 
-    private List<ChatMessageResDto> getChatMessagesWithUserNames(Long teamspaceId) {
+    private List<ChatMessageResDto> getChatMessagesWithUserNames(Long chatRoomId) {
         // 1. 채팅 메시지 조회
-        List<ChatMessage> chatMessages = chatMessageRepository.findByChatRoomId(teamspaceId);
+        List<ChatMessage> chatMessages = chatMessageRepository.findByChatRoomId(chatRoomId);
 
         // 2. userCode 목록 추출 및 유저 정보 조회
         Map<String, String> userCodeToNameMap = getUserCodeToNameMap(

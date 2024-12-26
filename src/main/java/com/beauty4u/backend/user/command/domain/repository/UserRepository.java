@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
 
     @EntityGraph(attributePaths = {"jobCode", "deptCode","userRole"})
     List<UserInfo> findAllByUserCodeIn(Collection<String> userCodes);
+
+    boolean existsByUserCode(String inviteUserCode);
 }
