@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper
 public interface PromotionNotiQueryMapper {
     Integer findPromotionByCustomerGoodsCount(Integer promotionId);
+    Integer findPromotionAnalysisId();
     List<FindPromotionResDTO> findPromotion(String promotionName);
     List<FindPromotionNotiTargetResDTO> findPromotionNotiTarget(Long promotionId);
     List<FindPromotionByCustomerGoodsResDTO> findPromotionByCustomerGoods(Integer promotionId, Integer page, Integer count);
