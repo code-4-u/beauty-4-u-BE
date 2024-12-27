@@ -167,9 +167,13 @@ public enum SuccessCode {
     // 채팅 메세지
     CHAT_SEND_SUCCESS(HttpStatus.CREATED, "채팅 메세지 전송 성공"),
     CHAT_FIND_SUCCESS(HttpStatus.OK, "채팅 메세지 조회 성공"),
+    CHAT_LIST_FIND_SUCCESS(HttpStatus.OK, "채팅 내역 조회 성공"),
 
     // 채팅방
     CHATROOM_SAVE_SUCCESS(HttpStatus.CREATED, "채팅방 생성 성공"),
+    CHAT_ROOM_LIST_FIND_SUCCESS(HttpStatus.OK, "채팅방 목록 조회 성공"),
+    CHAT_ROOM_USER_LIST_FIND_SUCCESS(HttpStatus.OK, "채팅방 내의 채팅 참여자 정보 조회 성공"),
+    CHAT_ROOM_DETAIL_FIND_SUCCESS(HttpStatus.OK, "채팅방 채팅 상세조회 성공"),
 
     // 채팅 멤버
     CHATMEMBER_SAVE_SUCCESS(HttpStatus.OK, "채팅방 멤버 초대 성공"),

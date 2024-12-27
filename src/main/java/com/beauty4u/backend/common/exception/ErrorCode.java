@@ -39,6 +39,8 @@ public enum ErrorCode {
     NOT_FOUND_INQUIRY_REPLY(HttpStatus.NOT_FOUND, "QnA 답변 조회 실패"),
     NOT_SAVED_FAQ(HttpStatus.CONFLICT, "FAQ 등록 실패"),
     NOT_FOUND_FAQ(HttpStatus.NOT_FOUND, "FAQ 조회 실패"),
+    NOT_DELETE_FAQ(HttpStatus.BAD_REQUEST, "FAQ 삭제 실패"),
+    NOT_UPDATE_FAQ(HttpStatus.BAD_REQUEST, "FAQ 수정 실패"),
     NOT_SAME_USER(HttpStatus.BAD_REQUEST, "수정자와 등록자가 다름"),
     NOT_FOUND_INQUIRY_LIST(HttpStatus.BAD_REQUEST, "QnA 질문 목록 조회 실패"),
     NOT_DELETE_INQUIRY_REPLY(HttpStatus.BAD_REQUEST, "QnA 답변 삭제 실패"),
