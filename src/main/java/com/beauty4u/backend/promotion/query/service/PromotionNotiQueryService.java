@@ -35,4 +35,9 @@ public class PromotionNotiQueryService {
     public List<FindPromotionByCustomerGoodsResDTO> findPromotionByCustomerGoods(Integer promotionId, Integer page, Integer count){
         return promotionNotiQueryMapper.findPromotionByCustomerGoods(promotionId, page, count);
     }
+
+    @Transactional
+    public Integer findPromotionAnalysisId() {
+        return promotionNotiQueryMapper.findPromotionAnalysisId();
+    }
 }
