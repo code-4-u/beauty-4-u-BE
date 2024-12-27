@@ -132,6 +132,9 @@ public enum SuccessCode {
     PROMOTION_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 수정 성공"),
     PROMOTION_DELETE_SUCCESS(HttpStatus.OK, "프로모션 삭제 성공"),
 
+    CUSTOM_ANALYSIS_RUN_SUCCESS(HttpStatus.OK, "고객별 맞춤 제품 추천 실행 완료"),
+    CUSTOM_ANALYSIS_ID_FIND_SUCCESS(HttpStatus.OK, "분석 번호 조회 성공"),
+
     // 프로모션 타입
     PROMOTIONTYPE_SAVE_SUCCESS(HttpStatus.OK, "프로모션 종류 저장 성공"),
     PROMOTIONTYPE_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 종류 수정 성공"),
