@@ -1,7 +1,7 @@
 package com.beauty4u.backend.user.query.mapper;
 
-import com.beauty4u.backend.user.query.dto.FindUserDetailResDTO;
-import com.beauty4u.backend.user.query.dto.UserListDTO;
+import com.beauty4u.backend.user.query.dto.user.FindUserDetailResDTO;
+import com.beauty4u.backend.user.query.dto.user.UserListDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
