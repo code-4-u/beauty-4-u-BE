@@ -87,21 +87,24 @@ public class PromotionNotiDomainService {
 
     /* 실제 Google SMTP 서버 사용 */
     public PromotionEmailResult sendPromotionNotiMail(Long promotionId) {
+        List<FindPromotionNotiTargetResDTO> targets = promotionNotiQueryService.findPromotionNotiTarget(promotionId);
+
+        String promotionTitle = targets.get(0).getPromotionTitle();
+        String promotionGoods = targets.get(0).getGoodsName();
 
         LocalDateTime sendDateTime = LocalDateTime.now();
         List<CompletableFuture<Void>> emailFutures = new ArrayList<>();
         Map<String, String> emailMap = new HashMap<>();  // 실패 추적용
 
-        String content01 = """
-                황희순 고객님~!\s
-                [2024 크리스마스 기념 윈터 빅세일]\s
-                 행사 맞이하여 추천상품\s
-                [수분 가득 토너]\s
-                25% 할인된 가격!\s
-                 특가로 확인해보세요~!\s
-                언제나 이용해주셔서 감사합니다!\s
-                beauty4u 드림. \s
-                본 메일은 프로모션 이메일 테스트 용입니다.""";
+        String content01 = "황희순 고객님~! \n"
+                         + "[" + promotionTitle + "]\n"
+                         + "행사 맞이하여 추천상품\n"
+                         + "[" + promotionGoods + "]\n"
+                         + "25% 할인된 가격!\n"
+                         + "특가로 확인해보세요~!\n"
+                         + "언제나 이용해주셔서 감사합니다!\n"
+                         + "beauty4u 드림. \n"
+                         + "본 메일은 프로모션 이메일 테스트 용입니다.";
 
         CompletableFuture<Void> emailFuture1 = mailUtil.sendPromotionGmailAsync("gmltns885@gmail.com", "beauty4u - [2024 크리스마스 기념 윈터 빅세일] 프로모션 안내", content01)
                          .exceptionally(throwable -> {
@@ -121,16 +124,15 @@ public class PromotionNotiDomainService {
         // DB 저장
         promotionNotiRepository.save(saveNoti1);
 
-        String content02 = """
-                신민철 고객님~!\s
-                [2024 크리스마스 기념 윈터 빅세일]\s
-                 행사 맞이하여 추천상품\s
-                [수분 가득 토너]\s
-                25% 할인된 가격!\s
-                 특가로 확인해보세요~!\s
-                언제나 이용해주셔서 감사합니다!\s
-                beauty4u 드림. \s
-                본 메일은 프로모션 이메일 테스트 용입니다.""";
+        String content02 = "신민철 고객님~! \n"
+                + "[" + promotionTitle + "]\n"
+                + "행사 맞이하여 추천상품\n"
+                + "[" + promotionGoods + "]\n"
+                + "25% 할인된 가격!\n"
+                + "특가로 확인해보세요~!\n"
+                + "언제나 이용해주셔서 감사합니다!\n"
+                + "beauty4u 드림. \n"
+                + "본 메일은 프로모션 이메일 테스트 용입니다.";
 
         CompletableFuture<Void> emailFuture2 = mailUtil.sendPromotionGmailAsync("dbeoalscjf98@naver.com", "beauty4u - [2024 크리스마스 기념 윈터 빅세일] 프로모션 안내", content02)
                          .exceptionally(throwable -> {
@@ -150,16 +152,15 @@ public class PromotionNotiDomainService {
         // DB 저장
         promotionNotiRepository.save(saveNoti2);
 
-        String content03 = """
-                안세령 고객님~!\s
-                [2024 크리스마스 기념 윈터 빅세일]\s
-                 행사 맞이하여 추천상품\s
-                [수분 가득 토너]\s
-                25% 할인된 가격!\s
-                 특가로 확인해보세요~!\s
-                언제나 이용해주셔서 감사합니다!\s
-                beauty4u 드림. \s
-                본 메일은 프로모션 이메일 테스트 용입니다.""";
+        String content03 = "안세령 고객님~! \n"
+                + "[" + promotionTitle + "]\n"
+                + "행사 맞이하여 추천상품\n"
+                + "[" + promotionGoods + "]\n"
+                + "25% 할인된 가격!\n"
+                + "특가로 확인해보세요~!\n"
+                + "언제나 이용해주셔서 감사합니다!\n"
+                + "beauty4u 드림. \n"
+                + "본 메일은 프로모션 이메일 테스트 용입니다.";
 
         CompletableFuture<Void> emailFuture3 = mailUtil.sendPromotionGmailAsync("sr1094@naver.com", "beauty4u - [2024 크리스마스 기념 윈터 빅세일] 프로모션 안내", content03)
                          .exceptionally(throwable -> {
