@@ -1,5 +1,9 @@
 package com.beauty4u.backend.security.util;
 
+import com.beauty4u.backend.common.aggregate.StatusType;
+import com.beauty4u.backend.common.aggregate.YnType;
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import com.beauty4u.backend.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         UserInfo loginUser = userRepository.findByUserCode(loginId)
                 .orElseThrow(() -> new UsernameNotFoundException(loginId));
+
+        if (loginUser.getUserExpiredYn().equals(YnType.Y)) {
+            throw new CustomException(ErrorCode.USER_EXPIRED);
+        }
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + loginUser.getUserRole().getUserRoleName()));
