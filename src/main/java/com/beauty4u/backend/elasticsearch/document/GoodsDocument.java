@@ -1,6 +1,6 @@
-package com.beauty4u.backend.goods.query.elasticsearch.document;
+package com.beauty4u.backend.elasticsearch.document;
 
-import com.beauty4u.backend.elasticsearch.BaseSearchDocument;
+import com.beauty4u.backend.elasticsearch.common.BaseSearchDocument;
 import com.beauty4u.backend.goods.query.dto.GoodsQueryDTO;
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.*;

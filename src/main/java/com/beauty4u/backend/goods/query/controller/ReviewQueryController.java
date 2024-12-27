@@ -2,7 +2,7 @@ package com.beauty4u.backend.goods.query.controller;
 
 import com.beauty4u.backend.goods.query.dto.ReviewQueryDTO;
 import com.beauty4u.backend.goods.query.dto.ReviewSortDTO;
-import com.beauty4u.backend.goods.query.elasticsearch.document.ReviewDocument;
+import com.beauty4u.backend.elasticsearch.document.ReviewDocument;
 import com.beauty4u.backend.goods.query.service.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

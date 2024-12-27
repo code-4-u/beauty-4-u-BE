@@ -1,6 +1,6 @@
-package com.beauty4u.backend.goods.query.elasticsearch.repository;
+package com.beauty4u.backend.elasticsearch.repository;
 
-import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
+import com.beauty4u.backend.elasticsearch.document.GoodsDocument;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;

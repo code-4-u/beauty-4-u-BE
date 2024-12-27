@@ -1,4 +1,4 @@
-package com.beauty4u.backend.elasticsearch;
+package com.beauty4u.backend.elasticsearch.common;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +20,9 @@ public class ElasticsearchConfig extends ElasticsearchConfiguration {
 
     @Value("${spring.elasticsearch.goods.index.name}")
     private String goods;
+
+    @Value("chat")
+    private String chat;
 
     @Value("${spring.elasticsearch.reviews.index.name}")
     private String reviews;

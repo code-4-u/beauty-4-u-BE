@@ -2,8 +2,8 @@ package com.beauty4u.backend.goods.query.service;
 
 import com.beauty4u.backend.goods.query.dto.ReviewQueryDTO;
 import com.beauty4u.backend.goods.query.dto.ReviewSortDTO;
-import com.beauty4u.backend.goods.query.elasticsearch.document.ReviewDocument;
-import com.beauty4u.backend.goods.query.elasticsearch.repository.ReviewSearchRepository;
+import com.beauty4u.backend.elasticsearch.document.ReviewDocument;
+import com.beauty4u.backend.elasticsearch.repository.ReviewSearchRepository;
 import com.beauty4u.backend.goods.query.mapper.ReviewQueryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

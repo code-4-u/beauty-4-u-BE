@@ -1,4 +1,4 @@
-package com.beauty4u.backend.elasticsearch;
+package com.beauty4u.backend.elasticsearch.common;
 
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch.indices.IndexSettings;
@@ -37,6 +37,10 @@ public class ElasticsearchIndexInitializer {
     @Value("${spring.elasticsearch.reviews.index.name}")
     private String reviews;
 
+    // 채팅 검색
+    @Value("${spring.elasticsearch.reviews.index.name}")
+    private String chat;
+
     public ElasticsearchIndexInitializer(ElasticsearchOperations elasticsearchOperations, ResourceLoader resourceLoader) {
         this.elasticsearchOperations = elasticsearchOperations;
         this.resourceLoader = resourceLoader;
@@ -48,6 +52,8 @@ public class ElasticsearchIndexInitializer {
         updateGoodsIndex();
         // 리뷰 인덱스 초기화
         createReviewIndex();
+        // 채팅 인덱스 초기화
+        updateChatIndex();
     }
 
     // 상품 인덱스 생성 메서드
@@ -58,19 +64,19 @@ public class ElasticsearchIndexInitializer {
             // 엘라스틱서치 settings,mappings 적용 위한 코드
             Resource settingsResource = resourceLoader.getResource("classpath:/elasticsearch/settings/settings.json");
             String settings = StreamUtils.copyToString(settingsResource.getInputStream(), StandardCharsets.UTF_8);
-            log.info("Settings content: {}", settings);
+            log.info("goods Settings content: {}", settings);
 
             Resource mappingsResource = resourceLoader.getResource("classpath:/elasticsearch/mappings/mappings.json");
             String mappings = StreamUtils.copyToString(mappingsResource.getInputStream(), StandardCharsets.UTF_8);
-            log.info("Mappings content: {}", mappings);
+            log.info("goods appings content: {}", mappings);
 
             // 해당 인덱스 존재하지 않을 경우 생성
             if (!indexOperations.exists()) {
-                log.info("Creating new index with settings and mappings");
+                log.info("Creating new goods index with settings and mappings");
                 indexOperations.create(Settings.parse(settings));
                 indexOperations.putMapping(Document.parse(mappings));
-            } else{
-                log.info("Index already exists");
+            } else {
+                log.info("goods Index already exists");
             }
         } catch (Exception e) {
             log.error("Goods Elasticsearch 초기화 실패", e);
@@ -100,6 +106,34 @@ public class ElasticsearchIndexInitializer {
             }
         } catch (Exception e) {
             log.error("reviews Elasticsearch 초기화 실패", e);
+        }
+    }
+
+    // 채팅 인덱스 생성 메서드
+    private void updateChatIndex() {
+        try {
+            IndexOperations indexOperations = elasticsearchOperations.indexOps(IndexCoordinates.of(goods));
+
+            // 엘라스틱서치 settings,mappings 적용 위한 코드
+            Resource settingsResource = resourceLoader.getResource("classpath:/elasticsearch/settings/settings.json");
+            String settings = StreamUtils.copyToString(settingsResource.getInputStream(), StandardCharsets.UTF_8);
+            log.info("chat Settings content: {}", settings);
+
+            Resource mappingsResource = resourceLoader.getResource("classpath:/elasticsearch/mappings/mappings.json");
+            String mappings = StreamUtils.copyToString(mappingsResource.getInputStream(), StandardCharsets.UTF_8);
+            log.info("chat Mappings content: {}", mappings);
+
+            // 해당 인덱스 존재하지 않을 경우 생성
+            if (!indexOperations.exists()) {
+                log.info("Creating new chat index with settings and mappings");
+                indexOperations.create(Settings.parse(settings));
+                indexOperations.putMapping(Document.parse(mappings));
+            } else {
+                log.info("chat Index already exists");
+            }
+        } catch (Exception e) {
+            log.error("Chat Elasticsearch 초기화 실패", e);
+            throw new RuntimeException("Elasticsearch 인덱스 업데이트 실패", e);
         }
     }
 }
