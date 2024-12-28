@@ -64,6 +64,8 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          GEMINI_URL: ${{ secrets.GEMINI_URL }}
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
         run: ./gradlew clean build -x test
 
       - name: Calculate Duration
