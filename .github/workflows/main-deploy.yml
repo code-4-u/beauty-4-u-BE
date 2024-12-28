@@ -1,0 +1,204 @@
+name: beauty4u-spring-deploy
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - "develop"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Set start time
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Validate application.yml
+        run: |
+          if [ ! -f src/main/resources/application.yml ]; then
+            echo "Error: application.yml not found!"
+            exit 1
+          fi
+
+      - name: Build with Gradle
+        env:
+          MARIADB_HOST: ${{ secrets.RDS_MARIADB_HOST }}
+          MARIADB_PORT: ${{ secrets.RDS_MARIADB_PORT }}
+          MARIADB_DATABASE: ${{ secrets.RDS_MARIADB_DATABASE }}
+          MARIADB_USER: ${{ secrets.RDS_MARIADB_USER }}
+          MARIADB_PASSWORD: ${{ secrets.RDS_MARIADB_PASSWORD }}
+          DRIVER_CLASS_NAME: ${{ secrets.DRIVER_CLASS_NAME }}
+          MONGODB_USER: ${{ secrets.MONGODB_USER }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+          ELASTIC_URIS: ${{ secrets.ELASTIC_URIS }}
+          ELASTIC_USER: ${{ secrets.ELASTIC_USER }}
+          ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          ACCESS_TOKEN_EXPIRATION_TIME: ${{ secrets.ACCESS_TOKEN_EXPIRATION_TIME }}
+          REFRESH_TOKEN_EXPIRATION_TIME: ${{ secrets.REFRESH_TOKEN_EXPIRATION_TIME }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          GEMINI_URL: ${{ secrets.GEMINI_URL }}
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
+        run: ./gradlew clean build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Get next version
+        id: version
+        run: |
+          TAGS=$(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} --filter tagStatus=TAGGED --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' --output text)
+          
+          if [ -z "$TAGS" ]; then
+            NEXT_VERSION="spring-v1"
+          else
+            CURRENT_VERSION=$(echo "$TAGS" | tr ' ' '\n' | grep "spring-v" | sort -V | tail -n 1)
+            CURRENT_NUM=$(echo $CURRENT_VERSION | sed 's/spring-v//')
+            NEXT_NUM=$((CURRENT_NUM + 1))
+            NEXT_VERSION="spring-v$NEXT_NUM"
+          fi
+          
+          echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          echo "Found tags: $TAGS"
+          echo "Next version will be: $NEXT_VERSION"
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          VERSION_TAG: ${{ steps.version.outputs.next_version }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION_TAG .
+          
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION_TAG
+          
+          echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$VERSION_TAG" >> $GITHUB_ENV
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASK_DEFINITION }} \
+          --query taskDefinition > task-definition.json
+          
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ secrets.ECS_CONTAINER_NAME }}
+          image: ${{ env.IMAGE_URI }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ secrets.ECS_SERVICE }}
+          cluster: ${{ secrets.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+      - name: Calculate Duration
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "DURATION=$DURATION" >> $GITHUB_ENV
+
+      - name: Notify Slack
+        if: always()
+        run: |
+          echo "Job Status: ${{ job.status }}"
+          DURATION=${DURATION:-"알 수 없음"}
+          
+          COMMIT_MESSAGES=$(git log -3 --pretty=format:"%s" | sed 's/"/\\"/g' | paste -sd "\\n" -)
+          ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          
+          send_slack_notification() {
+            local status="$1"
+            local color=""
+            local title=""
+          
+            if [ "$status" = "success" ]; then
+              color="good"
+              title="✅ 배포 성공"
+            else
+              color="danger"
+              title="❌ 배포 실패"
+            fi
+          
+            payload=$(jq -n \
+              --arg color "$color" \
+              --arg title "$title" \
+              --arg commit_msgs "$COMMIT_MESSAGES" \
+              --arg duration "$DURATION" \
+              --arg url "$ACTIONS_URL" \
+              '{
+                attachments: [{
+                  color: $color,
+                  blocks: [
+                    {
+                      type: "header",
+                      text: {
+                        type: "plain_text",
+                        text: $title,
+                        emoji: true
+                      }
+                    },
+                    {
+                      type: "section",
+                      fields: [
+                        {
+                          type: "mrkdwn",
+                          text: ("*커밋 메시지:*\n" + $commit_msgs)
+                        },
+                        {
+                          type: "mrkdwn",
+                          text: ("*실행 시간:*\n" + $duration + "초")
+                        }
+                      ]
+                    },
+                    {
+                      type: "section",
+                      text: {
+                        type: "mrkdwn",
+                        text: ("*Actions 로그:* <" + $url + "|보기>")
+                      }
+                    }
+                  ]
+                }]
+              }')
+          
+            curl -X POST -H "Content-type: application/json" \
+              --data "$payload" \
+              ${{ secrets.SLACK_WEBHOOK_URL }}
+          }
+          
+          send_slack_notification "${{ job.status }}"
