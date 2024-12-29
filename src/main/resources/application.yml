@@ -1,7 +1,6 @@
 server:
   port: 8080
 
-
 spring:
   application:
     name: beauty4u
@@ -22,7 +21,6 @@ spring:
     elasticsearch:
       repositories:
         enabled: ${spring.elasticsearch.enabled}
-
 
   jpa:
     hibernate:
@@ -47,16 +45,15 @@ spring:
 
 #  logback-spring.xml 사용 여부 결정
   logging:
-    use-logback: true
+    use-logback: false
     level:
       com.beauty4u.backend: DEBUG
 
   logstash:
-    enabled: true
+    enabled: false
     destination:
       host: localhost
       port: 5000
-
 
   mail:
     host: ${MAIL_HOST}
@@ -66,6 +63,7 @@ spring:
     properties:
       mail:
         smtp:
+          from: ${MAIL_USER}
           auth: true
           starttls:
             enable: true

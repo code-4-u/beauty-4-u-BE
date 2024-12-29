@@ -55,4 +55,13 @@ public class PromotionNotiQueryController {
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_FIND_LIST_SUCCESS, result);
     }
+
+    @Operation(summary = "개인별 추천 제품 분석 번호 조회", description = "개인별 추천 제품 분석 최근 번호 조회합니다.")
+    @GetMapping("/number")
+    public ResponseEntity<ApiResponse<Integer>> findPromotionAnalysisId() {
+
+        Integer result = promotionNotiQueryService.findPromotionAnalysisId();
+
+        return ResponseUtil.successResponse(SuccessCode.CUSTOM_ANALYSIS_ID_FIND_SUCCESS, result);
+    }
 }
