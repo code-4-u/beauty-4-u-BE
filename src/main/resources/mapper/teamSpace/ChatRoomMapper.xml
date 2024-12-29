@@ -5,7 +5,8 @@
     <select id="findAllChatRoomUser" resultType="ChatRoomUserInfoDto">
         SELECT
         cm.user_code AS userCode,
-        ui.user_name AS userName
+        ui.user_name AS userName,
+        ui.email as email
         FROM
         chat_member cm
         JOIN
