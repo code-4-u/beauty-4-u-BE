@@ -10,6 +10,9 @@ import com.beauty4u.backend.teamspace.command.domain.service.ChatRoomDomainServi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ChatMemberService {
@@ -19,14 +22,9 @@ public class ChatMemberService {
     private final ChatRoomDomainService chatRoomDomainService;
     private final ChatMessageDomainService chatMessageDomainService;
 
-    public void saveChatMember(String loginUserCode, Long chatRoomId, String inviteUserCode) {
+    public void saveChatMember(String loginUserCode, Long chatRoomId, List<String> inviteUserCodes) {
 
         // 초대하는 사람이 채팅방에 존재하는지도 확인해야 함
-
-        // 1. 유효한 사용자인지 확인
-        if (!chatMemberDomainService.isValidUser(inviteUserCode)) {
-            throw new IllegalArgumentException("해당 유저가 존재하지 않거나 만료된 사용자입니다.");
-        }
 
         // 2. 채팅방이 존재하는지 확인
         FindChatRoomDTO findChatRoomDTO = chatRoomDomainService.findChatRoomById(chatRoomId);
@@ -34,22 +32,25 @@ public class ChatMemberService {
             throw new IllegalArgumentException("존재하지 않는 채팅방입니다.");
         }
 
-        // 3. 채팅방에 초대하는 사람이 채팅방 멤버인지 확인
-        if (!chatMemberDomainService.checkChatMember(chatRoomId, loginUserCode)) {
-            throw new IllegalArgumentException("채팅방에 존재하는 유저만 다른 유저를 초대할 수 있습니다.");
-        }
+        // 3. 초대할 사용자 검증 및 중복 확인
+        List<String> validUserCodes = inviteUserCodes.stream()
+                .filter(chatMemberDomainService::isValidUser)
+                .filter(userCode -> !chatMemberDomainService.checkChatMember(chatRoomId, userCode))
+                .toList();
 
-        // 4. 유저가 이미 채팅방 멤버인지 확인
-        if (chatMemberDomainService.checkChatMember(chatRoomId, inviteUserCode)) {
-            throw new IllegalArgumentException("이미 채팅방에 존재하는 유저입니다.");
+        if (validUserCodes.isEmpty()) {
+            throw new IllegalArgumentException("초대할 사용자가 유효하지 않거나 이미 채팅방에 존재합니다.");
         }
 
         // 5. 새로운 멤버 추가
-        ChatMember newMember = ChatMember.builder()
-                .chatRoomId(chatRoomId)
-                .userCode(inviteUserCode)
-                .build();
-        chatMemberRepository.save(newMember);
+        List<ChatMember> newMembers = validUserCodes.stream()
+                .map(userCode -> ChatMember.builder()
+                        .chatRoomId(chatRoomId)
+                        .userCode(userCode)
+                        .build())
+                .collect(Collectors.toList());
+
+        chatMemberRepository.saveAll(newMembers);
     }
 
     // 채팅방에서 나가기

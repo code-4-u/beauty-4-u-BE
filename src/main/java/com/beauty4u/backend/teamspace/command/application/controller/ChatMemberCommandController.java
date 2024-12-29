@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/chat")
 @RequiredArgsConstructor
@@ -20,12 +22,12 @@ public class ChatMemberCommandController {
     private final ChatMemberService chatMemberService;
 
     // 특정 채팅방에 멤버를 추가한다.
-    @PostMapping("/{chatRoomId}/invite/{userCode}")
+    @PostMapping("/{chatRoomId}/invite")
     @Operation(summary = "채팅방 멤버 초대", description = "채팅방에 채팅 멤버를 추가한다.")
     public ResponseEntity<ApiResponse<Void>> invite(@PathVariable Long chatRoomId,
-                                                    @PathVariable String userCode) {
+                                                    @RequestBody List<String> userCodes) {
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
-        chatMemberService.saveChatMember(loginUserCode, chatRoomId, userCode);
+        chatMemberService.saveChatMember(loginUserCode, chatRoomId, userCodes);
         return ResponseUtil.successResponse(SuccessCode.CHATMEMBER_SAVE_SUCCESS);
     }
 

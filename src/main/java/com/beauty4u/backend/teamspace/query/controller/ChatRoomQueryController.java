@@ -8,7 +8,6 @@ import com.beauty4u.backend.teamspace.query.service.ChatRoomQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +22,11 @@ public class ChatRoomQueryController {
 
     @Operation(summary = "채팅방 리스트 조회", description = "본인이 속한 채팅방 리스트를 조회합니다.")
     @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoomDTO>> getMyChatRooms() {
+    public List<ChatRoomDTO> getMyChatRooms() {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
         List<ChatRoomDTO> chatRooms = chatRoomQueryService.getMyChatRooms(loginUserCode);
-        return ResponseEntity.ok(chatRooms);
+        return chatRooms;
     }
 
     @Operation(summary = "채팅방 내의 채팅 참여자 정보 조회", description = "부서 코드에 맞는 채팅방 참여자의 정보를 조회합니다.")

@@ -29,6 +29,9 @@ public class ChatMessage{
 
     @NotNull
     private String userCode; // sender 사용자 코드
+    
+    @NotNull
+    private String userName; // sender 사용자명
 
     @NotNull
     private String messageContent; // 메시지 내용
