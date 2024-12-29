@@ -24,6 +24,7 @@ public class FileService {
                 fileSaveReqDTO.getEntityType());
     }
 
+    @Transactional
     public void deleteImages(FileDeleteReqDTO fileDeleteReqDTO) {
         fileDomainService.deleteFile(fileDeleteReqDTO.getEntityId(), fileDeleteReqDTO.getIsInform());
     }

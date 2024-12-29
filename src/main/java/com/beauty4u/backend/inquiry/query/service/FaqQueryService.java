@@ -34,7 +34,9 @@ public class FaqQueryService {
         faqListResDTO.setFaqList(faqList);
 
         Long totalCount = faqQueryMapper.findFaqListTotalCount(
-                faqFilterReqDTO.getFaqTitle());
+                faqFilterReqDTO.getFaqTitle(),
+                faqFilterReqDTO.getPublishStatus()
+        );
 
         faqListResDTO.setTotalCount(totalCount);
 

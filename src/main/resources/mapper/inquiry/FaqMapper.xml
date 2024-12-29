@@ -62,5 +62,9 @@
         <if test="faqTitle != null and faqTitle != ''">
             AND faq_title LIKE CONCAT('%', #{faqTitle}, '%')
         </if>
+
+        <if test="publishStatus != null and publishStatus != ''">
+            AND publish_status = #{publishStatus}
+        </if>
     </select>
 </mapper>
