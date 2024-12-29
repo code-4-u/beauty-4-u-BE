@@ -16,7 +16,6 @@ public class InformDetailResDTO {
     private String informContent;
     private String publishStatus;
     private Long informViewcount;
-    private String fileUrl;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }

@@ -18,15 +18,20 @@ public class FileService {
 
     @Transactional
     public List<Long> saveImages(FileSaveReqDTO fileSaveReqDTO) {
+
         return fileDomainService.saveFile(
-                fileSaveReqDTO.getImageUrls(),
-                fileSaveReqDTO.getEntityId(),
+                fileSaveReqDTO.getFileUrls(),
+                fileSaveReqDTO.getImageS3Urls(),
                 fileSaveReqDTO.getEntityType());
     }
 
     @Transactional
     public void deleteImages(FileDeleteReqDTO fileDeleteReqDTO) {
-        fileDomainService.deleteFile(fileDeleteReqDTO.getEntityId(), fileDeleteReqDTO.getIsInform());
+
+        fileDomainService.deleteFile(
+                fileDeleteReqDTO.getFileIdList(),
+                fileDeleteReqDTO.getFileS3UrlList()
+        );
     }
 
     @Transactional

@@ -57,6 +57,8 @@ public enum ErrorCode {
     INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "해당 확장자를 지원하지 않습니다."),
     PUT_OBJECT_EXCEPTION(HttpStatus.BAD_REQUEST, "S3에 업로드 실패했습니다."),
     IO_EXCEPTION_ON_IMAGE_DELETE(HttpStatus.BAD_REQUEST, "삭제에 실패했습니다."),
+    FILE_LIST_DELETE_FAIL(HttpStatus.BAD_REQUEST, "파일 삭제에 실패했습니다."),
+    FILE_LIST_SAVE_FAIL(HttpStatus.BAD_REQUEST, "파일 저장에 실패했습니다."),
 
     // 일정 (schedule)
     NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "일정 조회 실패"),
