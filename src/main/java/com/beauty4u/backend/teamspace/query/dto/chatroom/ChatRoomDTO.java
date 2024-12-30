@@ -12,6 +12,7 @@ import lombok.ToString;
 public class ChatRoomDTO {
 
     private Long chatRoomId;
+    private String chatRoomName;
 //    private String lastMessage;
 //    private Integer unreadCount;
 //    private LocalDateTime timestamp;
