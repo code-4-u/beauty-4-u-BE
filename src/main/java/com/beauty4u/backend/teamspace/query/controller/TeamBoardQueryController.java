@@ -3,6 +3,7 @@ package com.beauty4u.backend.teamspace.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
+import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardDetailResDTO;
 import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardFilterDTO;
 import com.beauty4u.backend.teamspace.query.dto.teamboard.TeamBoardListResDTO;
@@ -28,7 +29,9 @@ public class TeamBoardQueryController {
     @GetMapping("/list")
     public ResponseEntity<ApiResponse<TeamBoardListResDTO>> findTeamBoardList(TeamBoardFilterDTO teamBoardFilterDTO) {
 
-        TeamBoardListResDTO teamBoardListResDTO = teamBoardQueryService.findTeamBoardList(teamBoardFilterDTO);
+        String loginUserDeptCode = CustomUserUtil.getCurrentDeptCode();
+
+        TeamBoardListResDTO teamBoardListResDTO = teamBoardQueryService.findTeamBoardList(teamBoardFilterDTO, loginUserDeptCode);
 
         return ResponseUtil.successResponse(SuccessCode.TEAMBOARD_FIND_LIST_SUCCESS, teamBoardListResDTO);
     }
