@@ -18,6 +18,7 @@ public interface TeamBoardQueryMapper {
             @Param("publishStatus") String publishStatus,
             @Param("startDateTime") LocalDateTime startDateTime,
             @Param("endDateTime") LocalDateTime endDateTime,
+            @Param("loginDeptCode") String loginDeptCode,
             @Param("sort") String sort,
             @Param("order") String order,
             @Param("offset") Long offset,
@@ -29,6 +30,7 @@ public interface TeamBoardQueryMapper {
             @Param("publishStatus") String publishStatus,
             @Param("startDateTime") LocalDateTime startDateTime,
             @Param("endDateTime") LocalDateTime endDateTime,
+            @Param("loginDeptCode") String loginDeptCode,
             @Param("sort") String sort,
             @Param("order") String order);
 
