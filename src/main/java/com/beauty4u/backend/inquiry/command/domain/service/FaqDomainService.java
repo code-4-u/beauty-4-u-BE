@@ -49,10 +49,11 @@ public class FaqDomainService {
 
     public void deleteFaq(Long faqId) {
 
-        Faq faq = faqRepository.findById(faqId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_FAQ));
-
-        faqRepository.delete(faq);
+        try {
+            faqRepository.deleteById(faqId);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.NOT_DELETE_FAQ);
+        }
     }
 
     public void updateFaqViewcount(Long faqId, UpdateFaqViewcount updateFaqViewcount) {

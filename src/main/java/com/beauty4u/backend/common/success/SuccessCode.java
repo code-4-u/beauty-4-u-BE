@@ -132,6 +132,9 @@ public enum SuccessCode {
     PROMOTION_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 수정 성공"),
     PROMOTION_DELETE_SUCCESS(HttpStatus.OK, "프로모션 삭제 성공"),
 
+    CUSTOM_ANALYSIS_RUN_SUCCESS(HttpStatus.OK, "고객별 맞춤 제품 추천 실행 완료"),
+    CUSTOM_ANALYSIS_ID_FIND_SUCCESS(HttpStatus.OK, "분석 번호 조회 성공"),
+
     // 프로모션 타입
     PROMOTIONTYPE_SAVE_SUCCESS(HttpStatus.OK, "프로모션 종류 저장 성공"),
     PROMOTIONTYPE_UPDATE_SUCCESS(HttpStatus.OK, "프로모션 종류 수정 성공"),
@@ -156,6 +159,7 @@ public enum SuccessCode {
     // 제품에 대한 매출
     GOODS_SALES_FIND_SUCCESS(HttpStatus.OK, "제품의 전년 대비 같은 월 비교 성공"),
     GOODS_SALES_MONTHLY_LIST_FIND_SUCCESS(HttpStatus.OK, "제품의 해당 연도 모든 매출액 조회 성공"),
+    GOODS_SALES_AGE_LIST_FIND_SUCCESS(HttpStatus.OK, "제품의 해당 연도와 지난 연도의 같은 달의 연령별 매출액 비교 조회 성공"),
 
     // 폴더 (folder)
     FOLDER_SAVE_SUCCESS(HttpStatus.OK, "폴더 생성 성공"),
@@ -166,9 +170,13 @@ public enum SuccessCode {
     // 채팅 메세지
     CHAT_SEND_SUCCESS(HttpStatus.CREATED, "채팅 메세지 전송 성공"),
     CHAT_FIND_SUCCESS(HttpStatus.OK, "채팅 메세지 조회 성공"),
+    CHAT_LIST_FIND_SUCCESS(HttpStatus.OK, "채팅 내역 조회 성공"),
 
     // 채팅방
     CHATROOM_SAVE_SUCCESS(HttpStatus.CREATED, "채팅방 생성 성공"),
+    CHAT_ROOM_LIST_FIND_SUCCESS(HttpStatus.OK, "채팅방 목록 조회 성공"),
+    CHAT_ROOM_USER_LIST_FIND_SUCCESS(HttpStatus.OK, "채팅방 내의 채팅 참여자 정보 조회 성공"),
+    CHAT_ROOM_DETAIL_FIND_SUCCESS(HttpStatus.OK, "채팅방 채팅 상세조회 성공"),
 
     // 채팅 멤버
     CHATMEMBER_SAVE_SUCCESS(HttpStatus.OK, "채팅방 멤버 초대 성공"),

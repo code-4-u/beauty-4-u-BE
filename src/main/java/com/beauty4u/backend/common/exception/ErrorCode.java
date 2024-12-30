@@ -15,6 +15,7 @@ public enum ErrorCode {
     LOGOUT_FAIL(HttpStatus.UNAUTHORIZED, "로그아웃 실패"),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "현재 비밀번호가 일치하지 않습니다."),
     NOT_FOUND_USER_LIST(HttpStatus.BAD_REQUEST, "회원 목록 조회를 실패했습니다."),
+    USER_EXPIRED(HttpStatus.OK, "계정이 비활성화된 상태입니다."),
 
     EMAIL_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 전송 실패"),
 
@@ -38,6 +39,8 @@ public enum ErrorCode {
     NOT_FOUND_INQUIRY_REPLY(HttpStatus.NOT_FOUND, "QnA 답변 조회 실패"),
     NOT_SAVED_FAQ(HttpStatus.CONFLICT, "FAQ 등록 실패"),
     NOT_FOUND_FAQ(HttpStatus.NOT_FOUND, "FAQ 조회 실패"),
+    NOT_DELETE_FAQ(HttpStatus.BAD_REQUEST, "FAQ 삭제 실패"),
+    NOT_UPDATE_FAQ(HttpStatus.BAD_REQUEST, "FAQ 수정 실패"),
     NOT_SAME_USER(HttpStatus.BAD_REQUEST, "수정자와 등록자가 다름"),
     NOT_FOUND_INQUIRY_LIST(HttpStatus.BAD_REQUEST, "QnA 질문 목록 조회 실패"),
     NOT_DELETE_INQUIRY_REPLY(HttpStatus.BAD_REQUEST, "QnA 답변 삭제 실패"),
@@ -54,6 +57,8 @@ public enum ErrorCode {
     INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "해당 확장자를 지원하지 않습니다."),
     PUT_OBJECT_EXCEPTION(HttpStatus.BAD_REQUEST, "S3에 업로드 실패했습니다."),
     IO_EXCEPTION_ON_IMAGE_DELETE(HttpStatus.BAD_REQUEST, "삭제에 실패했습니다."),
+    FILE_LIST_DELETE_FAIL(HttpStatus.BAD_REQUEST, "파일 삭제에 실패했습니다."),
+    FILE_LIST_SAVE_FAIL(HttpStatus.BAD_REQUEST, "파일 저장에 실패했습니다."),
 
     // 일정 (schedule)
     NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "일정 조회 실패"),

@@ -64,6 +64,8 @@ public class GeminiReviewQueryService {
             sb.append(review.getReviewContent()).append("\n");
         }
 
+        sb.append("한국말로 50자 내외로 요약해줘.");
+
         String geminiReview = getContents(sb.toString());
 
         geminiReviewResDTO.setGeminiReview(geminiReview);

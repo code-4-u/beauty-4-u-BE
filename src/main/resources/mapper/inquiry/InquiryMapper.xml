@@ -99,13 +99,11 @@
             i.inquiry_viewcount,
             i.created_date,
             i.publish_status,
-            f.file_url,
             i.updated_date,
             i.inquiry_secret_yn,
             i.inquiry_reply_yn
         FROM inquiry i
         LEFT JOIN user_info u USING (user_code)
-        LEFT JOIN file_info f USING (inquiry_id)
         WHERE i.inquiry_id = #{inquiryId}
     </select>
 </mapper>

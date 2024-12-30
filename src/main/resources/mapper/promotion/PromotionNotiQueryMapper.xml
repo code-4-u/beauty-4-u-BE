@@ -45,6 +45,7 @@
           JOIN promotion_goods pg ON pg.goods_code = pr.goods_code
           JOIN promotion p ON p.promotion_id = pg.promotion_id
          WHERE pg.promotion_id = #{promotionId}
+           AND pr.analysis_id = #{analysisId}
     </select>
 
     <select id="findPromotionByCustomerGoodsCount" resultType="java.lang.Integer">
@@ -55,6 +56,14 @@
          WHERE pr.goods_code IN (SELECT goods_code
                                 FROM promotion_goods pg
                                 WHERE pg.promotion_id = #{promotionId})
+    </select>
+
+    <select id="findPromotionAnalysisId" resultType="java.lang.Integer">
+        SELECT analysis_id
+          FROM analysis
+         WHERE analysis_kind = 'PERSONALIZED'
+         ORDER BY created_date DESC
+         LIMIT 1;
     </select>
 
 </mapper>

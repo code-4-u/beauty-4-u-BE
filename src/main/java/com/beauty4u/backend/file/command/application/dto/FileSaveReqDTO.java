@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class FileSaveReqDTO {
 
-    private Long entityId;
-    private List<String> imageUrls;
-    private String entityType;
+    private List<String> imageS3Urls; // s3 urls
+    private List<String> fileUrls; // 원래 파일 이름
+    private String entityType; // 타입 지정
 }

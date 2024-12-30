@@ -1,4 +1,4 @@
-package com.beauty4u.backend.user.query.dto;
+package com.beauty4u.backend.user.query.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

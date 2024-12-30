@@ -1,4 +1,4 @@
-package com.beauty4u.backend.file.command.application.dto;
+package com.beauty4u.backend.goods.query.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileDeleteReqDTO {
+public class GoodsSalesAgeListResDTO {
 
-    private List<Long> fileIdList;
-    private List<String> fileS3UrlList;
+    private int year;
+    private List<MonthSalesDTO> monthSalesList;
 }

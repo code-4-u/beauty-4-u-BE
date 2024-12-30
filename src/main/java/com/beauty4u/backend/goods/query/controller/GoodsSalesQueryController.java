@@ -3,10 +3,7 @@ package com.beauty4u.backend.goods.query.controller;
 import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesFilterDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesMonthlyListFilterDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesMonthlyListResDTO;
-import com.beauty4u.backend.goods.query.dto.GoodsSalesResDTO;
+import com.beauty4u.backend.goods.query.dto.*;
 import com.beauty4u.backend.goods.query.service.GoodsSalesQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,5 +49,18 @@ public class GoodsSalesQueryController {
                 = goodsSalesQueryService.findSalesGoodsMonthlyList(goodsCode, goodsSalesMonthlyListFilterDTO);
 
         return ResponseUtil.successResponse(SuccessCode.GOODS_SALES_MONTHLY_LIST_FIND_SUCCESS, goodsSalesMonthlyListResDTO);
+    }
+
+    @Operation(summary = "제품의 해당 연월에 대한 연령별 매출액 조회", description = "제품의 해당 연월에 대한 연령별 매출액을 전연도와 비교해서 조회한다.")
+    @GetMapping("/sales/age/{goodsCode}")
+    public ResponseEntity<ApiResponse<List<GoodsSalesAgeListResDTO>>> findSalesGoodsAge(
+            @PathVariable String goodsCode,
+            GoodsSalesAgeListFilterDTO goodsSalesAgeListFilterDTO
+    ) {
+
+        List<GoodsSalesAgeListResDTO> goodsSalesAgeListResDTO
+                = goodsSalesQueryService.findSalesGoodsAge(goodsCode, goodsSalesAgeListFilterDTO);
+
+        return ResponseUtil.successResponse(SuccessCode.GOODS_SALES_AGE_LIST_FIND_SUCCESS, goodsSalesAgeListResDTO);
     }
 }

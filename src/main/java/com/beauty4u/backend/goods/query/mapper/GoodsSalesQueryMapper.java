@@ -11,4 +11,12 @@ public interface GoodsSalesQueryMapper {
             @Param("month") Integer month,
             @Param("year") Integer year
     );
+
+    Long findSalesGoodsAge(
+            @Param("goodsCode") String goodsCode,
+            @Param("targetYear") int beforeYear,
+            @Param("targetMonth") int month,
+            @Param("startAge") int startAge,
+            @Param("endAge") int endAge
+    );
 }
