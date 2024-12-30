@@ -15,4 +15,9 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_room_id", nullable = false)
     private Long id;
+
+    @Column(name = "chat_room_name", nullable = false, length = 50)
+    private String chatRoomName;
+
+
 }

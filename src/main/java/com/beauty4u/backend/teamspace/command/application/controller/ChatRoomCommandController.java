@@ -4,6 +4,7 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
+import com.beauty4u.backend.teamspace.command.application.dto.chatroom.ChatRoomReqDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.chatroom.ChatRoomResponseDto;
 import com.beauty4u.backend.teamspace.command.application.service.ChatRoomService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,11 +25,11 @@ public class ChatRoomCommandController {
 
     @PostMapping("/create")
     @Operation(summary = "채팅방 생성", description = "채팅방을 생성하고 채팅방 유저 코드를 반환한다.")
-    public ResponseEntity<ApiResponse<ChatRoomResponseDto>> createTeamSpace(@RequestBody List<String> invitedUserCodes) {
+    public ResponseEntity<ApiResponse<ChatRoomResponseDto>> createTeamSpace(@RequestBody ChatRoomReqDTO chatRoomReqDTO) {
 
         String loginUserCode = CustomUserUtil.getCurrentUserCode();
 
-        ChatRoomResponseDto chatRoomResponseDto = chatRoomService.createChatRoom(loginUserCode, invitedUserCodes);
+        ChatRoomResponseDto chatRoomResponseDto = chatRoomService.createChatRoom(loginUserCode, chatRoomReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.CHATROOM_SAVE_SUCCESS, chatRoomResponseDto);
     }
