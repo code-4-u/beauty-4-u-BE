@@ -11,7 +11,6 @@ import com.beauty4u.backend.user.command.domain.aggregate.UserInfo;
 import com.beauty4u.backend.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 @Service

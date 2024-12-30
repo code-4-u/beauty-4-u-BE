@@ -22,5 +22,7 @@ public interface FaqQueryMapper {
             @Param("faqId") Long faqId);
 
     Long findFaqListTotalCount(
-            @Param("faqTitle") String faqTitle);
+            @Param("faqTitle") String faqTitle,
+            @Param("publishStatus") String publishStatus
+    );
 }

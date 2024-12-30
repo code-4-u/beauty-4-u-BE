@@ -16,7 +16,6 @@ public class InquiryDetailResDTO {
     private String inquiryContent;
     private String inquiryViewcount;
     private String publishStatus;
-    private String fileUrl;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private String inquirySecretYn;

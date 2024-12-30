@@ -2,7 +2,12 @@ package com.beauty4u.backend.user.query.service;
 
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
-import com.beauty4u.backend.user.query.dto.*;
+import com.beauty4u.backend.user.query.dto.dept.DeptResDTO;
+import com.beauty4u.backend.user.query.dto.job.JobResDTO;
+import com.beauty4u.backend.user.query.dto.role.RoleResDTO;
+import com.beauty4u.backend.user.query.dto.user.FindUserDetailResDTO;
+import com.beauty4u.backend.user.query.dto.user.UserListDTO;
+import com.beauty4u.backend.user.query.dto.user.UserListResDTO;
 import com.beauty4u.backend.user.query.mapper.DeptQueryMapper;
 import com.beauty4u.backend.user.query.mapper.JobQueryMapper;
 import com.beauty4u.backend.user.query.mapper.RoleQueryMapper;

@@ -1,7 +1,7 @@
 package com.beauty4u.backend.user.query.service;
 
-import com.beauty4u.backend.user.query.dto.UserListDTO;
-import com.beauty4u.backend.user.query.dto.UserListResDTO;
+import com.beauty4u.backend.user.query.dto.user.UserListDTO;
+import com.beauty4u.backend.user.query.dto.user.UserListResDTO;
 import com.beauty4u.backend.user.query.mapper.UserQueryMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

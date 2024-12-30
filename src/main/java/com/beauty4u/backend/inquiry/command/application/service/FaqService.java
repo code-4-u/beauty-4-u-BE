@@ -1,5 +1,7 @@
 package com.beauty4u.backend.inquiry.command.application.service;
 
+import com.beauty4u.backend.common.exception.CustomException;
+import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.inquiry.command.application.dto.FaqReqDTO;
 import com.beauty4u.backend.inquiry.command.application.dto.UpdateFaqViewcount;
 import com.beauty4u.backend.inquiry.command.domain.service.FaqDomainService;
@@ -22,7 +24,13 @@ public class FaqService {
     @Transactional
     public void updateFaq(Long faqId, FaqReqDTO faqReqDTO) {
 
-        faqDomainService.updateFaq(faqId, faqReqDTO);
+        try {
+            faqDomainService.updateFaq(faqId, faqReqDTO);
+        } catch (CustomException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.NOT_UPDATE_FAQ);
+        }
     }
 
     @Transactional

@@ -29,6 +29,8 @@ public class FaqQueryController {
     public ResponseEntity<ApiResponse<FaqListResDTO>> findFaqList(
             FaqFilterReqDTO faqFilterReqDTO) {
 
+
+
         FaqListResDTO faqListResDTOS = faqQueryService.findFaqList(faqFilterReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.FAQ_FIND_LIST_SUCCESS, faqListResDTOS);

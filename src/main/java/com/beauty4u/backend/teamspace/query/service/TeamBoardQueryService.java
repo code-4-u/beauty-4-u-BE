@@ -16,7 +16,7 @@ public class TeamBoardQueryService {
     private final TeamBoardQueryMapper teamBoardQueryMapper;
 
     @Transactional(readOnly = true)
-    public TeamBoardListResDTO findTeamBoardList(TeamBoardFilterDTO teamBoardFilterDTO) {
+    public TeamBoardListResDTO findTeamBoardList(TeamBoardFilterDTO teamBoardFilterDTO, String loginUserDeptCode) {
 
         Long offset = (teamBoardFilterDTO.getPage() - 1) * teamBoardFilterDTO.getCount();
 
@@ -36,6 +36,7 @@ public class TeamBoardQueryService {
                 teamBoardFilterDTO.getPublishStatus(),
                 startDateTime,
                 endDateTime,
+                loginUserDeptCode,
                 teamBoardFilterDTO.getSort(),
                 teamBoardFilterDTO.getOrder(),
                 offset,
@@ -49,6 +50,7 @@ public class TeamBoardQueryService {
                 teamBoardFilterDTO.getPublishStatus(),
                 startDateTime,
                 endDateTime,
+                loginUserDeptCode,
                 teamBoardFilterDTO.getSort(),
                 teamBoardFilterDTO.getOrder()
         );

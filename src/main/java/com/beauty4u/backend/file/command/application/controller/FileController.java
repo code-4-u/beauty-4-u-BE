@@ -26,13 +26,13 @@ public class FileController {
     // db에 저장
     @Operation(summary = "업로드된 사진 저장", description = "업로드 된 사진 저장")
     @PostMapping("/save")
-    public ResponseEntity<ApiResponse<Void>> saveImage(
+    public ResponseEntity<ApiResponse<List<Long>>> saveImage(
             @RequestBody FileSaveReqDTO fileSaveReqDTO
     ) {
 
-        fileService.saveImages(fileSaveReqDTO);
+        List<Long> fileIdList = fileService.saveImages(fileSaveReqDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.FILE_SAVE_SUCCESS);
+        return ResponseUtil.successResponse(SuccessCode.FILE_SAVE_SUCCESS, fileIdList);
     }
 
     // db에서 삭제
@@ -65,7 +65,7 @@ public class FileController {
     @Operation(summary = "사진 업로드 삭제", description = "업로드 된 사진을 삭제한다.")
     @PostMapping("/s3/uploadList")
     public ResponseEntity<ApiResponse<String>> s3UploadDeleteImage(
-            @RequestPart(value = "image", required = false) List<String> imageUrls
+            @RequestBody(required = false) List<String> imageUrls
     ) {
 
         fileService.uploadDeleteImage(imageUrls);

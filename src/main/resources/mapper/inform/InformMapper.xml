@@ -105,12 +105,10 @@
             i.inform_content,
             i.publish_status,
             i.inform_viewcount,
-            f.file_url,
             i.created_date,
             i.updated_date
         FROM inform i
         LEFT JOIN user_info u ON i.user_code = u.user_code
-        LEFT JOIN file_info f ON i.inform_id = f.inform_id
         WHERE i.inform_id = #{informId}
     </select>
 </mapper>
