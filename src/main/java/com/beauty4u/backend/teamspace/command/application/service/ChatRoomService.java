@@ -1,5 +1,6 @@
 package com.beauty4u.backend.teamspace.command.application.service;
 
+import com.beauty4u.backend.teamspace.command.application.dto.chatroom.ChatRoomReqDTO;
 import com.beauty4u.backend.teamspace.command.application.dto.chatroom.ChatRoomResponseDto;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMember;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatRoom;
@@ -22,10 +23,10 @@ public class ChatRoomService {
 
     // 채팅방 생성
     @Transactional
-    public ChatRoomResponseDto createChatRoom(String creatorUserCode, List<String> invitedUserCodes) {
+    public ChatRoomResponseDto createChatRoom(String creatorUserCode, ChatRoomReqDTO chatRoomReqDTO) {
 
         // 1. 채팅방 생성
-        ChatRoom chatRoom = new ChatRoom();
+        ChatRoom chatRoom = new ChatRoom(null, chatRoomReqDTO.getChatRoomName());
         chatRoom = chatRoomRepository.save(chatRoom);
 
         // 2. 채팅방 ID를 로컬 변수에 저장
@@ -39,7 +40,7 @@ public class ChatRoomService {
         chatMemberRepository.save(creatorMember);
 
         // 4. 요청된 사용자 추가
-        List<ChatMember> invitedMembers = invitedUserCodes.stream()
+        List<ChatMember> invitedMembers = chatRoomReqDTO.getInvitedUsers().stream()
                 .map(userCode -> ChatMember.builder()
                         .chatRoomId(chatRoomId)
                         .userCode(userCode)
@@ -50,7 +51,7 @@ public class ChatRoomService {
         // 5. 응답 DTO 생성
         List<String> allMembers = new ArrayList<>();
         allMembers.add(creatorUserCode);
-        allMembers.addAll(invitedUserCodes);
+        allMembers.addAll(chatRoomReqDTO.getInvitedUsers());
 
         return ChatRoomResponseDto.builder()
                 .chatRoomId(chatRoom.getId())

@@ -27,7 +27,8 @@
     <!-- 사용자 코드로 채팅방 목록 조회 -->
     <select id="findAllChatRoomList" resultType="ChatRoomDTO">
         SELECT
-        cr.chat_room_id AS chatRoomId
+        cr.chat_room_id AS chatRoomId,
+        cr.chat_room_name AS chatRoomName
         FROM
         chat_room cr
         JOIN
