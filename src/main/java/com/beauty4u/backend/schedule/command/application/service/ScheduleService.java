@@ -44,10 +44,10 @@ public class ScheduleService {
             notiMessage = createScheduleReqDTO.getScheduleReqDTO().getScheduleContent();
         }
 
-        // 자기 자신한테는 알림을 안 보낸다.
-        targetUserCodeList.remove(loginUserCode);
+        List<String> mutableList = new ArrayList<>(targetUserCodeList);
+        mutableList.remove(loginUserCode);
 
-        notiDomainService.send(loginUserCode, targetUserCodeList, notiType, notiMessage, createScheduleReqDTO.getScheduleUrl());
+        notiDomainService.send(loginUserCode, mutableList, notiType, notiMessage, createScheduleReqDTO.getScheduleUrl());
 
         return scheduleId;
     }
