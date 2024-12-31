@@ -1,3 +1,3 @@
 ARG VERSION
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.14.1
-RUN elasticsearch-plugin install analysis-nori
+FROM opensearchproject/opensearch:2.11.0
+RUN /usr/share/opensearch/bin/opensearch-plugin install analysis-nori
