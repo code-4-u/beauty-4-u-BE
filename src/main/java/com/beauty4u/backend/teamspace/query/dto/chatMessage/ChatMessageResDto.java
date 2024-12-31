@@ -1,8 +1,6 @@
 package com.beauty4u.backend.teamspace.query.dto.chatMessage;
 
-import com.beauty4u.backend.file.command.application.dto.FileDTO;
 import lombok.*;
-
 import java.util.List;
 
 @Setter
@@ -21,5 +19,5 @@ public class ChatMessageResDto {
     private String messageDeletedTime;
 
     // 첨부 파일 정보
-    private List<FileDTO> attachedFiles;
+    private List<String> s3PresignedUrls;
 }
