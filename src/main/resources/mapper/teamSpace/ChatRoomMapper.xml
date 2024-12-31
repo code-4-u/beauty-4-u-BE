@@ -6,11 +6,14 @@
         SELECT
         cm.user_code AS userCode,
         ui.user_name AS userName,
-        ui.email as email
+        ui.email as email,
+        d.dept_name AS deptName
         FROM
         chat_member cm
         JOIN
         user_info ui ON cm.user_code = ui.user_code
+        JOIN
+        dept d ON ui.dept_code = d.dept_code
         WHERE
         cm.chat_room_id = #{chatRoomId}
     </select>

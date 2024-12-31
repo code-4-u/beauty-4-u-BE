@@ -18,6 +18,5 @@ public class ChatRoomUserInfoDto {
 
     private String email; // 유저 이메일
 
-    private String userRoleName; // 회원 권한
-
+    private String deptName; // 부서 이름
 }
