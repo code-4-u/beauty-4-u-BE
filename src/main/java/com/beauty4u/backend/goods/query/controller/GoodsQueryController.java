@@ -4,7 +4,7 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.goods.query.dto.*;
-import com.beauty4u.backend.elasticsearch.document.GoodsDocument;
+import com.beauty4u.backend.opensearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.service.GoodsQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/goods")
 @Tag(name = "Goods", description = "상품 조회 API")
-@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "spring.opensearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;

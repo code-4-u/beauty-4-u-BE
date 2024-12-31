@@ -3,8 +3,8 @@ package com.beauty4u.backend.goods.query.service;
 import com.beauty4u.backend.common.exception.CustomException;
 import com.beauty4u.backend.common.exception.ErrorCode;
 import com.beauty4u.backend.goods.query.dto.*;
-import com.beauty4u.backend.elasticsearch.document.GoodsDocument;
-import com.beauty4u.backend.elasticsearch.repository.GoodsSearchRepository;
+import com.beauty4u.backend.opensearch.document.GoodsDocument;
+import com.beauty4u.backend.opensearch.repository.GoodsSearchRepository;
 import com.beauty4u.backend.goods.query.mapper.CategoryQueryMapper;
 import com.beauty4u.backend.goods.query.mapper.GoodsQueryMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "spring.opensearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class GoodsQueryService {
     private final SqlSession sqlSession;
     private final GoodsSearchRepository goodsSearchRepository;
