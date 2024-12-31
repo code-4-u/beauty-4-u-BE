@@ -10,6 +10,7 @@ import com.beauty4u.backend.teamspace.command.domain.repository.ChatMessageRepos
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatRoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class ChatRoomDomainService {
         return modelMapper.map(chatRoom, FindChatRoomDTO.class);
     }
 
-    public ChatMessageReqDto findMessage(Long messageId) {
+    public ChatMessageReqDto findMessage(ObjectId messageId) {
 
         ChatMessage chatMessage = chatMessageRepository.findById(messageId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MESSAGE));
