@@ -21,19 +21,23 @@ public class PromotionNotiController {
     private final PromotionNotiService promotionNotiService;
 
     @Operation(summary = "프로모션 알림 메일 전송", description = "프로모션 알림을 메일로 전송한다. FakeSMTP 사용")
-    @PostMapping("/notiFake/{promotionId}")
-    public ResponseEntity<ApiResponse<PromotionEmailResult>> savePromotionNoti(@PathVariable Long promotionId) {
+    @PostMapping("/notiFake/{promotionId}/{analysisId}")
+    public ResponseEntity<ApiResponse<PromotionEmailResult>> savePromotionNoti(
+            @PathVariable Long promotionId,
+            @PathVariable Long analysisId) {
 
-        PromotionEmailResult result = promotionNotiService.savePromotionNotiFakeSMTP(promotionId);
+        PromotionEmailResult result = promotionNotiService.savePromotionNotiFakeSMTP(promotionId, analysisId);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_NOTI_SAVE_SUCCESS, result);
     }
 
     @Operation(summary = "프로모션 알림 메일 실제 SMTP 서버 전송", description = "프로모션 알림을 실제 메일 서버로 전송한다.")
-    @PostMapping("/noti/{promotionId}")
-    public ResponseEntity<ApiResponse<PromotionEmailResult>> savePromotionNotiReal(@PathVariable Long promotionId) {
+    @PostMapping("/noti/{promotionId}/{analysisId}")
+    public ResponseEntity<ApiResponse<PromotionEmailResult>> savePromotionNotiReal(
+            @PathVariable Long promotionId,
+            @PathVariable Long analysisId) {
 
-        PromotionEmailResult result = promotionNotiService.sendPromotionNotiGmail(promotionId);
+        PromotionEmailResult result = promotionNotiService.sendPromotionNotiGmail(promotionId, analysisId);
 
         return ResponseUtil.successResponse(SuccessCode.PROMOTION_NOTI_SAVE_SUCCESS, result);
     }

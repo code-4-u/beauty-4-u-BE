@@ -32,8 +32,8 @@ public class PromotionNotiDomainService {
     private final MailUtil mailUtil;
 
     /* FakeSMTP 서버 사용 */
-    public PromotionEmailResult savePromotionNotiFakeSMTP(Long promotionId) {
-        List<FindPromotionNotiTargetResDTO> targets = promotionNotiQueryService.findPromotionNotiTarget(promotionId);
+    public PromotionEmailResult savePromotionNotiFakeSMTP(Long promotionId, Long analysisId) {
+        List<FindPromotionNotiTargetResDTO> targets = promotionNotiQueryService.findPromotionNotiTarget(promotionId, analysisId);
 
         LocalDateTime sendDateTime = LocalDateTime.now();
         List<CompletableFuture<Void>> emailFutures = new ArrayList<>();
@@ -86,8 +86,8 @@ public class PromotionNotiDomainService {
     }
 
     /* 실제 Google SMTP 서버 사용 */
-    public PromotionEmailResult sendPromotionNotiMail(Long promotionId) {
-        List<FindPromotionNotiTargetResDTO> targets = promotionNotiQueryService.findPromotionNotiTarget(promotionId);
+    public PromotionEmailResult sendPromotionNotiMail(Long promotionId, Long analysisId) {
+        List<FindPromotionNotiTargetResDTO> targets = promotionNotiQueryService.findPromotionNotiTarget(promotionId, analysisId);
 
         String promotionTitle = targets.get(0).getPromotionTitle();
         String promotionGoods = targets.get(0).getGoodsName();

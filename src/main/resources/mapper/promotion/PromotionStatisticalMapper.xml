@@ -230,80 +230,38 @@
              )
             (SELECT
                  COALESCE(t1.goods_name1, t2.goods_name2) as goods_name1,
-                 COALESCE(t1.sales1, 0) as sales1,
                  t1.rank1 as prev_promotion_rank,
-                 COALESCE(t2.goods_name2, t1.goods_name1) as goods_name2,
-                 COALESCE(t2.sales2, 0) as sales2,
                  t2.rank2 as after_promotion_rank,
-                 COALESCE(t2.sales2, 0) - COALESCE(t1.sales1, 0) as sales_diff,
                  CASE
-                     WHEN COALESCE(t1.sales1, 0) = 0 THEN
+                     WHEN t1.rank1 IS NULL AND t2.rank2 IS NOT NULL THEN '신규 진입'
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NOT NULL THEN
                          CASE
-                             WHEN COALESCE(t2.sales2, 0) = 0 THEN 0
-                             ELSE 100
+                             WHEN t1.rank1 = t2.rank2 THEN '→'
+                             WHEN t1.rank1 > t2.rank2 THEN CONCAT('↑', t1.rank1 - t2.rank2)
+                             ELSE CONCAT('↓', t2.rank2 - t1.rank1)
                              END
-                     ELSE ROUND(((COALESCE(t2.sales2, 0) - COALESCE(t1.sales1, 0)) / COALESCE(t1.sales1, 0) * 100), 1)
-                     END as sales_growth_rate,
-                 CASE
-                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NOT NULL
-                         THEN CASE
-                                  WHEN t1.rank1 = t2.rank2 THEN '→'
-                                  WHEN t1.rank1 > t2.rank2 THEN CONCAT('↑', t1.rank1 - t2.rank2)
-                                  ELSE CONCAT('↓', t2.rank2 - t1.rank1)
-                         END
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NULL THEN '제외'
                      END as rank_change
              FROM RankedSalesPrev t1
                       LEFT JOIN RankedSalesAfter t2 ON t1.goods_name1 = t2.goods_name2
              UNION
              SELECT
                  COALESCE(t1.goods_name1, t2.goods_name2) as goods_name1,
-                 COALESCE(t1.sales1, 0) as sales1,
                  t1.rank1 as prev_promotion_rank,
-                 COALESCE(t2.goods_name2, t1.goods_name1) as goods_name2,
-                 COALESCE(t2.sales2, 0) as sales2,
                  t2.rank2 as after_promotion_rank,
-                 COALESCE(t2.sales2, 0) - COALESCE(t1.sales1, 0) as sales_diff,
                  CASE
-                     WHEN COALESCE(t1.sales1, 0) = 0 THEN
+                     WHEN t1.rank1 IS NULL AND t2.rank2 IS NOT NULL THEN '신규 진입'
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NOT NULL THEN
                          CASE
-                             WHEN COALESCE(t2.sales2, 0) = 0 THEN 0
-                             ELSE 100
+                             WHEN t1.rank1 = t2.rank2 THEN '→'
+                             WHEN t1.rank1 > t2.rank2 THEN CONCAT('↑', t1.rank1 - t2.rank2)
+                             ELSE CONCAT('↓', t2.rank2 - t1.rank1)
                              END
-                     ELSE ROUND(((COALESCE(t2.sales2, 0) - COALESCE(t1.sales1, 0)) / COALESCE(t1.sales1, 0) * 100), 1)
-                     END as sales_growth_rate,
-                 CASE
-                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NOT NULL
-                         THEN CASE
-                                  WHEN t1.rank1 = t2.rank2 THEN '→'
-                                  WHEN t1.rank1 > t2.rank2 THEN CONCAT('↑', t1.rank1 - t2.rank2)
-                                  ELSE CONCAT('↓', t2.rank2 - t1.rank1)
-                         END
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NULL THEN '제외'
                      END as rank_change
              FROM RankedSalesPrev t1
                       RIGHT JOIN RankedSalesAfter t2 ON t1.goods_name1 = t2.goods_name2)
-        UNION ALL
-        SELECT
-            '합계' as goods_name1,
-            COALESCE(total_sales1, 0) as sales1,
-            NULL as prev_promotion_rank,
-            '합계' as goods_name2,
-            COALESCE(total_sales2, 0) as sales2,
-            NULL as after_promotion_rank,
-            COALESCE(total_sales2, 0) - COALESCE(total_sales1, 0) as sales_diff,
-            CASE
-                WHEN COALESCE(total_sales1, 0) = 0 THEN
-                    CASE
-                        WHEN COALESCE(total_sales2, 0) = 0 THEN 0
-                        ELSE 100
-                        END
-                ELSE ROUND(((COALESCE(total_sales2, 0) - COALESCE(total_sales1, 0)) / COALESCE(total_sales1, 0) * 100), 1)
-                END as sales_growth_rate,
-            NULL as rank_change
-        FROM TotalSales
-        ORDER BY CASE
-                     WHEN goods_name1 = '합계' THEN 999999
-                     ELSE COALESCE(after_promotion_rank, 999998)
-                     END;
+                ORDER BY COALESCE(after_promotion_rank, 999999);
     </select>
 
 </mapper>
