@@ -77,6 +77,7 @@ public class ChatRoomQueryService {
                 .collect(Collectors.toMap(UserInfo::getUserCode, UserInfo::getUserName));
     }
 
+    // 이게 문제..
     private ChatMessageResDto convertToDto(ChatMessage chatMessage, String userName) {
         return ChatMessageResDto.builder()
                 .messageId(chatMessage.getId().toHexString())
@@ -85,6 +86,7 @@ public class ChatRoomQueryService {
                 .userName(userName)
                 .messageStatus(chatMessage.getMessageStatus().toString())
                 .messageContent(chatMessage.getMessageContent())
+                .s3PresignedUrls(chatMessage.getS3PresignedUrls())
                 .messageCreatedTime(chatMessage.getMessageCreatedTime().toString())
                 .messageDeletedTime(chatMessage.getMessageDeletedTime() != null
                         ? chatMessage.getMessageDeletedTime().toString()
