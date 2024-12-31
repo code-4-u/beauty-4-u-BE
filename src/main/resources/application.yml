@@ -3,6 +3,8 @@ server:
 
 
 spring:
+#  main:
+#    allow-bean-definition-overriding: true
   application:
     name: beauty4u
   servlet:
@@ -19,10 +21,6 @@ spring:
   data:
     mongodb:
       uri: mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@cluster0.avtro.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority
-    elasticsearch:
-      repositories:
-        enabled: ${spring.elasticsearch.enabled}
-
 
   jpa:
     hibernate:
@@ -32,29 +30,45 @@ spring:
       hibernate:
         format_sql: true
 
-  # 엘라스틱서치 최초 설치 시 기본 계정
   elasticsearch:
-    enabled: false
-    uris: ${ELASTIC_URIS}
-    username: ${ELASTIC_USER}
-    password: ${ELASTIC_PASSWORD}
+    rest:
+      uris: https://${spring.cloud.aws.opensearch.endpoint}
+#    username: ${OPENSEARCH_USER}
+#    password: ${OPENSEARCH_PASSWORD}
+#    repositories:
+#      enabled: true
+
+  cloud:
+    aws:
+      credentials:
+        access-key: code4u-elasticsearch
+        secret-key: zhemvhdbdpffktmxlrtjcl101!@#A
+      opensearch:
+        endpoint: vpc-beauty4u-opensearch-q2hhmhuciml7tkcnp23lal4gyu.ap-northeast-2.es.amazonaws.com
+      region: ap-northeast-2
+
+  # 오픈서치 마이그레이션
+  opensearch:
+    enabled: true
+    uris: ${OPENSEARCH_URIS}
+    username: ${OPENSEARCH_USER}
+    password: ${OPENSEARCH_PASSWORD}
+    repositories:
+      enabled: ${spring.opensearch.enabled}
     goods:
       index:
         name: goods
-    reviews:
-      index:
-        name: reviews
 
 #  logback-spring.xml 사용 여부 결정
   logging:
-    use-logback: false
+    use-logback: ture
     level:
       com.beauty4u.backend: DEBUG
 
   logstash:
-    enabled: false
+    enabled: true
     destination:
-      host: localhost
+      host: logstash
       port: 5000
 
 
@@ -105,3 +119,12 @@ cloud:
       secret-key: ${AWS_BUCKET_SECRET_KEY}
     stack:
       auto: false
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
+
+apriori:
+  api:
+    url: http://localhost:8000
