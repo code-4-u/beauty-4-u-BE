@@ -12,6 +12,6 @@ public interface PromotionNotiQueryMapper {
     Integer findPromotionByCustomerGoodsCount(Integer promotionId);
     Integer findPromotionAnalysisId();
     List<FindPromotionResDTO> findPromotion(String promotionName);
-    List<FindPromotionNotiTargetResDTO> findPromotionNotiTarget(Long promotionId);
+    List<FindPromotionNotiTargetResDTO> findPromotionNotiTarget(Long promotionId, Long analysisId);
     List<FindPromotionByCustomerGoodsResDTO> findPromotionByCustomerGoods(Integer promotionId, Integer page, Integer count);
 }

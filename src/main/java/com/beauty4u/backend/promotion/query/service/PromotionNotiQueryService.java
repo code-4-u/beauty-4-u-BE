@@ -22,8 +22,8 @@ public class PromotionNotiQueryService {
     }
 
     @Transactional
-    public List<FindPromotionNotiTargetResDTO> findPromotionNotiTarget(Long promotionId) {
-        return promotionNotiQueryMapper.findPromotionNotiTarget(promotionId);
+    public List<FindPromotionNotiTargetResDTO> findPromotionNotiTarget(Long promotionId, Long analysisId) {
+        return promotionNotiQueryMapper.findPromotionNotiTarget(promotionId, analysisId);
     }
 
     @Transactional

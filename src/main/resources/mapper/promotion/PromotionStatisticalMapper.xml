@@ -151,119 +151,117 @@
 
     <!-- 비교 차트 띄우기 -->
     <select id="findPromotionComparison" resultType="FindPromotionByComparisonResDTO">
-        SELECT COALESCE(t1.goods_name1, t2.goods_name2) as goods_name1,
-               t1.sales1,
-               COALESCE(t2.goods_name2, t1.goods_name1) as goods_name2,
-               t2.sales2
-        FROM (
-                 SELECT a.goods_name as goods_name1,
-                        a.total_goods_sales as sales1
-                 FROM (
-                          SELECT (SELECT goods_name
-                                  FROM goods
-                                  WHERE goods_code = pro.goods_code) AS goods_name,
-                                 total_goods_sales
-                          FROM (
-                                   SELECT pg.goods_code,
-                                          SUM(oi.order_price) AS total_goods_sales
-                                   FROM promotion_goods pg
-                                            JOIN order_info oi ON pg.goods_code = oi.goods_code
-                                   WHERE pg.promotion_id = #{promotionId1}
-                                     AND oi.created_date BETWEEN (SELECT promotion_start_date
-                                                                  FROM promotion
-                                                                  WHERE promotion_id = #{promotionId1})
-                                       AND (SELECT promotion_end_date
-                                            FROM promotion
-                                            WHERE promotion_id = #{promotionId1})
-                                     AND oi.order_status = 'PURCHASED'
-                                   GROUP BY goods_code
-                                   ORDER BY SUM(oi.order_price) DESC
-                               ) AS pro
-                      ) AS a
-             ) t1
-                 LEFT JOIN (
-            SELECT b.goods_name as goods_name2,
-                   b.total_goods_sales as sales2
+        WITH RankedSalesPrev AS (
+            SELECT
+                a.goods_name as goods_name1,
+                COALESCE(a.total_goods_sales, 0) as sales1,
+                ROW_NUMBER() OVER (ORDER BY a.total_goods_sales DESC) as rank1
             FROM (
-                     SELECT (SELECT goods_name
-                             FROM goods
-                             WHERE goods_code = pro.goods_code) AS goods_name,
-                            total_goods_sales
+                     SELECT
+                             (SELECT goods_name FROM goods WHERE goods_code = pro.goods_code) AS goods_name,
+                             total_goods_sales
                      FROM (
-                              SELECT pg.goods_code,
-                                     SUM(oi.order_price) AS total_goods_sales
+                              SELECT
+                                  pg.goods_code,
+                                  SUM(oi.order_price) AS total_goods_sales
                               FROM promotion_goods pg
                                        JOIN order_info oi ON pg.goods_code = oi.goods_code
-                              WHERE pg.promotion_id = #{promotionId2}
-                                AND oi.created_date BETWEEN (SELECT promotion_start_date
-                                                             FROM promotion
-                                                             WHERE promotion_id = #{promotionId2})
-                                  AND (SELECT promotion_end_date
-                                       FROM promotion
-                                       WHERE promotion_id = #{promotionId2})
+                              WHERE pg.promotion_id = #{promotionId1}
+                                AND oi.created_date BETWEEN
+                                      (SELECT promotion_start_date FROM promotion WHERE promotion_id = #{promotionId1})
+                                  AND (SELECT promotion_end_date FROM promotion WHERE promotion_id = #{promotionId1})
                                 AND oi.order_status = 'PURCHASED'
                               GROUP BY goods_code
-                              ORDER BY SUM(oi.order_price) DESC
                           ) AS pro
-                 ) AS b
-        ) t2 ON t1.goods_name1 = t2.goods_name2
-        UNION
-        SELECT COALESCE(t1.goods_name1, t2.goods_name2) as goods_name1,
-               t1.sales1,
-               COALESCE(t2.goods_name2, t1.goods_name1) as goods_name2,
-               t2.sales2
-        FROM (
-                 SELECT a.goods_name as goods_name1,
-                        a.total_goods_sales as sales1
+                 ) AS a
+        ),
+             RankedSalesAfter AS (
+                 SELECT
+                     b.goods_name as goods_name2,
+                     COALESCE(b.total_goods_sales, 0) as sales2,
+                     ROW_NUMBER() OVER (ORDER BY b.total_goods_sales DESC) as rank2
                  FROM (
-                          SELECT (SELECT goods_name
-                                  FROM goods
-                                  WHERE goods_code = pro.goods_code) AS goods_name,
-                                 total_goods_sales
+                          SELECT
+                                  (SELECT goods_name FROM goods WHERE goods_code = pro.goods_code) AS goods_name,
+                                  total_goods_sales
                           FROM (
-                                   SELECT pg.goods_code,
-                                          SUM(oi.order_price) AS total_goods_sales
+                                   SELECT
+                                       pg.goods_code,
+                                       SUM(oi.order_price) AS total_goods_sales
                                    FROM promotion_goods pg
                                             JOIN order_info oi ON pg.goods_code = oi.goods_code
-                                   WHERE pg.promotion_id = #{promotionId1}
-                                     AND oi.created_date BETWEEN (SELECT promotion_start_date
-                                                                  FROM promotion
-                                                                  WHERE promotion_id = #{promotionId1})
-                                       AND (SELECT promotion_end_date
-                                            FROM promotion
-                                            WHERE promotion_id = #{promotionId1})
+                                   WHERE pg.promotion_id = #{promotionId2}
+                                     AND oi.created_date BETWEEN
+                                           (SELECT promotion_start_date FROM promotion WHERE promotion_id = #{promotionId2})
+                                       AND (SELECT promotion_end_date FROM promotion WHERE promotion_id = #{promotionId2})
                                      AND oi.order_status = 'PURCHASED'
                                    GROUP BY goods_code
-                                   ORDER BY SUM(oi.order_price) DESC
                                ) AS pro
-                      ) AS a
-             ) t1
-                 RIGHT JOIN (
-            SELECT b.goods_name as goods_name2,
-                   b.total_goods_sales as sales2
-            FROM (
-                     SELECT (SELECT goods_name
-                             FROM goods
-                             WHERE goods_code = pro.goods_code) AS goods_name,
-                            total_goods_sales
-                     FROM (
-                              SELECT pg.goods_code,
-                                     SUM(oi.order_price) AS total_goods_sales
-                              FROM promotion_goods pg
-                                       JOIN order_info oi ON pg.goods_code = oi.goods_code
-                              WHERE pg.promotion_id = #{promotionId2}
-                                AND oi.created_date BETWEEN (SELECT promotion_start_date
-                                                             FROM promotion
-                                                             WHERE promotion_id = #{promotionId2})
-                                  AND (SELECT promotion_end_date
-                                       FROM promotion
-                                       WHERE promotion_id = #{promotionId2})
-                                AND oi.order_status = 'PURCHASED'
-                              GROUP BY goods_code
-                              ORDER BY SUM(oi.order_price) DESC
-                          ) AS pro
-                 ) AS b
-        ) t2 ON t1.goods_name1 = t2.goods_name2;
+                      ) AS b
+             ),
+             TotalSales AS (
+                 SELECT
+                     COALESCE((SELECT SUM(total_goods_sales)
+                               FROM (
+                                        SELECT pg.goods_code,
+                                               SUM(oi.order_price) AS total_goods_sales
+                                        FROM promotion_goods pg
+                                                 JOIN order_info oi ON pg.goods_code = oi.goods_code
+                                        WHERE pg.promotion_id = #{promotionId1}
+                                          AND oi.created_date BETWEEN
+                                                (SELECT promotion_start_date FROM promotion WHERE promotion_id = #{promotionId1})
+                                            AND (SELECT promotion_end_date FROM promotion WHERE promotion_id = #{promotionId1})
+                                          AND oi.order_status = 'PURCHASED'
+                                        GROUP BY pg.goods_code
+                                    ) as prev_total), 0) as total_sales1,
+                     COALESCE((SELECT SUM(total_goods_sales)
+                               FROM (
+                                        SELECT pg.goods_code,
+                                               SUM(oi.order_price) AS total_goods_sales
+                                        FROM promotion_goods pg
+                                                 JOIN order_info oi ON pg.goods_code = oi.goods_code
+                                        WHERE pg.promotion_id = #{promotionId2}
+                                          AND oi.created_date BETWEEN
+                                                (SELECT promotion_start_date FROM promotion WHERE promotion_id = #{promotionId2})
+                                            AND (SELECT promotion_end_date FROM promotion WHERE promotion_id = #{promotionId2})
+                                          AND oi.order_status = 'PURCHASED'
+                                        GROUP BY pg.goods_code
+                                    ) as current_total), 0) as total_sales2
+             )
+            (SELECT
+                 COALESCE(t1.goods_name1, t2.goods_name2) as goods_name1,
+                 t1.rank1 as prev_promotion_rank,
+                 t2.rank2 as after_promotion_rank,
+                 CASE
+                     WHEN t1.rank1 IS NULL AND t2.rank2 IS NOT NULL THEN '신규 진입'
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NOT NULL THEN
+                         CASE
+                             WHEN t1.rank1 = t2.rank2 THEN '→'
+                             WHEN t1.rank1 > t2.rank2 THEN CONCAT('↑', t1.rank1 - t2.rank2)
+                             ELSE CONCAT('↓', t2.rank2 - t1.rank1)
+                             END
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NULL THEN '제외'
+                     END as rank_change
+             FROM RankedSalesPrev t1
+                      LEFT JOIN RankedSalesAfter t2 ON t1.goods_name1 = t2.goods_name2
+             UNION
+             SELECT
+                 COALESCE(t1.goods_name1, t2.goods_name2) as goods_name1,
+                 t1.rank1 as prev_promotion_rank,
+                 t2.rank2 as after_promotion_rank,
+                 CASE
+                     WHEN t1.rank1 IS NULL AND t2.rank2 IS NOT NULL THEN '신규 진입'
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NOT NULL THEN
+                         CASE
+                             WHEN t1.rank1 = t2.rank2 THEN '→'
+                             WHEN t1.rank1 > t2.rank2 THEN CONCAT('↑', t1.rank1 - t2.rank2)
+                             ELSE CONCAT('↓', t2.rank2 - t1.rank1)
+                             END
+                     WHEN t1.rank1 IS NOT NULL AND t2.rank2 IS NULL THEN '제외'
+                     END as rank_change
+             FROM RankedSalesPrev t1
+                      RIGHT JOIN RankedSalesAfter t2 ON t1.goods_name1 = t2.goods_name2)
+                ORDER BY COALESCE(after_promotion_rank, 999999);
     </select>
 
 </mapper>
