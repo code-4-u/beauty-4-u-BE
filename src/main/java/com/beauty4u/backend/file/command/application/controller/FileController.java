@@ -23,6 +23,13 @@ public class FileController {
 
     private final FileService fileService;
 
+    // S3 저장 -> 채팅 미리보기 이미지
+    // 컨트롤러는 실질적으로 미사용하고 서비스만 사용
+    @GetMapping("/generate-presigned-url")
+    public String getPresignedUrl(@RequestParam String objectKey) {
+        return fileService.generatePresignedUrl(objectKey);
+    }
+
     // db에 저장
     @Operation(summary = "업로드된 사진 저장", description = "업로드 된 사진 저장")
     @PostMapping("/save")

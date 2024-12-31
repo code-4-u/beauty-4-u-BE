@@ -1,7 +1,5 @@
 package com.beauty4u.backend.teamspace.query.service;
 
-import com.beauty4u.backend.file.command.application.dto.FileDTO;
-import com.beauty4u.backend.file.command.domain.aggregate.FileInfo;
 import com.beauty4u.backend.file.command.domain.repository.FileRepository;
 import com.beauty4u.backend.teamspace.command.domain.aggregate.ChatMessage;
 import com.beauty4u.backend.teamspace.command.domain.repository.ChatMessageRepository;
@@ -45,19 +43,12 @@ public class ChatQueryService {
         return chatMessages.stream()
                 .map(chatMessage -> {
                     String userName = userCodeToNameMap.getOrDefault(chatMessage.getUserCode(), "알수 없음");
-
-                    // 첨부 파일 조회
-                    List<FileInfo> attachedFiles = fileRepository.findAllById(
-                            chatMessage.getAttachedFileIds().stream()
-                                    .toList()
-                    );
-
-                    return convertToDto(chatMessage, userName, attachedFiles);
+                    return convertToDto(chatMessage, userName);
                 })
                 .toList();
     }
 
-    private ChatMessageResDto convertToDto(ChatMessage chatMessage, String userName, List<FileInfo> attachedFiles) {
+    private ChatMessageResDto convertToDto(ChatMessage chatMessage, String userName) {
         ChatMessageResDto dto = new ChatMessageResDto();
         dto.setMessageId(chatMessage.getId().toHexString());
         dto.setChatRoomId(chatMessage.getChatRoomId());
@@ -73,11 +64,7 @@ public class ChatQueryService {
         );
 
         // 첨부 파일 정보 추가
-        dto.setAttachedFiles(
-                attachedFiles.stream()
-                        .map(fileInfo -> modelMapper.map(fileInfo, FileDTO.class)) // FileInfo -> FileDTO 매핑
-                        .collect(Collectors.toList()) // Stream을 List로 변환
-        );
+       dto.setS3PresignedUrls(chatMessage.getS3PresignedUrls());
 
         return dto;
     }
