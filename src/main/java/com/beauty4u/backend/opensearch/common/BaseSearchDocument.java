@@ -1,4 +1,4 @@
-package com.beauty4u.backend.elasticsearch.common;
+package com.beauty4u.backend.opensearch.common;
 
 import jakarta.persistence.Id;
 import lombok.Getter;

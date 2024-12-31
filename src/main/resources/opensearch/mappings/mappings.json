@@ -15,10 +15,6 @@
           "analyzer": "korean"
         }
       }
-    },
-    "reviews": {
-      "type": "text",
-      "analyzer": "korean"
     }
   }
 }
