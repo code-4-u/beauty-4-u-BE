@@ -77,20 +77,21 @@ jobs:
       - name: Get next version
         id: version
         run: |
-          TAGS=$(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} --filter tagStatus=TAGGED --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' --output text)
+          echo "원본 TAGS 출력:"
+          aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} --filter tagStatus=TAGGED --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' --output text
           
-          if [ -z "$TAGS" ]; then
-            NEXT_VERSION="spring-v1"
-          else
-            MAX_VERSION=$(echo "$TAGS" | tr ' ' '\n' | sed 's/spring-v//' | sort -n | tail -n 1)
+          MAX_VERSION=$(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} \
+            --filter tagStatus=TAGGED \
+            --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' \
+            --output text | \
+            tr ' ' '\n' | \
+            sed 's/spring-v//' | \
+            sort -n | \
+            tail -n 1 || echo "0")
           
-            NEXT_NUM=$((MAX_VERSION + 1))
-            NEXT_VERSION="spring-v$NEXT_NUM"
+          NEXT_VERSION="spring-v$((MAX_VERSION + 1))"
           
-            echo "발견된 태그들: $TAGS"
-            echo "최대 버전 번호: $MAX_VERSION"
-          fi
-          
+          echo "최대 버전 넘버: $MAX_VERSION"
           echo "다음 버전: $NEXT_VERSION"
           echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
 
