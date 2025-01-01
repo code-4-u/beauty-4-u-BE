@@ -32,7 +32,7 @@ spring:
 
   # 엘라스틱서치 최초 설치 시 기본 계정
   elasticsearch:
-    enabled: true
+    enabled: false
     uris: ${ELASTIC_URIS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
