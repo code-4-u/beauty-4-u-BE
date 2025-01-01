@@ -31,7 +31,6 @@ public class ChatMessage{
     @NotNull
     private String userName; // sender 사용자명
 
-    @NotNull
     private String messageContent; // 메시지 내용
 
     private List<String> s3PresignedUrls = new ArrayList<>(); // 첨부 파일 링크
