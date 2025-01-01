@@ -80,25 +80,20 @@ jobs:
           echo "기존 태그 확인 중..."
           MAX_VERSION=0
           
-          # 각 태그를 순회하면서 최대값 찾기
           for tag in $(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} \
             --filter tagStatus=TAGGED \
             --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' \
             --output text); do
           
-            # spring-v 제거하고 숫자만 추출
             version_num=${tag#spring-v}
           
-            # 현재 버전이 더 크면 업데이트
             if [ "$version_num" -gt "$MAX_VERSION" ]; then
               MAX_VERSION=$version_num
             fi
           done
           
-          # 다음 버전 계산
           NEXT_VERSION="spring-v$((MAX_VERSION + 1))"
           
-          # 결과 출력
           echo "최대 버전: $MAX_VERSION"
           echo "다음 버전: $NEXT_VERSION"
           echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
