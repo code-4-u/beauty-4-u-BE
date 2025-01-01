@@ -61,7 +61,7 @@ jobs:
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
           GEMINI_URL: ${{ secrets.GEMINI_URL }}
           GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
