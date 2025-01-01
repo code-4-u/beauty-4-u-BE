@@ -77,22 +77,29 @@ jobs:
       - name: Get next version
         id: version
         run: |
-          echo "원본 TAGS 출력:"
-          aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} --filter tagStatus=TAGGED --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' --output text
-          
-          MAX_VERSION=$(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} \
+          echo "태그 목록 가져오는 중..."
+          TAGS_LIST=$(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} \
             --filter tagStatus=TAGGED \
             --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' \
-            --output text | \
-            tr ' ' '\n' | \
-            sed 's/spring-v//' | \
-            sort -n | \
-            tail -n 1 || echo "0")
+            --output text)
           
-          NEXT_VERSION="spring-v$((MAX_VERSION + 1))"
+          echo "발견된 태그들: $TAGS_LIST"
           
-          echo "최대 버전 넘버: $MAX_VERSION"
-          echo "다음 버전: $NEXT_VERSION"
+          echo "$TAGS_LIST" | tr ' ' '\n' | sed 's/spring-v//' > versions.txt
+          
+          MAX_VERSION=$(cat versions.txt | sort -n | tail -n 1)
+          
+          if [ -z "$MAX_VERSION" ]; then
+            MAX_VERSION=0
+          fi
+          
+          NEXT_NUM=$((MAX_VERSION + 1))
+          NEXT_VERSION="spring-v${NEXT_NUM}"
+          
+          echo "최대 버전 번호: $MAX_VERSION"
+          echo "다음 버전 번호: $NEXT_NUM"
+          echo "다음 버전 태그: $NEXT_VERSION"
+          
           echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Build, tag, and push image to Amazon ECR
