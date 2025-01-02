@@ -76,9 +76,6 @@ dependencies {
 	// 로깅 관련
 	implementation 'net.logstash.logback:logstash-logback-encoder:7.1.1'
 	implementation 'org.codehaus.janino:janino:3.1.12'
-
-	// logstash - 조건부 처리
-	implementation 'org.codehaus.janino:janino:3.1.12'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 	// Lombok
