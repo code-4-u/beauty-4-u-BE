@@ -58,6 +58,7 @@ public class SecurityConfig {
                                         "/chat/**",          // WebSocket 엔드포인트
                                         "/chat/info/**",     // SockJS가 사용하는 추가 엔드포인트
                                         "/chat/iframe.html",         // SockJS iframe 경로
+                                        "/wss",
                                         "/ws"
                                 ).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/user/**", "GET")).hasRole("관리자")
@@ -82,8 +83,6 @@ public class SecurityConfig {
                 }
         );
 
-
-
         return http.build();
     }
 
@@ -104,11 +103,9 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
+        config.addAllowedOrigin("https://bforu.site");
         config.addAllowedOrigin("http://localhost:5173");
-        config.addAllowedOrigin("http://localhost:5174");
-//        config.addAllowedOrigin("https://jiangxy.github.io/websocket-debug-tool/");
-//        config.addAllowedOrigin("https://piehost.com/websocket-tester");
-//        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader(ACCESS_TOKEN_HEADER);

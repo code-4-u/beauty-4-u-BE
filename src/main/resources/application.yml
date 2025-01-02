@@ -30,19 +30,6 @@ spring:
       hibernate:
         format_sql: true
 
-  # 엘라스틱서치 최초 설치 시 기본 계정
-  elasticsearch:
-    enabled: false
-    uris: ${ELASTIC_URIS}
-    username: ${ELASTIC_USER}
-    password: ${ELASTIC_PASSWORD}
-    goods:
-      index:
-        name: goods
-    reviews:
-      index:
-        name: reviews
-
 #  logback-spring.xml 사용 여부 결정
   logging:
     use-logback: false
@@ -52,8 +39,8 @@ spring:
   logstash:
     enabled: false
     destination:
-      host: localhost
-      port: 5000
+      host: ${LOGSTASH_HOST}
+      port: ${LOGSTASH_PORT}
 
   mail:
     host: ${MAIL_HOST}
@@ -113,6 +100,17 @@ gemini:
 apriori:
   api:
     url: http://localhost:8000
+
+aws:
+  opensearch:
+    endpoint: ${OPENSEARCH_HOSTS}
+    region: ap-northeast-2
+    credentials:
+      username: ${OPENSEARCH_MASTER_USERNAME}
+      password: ${OPENSEARCH_MASTER_PASSWORD}
+    goods:
+      index:
+        name: goods
 
 feign:
   client:
