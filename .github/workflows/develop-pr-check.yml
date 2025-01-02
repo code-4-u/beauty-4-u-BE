@@ -94,7 +94,7 @@ jobs:
             local color=""
             local title=""
           
-            if [[ "${status}" == "success" ]]; then
+            if [ "$status" = "success" ]; then
               color="good"
               title="✅ 빌드 성공"
             else
@@ -149,4 +149,4 @@ jobs:
               ${{ secrets.SLACK_WEBHOOK_URL }}
           }
           
-          send_slack_notification "${job.status}"
+          send_slack_notification "${{ success() && 'success' || 'failure' }}"
