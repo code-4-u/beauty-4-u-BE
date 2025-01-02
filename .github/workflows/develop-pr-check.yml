@@ -81,6 +81,10 @@ jobs:
           JOB_STATUS: ${{ job.status }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
+    
+          echo "Job Status: $JOB_STATUS"
+          echo "GitHub Job Status: ${{ job.status }}"
+          
           send_slack_notification() {
             local status="$1"
             local color=""
