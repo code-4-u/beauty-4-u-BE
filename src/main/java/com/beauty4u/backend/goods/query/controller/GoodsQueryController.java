@@ -4,26 +4,32 @@ import com.beauty4u.backend.common.response.ApiResponse;
 import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.goods.query.dto.*;
-import com.beauty4u.backend.goods.query.elasticsearch.document.GoodsDocument;
+import com.beauty4u.backend.goods.query.opensearch.document.GoodsDocument;
 import com.beauty4u.backend.goods.query.service.GoodsQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.util.EntityUtils;
+import org.opensearch.client.Request;
+import org.opensearch.client.Response;
+import org.opensearch.client.RestHighLevelClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/goods")
 @Tag(name = "Goods", description = "상품 조회 API")
-@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
+@Slf4j
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;
+    private final RestHighLevelClient opensearchClient;
 
     @GetMapping("/brands")
     @Operation(summary = "브랜드 목록 조회", description = "드롭다운용 브랜드 전체 목록을 조회한다.")
@@ -69,8 +75,9 @@ public class GoodsQueryController {
         return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_LIST_SUBCATEGORYLIST_SUCCESS, goodsQueryService.findSubCategoryGoods(SubCategoryCode));
     }
 
+    //
     @GetMapping("/search/{searchGoodsName}")
-    @Operation(summary = "상품명 검색", description = "엘라스틱 서치로 상품명을 검색한다.")
+    @Operation(summary = "상품명 검색", description = "OpenSearch로 상품명을 검색한다.")
     public ResponseEntity<ApiResponse<List<GoodsDocument>>> searchGoods(@PathVariable String searchGoodsName) {
         return ResponseUtil.successResponse(SuccessCode.GOODS_FIND_ELASTICSEARCH_SUCCESS, goodsQueryService.searchGoods(searchGoodsName));
     }
@@ -98,9 +105,30 @@ public class GoodsQueryController {
     }
 
     @PostMapping("/index")
-    @Operation(summary = "엘라스틱 서치 인덱스 생성", description = "DB 데이터를 엘라스틱 서치에 동기화한다.")
-    public ResponseEntity<Void> indexGoods() {
+    @Operation(summary = "OpenSearch 인덱스 생성", description = "DB 데이터를 OpenSearch에 동기화한다.")
+    public ResponseEntity<Void> indexGoods() throws IOException {
         goodsQueryService.indexGoods();
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/test")
+    public String testConnection() {
+        try {
+            // Request 객체 생성
+            Request request = new Request("GET", "/");
+
+            // 요청 실행
+            Response response = opensearchClient.getLowLevelClient()
+                    .performRequest(request);
+
+            // 응답 내용 로깅
+            String responseBody = EntityUtils.toString(response.getEntity());
+            log.info("OpenSearch response: {}", responseBody);
+
+            return "오픈서치 연결성공! Response: " + responseBody;
+        } catch (Exception e) {
+            log.error("OpenSearch connection failed", e);
+            return "오픈서치 연결 실패: " + e.getMessage();
+        }
     }
 }

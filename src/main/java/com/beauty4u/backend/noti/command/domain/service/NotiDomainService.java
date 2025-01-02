@@ -115,4 +115,15 @@ public class NotiDomainService {
 
         noti.readNoti();
     }
+
+    public void updateNotiReadList(List<Long> notiIdList) {
+
+        try {
+            List<Noti> notiList = notiRepository.findByIdIn(notiIdList);
+
+            notiList.forEach(Noti::readNoti);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.NOTI_READ_ALL_NOT_UPDATED);
+        }
+    }
 }

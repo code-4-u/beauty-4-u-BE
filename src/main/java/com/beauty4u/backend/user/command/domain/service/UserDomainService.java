@@ -17,6 +17,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserDomainService {
@@ -114,5 +116,23 @@ public class UserDomainService {
         user.updateUser(job, dept, role,
                 updateUserReqDTO.getEmail(),
                 updateUserReqDTO.getPhone());
+    }
+
+    // 모든 회원 불러오기
+    public List<String> findAllUser() {
+
+        return userRepository.findAll()
+                .stream()
+                .map(UserInfo::getUserCode)
+                .toList();
+    }
+
+    // 회원 이름 가져오기
+    public String findByUserCode(String loginUserCode) {
+
+        UserInfo userInfo = userRepository.findById(loginUserCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        return userInfo.getUserName();
     }
 }

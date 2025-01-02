@@ -8,4 +8,5 @@ import lombok.Setter;
 public class QnaReplyReqDTO {
 
     private String inquiryReplyContent;
+    private String url;
 }

@@ -64,9 +64,18 @@ dependencies {
 	// ModelMapper
 	implementation 'org.modelmapper:modelmapper:3.2.0'
 
-	// elasticsearch
-	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+	// OpenSearch
+	implementation 'org.opensearch.client:opensearch-rest-high-level-client:2.11.1'
+	implementation 'org.opensearch:opensearch:2.11.1'
+
+	// AWS SDK v2 (OpenSearch 인증용)
+	implementation platform('software.amazon.awssdk:bom:2.25.12')
+	implementation 'software.amazon.awssdk:auth'
+	implementation 'software.amazon.awssdk:regions'
+
+	// 로깅 관련
 	implementation 'net.logstash.logback:logstash-logback-encoder:7.1.1'
+	implementation 'org.codehaus.janino:janino:3.1.12'
 
 	// logstash - 조건부 처리
 	implementation 'org.codehaus.janino:janino:3.1.12'

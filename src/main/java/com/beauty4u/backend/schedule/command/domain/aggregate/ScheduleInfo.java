@@ -55,7 +55,7 @@ public class ScheduleInfo extends BaseEntity {
 
     public void createTeamSchedule(UserInfo user, String url) {
         this.userCode = user;
-        this.scheduleType = ScheduleType.TEAMSPACE;
+        this.scheduleType = ScheduleType.TEAMSCHEDULE;
         this.scheduleUrl = url;
     }
 

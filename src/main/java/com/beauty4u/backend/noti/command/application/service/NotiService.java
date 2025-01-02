@@ -1,6 +1,7 @@
 package com.beauty4u.backend.noti.command.application.service;
 
 import com.beauty4u.backend.noti.command.application.dto.NotiIdReqDTO;
+import com.beauty4u.backend.noti.command.application.dto.NotiIdReqDTOList;
 import com.beauty4u.backend.noti.command.domain.service.NotiDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,11 @@ public class NotiService {
         Long notiId = notiIdReqDTO.getNotiId();
 
         notiDomainService.updateNotiRead(notiId);
+    }
+
+    @Transactional
+    public void updateNotiListRead(NotiIdReqDTOList notiIdReqDTOList) {
+
+        notiDomainService.updateNotiReadList(notiIdReqDTOList.getNotiIdList());
     }
 }

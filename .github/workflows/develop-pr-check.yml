@@ -64,6 +64,8 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          GEMINI_URL: ${{ secrets.GEMINI_URL }}
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
         run: ./gradlew clean build -x test
 
       - name: Calculate Duration
@@ -75,17 +77,13 @@ jobs:
 
       - name: Notify Slack
         if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          echo "Job Status: ${{ job.status }}"
-          DURATION=${DURATION:-"알 수 없음"}
-          
-          if [ -n "${{ github.event.pull_request.title }}" ]; then
-            PR_TITLE="${{ github.event.pull_request.title }}"
-          else
-            PR_TITLE="${{ github.event.head_commit.message }}"
-          fi
-          
-          ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+    
+          echo "Job Status: $JOB_STATUS"
+          echo "GitHub Job Status: ${{ job.status }}"
           
           send_slack_notification() {
             local status="$1"
@@ -94,12 +92,12 @@ jobs:
           
             if [ "$status" = "success" ]; then
               color="good"
-              title="✅ 빌드 성공"
+             title="✅ 빌드 성공"
             else
               color="danger"
               title="❌ 빌드 실패"
             fi
-          
+    
             payload=$(jq -n \
               --arg color "$color" \
               --arg title "$title" \
@@ -144,7 +142,22 @@ jobs:
           
             curl -X POST -H "Content-type: application/json" \
               --data "$payload" \
-              ${{ secrets.SLACK_WEBHOOK_URL }}
+              "$SLACK_WEBHOOK_URL"
           }
+      
+          DURATION=${DURATION:-"알 수 없음"}
           
-          send_slack_notification "${{ job.status }}"
+          if [ -n "${{ github.event.pull_request.title }}" ]; then
+            PR_TITLE="${{ github.event.pull_request.title }}"
+          else
+            PR_TITLE="${{ github.event.head_commit.message }}"
+          fi
+          
+          ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      
+          if [ "$JOB_STATUS" = "success" ]; then
+            send_slack_notification "success"
+          else
+            send_slack_notification "failure"
+          fi
+            
