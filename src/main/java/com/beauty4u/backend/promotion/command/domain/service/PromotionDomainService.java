@@ -21,14 +21,14 @@ public class PromotionDomainService {
 
     public Long savePromotion(SavePromotionReqDTO savePromotionReqDTO) {
 
-        PromotionType promotionType = promotionTypeRepository.findById(savePromotionReqDTO.getId())
+        PromotionType promotionType = promotionTypeRepository.findById(savePromotionReqDTO.getPromotionType())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PROMOTIONTYPE));
 
         int promotionYear = savePromotionReqDTO.getPromotionStartDate().getYear();
 
         // 같은 해에 프로모션이 2개 이상 존재하는지 확인
         Boolean result = promotionRepository.existsPromotionInSameYear(
-                savePromotionReqDTO.getId(), promotionYear);
+                savePromotionReqDTO.getPromotionType(), promotionYear);
 
         // 만약 프로모션이 이미 존재하면
         if (result != null && result) {
@@ -61,7 +61,7 @@ public class PromotionDomainService {
 
             // 같은 해에 프로모션이 2개 이상 존재하는지 확인
             Boolean result = promotionRepository.existsPromotionInSameYear(
-                    savePromotionReqDTO.getId(), updatePromotionYear);
+                    savePromotionReqDTO.getPromotionType(), updatePromotionYear);
 
             // 만약 프로모션이 이미 존재하면
             if (result != null && result) {

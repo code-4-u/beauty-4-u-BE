@@ -32,9 +32,10 @@ public class ScheduleDomainService {
         UserInfo user = userRepository.findByUserCode(loginUserCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        if (type.equals("TEAMSPACE")) {
-            schedule.createTeamSchedule(user, url);
-        } else {
+        // 팀 일정
+        if (type.equals("TEAMSCHEDULE")) {
+            schedule.createTeamSchedule(user, "팀 일정");
+        } else { // 프로모션 일정
             schedule.createPromotionSchedule(user, url);
         }
 

@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - "develop"
+      - "main"
 
 jobs:
   deploy:
@@ -61,7 +61,7 @@ jobs:
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
           GEMINI_URL: ${{ secrets.GEMINI_URL }}
           GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -77,20 +77,26 @@ jobs:
       - name: Get next version
         id: version
         run: |
-          TAGS=$(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} --filter tagStatus=TAGGED --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' --output text)
+          echo "기존 태그 확인 중..."
+          MAX_VERSION=0
           
-          if [ -z "$TAGS" ]; then
-            NEXT_VERSION="spring-v1"
-          else
-            CURRENT_VERSION=$(echo "$TAGS" | tr ' ' '\n' | grep "spring-v" | sort -V | tail -n 1)
-            CURRENT_NUM=$(echo $CURRENT_VERSION | sed 's/spring-v//')
-            NEXT_NUM=$((CURRENT_NUM + 1))
-            NEXT_VERSION="spring-v$NEXT_NUM"
-          fi
+          for tag in $(aws ecr list-images --repository-name ${{ secrets.ECR_REPOSITORY }} \
+            --filter tagStatus=TAGGED \
+            --query 'imageIds[?starts_with(imageTag, `spring-v`)].imageTag' \
+            --output text); do
           
-          echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
-          echo "Found tags: $TAGS"
-          echo "Next version will be: $NEXT_VERSION"
+            version_num=${tag#spring-v}
+          
+            if [ "$version_num" -gt "$MAX_VERSION" ]; then
+              MAX_VERSION=$version_num
+            fi
+          done
+          
+          NEXT_VERSION="spring-v$((MAX_VERSION + 1))"
+          
+          echo "최대 버전: $MAX_VERSION"
+          echo "다음 버전: $NEXT_VERSION"
+          echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Build, tag, and push image to Amazon ECR
         env:

@@ -5,6 +5,7 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.common.util.CustomUserUtil;
 import com.beauty4u.backend.noti.command.application.dto.NotiIdReqDTO;
+import com.beauty4u.backend.noti.command.application.dto.NotiIdReqDTOList;
 import com.beauty4u.backend.noti.command.application.service.NotiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,5 +43,16 @@ public class NotiCommandController {
         notiService.updateNotiRead(notiIdReqDTO);
 
         return ResponseUtil.successResponse(SuccessCode.NOTI_READ_UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "알림 모두 읽음", description = "알림을 한번에 모두 읽음 처리한다.")
+    @PutMapping("/all")
+    public ResponseEntity<ApiResponse<Void>> updateNotiReadAll(
+            @RequestBody NotiIdReqDTOList notiIdReqDTOList
+    ) {
+
+        notiService.updateNotiListRead(notiIdReqDTOList);
+
+        return ResponseUtil.successResponse(SuccessCode.NOTI_READ_All_UPDATE_SUCCESS);
     }
 }

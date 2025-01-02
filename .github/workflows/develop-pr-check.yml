@@ -64,6 +64,8 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          GEMINI_URL: ${{ secrets.GEMINI_URL }}
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
         run: ./gradlew clean build -x test
 
       - name: Calculate Duration
@@ -92,7 +94,7 @@ jobs:
             local color=""
             local title=""
           
-            if [ "$status" = "success" ]; then
+            if [[ "${status}" == "success" ]]; then
               color="good"
               title="✅ 빌드 성공"
             else
@@ -147,4 +149,4 @@ jobs:
               ${{ secrets.SLACK_WEBHOOK_URL }}
           }
           
-          send_slack_notification "${{ job.status }}"
+          send_slack_notification "${job.status}"

@@ -37,7 +37,7 @@ spring:
       com.beauty4u.backend: DEBUG
 
   logstash:
-    enabled: true
+    enabled: false
     destination:
       host: ${LOGSTASH_HOST}
       port: ${LOGSTASH_PORT}
@@ -111,3 +111,10 @@ aws:
     goods:
       index:
         name: goods
+
+feign:
+  client:
+    config:
+      collaboFilter:
+        connectTimeout: 5000
+        readTimeout: 60000

@@ -1,8 +1,6 @@
 package com.beauty4u.backend.teamspace.command.domain.aggregate;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.bson.types.ObjectId;
@@ -36,7 +34,7 @@ public class ChatMessage{
     @NotNull
     private String messageContent; // 메시지 내용
 
-    private List<Long> attachedFileIds = new ArrayList<>(); // 첨부 파일 ID 정보
+    private List<String> s3PresignedUrls = new ArrayList<>(); // 첨부 파일 링크
 
     @Enumerated(value = EnumType.STRING)  // 몽고DB에서 기본적으로 문자열 처리를 해준다.
     private MessageStatus messageStatus = MessageStatus.ACTIVE; // 메시지 상태 (ACTIVE, INACTIVE)
