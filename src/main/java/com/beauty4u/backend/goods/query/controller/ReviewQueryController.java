@@ -2,15 +2,16 @@ package com.beauty4u.backend.goods.query.controller;
 
 import com.beauty4u.backend.goods.query.dto.ReviewQueryDTO;
 import com.beauty4u.backend.goods.query.dto.ReviewSortDTO;
-import com.beauty4u.backend.goods.query.elasticsearch.document.ReviewDocument;
 import com.beauty4u.backend.goods.query.service.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/review")
 @Tag(name = "Review", description = "리뷰 조회 API")
-@ConditionalOnProperty(name = "spring.data.elasticsearch.repositories.enabled", havingValue = "true", matchIfMissing = false)
 public class ReviewQueryController {
 
     private final ReviewQueryService reviewQueryService;
@@ -61,19 +61,5 @@ public class ReviewQueryController {
         List<ReviewQueryDTO> reviewList = reviewQueryService.findAllReviewByScore(searchScore);
 
         return ResponseEntity.ok(reviewList);
-    }
-
-    @GetMapping("/list/{searchReview}")
-    @Operation(summary = "리뷰 검색", description = "엘라스틱 서치로 리뷰를 검색한다.")
-    public ResponseEntity<List<ReviewDocument>> searchReview(@PathVariable String searchReview) {
-        return ResponseEntity.ok(reviewQueryService.searchReview(searchReview));
-    }
-
-
-    @PostMapping("/index")
-    @Operation(summary = "엘라스틱 서치 인덱스 생성", description = "DB 데이터를 엘라스틱 서치에 동기화한다.")
-    public ResponseEntity<Void> indexReview() {
-        reviewQueryService.indexReview();
-        return ResponseEntity.ok().build();
     }
 }

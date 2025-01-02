@@ -36,9 +36,11 @@
 
             <!-- Logstash 전송 시 사용할 TCP 통신 정보 -->
             <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-                <destination>localhost:5000</destination>
+                <destination>${logstash.host}:${logstash.port}</destination>
+                <keepAliveDuration>5 minutes</keepAliveDuration>
+                <reconnectionDelay>1 second</reconnectionDelay>
                 <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-                    <customFields>{"application":"beauty4u"}</customFields>
+                    <customFields>{"application":"beauty4u","environment":"${spring.profiles.active:-development}"}</customFields>
                 </encoder>
                 <!--        logback true,false로 실행 필터링-->
                 <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
