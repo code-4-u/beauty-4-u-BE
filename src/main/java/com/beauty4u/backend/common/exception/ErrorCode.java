@@ -49,6 +49,7 @@ public enum ErrorCode {
     NOT_SAVED_NOTI(HttpStatus.CONFLICT, "알림 등록 실패"),
     NOT_REQUEST_NOTI(HttpStatus.CONFLICT, "알림 전송 실패"),
     NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "알림 조회 실패"),
+    NOTI_READ_ALL_NOT_UPDATED(HttpStatus.BAD_REQUEST, "알림 모두 읽기 실패"),
 
     // 이미지 업로드
     EMPTY_FILE_EXCEPTION(HttpStatus.BAD_REQUEST, "이미지가 비어있습니다."),

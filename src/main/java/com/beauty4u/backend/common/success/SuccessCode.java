@@ -89,6 +89,7 @@ public enum SuccessCode {
     NOTI_SAVE_SUCCESS(HttpStatus.OK, "알림 등록 성공"),
     NOTI_FIND_LIST_SUCCESS(HttpStatus.OK, "알림 조회 성공"),
     NOTI_READ_UPDATE_SUCCESS(HttpStatus.OK, "알림 읽음 상태 수정 성공"),
+    NOTI_READ_All_UPDATE_SUCCESS(HttpStatus.OK, "알림 읽음 상태 모두 수정 성공"),
 
     /* 분석 대시보드 (analysis) */
     ANAL_FIND_AGE_GROUP_RADIO_SUCCESS(HttpStatus.OK, "고객 특성 분석 데이터 조회 성공"),
