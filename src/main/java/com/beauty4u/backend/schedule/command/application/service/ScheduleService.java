@@ -41,7 +41,7 @@ public class ScheduleService {
             notiMessage += userName + " (님이) " + notiType.getMessage();
         } else { // 프로모션 일정 알림
             targetUserCodeList = userDomainService.findAllUser();
-            notiMessage = createScheduleReqDTO.getScheduleReqDTO().getScheduleContent();
+            notiMessage = createScheduleReqDTO.getScheduleReqDTO().getScheduleTitle() + " " + notiType.getMessage();
         }
 
         List<String> mutableList = new ArrayList<>(targetUserCodeList);
