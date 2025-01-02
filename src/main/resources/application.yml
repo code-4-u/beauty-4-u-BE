@@ -113,3 +113,10 @@ gemini:
 apriori:
   api:
     url: http://localhost:8000
+
+feign:
+  client:
+    config:
+      collaboFilter:
+        connectTimeout: 5000
+        readTimeout: 60000
