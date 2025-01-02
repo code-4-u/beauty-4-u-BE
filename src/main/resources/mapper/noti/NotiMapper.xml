@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.noti.query.mapper.NotiQueryMapper">
+
+    <select id="findNotiList" resultType="NotiListResDTO">
+        SELECT
+            noti_id,
+            noti_type,
+            noti_content,
+            noti_url,
+            noti_read_yn,
+            noti_sender,
+            created_date
+        FROM noti
+        WHERE noti_receiver = #{userCode}
+        AND noti_read_yn = 'N'
+        ORDER BY created_date DESC
+    </select>
+</mapper>

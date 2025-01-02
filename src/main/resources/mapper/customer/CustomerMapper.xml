@@ -1,0 +1,366 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.beauty4u.backend.customer.query.mapper.CustomerQueryMapper">
+
+    <select id="findCustomerList" resultType="CustomerListDTO">
+        SELECT
+              c.customer_code,
+              c.customer_grade,
+              c.customer_phone,
+              c.customer_name,
+              c.customer_gender,
+              c.customer_age,
+              c.created_date,
+              (
+                SELECT MAX(o1.created_date)
+                FROM order_info o1
+                WHERE o1.customer_code = c.customer_code AND o1.order_status = 'PURCHASED'
+              ) AS customer_last_order_date,
+              (
+                SELECT SUM(o2.order_price)
+                FROM order_info o2
+                WHERE o2.customer_code = c.customer_code AND o2.order_status = 'PURCHASED'
+             ) AS total_purchase_amount,
+             (
+                SELECT COUNT(o3.order_id)
+                FROM order_info o3
+                WHERE o3.customer_code = c.customer_code AND o3.order_status = 'PURCHASED'
+             ) AS total_purchase_count
+          FROM customer c
+         WHERE 1 = 1
+            <if test="customerCode != null and customerCode != ''">
+                AND c.customer_code LIKE CONCAT('%', #{customerCode}, '%')
+            </if>
+
+            <if test="customerName != null and customerName != ''">
+                AND c.customer_name LIKE CONCAT('%', #{customerName}, '%')
+            </if>
+
+            <if test="customerGrade != null and customerGrade != ''">
+                AND c.customer_grade = #{customerGrade}
+            </if>
+
+            <if test="customerGender != null and customerGender != ''">
+                AND c.customer_gender = #{customerGender}
+            </if>
+
+            <if test="startAge != null">
+                AND c.customer_age <![CDATA[>=]]> #{startAge}
+            </if>
+
+            <if test="endAge != null">
+                AND c.customer_age <![CDATA[<=]]> #{endAge}
+            </if>
+
+            <if test="sort != null and sort != ''">
+                ORDER BY
+                <choose>
+                    <when test="sort == 'name'">
+                        c.customer_name
+                    </when>
+                    <when test="sort == 'joinDate'">
+                        c.created_date
+                    </when>
+                    <otherwise>
+                        (
+                            SELECT MAX(o.created_date)
+                            FROM order_info o
+                            WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+                        )
+                    </otherwise>
+                </choose>
+                <if test="order != null and order != ''">
+                    <choose>
+                        <when test="order == 'asc'">
+                            ASC
+                        </when>
+                        <when test="order == 'desc'">
+                            DESC
+                        </when>
+                        <otherwise>
+                            ASC <!-- 기본 정렬 방향 -->
+                        </otherwise>
+                    </choose>
+                </if>
+            </if>
+         LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findCustomerDetail" resultType="CustomerDetailResDTO">
+        SELECT
+            c.customer_code,
+            c.customer_name,
+            c.customer_phone,
+            c.customer_email,
+            c.customer_age,
+            c.customer_gender,
+            c.customer_skintype,
+            ori.all_order_price AS all_order_price,
+            ori.customer_last_order_date AS customer_last_order_date,
+            (
+                SELECT COUNT(*)
+                FROM order_info o
+                WHERE o.customer_code = c.customer_code AND o.order_status != 'PURCHASED'
+            ) AS cancel_refund_count
+        FROM customer c
+        LEFT JOIN (
+            SELECT
+                o1.customer_code,
+                SUM(o1.order_price) AS all_order_price,
+                MAX(o1.created_date) AS customer_last_order_date
+            FROM order_info o1
+            WHERE o1.order_status = 'PURCHASED'
+            GROUP BY o1.customer_code
+        ) AS ori ON c.customer_code = ori.customer_code
+        WHERE c.customer_code = #{customerCode}
+    </select>
+
+    <select id="findCustomerOrderInfoList" resultType="CustomerOrderInfoListDTO">
+        SELECT
+               o1.created_date,
+               o1.order_id,
+               g.goods_name,
+               o1.order_count,
+               o1.order_price,
+               o1.order_status
+          FROM order_info o1
+          LEFT JOIN customer c ON o1.customer_code = c.customer_code
+          LEFT JOIN goods g ON o1.goods_code = g.goods_code
+         WHERE c.customer_code = #{customerCode}
+            <if test="startDate != null">
+                and o1.created_date <![CDATA[>=]]> #{startDate}
+            </if>
+
+            <if test="endDate != null">
+                and o1.created_date <![CDATA[<=]]> #{endDate}
+            </if>
+
+            <if test="orderId != null and orderId >= 0">
+                and o1.order_id LIKE CONCAT('%', #{orderId}, '%')
+            </if>
+
+            <if test="goodsName != null and goodsName != ''">
+                and g.goods_name LIKE CONCAT('%', #{goodsName}, '%')
+            </if>
+
+            <if test="minPrice != null and minPrice >= 0">
+                and o1.order_price <![CDATA[>=]]> #{minPrice}
+            </if>
+
+            <if test="maxPrice != null and maxPrice >= 0">
+                and o1.order_price <![CDATA[<=]]> #{maxPrice}
+            </if>
+
+            <if test="orderStatus != null and orderStatus !=''">
+                and o1.order_status =
+                <choose>
+                    <when test="orderStatus == 'PURCHASED'">
+                        'PURCHASED'
+                    </when>
+                    <when test="orderStatus == 'REFUND'">
+                        'REFUND'
+                    </when>
+                    <otherwise>
+                        'CANCELLED'
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="sort != null and sort != ''">
+                ORDER BY
+                <choose>
+                    <when test="sort == 'orderPrice'">
+                        o1.order_price
+                    </when>
+                    <when test="sort == 'goodsName'">
+                        g.goods_name
+                    </when>
+                    <otherwise>
+                        o1.created_date
+                    </otherwise>
+                </choose>
+                <if test="order != null and order != ''">
+                    <choose>
+                        <when test="order == 'asc'">
+                            ASC
+                        </when>
+                        <when test="order == 'desc'">
+                            DESC
+                        </when>
+                        <otherwise>
+                            ASC
+                        </otherwise>
+                    </choose>
+                </if>
+            </if>
+        LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findCustomerListStats" resultType="CustomerListStatsDTO">
+        SELECT
+               COUNT(c.customer_code) AS customer_count,
+               (
+                   SELECT
+                          COUNT(c1.customer_code)
+                     FROM customer c1
+                    WHERE c1.customer_grade = 'GOLD'
+               ) AS customer_gold_count,
+               (
+                   SELECT
+                          COUNT(c2.customer_code)
+                     FROM customer c2
+                    WHERE c2.created_date <![CDATA[>=]]> #{oneMonthAgo}
+                      AND c2.created_date <![CDATA[<=]]> #{now}
+               ) AS customer_new_count,
+               (
+                   SELECT
+                          COUNT(DISTINCT c3.customer_code) AS no_purchase_count
+                     FROM customer c3
+                     LEFT JOIN order_info o ON c3.customer_code = o.customer_code
+                      AND o.created_date <![CDATA[>=]]> #{oneMonthAgo}
+                      AND o.created_date <![CDATA[<=]]> #{now}
+                    WHERE o.order_id IS NULL
+                       OR (o.order_status IS NOT NULL AND o.order_status != 'PURCHASED')
+               ) AS customer_dormant_count
+          FROM customer c
+    </select>
+
+    <select id="findCustomerOrderInfoTotalCount" resultType="Long">
+        SELECT
+               COUNT(*)
+          FROM order_info o
+          LEFT JOIN customer c ON o.customer_code = c.customer_code
+          LEFT JOIN goods g ON o.goods_code = g.goods_code
+         WHERE c.customer_code = #{customerCode}
+        <if test="startDate != null">
+            and o.created_date <![CDATA[>=]]> #{startDate}
+        </if>
+
+        <if test="endDate != null">
+            and o.created_date <![CDATA[<=]]> #{endDate}
+        </if>
+
+        <if test="orderId != null and orderId >= 0">
+            and o.order_id LIKE CONCAT('%', #{orderId}, '%')
+        </if>
+
+        <if test="goodsName != null and goodsName != ''">
+            and g.goods_name LIKE CONCAT('%', #{goodsName}, '%')
+        </if>
+
+        <if test="minPrice != null and minPrice != ''">
+            and o.order_price <![CDATA[>=]]> #{minPrice}
+        </if>
+
+        <if test="maxPrice != null and minPrice != ''">
+            and o.order_price <![CDATA[<=]]> #{maxPrice}
+        </if>
+
+        <if test="orderStatus != null and orderStatus !=''">
+            and o.order_status =
+            <choose>
+                <when test="orderStatus == 'PURCHASED'">
+                    'PURCHASED'
+                </when>
+                <when test="orderStatus == 'REFUND'">
+                    'REFUND'
+                </when>
+                <otherwise>
+                    'CANCELLED'
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY
+            <choose>
+                <when test="sort == 'orderPrice'">
+                    o.order_price
+                </when>
+                <when test="sort == 'goodsName'">
+                    g.goods_name
+                </when>
+                <otherwise>
+                    o.created_date
+                </otherwise>
+            </choose>
+            <if test="order != null and order != ''">
+                <choose>
+                    <when test="order == 'asc'">
+                        ASC
+                    </when>
+                    <when test="order == 'desc'">
+                        DESC
+                    </when>
+                    <otherwise>
+                        ASC
+                    </otherwise>
+                </choose>
+            </if>
+        </if>
+    </select>
+
+    <select id="findCustomerListTotalCount" resultType="Long">
+        SELECT
+               COUNT(*)
+        FROM customer c
+        WHERE 1 = 1
+        <if test="customerCode != null and customerCode != ''">
+            AND c.customer_code LIKE CONCAT('%', #{customerCode}, '%')
+        </if>
+
+        <if test="customerName != null and customerName != ''">
+            AND c.customer_name LIKE CONCAT('%', #{customerName}, '%')
+        </if>
+
+        <if test="customerGrade != null and customerGrade != ''">
+            AND c.customer_grade = #{customerGrade}
+        </if>
+
+        <if test="customerGender != null and customerGender != ''">
+            AND c.customer_gender = #{customerGender}
+        </if>
+
+        <if test="startAge != null">
+            AND c.customer_age <![CDATA[>=]]> #{startAge}
+        </if>
+
+        <if test="endAge != null">
+            AND c.customer_age <![CDATA[<=]]> #{endAge}
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY
+            <choose>
+                <when test="sort == 'name'">
+                    c.customer_name
+                </when>
+                <when test="sort == 'joinDate'">
+                    c.created_date
+                </when>
+                <otherwise>
+                    (
+                        SELECT MAX(o.created_date)
+                        FROM order_info o
+                        WHERE o.customer_code = c.customer_code AND o.order_status = 'PURCHASED'
+                    )
+                </otherwise>
+            </choose>
+            <if test="order != null and order != ''">
+                <choose>
+                    <when test="order == 'asc'">
+                        ASC
+                    </when>
+                    <when test="order == 'desc'">
+                        DESC
+                    </when>
+                    <otherwise>
+                        ASC <!-- 기본 정렬 방향 -->
+                    </otherwise>
+                </choose>
+            </if>
+        </if>
+    </select>
+</mapper>

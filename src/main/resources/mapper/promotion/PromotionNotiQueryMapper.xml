@@ -1,0 +1,69 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionNotiQueryMapper">
+
+    <select id="findPromotion" resultType="FindPromotionResDTO">
+        SELECT
+            promotion_id,
+            promotion_type_id,
+            promotion_title,
+            promotion_content,
+            promotion_start_date,
+            promotion_end_date,
+            promotion_status
+        FROM promotion
+        WHERE promotion_title LIKE CONCAT('%', TRIM(#{promotionName}), '%')
+          AND promotion_status = "ONGOING"
+    </select>
+
+    <select id="findPromotionByCustomerGoods" resultType="FindPromotionByCustomerGoodsResDTO">
+       SELECT
+              c.customer_code,
+              c.customer_gender,
+              c.customer_age,
+              c.customer_skintype,
+              c.customer_grade
+         FROM customer c
+         JOIN personalized_recommendation pr ON c.customer_code = pr.customer_code
+         JOIN promotion_goods pg ON pr.goods_code = pg.goods_code
+        WHERE pg.promotion_id = #{promotionId}
+        LIMIT #{page}, #{count}
+    </select>
+
+    <select id="findPromotionNotiTarget" resultType="FindPromotionNotiTargetResDTO">
+        SELECT
+               c.customer_code,
+               c.customer_name,
+               c.customer_email,
+               p.promotion_title,
+               pg.discount_rate,
+               g.goods_name
+          FROM customer c
+          JOIN personalized_recommendation pr ON c.customer_code = pr.customer_code
+          JOIN goods g ON g.goods_code = pr.goods_code
+          JOIN promotion_goods pg ON pg.goods_code = pr.goods_code
+          JOIN promotion p ON p.promotion_id = pg.promotion_id
+         WHERE pg.promotion_id = #{promotionId}
+           AND pr.analysis_id = #{analysisId}
+    </select>
+
+    <select id="findPromotionByCustomerGoodsCount" resultType="java.lang.Integer">
+        SELECT
+               COUNT(*)
+          FROM customer c
+          JOIN personalized_recommendation pr ON c.customer_code = pr.customer_code
+         WHERE pr.goods_code IN (SELECT goods_code
+                                FROM promotion_goods pg
+                                WHERE pg.promotion_id = #{promotionId})
+    </select>
+
+    <select id="findPromotionAnalysisId" resultType="java.lang.Integer">
+        SELECT analysis_id
+          FROM analysis
+         WHERE analysis_kind = 'PERSONALIZED'
+         ORDER BY created_date DESC
+         LIMIT 1;
+    </select>
+
+</mapper>

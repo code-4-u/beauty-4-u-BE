@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.beauty4u.backend.promotion.query.mapper.PromotionTypeQueryMapper">
+
+    <resultMap id="FindPromotionTypeDetailDTOMap" type="FindPromotionTypeDetailDTO">
+        <id property="promotionTypeId" column="promotion_type_id" />
+        <result property="promotionTypeName" column="promotion_type_name" />
+        <collection property="promotionDetailList" ofType="PromotionDetailResDTO">
+            <id property="promotionId" column="promotion_id" />
+            <result property="promotionTypeId" column="promotion_type_id" />
+            <result property="promotionTypeName" column="promotion_type_name" />
+            <result property="promotionTitle" column="promotion_title" />
+            <result property="promotionStartDate" column="promotion_start_date" />
+            <result property="promotionEndDate" column="promotion_end_date" />
+            <result property="promotionStatus" column="promotion_status" />
+        </collection>
+    </resultMap>
+
+    <select id="findPromotionTypeList" resultType="FindPromotionTypeListDTO">
+        SELECT
+            promotion_type_id,
+            promotion_type_name
+          FROM promotion_type
+        WHERE 1 = 1
+        <if test="promotionTypeName != null and promotionTypeName != ''">
+            and promotion_type_name LIKE CONCAT('%', trim(#{promotionTypeName}), '%')
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY
+            <choose>
+                <when test="sort == 'id'">
+                    promotion_type_id
+                </when>
+                <otherwise>
+                    promotion_type_name
+                </otherwise>
+            </choose>
+
+            <if test="order != null and order != ''">
+                <choose>
+                    <when test="order == 'asc'">
+                        ASC
+                    </when>
+                    <otherwise>
+                        DESC
+                    </otherwise>
+                </choose>
+            </if>
+        </if>
+        LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findPromotionTypeDetail" resultMap="FindPromotionTypeDetailDTOMap">
+        SELECT
+            pt.promotion_type_id,
+            pt.promotion_type_name,
+            p.promotion_id,
+            p.promotion_type_id,  -- 추가
+            pt.promotion_type_name,  -- 추가
+            p.promotion_title,
+            p.promotion_start_date,
+            p.promotion_end_date,
+            p.promotion_status
+        FROM promotion p
+                 LEFT JOIN promotion_type pt ON p.promotion_type_id = pt.promotion_type_id
+        WHERE p.promotion_type_id = #{promotionTypeId}
+    </select>
+</mapper>

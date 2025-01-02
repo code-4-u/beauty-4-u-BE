@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.user.query.mapper.UserQueryMapper">
+
+    <select id="findUserList" resultType="UserListDTO">
+        SELECT
+            u.user_code,
+            u.user_name,
+            r.user_role_name,
+            d.dept_name,
+            j.job_name,
+            u.created_date,
+            u.user_expired_date,
+            u.user_expired_yn
+        FROM user_info u
+        LEFT JOIN user_role r ON u.user_role_id = r.user_role_id
+        JOIN dept d USING (dept_code)
+        JOIN job j USING (job_code)
+        WHERE u.user_name LIKE CONCAT('%', TRIM(#{search}), '%')
+        LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findUserListCount" resultType="Long">
+        SELECT COUNT(*)
+        FROM user_info
+        WHERE user_name LIKE CONCAT('%', TRIM(#{search}), '%')
+    </select>
+
+    <select id="findUserDetail" resultType="FindUserDetailResDTO">
+        SELECT
+            u.user_code,
+            j.job_name,
+            d.dept_name,
+            r.user_role_name,
+            u.user_name,
+            u.email,
+            u.phone
+        FROM user_info u
+        JOIN job j USING (job_code)
+        JOIN dept d USING (dept_code)
+        JOIN user_role r USING (user_role_id)
+        WHERE u.user_code = #{userCode}
+    </select>
+
+    <select id="findDeptUserList" resultType="String">
+        SELECT
+            u.user_code
+        FROM user_info u
+        JOIN dept d USING (dept_code)
+        WHERE d.dept_code = #{deptCode}
+    </select>
+</mapper>

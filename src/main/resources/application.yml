@@ -1,11 +1,120 @@
 server:
   port: 8080
 
-# db 세팅 전이므로 false 설정
 spring:
+  application:
+    name: beauty4u
+  servlet:
+    multipart:
+      max-file-size: 10MB   # 개별 파일의 최대 크기
+      max-request-size: 10MB # 전체 요청의 최대 크기
+  config:
+    import: optional:file:.env[.properties]
   datasource:
-    initialize: false
+    url: jdbc:mariadb://${MARIADB_HOST}:${MARIADB_PORT}/${MARIADB_DATABASE}
+    username: ${MARIADB_USER}
+    password: ${MARIADB_PASSWORD}
+    driver-class-name: ${DRIVER_CLASS_NAME}
+  data:
+    mongodb:
+      uri: mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@cluster0.avtro.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority
+    elasticsearch:
+      repositories:
+        enabled: ${spring.elasticsearch.enabled}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+#  logback-spring.xml 사용 여부 결정
+  logging:
+    use-logback: false
+    level:
+      com.beauty4u.backend: DEBUG
+
+  logstash:
+    enabled: false
+    destination:
+      host: ${LOGSTASH_HOST}
+      port: ${LOGSTASH_PORT}
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USER}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          from: ${MAIL_USER}
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 300000
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mapper/**/*.xml
+  type-aliases-package: com.beauty4u.backend.**
+
+token:
+  access-token-expiration-time: ${ACCESS_TOKEN_EXPIRATION_TIME}
+  refresh-token-expiration-time: ${REFRESH_TOKEN_EXPIRATION_TIME}
+  secret: ${SECRET_KEY}
 
 springdoc:
   swagger-ui:
     path: /
+    doc-expansion: none
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_BUCKET}
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: ${AWS_BUCKET_ACCESS_KEY}
+      secret-key: ${AWS_BUCKET_SECRET_KEY}
+    stack:
+      auto: false
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
+
+apriori:
+  api:
+    url: http://localhost:8000
+
+aws:
+  opensearch:
+    endpoint: ${OPENSEARCH_HOSTS}
+    region: ap-northeast-2
+    credentials:
+      username: ${OPENSEARCH_MASTER_USERNAME}
+      password: ${OPENSEARCH_MASTER_PASSWORD}
+    goods:
+      index:
+        name: goods
+
+feign:
+  client:
+    config:
+      collaboFilter:
+        connectTimeout: 5000
+        readTimeout: 60000

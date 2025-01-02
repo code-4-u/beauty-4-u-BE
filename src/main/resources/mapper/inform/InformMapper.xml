@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.inform.query.mapper.InformQueryMapper">
+
+    <select id="findInformList" resultType="InformListDTO">
+        SELECT
+            i.inform_id,
+            u.user_code,
+            u.user_name,
+            i.inform_title,
+            i.publish_status,
+            i.inform_viewcount,
+            i.created_date
+        FROM inform i
+        LEFT JOIN user_info u ON i.user_code = u.user_code
+        WHERE 1 = 1
+            <if test="startDateTime != null">
+                and i.created_date <![CDATA[>=]]> #{startDateTime}
+            </if>
+
+            <if test="endDateTime != null">
+                and i.created_date <![CDATA[<=]]> #{endDateTime}
+            </if>
+
+            <if test="informTitle != null and informTitle != ''">
+                and i.inform_title like CONCAT('%', #{informTitle}, '%')
+            </if>
+
+            <if test="publishStatus != null and publishStatus != ''">
+                and i.publish_status = #{publishStatus}
+            </if>
+            ORDER BY
+            <choose>
+                <when test="sort == 'view'">
+                    i.inform_viewcount
+                </when>
+                <when test="sort == 'title'">
+                    i.inform_title
+                </when>
+                <otherwise>
+                    i.created_date
+                </otherwise>
+            </choose>
+
+            <choose>
+                <when test="order == 'asc'">
+                    ASC
+                </when>
+                <otherwise>
+                    DESC
+                </otherwise>
+            </choose>
+        LIMIT #{offset}, #{count}
+    </select>
+
+    <select id="findInformListTotalCount">
+        SELECT COUNT(*)
+        FROM inform i
+        LEFT JOIN user_info u ON i.user_code = u.user_code
+        WHERE 1 = 1
+        <if test="startDateTime != null">
+            and i.created_date <![CDATA[>=]]> #{startDateTime}
+        </if>
+
+        <if test="endDateTime != null">
+            and i.created_date <![CDATA[<=]]> #{endDateTime}
+        </if>
+
+        <if test="informTitle != null and informTitle != ''">
+            and i.inform_title like CONCAT('%', #{informTitle}, '%')
+        </if>
+
+        <if test="publishStatus != null and publishStatus != ''">
+            and i.publish_status = #{publishStatus}
+        </if>
+        ORDER BY
+        <choose>
+            <when test="sort == 'view'">
+                i.inform_viewcount
+            </when>
+            <when test="sort == 'title'">
+                i.inform_title
+            </when>
+            <otherwise>
+                i.created_date
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findInformDetail" resultType="InformDetailResDTO">
+        SELECT
+            i.inform_id,
+            u.user_code,
+            u.user_name,
+            i.inform_title,
+            i.inform_content,
+            i.publish_status,
+            i.inform_viewcount,
+            i.created_date,
+            i.updated_date
+        FROM inform i
+        LEFT JOIN user_info u ON i.user_code = u.user_code
+        WHERE i.inform_id = #{informId}
+    </select>
+</mapper>
