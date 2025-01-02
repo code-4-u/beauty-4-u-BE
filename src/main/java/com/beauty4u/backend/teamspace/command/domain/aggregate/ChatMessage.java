@@ -33,8 +33,10 @@ public class ChatMessage{
 
     private String messageContent; // 메시지 내용
 
+    @Builder.Default
     private List<String> s3PresignedUrls = new ArrayList<>(); // 첨부 파일 링크
 
+    @Builder.Default
     @Enumerated(value = EnumType.STRING)  // 몽고DB에서 기본적으로 문자열 처리를 해준다.
     private MessageStatus messageStatus = MessageStatus.ACTIVE; // 메시지 상태 (ACTIVE, INACTIVE)
 
