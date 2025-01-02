@@ -38,6 +38,9 @@ public class S3ImageUtil {
 
     public String upload(MultipartFile image) {
 
+        log.info("Received image: {}", image.getOriginalFilename());
+        System.out.println("Received image in upload: " + image.getOriginalFilename());
+
         if (image.isEmpty() || Objects.isNull(image.getOriginalFilename())) {
             throw new CustomException(ErrorCode.EMPTY_FILE_EXCEPTION);
         }
@@ -46,6 +49,9 @@ public class S3ImageUtil {
     }
 
     private String uploadImage(MultipartFile image) {
+
+        System.out.println("Processing image in uploadImage: " + image.getOriginalFilename());
+
 
         this.validateImageFileExtension(image.getOriginalFilename());
         System.out.println(image.getOriginalFilename());
@@ -58,6 +64,9 @@ public class S3ImageUtil {
     }
 
     private void validateImageFileExtension(String filename) {
+
+        System.out.println("Validating filename: " + filename);
+
         int lastDotIndex = filename.lastIndexOf(".");
         if (lastDotIndex == -1) {
             throw new CustomException(ErrorCode.NO_FILE_EXTENSION);
