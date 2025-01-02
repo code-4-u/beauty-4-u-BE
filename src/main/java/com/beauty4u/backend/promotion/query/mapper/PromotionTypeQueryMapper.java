@@ -19,4 +19,7 @@ public interface PromotionTypeQueryMapper {
 
     FindPromotionTypeDetailDTO findPromotionTypeDetail(
             @Param("promotionTypeId") Long promotionTypeId);
+
+    Long findPromotionTypeTotalCount(
+            @Param("promotionTypeName") String promotionTypeName);
 }

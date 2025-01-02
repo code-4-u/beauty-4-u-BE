@@ -6,6 +6,7 @@ import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionTypeDetailDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionTypeListDTO;
 import com.beauty4u.backend.promotion.query.dto.PromotionTypeFilterDTO;
+import com.beauty4u.backend.promotion.query.dto.PromotionTypeList;
 import com.beauty4u.backend.promotion.query.service.PromotionTypeQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,14 +26,14 @@ public class PromotionTypeQueryController {
 
     @Operation(summary = "프로모션 종류 목록 조회", description = "프로모션 종류 목록을 조회한다.")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<FindPromotionTypeListDTO>>> findPromotionTypeList(
+    public ResponseEntity<ApiResponse<PromotionTypeList>> findPromotionTypeList(
             PromotionTypeFilterDTO promotionTypeFilterDTO
     ) {
 
-        List<FindPromotionTypeListDTO> findPromotionTypeListDTOS
+        PromotionTypeList promotionTypeList
                 = promotionTypeQueryService.findPromotionTypeList(promotionTypeFilterDTO);
 
-        return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_LIST_FIND_SUCCESS, findPromotionTypeListDTOS);
+        return ResponseUtil.successResponse(SuccessCode.PROMOTIONTYPE_LIST_FIND_SUCCESS, promotionTypeList);
     }
 
     @Operation(summary = "프로모션 종류 상세 조회", description = "프로모션 종류를 상세 조회한다.")
