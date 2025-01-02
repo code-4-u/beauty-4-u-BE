@@ -90,8 +90,7 @@ public class S3ImageUtil {
 
         try{
             PutObjectRequest putObjectRequest =
-                    new PutObjectRequest(bucketName, s3FileName, byteArrayInputStream, metadata)
-                            .withCannedAcl(CannedAccessControlList.PublicRead);
+                    new PutObjectRequest(bucketName, s3FileName, byteArrayInputStream, metadata);
 
             System.out.println(putObjectRequest.getFile());
 
