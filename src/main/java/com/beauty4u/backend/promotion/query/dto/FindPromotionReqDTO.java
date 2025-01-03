@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class FindPromotionReqDTO {
     private String searchKeyword;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
     private Integer promotionTypeId;
     private String promotionStatus;
 }

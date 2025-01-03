@@ -27,7 +27,8 @@
            AND promotion_title LIKE CONCAT('%', trim(#{searchKeyword}), '%')
          </if>
          <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-           AND promotion_start_date BETWEEN #{startDate} AND #{endDate}
+           AND promotion_start_date BETWEEN STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                AND STR_TO_DATE(CONCAT(#{endDate}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
          </if>
          <if test="promotionTypeId != null and promotionTypeId != ''">
            AND promotion_type_id = #{promotionTypeId}
