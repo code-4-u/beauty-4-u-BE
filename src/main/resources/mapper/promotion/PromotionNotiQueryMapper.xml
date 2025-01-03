@@ -14,7 +14,7 @@
             promotion_status
         FROM promotion
         WHERE promotion_title LIKE CONCAT('%', TRIM(#{promotionName}), '%')
-          AND promotion_status = "ONGOING"
+          AND promotion_status IN ('ONGOING', 'BEFORE')
     </select>
 
     <select id="findPromotionByCustomerGoods" resultType="FindPromotionByCustomerGoodsResDTO">
