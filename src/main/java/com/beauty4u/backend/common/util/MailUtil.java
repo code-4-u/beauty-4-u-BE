@@ -1,7 +1,7 @@
 package com.beauty4u.backend.common.util;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -11,6 +11,9 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class MailUtil {
+
+    @Value("${spring.mail.username}")
+    private String mailUserName;
 
     private final JavaMailSender fakeMailSender;
     private final JavaMailSender gmailMailSender;
@@ -43,6 +46,7 @@ public class MailUtil {
             message.setTo(email);
             message.setSubject(title);
             message.setText(body);
+            message.setFrom(mailUserName);
             gmailMailSender.send(message);
         });
     }
@@ -55,6 +59,7 @@ public class MailUtil {
         message.setTo(email); /* 수신자 이메일 */
         message.setSubject(title); /* 이메일 제목 */
         message.setText(body); /* 이메일 본문 */
+        message.setFrom(mailUserName);
 
         /* 이메일 전송 */
         gmailMailSender.send(message);
