@@ -17,8 +17,13 @@ public class PromotionNotiQueryService {
     private final PromotionNotiQueryMapper promotionNotiQueryMapper;
 
     @Transactional
-    public List<FindPromotionResDTO> findPromotion(String promotionName) {
-        return promotionNotiQueryMapper.findPromotion(promotionName);
+    public List<FindPromotionResDTO> findPromotion(String promotionName, Integer page, Integer count) {
+        return promotionNotiQueryMapper.findPromotion(promotionName, page, count);
+    }
+
+    @Transactional
+    public Integer promotionCount(String promotionName) {
+        return promotionNotiQueryMapper.promotionCount(promotionName);
     }
 
     @Transactional
