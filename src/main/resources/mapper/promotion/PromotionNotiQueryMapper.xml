@@ -15,6 +15,15 @@
         FROM promotion
         WHERE promotion_title LIKE CONCAT('%', TRIM(#{promotionName}), '%')
           AND promotion_status IN ('ONGOING', 'BEFORE')
+        LIMIT #{page}, #{count}
+    </select>
+
+    <select id="promotionCount" resultType="java.lang.Integer">
+       SELECT
+              COUNT(*)
+         FROM promotion
+        WHERE promotion_title LIKE CONCAT('%', TRIM(#{promotionName}), '%')
+          AND promotion_status IN ('ONGOING', 'BEFORE')
     </select>
 
     <select id="findPromotionByCustomerGoods" resultType="FindPromotionByCustomerGoodsResDTO">
