@@ -53,6 +53,9 @@ public class PromotionDomainService {
         Promotion promotion = promotionRepository.findById(promotionId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PROMOTION_NOT_FOUND));
 
+        PromotionType promotionType = promotionTypeRepository.findById(savePromotionReqDTO.getPromotionType())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PROMOTIONTYPE));
+
         int currentPromotionYear = promotion.getPromotionStartDate().getYear();
         int updatePromotionYear = savePromotionReqDTO.getPromotionStartDate().getYear();
 
@@ -68,6 +71,8 @@ public class PromotionDomainService {
                 throw new CustomException(ErrorCode.PROMOTION_EXISTS_IN_SAME_YEAR);
             }
         }
+
+        promotion.modifyPromtionType(promotionType);
 
         modelMapper.map(savePromotionReqDTO, promotion);
     }
