@@ -68,4 +68,13 @@
                  LEFT JOIN promotion_type pt ON p.promotion_type_id = pt.promotion_type_id
         WHERE p.promotion_type_id = #{promotionTypeId}
     </select>
+
+    <select id="findPromotionTypeTotalCount" resultType="Long">
+        SELECT COUNT(*)
+        FROM promotion_type
+        WHERE 1 = 1
+        <if test="promotionTypeName != null and promotionTypeName != ''">
+            and promotion_type_name = #{promotionTypeName}
+        </if>
+    </select>
 </mapper>

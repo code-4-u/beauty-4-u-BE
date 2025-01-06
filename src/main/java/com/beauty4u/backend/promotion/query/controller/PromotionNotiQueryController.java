@@ -5,6 +5,7 @@ import com.beauty4u.backend.common.response.ResponseUtil;
 import com.beauty4u.backend.common.success.SuccessCode;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionByCustomerGoodsResDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionByCustomerListResDTO;
+import com.beauty4u.backend.promotion.query.dto.FindPromotionListResDTO;
 import com.beauty4u.backend.promotion.query.dto.FindPromotionResDTO;
 import com.beauty4u.backend.promotion.query.service.PromotionNotiQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,12 +29,20 @@ public class PromotionNotiQueryController {
 
     @Operation(summary = "프로모션 상세 조회", description = "프로모션을 상세 조회한다.")
     @GetMapping("/searchPromotion")
-    public ResponseEntity<ApiResponse<List<FindPromotionResDTO>>> findPromotion(
-            @RequestParam("promotionName") String promotionName) {
+    public ResponseEntity<ApiResponse<FindPromotionListResDTO>> findPromotion(
+            @RequestParam("promotionName") String promotionName,
+            @RequestParam("page") Integer page,
+            @RequestParam("count") Integer count) {
 
-        List<FindPromotionResDTO> result = promotionNotiQueryService.findPromotion(promotionName);
+        List<FindPromotionResDTO> result = promotionNotiQueryService.findPromotion(promotionName, page, count);
+        Integer promotionCount = promotionNotiQueryService.promotionCount(promotionName);
 
-        return ResponseUtil.successResponse(SuccessCode.PROMOTION_FIND_LIST_SUCCESS, result);
+        FindPromotionListResDTO resultList = new FindPromotionListResDTO();
+
+        resultList.setFindPromotionResList(result);
+        resultList.setPromotionCount(promotionCount);
+
+        return ResponseUtil.successResponse(SuccessCode.PROMOTION_FIND_LIST_SUCCESS, resultList);
     }
 
     @Operation(summary = "프로모션 대상자 목록 조회", description = "프로모션 대상자 목록을 조회한다.")

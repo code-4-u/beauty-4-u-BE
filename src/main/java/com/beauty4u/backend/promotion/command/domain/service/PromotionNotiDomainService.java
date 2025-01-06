@@ -115,7 +115,7 @@ public class PromotionNotiDomainService {
         emailFutures.add(emailFuture1);
 
         SavePromotionNotiDTO save1 = new SavePromotionNotiDTO();
-        save1.setCustomerCode("C0011");
+        save1.setCustomerCode("CU0000001");
         save1.setPromotionNotiContent(content01);
         save1.setPromotionNotiSentDate(sendDateTime);
 
@@ -143,7 +143,7 @@ public class PromotionNotiDomainService {
         emailFutures.add(emailFuture2);
 
         SavePromotionNotiDTO save2 = new SavePromotionNotiDTO();
-        save2.setCustomerCode("C0012");
+        save2.setCustomerCode("CU0000003");
         save2.setPromotionNotiContent(content02);
         save2.setPromotionNotiSentDate(sendDateTime);
 
@@ -171,7 +171,7 @@ public class PromotionNotiDomainService {
         emailFutures.add(emailFuture3);
 
         SavePromotionNotiDTO save3 = new SavePromotionNotiDTO();
-        save3.setCustomerCode("C0013");
+        save3.setCustomerCode("CU0000004");
         save3.setPromotionNotiContent(content02);
         save3.setPromotionNotiSentDate(sendDateTime);
 
