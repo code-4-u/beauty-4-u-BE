@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beauty4u.backend.marketing.query.mapper.MarketingSettingQueryMapper">
+    <select id="findAllMarketingSetting" resultType="MarketingSettingQueryDTO">
+        SELECT
+        m.marketing_setting_id,
+        t.template_name,
+        a.analysis_title,
+        m.marketing_noti_interval,
+        m.analysis_kind,
+        m.marketing_setting_channel
+        FROM marketing_setting m
+        INNER JOIN template t ON m.template_id = t.template_id
+        INNER JOIN analysis a ON m.analysis_id = a.analysis_id
+        ORDER BY
+        m.marketing_setting_id ASC
+    </select>
+</mapper>
