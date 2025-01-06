@@ -7,6 +7,7 @@ import com.beauty4u.backend.promotion.command.domain.aggregate.Promotion;
 import com.beauty4u.backend.promotion.command.domain.aggregate.PromotionType;
 import com.beauty4u.backend.promotion.command.domain.repository.PromotionRepository;
 import com.beauty4u.backend.promotion.command.domain.repository.PromotionTypeRepository;
+import com.beauty4u.backend.schedule.command.domain.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class PromotionDomainService {
 
     private final PromotionRepository promotionRepository;
     private final PromotionTypeRepository promotionTypeRepository;
+    private final ScheduleRepository scheduleRepository;
     private final ModelMapper modelMapper;
 
     public Long savePromotion(SavePromotionReqDTO savePromotionReqDTO) {
@@ -81,6 +83,7 @@ public class PromotionDomainService {
 
         try {
             promotionRepository.deleteById(promotionId);
+            scheduleRepository.deleteByScheduleUrl("/promotion/" + promotionId);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.PROMOTION_NOT_DELETE);
         }
