@@ -27,6 +27,15 @@ public enum ErrorCode {
     // 템플릿
     NOT_FOUND_TEMPLATE(HttpStatus.NOT_FOUND, "템플릿 조회 실패"),
 
+    // 분석
+    NOT_FOUND_ANALYSIS(HttpStatus.NOT_FOUND, "분석 조회 실패"),
+
+    // 마케팅
+    NOT_SAVED_MARKETINGSETTING(HttpStatus.CONFLICT, "마케팅 설정 등록 실패"),
+    NOT_UPDATE_MARKETINGSETTING(HttpStatus.CONFLICT, "마케팅 설정 수정 실패"),
+    NOT_DELETE_MARKETINGSETTING(HttpStatus.CONFLICT, "마케팅 설정 삭제 실패"),
+    NOT_FOUND_MARKETINGSETTING(HttpStatus.CONFLICT, "마케팅 설정 조회 실패"),
+
     // 공지사항 (inform)
     NOT_SAVED_INFORM(HttpStatus.CONFLICT, "공지사항 등록 실패"),
 
